@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "todo": {
+      "TODO00": {
+        "completed": true,
+        "id": "TODO00",
+        "title": "s2a",
+        "user_id": "USER01"
+      },
+      "TODO01": {
+        "completed": true,
+        "id": "TODO01",
+        "title": "s52",
+        "user_id": "USER01"
+      },
+      "TODO02": {
+        "completed": true,
+        "id": "TODO02",
+        "title": "s7a",
+        "user_id": "USER01"
+      }
+    }
+  },
+  "new": {
+    "todo": {
+      "todo_ref01": {
+        "completed": true,
+        "title": "sa2",
+        "user_id": "USER01"
+      }
+    }
+  }
+}

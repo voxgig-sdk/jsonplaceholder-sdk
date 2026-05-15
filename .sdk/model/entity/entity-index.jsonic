@@ -1,0 +1,8 @@
+# Entity Models
+
+@"album.jsonic"
+@"comment.jsonic"
+@"photo.jsonic"
+@"post.jsonic"
+@"todo.jsonic"
+@"user.jsonic"

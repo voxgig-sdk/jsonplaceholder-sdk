@@ -1,0 +1,37 @@
+{
+  "existing": {
+    "comment": {
+      "COMMENT00": {
+        "body": "s32",
+        "email": "s33",
+        "id": "COMMENT00",
+        "name": "s35",
+        "post_id": "POST01"
+      },
+      "COMMENT01": {
+        "body": "s64",
+        "email": "s65",
+        "id": "COMMENT01",
+        "name": "s67",
+        "post_id": "POST01"
+      },
+      "COMMENT02": {
+        "body": "s96",
+        "email": "s97",
+        "id": "COMMENT02",
+        "name": "s99",
+        "post_id": "POST01"
+      }
+    }
+  },
+  "new": {
+    "comment": {
+      "comment_ref01": {
+        "body": "sc8",
+        "email": "sc9",
+        "name": "scb",
+        "post_id": "POST01"
+      }
+    }
+  }
+}

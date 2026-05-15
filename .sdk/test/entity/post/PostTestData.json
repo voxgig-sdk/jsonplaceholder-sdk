@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "post": {
+      "POST00": {
+        "body": "s28",
+        "id": "POST00",
+        "title": "s2a",
+        "user_id": "USER01"
+      },
+      "POST01": {
+        "body": "s50",
+        "id": "POST01",
+        "title": "s52",
+        "user_id": "USER01"
+      },
+      "POST02": {
+        "body": "s78",
+        "id": "POST02",
+        "title": "s7a",
+        "user_id": "USER01"
+      }
+    }
+  },
+  "new": {
+    "post": {
+      "post_ref01": {
+        "body": "sa0",
+        "title": "sa2",
+        "user_id": "USER01"
+      }
+    }
+  }
+}

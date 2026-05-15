@@ -1,0 +1,67 @@
+<?php
+declare(strict_types=1);
+
+// Jsonplaceholder SDK utility registration
+
+require_once __DIR__ . '/../core/UtilityType.php';
+require_once __DIR__ . '/Clean.php';
+require_once __DIR__ . '/Done.php';
+require_once __DIR__ . '/MakeError.php';
+require_once __DIR__ . '/FeatureAdd.php';
+require_once __DIR__ . '/FeatureHook.php';
+require_once __DIR__ . '/FeatureInit.php';
+require_once __DIR__ . '/Fetcher.php';
+require_once __DIR__ . '/MakeFetchDef.php';
+require_once __DIR__ . '/MakeContext.php';
+require_once __DIR__ . '/MakeOptions.php';
+require_once __DIR__ . '/MakeRequest.php';
+require_once __DIR__ . '/MakeResponse.php';
+require_once __DIR__ . '/MakeResult.php';
+require_once __DIR__ . '/MakePoint.php';
+require_once __DIR__ . '/MakeSpec.php';
+require_once __DIR__ . '/MakeUrl.php';
+require_once __DIR__ . '/Param.php';
+require_once __DIR__ . '/PrepareAuth.php';
+require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/PrepareHeaders.php';
+require_once __DIR__ . '/PrepareMethod.php';
+require_once __DIR__ . '/PrepareParams.php';
+require_once __DIR__ . '/PreparePath.php';
+require_once __DIR__ . '/PrepareQuery.php';
+require_once __DIR__ . '/ResultBasic.php';
+require_once __DIR__ . '/ResultBody.php';
+require_once __DIR__ . '/ResultHeaders.php';
+require_once __DIR__ . '/TransformRequest.php';
+require_once __DIR__ . '/TransformResponse.php';
+
+JsonplaceholderUtility::setRegistrar(function (JsonplaceholderUtility $u): void {
+    $u->clean = [JsonplaceholderClean::class, 'call'];
+    $u->done = [JsonplaceholderDone::class, 'call'];
+    $u->make_error = [JsonplaceholderMakeError::class, 'call'];
+    $u->feature_add = [JsonplaceholderFeatureAdd::class, 'call'];
+    $u->feature_hook = [JsonplaceholderFeatureHook::class, 'call'];
+    $u->feature_init = [JsonplaceholderFeatureInit::class, 'call'];
+    $u->fetcher = [JsonplaceholderFetcher::class, 'call'];
+    $u->make_fetch_def = [JsonplaceholderMakeFetchDef::class, 'call'];
+    $u->make_context = [JsonplaceholderMakeContext::class, 'call'];
+    $u->make_options = [JsonplaceholderMakeOptions::class, 'call'];
+    $u->make_request = [JsonplaceholderMakeRequest::class, 'call'];
+    $u->make_response = [JsonplaceholderMakeResponse::class, 'call'];
+    $u->make_result = [JsonplaceholderMakeResult::class, 'call'];
+    $u->make_point = [JsonplaceholderMakePoint::class, 'call'];
+    $u->make_spec = [JsonplaceholderMakeSpec::class, 'call'];
+    $u->make_url = [JsonplaceholderMakeUrl::class, 'call'];
+    $u->param = [JsonplaceholderParam::class, 'call'];
+    $u->prepare_auth = [JsonplaceholderPrepareAuth::class, 'call'];
+    $u->prepare_body = [JsonplaceholderPrepareBody::class, 'call'];
+    $u->prepare_headers = [JsonplaceholderPrepareHeaders::class, 'call'];
+    $u->prepare_method = [JsonplaceholderPrepareMethod::class, 'call'];
+    $u->prepare_params = [JsonplaceholderPrepareParams::class, 'call'];
+    $u->prepare_path = [JsonplaceholderPreparePath::class, 'call'];
+    $u->prepare_query = [JsonplaceholderPrepareQuery::class, 'call'];
+    $u->result_basic = [JsonplaceholderResultBasic::class, 'call'];
+    $u->result_body = [JsonplaceholderResultBody::class, 'call'];
+    $u->result_headers = [JsonplaceholderResultHeaders::class, 'call'];
+    $u->transform_request = [JsonplaceholderTransformRequest::class, 'call'];
+    $u->transform_response = [JsonplaceholderTransformResponse::class, 'call'];
+});

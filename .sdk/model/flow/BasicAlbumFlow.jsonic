@@ -1,0 +1,112 @@
+# BasicAlbumFlow
+
+main: kit: flow: BasicAlbumFlow:
+{
+  entity: "album",
+  kind: "basic",
+  name: "BasicAlbumFlow",
+  step: [
+    {
+      input: {
+        ref: "album_ref01"
+      }
+
+      match: {
+        user_id: "user01"
+      }
+
+      op: "create"
+    }
+
+    {
+      match: {
+        user_id: "user01"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "album_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "album_ref01",
+        srcdatavar: "album_ref01_data",
+        suffix: "_up0",
+        textfield: "title"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-album_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "album_ref01",
+        srcdatavar: "album_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "album01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-album_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "album_ref01",
+        suffix: "_rm0"
+      }
+
+      match: {
+        id: "album01"
+      }
+
+      op: "remove"
+    }
+
+    {
+      input: {
+        suffix: "_rt0"
+      }
+
+      match: {
+        user_id: "user01"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "album_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAlbumFlow"
+}

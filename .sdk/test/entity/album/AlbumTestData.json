@@ -1,0 +1,29 @@
+{
+  "existing": {
+    "album": {
+      "ALBUM00": {
+        "id": "ALBUM00",
+        "title": "s1f",
+        "user_id": "USER01"
+      },
+      "ALBUM01": {
+        "id": "ALBUM01",
+        "title": "s3d",
+        "user_id": "USER01"
+      },
+      "ALBUM02": {
+        "id": "ALBUM02",
+        "title": "s5b",
+        "user_id": "USER01"
+      }
+    }
+  },
+  "new": {
+    "album": {
+      "album_ref01": {
+        "title": "s79",
+        "user_id": "USER01"
+      }
+    }
+  }
+}

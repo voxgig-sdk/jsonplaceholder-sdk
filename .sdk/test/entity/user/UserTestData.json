@@ -1,0 +1,49 @@
+{
+  "existing": {
+    "user": {
+      "USER00": {
+        "address": {},
+        "company": {},
+        "email": "s52",
+        "id": "USER00",
+        "name": "s54",
+        "phone": "s55",
+        "username": "s56",
+        "website": "s57"
+      },
+      "USER01": {
+        "address": {},
+        "company": {},
+        "email": "sa2",
+        "id": "USER01",
+        "name": "sa4",
+        "phone": "sa5",
+        "username": "sa6",
+        "website": "sa7"
+      },
+      "USER02": {
+        "address": {},
+        "company": {},
+        "email": "sf2",
+        "id": "USER02",
+        "name": "sf4",
+        "phone": "sf5",
+        "username": "sf6",
+        "website": "sf7"
+      }
+    }
+  },
+  "new": {
+    "user": {
+      "user_ref01": {
+        "address": {},
+        "company": {},
+        "email": "s142",
+        "name": "s144",
+        "phone": "s145",
+        "username": "s146",
+        "website": "s147"
+      }
+    }
+  }
+}

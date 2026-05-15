@@ -1,0 +1,106 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 6
+  metrics: count: path: 17
+  metrics: count: method: 41
+
+  entity: album: {
+    path: "/albums": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/albums/{id}": {
+      op: load: method: *GET
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+    path: "/users/{id}/albums": {
+      rename: param: "id": *"user_id"
+      op: list: method: *GET
+    }
+  }
+
+  entity: comment: {
+    path: "/comments": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/comments/{id}": {
+      op: load: method: *GET
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+    path: "/posts/{id}/comments": {
+      rename: param: "id": *"post_id"
+      op: list: method: *GET
+    }
+  }
+
+  entity: photo: {
+    path: "/albums/{id}/photos": {
+      rename: param: "id": *"album_id"
+      op: list: method: *GET
+    }
+    path: "/photos": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/photos/{id}": {
+      op: load: method: *GET
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+  }
+
+  entity: post: {
+    path: "/posts": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/posts/{id}": {
+      op: load: method: *GET
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+    path: "/users/{id}/posts": {
+      rename: param: "id": *"user_id"
+      op: list: method: *GET
+    }
+  }
+
+  entity: todo: {
+    path: "/todos": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/todos/{id}": {
+      op: load: method: *GET
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+    path: "/users/{id}/todos": {
+      rename: param: "id": *"user_id"
+      op: list: method: *GET
+    }
+  }
+
+  entity: user: {
+    path: "/users": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/users/{id}": {
+      op: load: method: *GET
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+  }
+
+}

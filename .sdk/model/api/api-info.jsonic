@@ -1,0 +1,28 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        name: "JSONPlaceholder"
+        url: "https://jsonplaceholder.typicode.com/"
+      }
+      description: "Free fake and reliable API for testing and prototyping. Serving ~3 billion requests each month."
+      servers: [
+        {
+          description: "Production server"
+          url: "https://jsonplaceholder.typicode.com"
+        }
+        {
+          description: "Production server (HTTP)"
+          url: "http://jsonplaceholder.typicode.com"
+        }
+      ]
+      title: "JSONPlaceholder"
+      version: "1.0.0"
+    }
+  }
+}
+
+}

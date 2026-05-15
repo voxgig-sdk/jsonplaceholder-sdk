@@ -1,0 +1,37 @@
+{
+  "existing": {
+    "photo": {
+      "PHOTO00": {
+        "album_id": "ALBUM01",
+        "id": "PHOTO00",
+        "thumbnail_url": "s34",
+        "title": "s35",
+        "url": "s36"
+      },
+      "PHOTO01": {
+        "album_id": "ALBUM01",
+        "id": "PHOTO01",
+        "thumbnail_url": "s66",
+        "title": "s67",
+        "url": "s68"
+      },
+      "PHOTO02": {
+        "album_id": "ALBUM01",
+        "id": "PHOTO02",
+        "thumbnail_url": "s98",
+        "title": "s99",
+        "url": "s9a"
+      }
+    }
+  },
+  "new": {
+    "photo": {
+      "photo_ref01": {
+        "album_id": "ALBUM01",
+        "thumbnail_url": "sca",
+        "title": "scb",
+        "url": "scc"
+      }
+    }
+  }
+}
