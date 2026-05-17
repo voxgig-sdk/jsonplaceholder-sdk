@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	sdk "github.com/voxgig-sdk/jsonplaceholder-sdk"
-	"github.com/voxgig-sdk/jsonplaceholder-sdk/core"
+	sdk "github.com/voxgig-sdk/jsonplaceholder-sdk/go"
+	"github.com/voxgig-sdk/jsonplaceholder-sdk/go/core"
 )
 
 func TestPhotoDirect(t *testing.T) {

@@ -1,6 +1,6 @@
 package utility
 
-import "github.com/voxgig-sdk/jsonplaceholder-sdk/core"
+import "github.com/voxgig-sdk/jsonplaceholder-sdk/go/core"
 
 func init() {
 	core.UtilityRegistrar = registerAll

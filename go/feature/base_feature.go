@@ -1,7 +1,7 @@
 package feature
 
 import (
-	"github.com/voxgig-sdk/jsonplaceholder-sdk/core"
+	"github.com/voxgig-sdk/jsonplaceholder-sdk/go/core"
 )
 
 type BaseFeature struct {

@@ -1,10 +1,10 @@
 package voxgigjsonplaceholdersdk
 
 import (
-	"github.com/voxgig-sdk/jsonplaceholder-sdk/core"
-	"github.com/voxgig-sdk/jsonplaceholder-sdk/entity"
-	"github.com/voxgig-sdk/jsonplaceholder-sdk/feature"
-	_ "github.com/voxgig-sdk/jsonplaceholder-sdk/utility"
+	"github.com/voxgig-sdk/jsonplaceholder-sdk/go/core"
+	"github.com/voxgig-sdk/jsonplaceholder-sdk/go/entity"
+	"github.com/voxgig-sdk/jsonplaceholder-sdk/go/feature"
+	_ "github.com/voxgig-sdk/jsonplaceholder-sdk/go/utility"
 )
 
 // Type aliases preserve external API.
