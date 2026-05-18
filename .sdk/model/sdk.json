@@ -2044,6 +2044,9 @@
             },
             "go-cli": {
               "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
             }
           }
         }
@@ -2774,6 +2777,33 @@
           },
           "deps": {},
           "name": "go-cli",
+          "active": true
+        },
+        "go-mcp": {
+          "title": "Go MCP server",
+          "ext": "go",
+          "comment": {
+            "line": "//"
+          },
+          "module": {
+            "name": "jsonplaceholder"
+          },
+          "phase": {
+            "entity": {
+              "active": false
+            },
+            "feature": {
+              "active": false
+            },
+            "readme": {
+              "active": false
+            },
+            "test": {
+              "active": false
+            }
+          },
+          "deps": {},
+          "name": "go-mcp",
           "active": true
         },
         "ts": {
