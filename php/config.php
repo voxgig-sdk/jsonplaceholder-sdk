@@ -20,9 +20,6 @@ class JsonplaceholderConfig
             ],
             "options" => [
                 "base" => "https://jsonplaceholder.typicode.com",
-                "auth" => [
-                    "prefix" => "Bearer",
-                ],
                 "headers" => [
           'content-type' => 'application/json',
         ],

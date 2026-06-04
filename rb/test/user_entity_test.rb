@@ -135,7 +135,6 @@ def user_basic_setup(extra)
     "JSONPLACEHOLDER_TEST_USER_ENTID" => idmap,
     "JSONPLACEHOLDER_TEST_LIVE" => "FALSE",
     "JSONPLACEHOLDER_TEST_EXPLAIN" => "FALSE",
-    "JSONPLACEHOLDER_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -147,7 +146,6 @@ def user_basic_setup(extra)
   if env["JSONPLACEHOLDER_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["JSONPLACEHOLDER_APIKEY"],
       },
       extra || {},
     ])

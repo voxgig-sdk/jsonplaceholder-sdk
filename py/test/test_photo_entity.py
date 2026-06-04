@@ -146,7 +146,6 @@ def _photo_basic_setup(extra):
         "JSONPLACEHOLDER_TEST_PHOTO_ENTID": idmap,
         "JSONPLACEHOLDER_TEST_LIVE": "FALSE",
         "JSONPLACEHOLDER_TEST_EXPLAIN": "FALSE",
-        "JSONPLACEHOLDER_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -157,7 +156,6 @@ def _photo_basic_setup(extra):
     if env.get("JSONPLACEHOLDER_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("JSONPLACEHOLDER_APIKEY"),
             },
             extra or {},
         ])

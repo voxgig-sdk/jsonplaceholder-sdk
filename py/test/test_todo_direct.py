@@ -109,14 +109,12 @@ def _todo_direct_setup(mockres):
     env = runner.env_override({
         "JSONPLACEHOLDER_TEST_TODO_ENTID": {},
         "JSONPLACEHOLDER_TEST_LIVE": "FALSE",
-        "JSONPLACEHOLDER_APIKEY": "NONE",
     })
 
     live = env.get("JSONPLACEHOLDER_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {
-            "apikey": env.get("JSONPLACEHOLDER_APIKEY"),
         }
         client = JsonplaceholderSDK(merged_opts)
         return {

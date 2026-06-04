@@ -197,7 +197,6 @@ func userBasicSetup(extra map[string]any) *entityTestSetup {
 		"JSONPLACEHOLDER_TEST_USER_ENTID": idmap,
 		"JSONPLACEHOLDER_TEST_LIVE":      "FALSE",
 		"JSONPLACEHOLDER_TEST_EXPLAIN":   "FALSE",
-		"JSONPLACEHOLDER_APIKEY":         "NONE",
 	})
 
 	idmapResolved := core.ToMapAny(env["JSONPLACEHOLDER_TEST_USER_ENTID"])
@@ -208,7 +207,6 @@ func userBasicSetup(extra map[string]any) *entityTestSetup {
 	if env["JSONPLACEHOLDER_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
-				"apikey": env["JSONPLACEHOLDER_APIKEY"],
 			},
 			extra,
 		})
