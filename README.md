@@ -1,25 +1,8 @@
 # Jsonplaceholder SDK
 
-Free fake REST API for testing and prototyping, serving roughly 3 billion requests per month
+JSONPlaceholder client, generated from the OpenAPI spec.
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI, an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
-
-## About JSONPlaceholder
-
-[JSONPlaceholder](https://jsonplaceholder.typicode.com) is a free, hosted fake REST API maintained by [typicode](https://github.com/typicode), the author of [JSON Server](https://github.com/typicode/json-server) and [LowDB](https://github.com/typicode/lowdb). It is one of the most widely used placeholder APIs on the web, reportedly serving on the order of three billion requests each month.
-
-The service exposes six fixed datasets you can read, filter, and pretend to mutate:
-
-- `/posts` — 100 blog posts (`id`, `userId`, `title`, `body`)
-- `/comments` — 500 comments linked to posts
-- `/albums` — 100 albums grouped under users
-- `/photos` — 5,000 photo records linked to albums
-- `/todos` — 200 todo items per user
-- `/users` — 10 user profiles
-
-All standard HTTP verbs are supported (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`) and the API also supports nested routes such as `/posts/1/comments`, `/albums/1/photos`, and `/users/1/posts`, plus simple query filtering like `/comments?postId=1`.
-
-Write operations are simulated: the server responds as if the resource were created or updated, but nothing is actually persisted. No authentication or API key is required, and both HTTP and HTTPS are accepted.
 
 ## Try it
 
@@ -53,29 +36,31 @@ gem install jsonplaceholder-sdk
 luarocks install jsonplaceholder-sdk
 ```
 
-## 30-second quickstart
+## Quickstart
 
 ### TypeScript
 
 ```ts
 import { JsonplaceholderSDK } from 'jsonplaceholder'
 
-const client = new JsonplaceholderSDK({})
+const client = new JsonplaceholderSDK({
+  apikey: process.env.JSONPLACEHOLDER_APIKEY,
+})
 
 // List all albums
 const albums = await client.Album().list()
+console.log(albums.data)
 ```
 
-See the [TypeScript README](ts/README.md) for the
-full guide, or scroll down for the same example in other languages.
+See the [TypeScript README](ts/README.md) for the full guide.
 
-## What's in the box
+## Surfaces
 
-| Surface | Use it for | Path |
-| --- | --- | --- |
-| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | App integration | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
-| **CLI** | Scripts, CI, ops, one-off API calls | `go-cli/` |
-| **MCP server** | AI agents (Claude, Cursor, Cline) | `go-mcp/` |
+| Surface | Path |
+| --- | --- |
+| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
+| **CLI** | `go-cli/` |
+| **MCP server** | `go-mcp/` |
 
 ## Use it from an AI agent (MCP)
 
@@ -105,12 +90,12 @@ The API exposes 6 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
-| **Album** | Photo album owned by a user, available at `/albums`, `/albums/{id}`, `/albums/{id}/photos`, and `/users/{id}/albums`. | `/albums` |
-| **Comment** | Comment attached to a post, available at `/comments`, `/comments/{id}`, `/posts/{id}/comments`, and filterable via `/comments?postId={id}`. | `/comments` |
-| **Photo** | Photo record belonging to an album, available at `/photos` and `/photos/{id}`, with album-scoped access at `/albums/{id}/photos`. | `/photos` |
-| **Post** | Blog-style post written by a user, available at `/posts`, `/posts/{id}`, and `/users/{id}/posts`, with nested comments at `/posts/{id}/comments`. | `/posts` |
-| **Todo** | Todo item assigned to a user, available at `/todos`, `/todos/{id}`, and `/users/{id}/todos`. | `/todos` |
-| **User** | User profile (name, username, email, address, company), available at `/users` and `/users/{id}`, and the root of nested resources like `/users/{id}/posts`. | `/users` |
+| **Album** |  | `/albums` |
+| **Comment** |  | `/comments` |
+| **Photo** |  | `/photos` |
+| **Post** |  | `/posts` |
+| **Todo** |  | `/todos` |
+| **User** |  | `/users` |
 
 Each entity supports the following operations where available: **load**,
 **list**, **create**, **update**, and **remove**.
@@ -120,17 +105,20 @@ Each entity supports the following operations where available: **load**,
 ### Python
 
 ```python
+import os
 from jsonplaceholder_sdk import JsonplaceholderSDK
 
-client = JsonplaceholderSDK({})
+client = JsonplaceholderSDK({
+    "apikey": os.environ.get("JSONPLACEHOLDER_APIKEY"),
+})
 
 # List all albums
-albums, err = client.Album(None).list(None, None)
+albums, err = client.Album().list()
+print(albums)
 
 # Load a specific album
-album, err = client.Album(None).load(
-    {"id": "example_id"}, None
-)
+album, err = client.Album().load({"id": "example_id"})
+print(album)
 ```
 
 ### PHP
@@ -139,15 +127,17 @@ album, err = client.Album(None).load(
 <?php
 require_once 'jsonplaceholder_sdk.php';
 
-$client = new JsonplaceholderSDK([]);
+$client = new JsonplaceholderSDK([
+    "apikey" => getenv("JSONPLACEHOLDER_APIKEY"),
+]);
 
 // List all albums
-[$albums, $err] = $client->Album(null)->list(null, null);
+[$albums, $err] = $client->Album()->list();
+print_r($albums);
 
 // Load a specific album
-[$album, $err] = $client->Album(null)->load(
-    ["id" => "example_id"], null
-);
+[$album, $err] = $client->Album()->load(["id" => "example_id"]);
+print_r($album);
 ```
 
 ### Golang
@@ -155,10 +145,13 @@ $client = new JsonplaceholderSDK([]);
 ```go
 import sdk "github.com/voxgig-sdk/jsonplaceholder-sdk/go"
 
-client := sdk.NewJsonplaceholderSDK(map[string]any{})
+client := sdk.NewJsonplaceholderSDK(map[string]any{
+    "apikey": os.Getenv("JSONPLACEHOLDER_APIKEY"),
+})
 
 // List all albums
 albums, err := client.Album(nil).List(nil, nil)
+fmt.Println(albums)
 ```
 
 ### Ruby
@@ -166,15 +159,17 @@ albums, err := client.Album(nil).List(nil, nil)
 ```ruby
 require_relative "Jsonplaceholder_sdk"
 
-client = JsonplaceholderSDK.new({})
+client = JsonplaceholderSDK.new({
+  "apikey" => ENV["JSONPLACEHOLDER_APIKEY"],
+})
 
 # List all albums
-albums, err = client.Album(nil).list(nil, nil)
+albums, err = client.Album().list
+puts albums
 
 # Load a specific album
-album, err = client.Album(nil).load(
-  { "id" => "example_id" }, nil
-)
+album, err = client.Album().load({ "id" => "example_id" })
+puts album
 ```
 
 ### Lua
@@ -182,15 +177,17 @@ album, err = client.Album(nil).load(
 ```lua
 local sdk = require("jsonplaceholder_sdk")
 
-local client = sdk.new({})
+local client = sdk.new({
+  apikey = os.getenv("JSONPLACEHOLDER_APIKEY"),
+})
 
 -- List all albums
-local albums, err = client:Album(nil):list(nil, nil)
+local albums, err = client:Album():list()
+print(albums)
 
 -- Load a specific album
-local album, err = client:Album(nil):load(
-  { id = "example_id" }, nil
-)
+local album, err = client:Album():load({ id = "example_id" })
+print(album)
 ```
 
 ## Unit testing in offline mode
@@ -209,25 +206,21 @@ const result = await client.Album().load({ id: 'test01' })
 ### Python
 
 ```python
-client = JsonplaceholderSDK.test(None, None)
-result, err = client.Album(None).load(
-    {"id": "test01"}, None
-)
+client = JsonplaceholderSDK.test()
+result, err = client.Album().load({"id": "test01"})
 ```
 
 ### PHP
 
 ```php
-$client = JsonplaceholderSDK::test(null, null);
-[$result, $err] = $client->Album(null)->load(
-    ["id" => "test01"], null
-);
+$client = JsonplaceholderSDK::test();
+[$result, $err] = $client->Album()->load(["id" => "test01"]);
 ```
 
 ### Golang
 
 ```go
-client := sdk.TestSDK(nil, nil)
+client := sdk.Test()
 result, err := client.Album(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
@@ -236,19 +229,15 @@ result, err := client.Album(nil).Load(
 ### Ruby
 
 ```ruby
-client = JsonplaceholderSDK.test(nil, nil)
-result, err = client.Album(nil).load(
-  { "id" => "test01" }, nil
-)
+client = JsonplaceholderSDK.test
+result, err = client.Album().load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
-local client = sdk.test(nil, nil)
-local result, err = client:Album(nil):load(
-  { id = "test01" }, nil
-)
+local client = sdk.test()
+local result, err = client:Album():load({ id = "test01" })
 ```
 
 ## How it works
@@ -352,15 +341,6 @@ local result, err = client:direct({
 - [Golang](go/README.md)
 - [Ruby](rb/README.md)
 - [Lua](lua/README.md)
-
-## Using the JSONPlaceholder
-
-- Upstream: [https://jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com)
-- API docs: [https://jsonplaceholder.typicode.com/guide/](https://jsonplaceholder.typicode.com/guide/)
-
-- Provided free of charge by [typicode](https://github.com/typicode) for testing and prototyping.
-- No formal open-source licence is published alongside the hosted service.
-- Intended for demos, tutorials, sandboxes, and CI fixtures rather than production traffic.
 
 ---
 

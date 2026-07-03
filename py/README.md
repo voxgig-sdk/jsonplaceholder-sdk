@@ -1,6 +1,11 @@
 # Jsonplaceholder Python SDK
 
-The Python SDK for the Jsonplaceholder API. Provides an entity-oriented interface following Pythonic conventions.
+
+
+The Python SDK for the Jsonplaceholder API — an entity-oriented client following Pythonic conventions.
+
+> Other languages, the CLI, and MCP server live alongside this one — see
+> the [top-level README](../README.md).
 
 
 ## Install
@@ -23,15 +28,18 @@ loading a specific record.
 ### 1. Create a client
 
 ```python
+import os
 from jsonplaceholder_sdk import JsonplaceholderSDK
 
-client = JsonplaceholderSDK({})
+client = JsonplaceholderSDK({
+    "apikey": os.environ.get("JSONPLACEHOLDER_APIKEY"),
+})
 ```
 
 ### 2. List albums
 
 ```python
-result, err = client.Album(None).list(None, None)
+result, err = client.Album().list()
 if err:
     raise Exception(err)
 
@@ -44,7 +52,7 @@ if isinstance(result, list):
 ### 3. Load a album
 
 ```python
-result, err = client.Album(None).load({"id": "example_id"}, None)
+result, err = client.Album().load({"id": "example_id"})
 if err:
     raise Exception(err)
 print(result)
@@ -54,13 +62,13 @@ print(result)
 
 ```python
 # Create
-created, _ = client.Album(None).create({"name": "Example"}, None)
+created, _ = client.Album().create({"name": "Example"})
 
 # Update
-client.Album(None).update({"id": created["id"], "name": "Example-Renamed"}, None)
+client.Album().update({"id": created["id"], "name": "Example-Renamed"})
 
 # Remove
-client.Album(None).remove({"id": created["id"]}, None)
+client.Album().remove({"id": created["id"]})
 ```
 
 
@@ -105,11 +113,9 @@ print(fetchdef["headers"])
 Create a mock client for unit testing — no server required:
 
 ```python
-client = JsonplaceholderSDK.test(None, None)
+client = JsonplaceholderSDK.test()
 
-result, err = client.Jsonplaceholder(None).load(
-    {"id": "test01"}, None
-)
+result, err = client.Jsonplaceholder().load({"id": "test01"})
 # result contains mock response data
 ```
 
@@ -140,6 +146,7 @@ Create a `.env.local` file at the project root:
 
 ```
 JSONPLACEHOLDER_TEST_LIVE=TRUE
+JSONPLACEHOLDER_APIKEY=<your-key>
 ```
 
 Then run:
@@ -163,6 +170,7 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
+| `apikey` | `str` | API key for authentication. |
 | `base` | `str` | Base URL of the API server. |
 | `prefix` | `str` | URL path prefix prepended to all requests. |
 | `suffix` | `str` | URL path suffix appended to all requests. |

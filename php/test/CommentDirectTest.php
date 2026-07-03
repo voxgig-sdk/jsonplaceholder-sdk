@@ -123,12 +123,14 @@ function comment_direct_setup($mockres)
     $env = Runner::env_override([
         "JSONPLACEHOLDER_TEST_COMMENT_ENTID" => [],
         "JSONPLACEHOLDER_TEST_LIVE" => "FALSE",
+        "JSONPLACEHOLDER_APIKEY" => "NONE",
     ]);
 
     $live = $env["JSONPLACEHOLDER_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [
+            "apikey" => $env["JSONPLACEHOLDER_APIKEY"],
         ];
         $client = new JsonplaceholderSDK($merged_opts);
         return [

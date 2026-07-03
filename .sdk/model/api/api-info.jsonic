@@ -21,36 +21,7 @@ main: {
       ]
       title: "JSONPlaceholder"
       version: "1.0.0"
-      tagline: "Free fake REST API for testing and prototyping, serving roughly 3 billion requests per month"
-      homepage: "https://jsonplaceholder.typicode.com"
-      docs_url: "https://jsonplaceholder.typicode.com/guide/"
-      license_short: "Free to use for testing and prototyping; copyright typicode."
-      license_md: `- Provided free of charge by [typicode](https://github.com/typicode) for testing and prototyping.
-- No formal open-source licence is published alongside the hosted service.
-- Intended for demos, tutorials, sandboxes, and CI fixtures rather than production traffic.`
-      about_md: `[JSONPlaceholder](https://jsonplaceholder.typicode.com) is a free, hosted fake REST API maintained by [typicode](https://github.com/typicode), the author of [JSON Server](https://github.com/typicode/json-server) and [LowDB](https://github.com/typicode/lowdb). It is one of the most widely used placeholder APIs on the web, reportedly serving on the order of three billion requests each month.
-
-The service exposes six fixed datasets you can read, filter, and pretend to mutate:
-
-- \`/posts\` — 100 blog posts (\`id\`, \`userId\`, \`title\`, \`body\`)
-- \`/comments\` — 500 comments linked to posts
-- \`/albums\` — 100 albums grouped under users
-- \`/photos\` — 5,000 photo records linked to albums
-- \`/todos\` — 200 todo items per user
-- \`/users\` — 10 user profiles
-
-All standard HTTP verbs are supported (\`GET\`, \`POST\`, \`PUT\`, \`PATCH\`, \`DELETE\`) and the API also supports nested routes such as \`/posts/1/comments\`, \`/albums/1/photos\`, and \`/users/1/posts\`, plus simple query filtering like \`/comments?postId=1\`.
-
-Write operations are simulated: the server responds as if the resource were created or updated, but nothing is actually persisted. No authentication or API key is required, and both HTTP and HTTPS are accepted.`
-      entity_desc: {
-        album: "Photo album owned by a user, available at `/albums`, `/albums/{id}`, `/albums/{id}/photos`, and `/users/{id}/albums`."
-        comment: "Comment attached to a post, available at `/comments`, `/comments/{id}`, `/posts/{id}/comments`, and filterable via `/comments?postId={id}`."
-        photo: "Photo record belonging to an album, available at `/photos` and `/photos/{id}`, with album-scoped access at `/albums/{id}/photos`."
-        post: "Blog-style post written by a user, available at `/posts`, `/posts/{id}`, and `/users/{id}/posts`, with nested comments at `/posts/{id}/comments`."
-        todo: "Todo item assigned to a user, available at `/todos`, `/todos/{id}`, and `/users/{id}/todos`."
-        user: "User profile (name, username, email, address, company), available at `/users` and `/users/{id}`, and the root of nested resources like `/users/{id}/posts`."
-      }
-      auth: false
     }
   }
 }
+

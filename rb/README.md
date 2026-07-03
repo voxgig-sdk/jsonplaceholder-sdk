@@ -1,6 +1,11 @@
 # Jsonplaceholder Ruby SDK
 
-The Ruby SDK for the Jsonplaceholder API. Provides an entity-oriented interface using idiomatic Ruby conventions.
+
+
+The Ruby SDK for the Jsonplaceholder API — an entity-oriented client using idiomatic Ruby conventions.
+
+> Other languages, the CLI, and MCP server live alongside this one — see
+> the [top-level README](../README.md).
 
 
 ## Install
@@ -31,13 +36,15 @@ loading a specific record.
 ```ruby
 require_relative "Jsonplaceholder_sdk"
 
-client = JsonplaceholderSDK.new({})
+client = JsonplaceholderSDK.new({
+  "apikey" => ENV["JSONPLACEHOLDER_APIKEY"],
+})
 ```
 
 ### 2. List albums
 
 ```ruby
-result, err = client.Album(nil).list(nil, nil)
+result, err = client.Album().list
 raise err if err
 
 if result.is_a?(Array)
@@ -51,7 +58,7 @@ end
 ### 3. Load a album
 
 ```ruby
-result, err = client.Album(nil).load({ "id" => "example_id" }, nil)
+result, err = client.Album().load({ "id" => "example_id" })
 raise err if err
 puts result
 ```
@@ -60,13 +67,13 @@ puts result
 
 ```ruby
 # Create
-created, _ = client.Album(nil).create({ "name" => "Example" }, nil)
+created, _ = client.Album().create({ "name" => "Example" })
 
 # Update
-client.Album(nil).update({ "id" => created["id"], "name" => "Example-Renamed" }, nil)
+client.Album().update({ "id" => created["id"], "name" => "Example-Renamed" })
 
 # Remove
-client.Album(nil).remove({ "id" => created["id"] }, nil)
+client.Album().remove({ "id" => created["id"] })
 ```
 
 
@@ -110,11 +117,9 @@ puts fetchdef["headers"]
 Create a mock client for unit testing — no server required:
 
 ```ruby
-client = JsonplaceholderSDK.test(nil, nil)
+client = JsonplaceholderSDK.test
 
-result, err = client.Jsonplaceholder(nil).load(
-  { "id" => "test01" }, nil
-)
+result, err = client.Jsonplaceholder().load({ "id" => "test01" })
 # result contains mock response data
 ```
 
@@ -146,6 +151,7 @@ Create a `.env.local` file at the project root:
 
 ```
 JSONPLACEHOLDER_TEST_LIVE=TRUE
+JSONPLACEHOLDER_APIKEY=<your-key>
 ```
 
 Then run:
@@ -168,6 +174,7 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
+| `apikey` | `String` | API key for authentication. |
 | `base` | `String` | Base URL of the API server. |
 | `prefix` | `String` | URL path prefix prepended to all requests. |
 | `suffix` | `String` | URL path suffix appended to all requests. |

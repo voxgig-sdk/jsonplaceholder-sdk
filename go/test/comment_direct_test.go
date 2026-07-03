@@ -194,12 +194,14 @@ func commentDirectSetup(mockres any) *commentDirectSetupResult {
 	env := envOverride(map[string]any{
 		"JSONPLACEHOLDER_TEST_COMMENT_ENTID": map[string]any{},
 		"JSONPLACEHOLDER_TEST_LIVE":    "FALSE",
+		"JSONPLACEHOLDER_APIKEY":       "NONE",
 	})
 
 	live := env["JSONPLACEHOLDER_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
+			"apikey": env["JSONPLACEHOLDER_APIKEY"],
 		}
 		client := sdk.NewJsonplaceholderSDK(mergedOpts)
 

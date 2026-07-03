@@ -1,6 +1,11 @@
 # Jsonplaceholder PHP SDK
 
-The PHP SDK for the Jsonplaceholder API. Provides an entity-oriented interface using PHP conventions.
+
+
+The PHP SDK for the Jsonplaceholder API — an entity-oriented client using PHP conventions.
+
+> Other languages, the CLI, and MCP server live alongside this one — see
+> the [top-level README](../README.md).
 
 
 ## Install
@@ -20,13 +25,15 @@ loading a specific record.
 <?php
 require_once 'jsonplaceholder_sdk.php';
 
-$client = new JsonplaceholderSDK([]);
+$client = new JsonplaceholderSDK([
+    "apikey" => getenv("JSONPLACEHOLDER_APIKEY"),
+]);
 ```
 
 ### 2. List albums
 
 ```php
-[$result, $err] = $client->Album(null)->list(null, null);
+[$result, $err] = $client->Album()->list();
 if ($err) { throw new \Exception($err); }
 
 if (is_array($result)) {
@@ -40,7 +47,7 @@ if (is_array($result)) {
 ### 3. Load a album
 
 ```php
-[$result, $err] = $client->Album(null)->load(["id" => "example_id"], null);
+[$result, $err] = $client->Album()->load(["id" => "example_id"]);
 if ($err) { throw new \Exception($err); }
 print_r($result);
 ```
@@ -49,13 +56,13 @@ print_r($result);
 
 ```php
 // Create
-[$created, $_] = $client->Album(null)->create(["name" => "Example"], null);
+[$created, $_] = $client->Album()->create(["name" => "Example"]);
 
 // Update
-$client->Album(null)->update(["id" => $created["id"], "name" => "Example-Renamed"], null);
+$client->Album()->update(["id" => $created["id"], "name" => "Example-Renamed"]);
 
 // Remove
-$client->Album(null)->remove(["id" => $created["id"]], null);
+$client->Album()->remove(["id" => $created["id"]]);
 ```
 
 
@@ -99,11 +106,9 @@ print_r($fetchdef["headers"]);
 Create a mock client for unit testing — no server required:
 
 ```php
-$client = JsonplaceholderSDK::test(null, null);
+$client = JsonplaceholderSDK::test();
 
-[$result, $err] = $client->Jsonplaceholder(null)->load(
-    ["id" => "test01"], null
-);
+[$result, $err] = $client->Jsonplaceholder()->load(["id" => "test01"]);
 // $result contains mock response data
 ```
 
@@ -138,6 +143,7 @@ Create a `.env.local` file at the project root:
 
 ```
 JSONPLACEHOLDER_TEST_LIVE=TRUE
+JSONPLACEHOLDER_APIKEY=<your-key>
 ```
 
 Then run:
@@ -160,6 +166,7 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
+| `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |

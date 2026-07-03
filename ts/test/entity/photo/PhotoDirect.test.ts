@@ -143,12 +143,14 @@ function directSetup(mockres?: any) {
   const env = envOverride({
     'JSONPLACEHOLDER_TEST_PHOTO_ENTID': {},
     'JSONPLACEHOLDER_TEST_LIVE': 'FALSE',
+    'JSONPLACEHOLDER_APIKEY': 'NONE',
   })
 
   const live = 'TRUE' === env.JSONPLACEHOLDER_TEST_LIVE
 
   if (live) {
     const client = new JsonplaceholderSDK({
+      apikey: env.JSONPLACEHOLDER_APIKEY,
     })
 
     let idmap: any = env['JSONPLACEHOLDER_TEST_PHOTO_ENTID']
