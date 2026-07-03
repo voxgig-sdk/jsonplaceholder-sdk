@@ -10,7 +10,7 @@ The PHP SDK for the Jsonplaceholder API — an entity-oriented client using PHP 
 
 ## Install
 ```bash
-composer require voxgig/jsonplaceholder-sdk
+composer require voxgig-sdk/jsonplaceholder
 ```
 
 

@@ -10,13 +10,13 @@ The Ruby SDK for the Jsonplaceholder API — an entity-oriented client using idi
 
 ## Install
 ```bash
-gem install jsonplaceholder-sdk
+gem install voxgig-sdk-jsonplaceholder
 ```
 
 Or add to your `Gemfile`:
 
 ```ruby
-gem "jsonplaceholder-sdk"
+gem "voxgig-sdk-jsonplaceholder"
 ```
 
 Then run:

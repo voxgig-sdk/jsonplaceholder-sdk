@@ -10,7 +10,7 @@ The Python SDK for the Jsonplaceholder API — an entity-oriented client followi
 
 ## Install
 ```bash
-pip install jsonplaceholder-sdk
+pip install voxgig-sdk-jsonplaceholder
 ```
 
 Or install from source:

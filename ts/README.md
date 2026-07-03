@@ -10,7 +10,7 @@ The TypeScript SDK for the Jsonplaceholder API — a type-safe, entity-oriented 
 
 ## Install
 ```bash
-npm install jsonplaceholder
+npm install @voxgig-sdk/jsonplaceholder
 ```
 ## Tutorial: your first API call
 

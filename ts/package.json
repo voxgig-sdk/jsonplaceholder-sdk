@@ -1,7 +1,23 @@
 {
   "name": "@voxgig-sdk/jsonplaceholder",
   "version": "0.0.1",
-  "description": "DESCRIPTION",
+  "description": "Unofficial generated TypeScript SDK for the JSONPlaceholder public API. Not affiliated with or endorsed by the upstream API provider.",
+  "keywords": [
+    "voxgig",
+    "sdk",
+    "generated-sdk",
+    "openapi",
+    "api-client",
+    "jsonplaceholder"
+  ],
+  "homepage": "https://github.com/voxgig-sdk/jsonplaceholder-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voxgig-sdk/jsonplaceholder-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/voxgig-sdk/jsonplaceholder-sdk/issues"
+  },
   "main": "dist/JsonplaceholderSDK.js",
   "type": "commonjs",
   "types": "dist/JsonplaceholderSDK.d.ts",
@@ -14,7 +30,10 @@
     "clean": "rm -rf node_modules yarn.lock package-lock.json",
     "reset": "npm run clean && npm i && npm run build && npm test"
   },
-  "author": "Jsonplaceholder",
+  "author": {
+    "name": "Voxgig",
+    "url": "https://voxgig.com"
+  },
   "license": "MIT",
   "dependencies": {},
   "peerDependencies": {},
