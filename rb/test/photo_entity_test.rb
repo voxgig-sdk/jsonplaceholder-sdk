@@ -37,8 +37,7 @@ class PhotoEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.photo"), "photo_ref01"))
     photo_ref01_data["album_id"] = setup[:idmap]["album01"]
 
-    photo_ref01_data_result, err = photo_ref01_ent.create(photo_ref01_data, nil)
-    assert_nil err
+    photo_ref01_data_result = photo_ref01_ent.create(photo_ref01_data, nil)
     photo_ref01_data = Helpers.to_map(photo_ref01_data_result)
     assert !photo_ref01_data.nil?
     assert !photo_ref01_data["id"].nil?
@@ -46,8 +45,7 @@ class PhotoEntityTest < Minitest::Test
     # LIST
     photo_ref01_match = {}
 
-    photo_ref01_list_result, err = photo_ref01_ent.list(photo_ref01_match, nil)
-    assert_nil err
+    photo_ref01_list_result = photo_ref01_ent.list(photo_ref01_match, nil)
     assert photo_ref01_list_result.is_a?(Array)
 
     found_item = Vs.select(
@@ -64,8 +62,7 @@ class PhotoEntityTest < Minitest::Test
     photo_ref01_markdef_up0_value = "Mark01-photo_ref01_#{setup[:now]}"
     photo_ref01_data_up0_up[photo_ref01_markdef_up0_name] = photo_ref01_markdef_up0_value
 
-    photo_ref01_resdata_up0_result, err = photo_ref01_ent.update(photo_ref01_data_up0_up, nil)
-    assert_nil err
+    photo_ref01_resdata_up0_result = photo_ref01_ent.update(photo_ref01_data_up0_up, nil)
     photo_ref01_resdata_up0 = Helpers.to_map(photo_ref01_resdata_up0_result)
     assert !photo_ref01_resdata_up0.nil?
     assert_equal photo_ref01_resdata_up0["id"], photo_ref01_data_up0_up["id"]
@@ -75,8 +72,7 @@ class PhotoEntityTest < Minitest::Test
     photo_ref01_match_dt0 = {
       "id" => photo_ref01_data["id"],
     }
-    photo_ref01_data_dt0_loaded, err = photo_ref01_ent.load(photo_ref01_match_dt0, nil)
-    assert_nil err
+    photo_ref01_data_dt0_loaded = photo_ref01_ent.load(photo_ref01_match_dt0, nil)
     photo_ref01_data_dt0_load_result = Helpers.to_map(photo_ref01_data_dt0_loaded)
     assert !photo_ref01_data_dt0_load_result.nil?
     assert_equal photo_ref01_data_dt0_load_result["id"], photo_ref01_data["id"]
@@ -85,14 +81,12 @@ class PhotoEntityTest < Minitest::Test
     photo_ref01_match_rm0 = {
       "id" => photo_ref01_data["id"],
     }
-    _, err = photo_ref01_ent.remove(photo_ref01_match_rm0, nil)
-    assert_nil err
+    photo_ref01_ent.remove(photo_ref01_match_rm0, nil)
 
     # LIST
     photo_ref01_match_rt0 = {}
 
-    photo_ref01_list_rt0_result, err = photo_ref01_ent.list(photo_ref01_match_rt0, nil)
-    assert_nil err
+    photo_ref01_list_rt0_result = photo_ref01_ent.list(photo_ref01_match_rt0, nil)
     assert photo_ref01_list_rt0_result.is_a?(Array)
 
     not_found_item = Vs.select(
@@ -136,7 +130,6 @@ def photo_basic_setup(extra)
     "JSONPLACEHOLDER_TEST_PHOTO_ENTID" => idmap,
     "JSONPLACEHOLDER_TEST_LIVE" => "FALSE",
     "JSONPLACEHOLDER_TEST_EXPLAIN" => "FALSE",
-    "JSONPLACEHOLDER_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -148,7 +141,6 @@ def photo_basic_setup(extra)
   if env["JSONPLACEHOLDER_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["JSONPLACEHOLDER_APIKEY"],
       },
       extra || {},
     ])

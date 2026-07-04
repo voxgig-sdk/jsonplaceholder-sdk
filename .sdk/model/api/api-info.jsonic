@@ -4,6 +4,7 @@
 main: {
   kit: {
     info: {
+      auth: false
       contact: {
         name: "JSONPlaceholder"
         url: "https://jsonplaceholder.typicode.com/"

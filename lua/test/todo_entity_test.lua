@@ -149,7 +149,6 @@ function todo_basic_setup(extra)
     ["JSONPLACEHOLDER_TEST_TODO_ENTID"] = idmap,
     ["JSONPLACEHOLDER_TEST_LIVE"] = "FALSE",
     ["JSONPLACEHOLDER_TEST_EXPLAIN"] = "FALSE",
-    ["JSONPLACEHOLDER_APIKEY"] = "NONE",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -161,7 +160,6 @@ function todo_basic_setup(extra)
   if env["JSONPLACEHOLDER_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
       {
-        apikey = env["JSONPLACEHOLDER_APIKEY"],
       },
       extra or {},
     })

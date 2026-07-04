@@ -85,6 +85,27 @@ func (e *CommentEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an Comment; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *CommentEntity) DataTyped(data ...Comment) Comment {
+	if len(data) > 0 {
+		return typedFrom[Comment](e.Data(asMap(data[0])))
+	}
+	return typedFrom[Comment](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through Comment (all fields
+// optional at the wire level).
+func (e *CommentEntity) MatchTyped(match ...Comment) Comment {
+	if len(match) > 0 {
+		return typedFrom[Comment](e.Match(asMap(match[0])))
+	}
+	return typedFrom[Comment](e.Match())
+}
+
 
 func (e *CommentEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
@@ -111,6 +132,17 @@ func (e *CommentEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any,
 	})
 }
 
+// LoadTyped is the statically-typed variant of Load: it takes an
+// CommentLoadMatch and returns an Comment. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *CommentEntity) LoadTyped(reqmatch CommentLoadMatch, ctrl map[string]any) (Comment, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Comment{}, err
+	}
+	return typedFrom[Comment](res), nil
+}
+
 
 
 
@@ -131,6 +163,17 @@ func (e *CommentEntity) List(reqmatch map[string]any, ctrl map[string]any) (any,
 			}
 		}
 	})
+}
+
+// ListTyped is the statically-typed variant of List: it takes an
+// CommentListMatch and returns []Comment. It delegates to the untyped
+// List (identical runtime) and converts at the typed boundary.
+func (e *CommentEntity) ListTyped(reqmatch CommentListMatch, ctrl map[string]any) ([]Comment, error) {
+	res, err := e.List(asMap(reqmatch), ctrl)
+	if err != nil {
+		return nil, err
+	}
+	return typedSliceFrom[Comment](res), nil
 }
 
 
@@ -156,6 +199,17 @@ func (e *CommentEntity) Create(reqdata map[string]any, ctrl map[string]any) (any
 			}
 		}
 	})
+}
+
+// CreateTyped is the statically-typed variant of Create: it takes an
+// CommentCreateData and returns an Comment. It delegates to the untyped
+// Create (identical runtime) and converts at the typed boundary.
+func (e *CommentEntity) CreateTyped(reqdata CommentCreateData, ctrl map[string]any) (Comment, error) {
+	res, err := e.Create(asMap(reqdata), ctrl)
+	if err != nil {
+		return Comment{}, err
+	}
+	return typedFrom[Comment](res), nil
 }
 
 
@@ -186,6 +240,17 @@ func (e *CommentEntity) Update(reqdata map[string]any, ctrl map[string]any) (any
 	})
 }
 
+// UpdateTyped is the statically-typed variant of Update: it takes an
+// CommentUpdateData and returns an Comment. It delegates to the untyped
+// Update (identical runtime) and converts at the typed boundary.
+func (e *CommentEntity) UpdateTyped(reqdata CommentUpdateData, ctrl map[string]any) (Comment, error) {
+	res, err := e.Update(asMap(reqdata), ctrl)
+	if err != nil {
+		return Comment{}, err
+	}
+	return typedFrom[Comment](res), nil
+}
+
 
 
 
@@ -212,6 +277,17 @@ func (e *CommentEntity) Remove(reqmatch map[string]any, ctrl map[string]any) (an
 			}
 		}
 	})
+}
+
+// RemoveTyped is the statically-typed variant of Remove: it takes an
+// CommentRemoveMatch and returns an Comment. It delegates to the untyped
+// Remove (identical runtime) and converts at the typed boundary.
+func (e *CommentEntity) RemoveTyped(reqmatch CommentRemoveMatch, ctrl map[string]any) (Comment, error) {
+	res, err := e.Remove(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Comment{}, err
+	}
+	return typedFrom[Comment](res), nil
 }
 
 

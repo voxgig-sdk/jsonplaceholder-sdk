@@ -55,6 +55,9 @@ class CommentEntity
         return new CommentEntity($this->_client, $opts);
     }
 
+    /**
+     * @param Comment|array $args Comment data (assoc-array) to store.
+     */
     public function data_set($args): void
     {
         if ($args) {
@@ -63,12 +66,18 @@ class CommentEntity
         }
     }
 
+    /**
+     * @return Comment|array The current Comment data as an assoc-array.
+     */
     public function data_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetData");
         return Struct::clone($this->_data);
     }
 
+    /**
+     * @param array $args Match filter (any subset of Comment fields).
+     */
     public function match_set($args): void
     {
         if ($args) {
@@ -77,6 +86,9 @@ class CommentEntity
         }
     }
 
+    /**
+     * @return array The current match filter (any subset of Comment fields).
+     */
     public function match_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetMatch");
@@ -84,7 +96,16 @@ class CommentEntity
     }
 
     
-    public function load($reqmatch, $ctrl = null): array
+    /**
+     * Load a single Comment.
+     *
+     * @param CommentLoadMatch|array|null $reqmatch Match criteria (id/query
+     *   fields) as an assoc-array; a typed CommentLoadMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return Comment|array The loaded Comment as an assoc-array at the
+     *   SDK boundary; throws JsonplaceholderError on failure (item-5 convention).
+     */
+    public function load(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -110,7 +131,16 @@ class CommentEntity
 
 
     
-    public function list($reqmatch, $ctrl = null): array
+    /**
+     * List Comment items matching the given filter.
+     *
+     * @param CommentListMatch|array|null $reqmatch Match filter (any subset
+     *   of Comment fields) as an assoc-array; CommentListMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return Comment[]|array A list of Comment items as assoc-arrays at
+     *   the SDK boundary; throws JsonplaceholderError on failure (item-5 convention).
+     */
+    public function list(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -133,7 +163,16 @@ class CommentEntity
 
 
     
-    public function create($reqdata, $ctrl = null): array
+    /**
+     * Create a new Comment.
+     *
+     * @param CommentCreateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed CommentCreateData names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return Comment|array The created Comment as an assoc-array at the
+     *   SDK boundary; throws JsonplaceholderError on failure (item-5 convention).
+     */
+    public function create(?array $reqdata = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -156,7 +195,16 @@ class CommentEntity
 
 
     
-    public function update($reqdata, $ctrl = null): array
+    /**
+     * Update an existing Comment.
+     *
+     * @param CommentUpdateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed CommentUpdateData names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return Comment|array The updated Comment as an assoc-array at the
+     *   SDK boundary; throws JsonplaceholderError on failure (item-5 convention).
+     */
+    public function update(?array $reqdata = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -182,7 +230,16 @@ class CommentEntity
 
 
     
-    public function remove($reqmatch, $ctrl = null): array
+    /**
+     * Remove an Comment matching the given criteria.
+     *
+     * @param CommentRemoveMatch|array|null $reqmatch Match criteria (id/query
+     *   fields) as an assoc-array; CommentRemoveMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return Comment|array The removed Comment as an assoc-array at the
+     *   SDK boundary; throws JsonplaceholderError on failure (item-5 convention).
+     */
+    public function remove(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -207,7 +264,7 @@ class CommentEntity
 
 
 
-    private function _run_op($ctx, callable $post_done): array
+    private function _run_op($ctx, callable $post_done): mixed
     {
         $utility = $this->_utility;
 

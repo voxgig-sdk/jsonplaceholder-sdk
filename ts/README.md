@@ -9,9 +9,12 @@ The TypeScript SDK for the Jsonplaceholder API — a type-safe, entity-oriented 
 
 
 ## Install
-```bash
-npm install @voxgig-sdk/jsonplaceholder
-```
+This package is not yet published to npm. Install it from the GitHub
+release tag (`ts/vX.Y.Z`):
+
+- Releases: [https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases)
+
+
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
@@ -20,17 +23,15 @@ loading a specific record.
 ### 1. Create a client
 
 ```ts
-import { JsonplaceholderSDK } from 'jsonplaceholder'
+import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder'
 
-const client = new JsonplaceholderSDK({
-  apikey: process.env.JSONPLACEHOLDER_APIKEY,
-})
+const client = new JsonplaceholderSDK()
 ```
 
 ### 2. List albums
 
 ```ts
-const result = await client.Album().list()
+const result = await client.album.list()
 
 if (result.ok) {
   for (const item of result.data) {
@@ -39,10 +40,10 @@ if (result.ok) {
 }
 ```
 
-### 3. Load a album
+### 3. Load an album
 
 ```ts
-const result = await client.Album().load({ id: 'example_id' })
+const result = await client.album.load({ id: 'example_id' })
 
 if (result.ok) {
   console.log(result.data)
@@ -53,18 +54,18 @@ if (result.ok) {
 
 ```ts
 // Create
-const created = await client.Album().create({
+const created = await client.album.create({
   name: 'Example',
 })
 
 // Update
-const updated = await client.Album().update({
+const updated = await client.album.update({
   id: created.data.id,
   name: 'Example-Renamed',
 })
 
 // Remove
-const removed = await client.Album().remove({
+const removed = await client.album.remove({
   id: created.data.id,
 })
 ```
@@ -111,7 +112,7 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = JsonplaceholderSDK.test()
 
-const result = await client.Planet().load({ id: 'test01' })
+const result = await client.album.load({ id: 'test01' })
 // result.ok === true
 // result.data contains mock response data
 ```
@@ -119,7 +120,7 @@ const result = await client.Planet().load({ id: 'test01' })
 You can also use the instance method:
 
 ```ts
-const client = new JsonplaceholderSDK({ apikey: '...' })
+const client = new JsonplaceholderSDK()
 const testClient = client.tester()
 ```
 
@@ -128,7 +129,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Planet()
+const entity = client.album
 
 // First call sets internal match
 await entity.load({ id: 'example' })
@@ -155,7 +156,6 @@ const logger = {
 }
 
 const client = new JsonplaceholderSDK({
-  apikey: '...',
   extend: [logger],
 })
 ```
@@ -166,7 +166,6 @@ Create a `.env.local` file at the project root:
 
 ```
 JSONPLACEHOLDER_TEST_LIVE=TRUE
-JSONPLACEHOLDER_APIKEY=<your-key>
 ```
 
 Then run:
@@ -184,7 +183,6 @@ cd ts && npm test
 
 ```ts
 new JsonplaceholderSDK(options?: {
-  apikey?: string
   base?: string
   prefix?: string
   suffix?: string
@@ -195,7 +193,6 @@ new JsonplaceholderSDK(options?: {
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |
@@ -376,7 +373,7 @@ API path: `/users`
 
 ### Album
 
-Create an instance: `const album = client.Album()`
+Create an instance: `const album = client.album`
 
 #### Operations
 
@@ -399,26 +396,26 @@ Create an instance: `const album = client.Album()`
 #### Example: Load
 
 ```ts
-const album = await client.Album().load({ id: 'album_id' })
+const album = await client.album.load({ id: 'album_id' })
 ```
 
 #### Example: List
 
 ```ts
-const albums = await client.Album().list()
+const albums = await client.album.list()
 ```
 
 #### Example: Create
 
 ```ts
-const album = await client.Album().create({
+const album = await client.album.create({
 })
 ```
 
 
 ### Comment
 
-Create an instance: `const comment = client.Comment()`
+Create an instance: `const comment = client.comment`
 
 #### Operations
 
@@ -443,26 +440,26 @@ Create an instance: `const comment = client.Comment()`
 #### Example: Load
 
 ```ts
-const comment = await client.Comment().load({ id: 'comment_id' })
+const comment = await client.comment.load({ id: 'comment_id' })
 ```
 
 #### Example: List
 
 ```ts
-const comments = await client.Comment().list()
+const comments = await client.comment.list()
 ```
 
 #### Example: Create
 
 ```ts
-const comment = await client.Comment().create({
+const comment = await client.comment.create({
 })
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.Photo()`
+Create an instance: `const photo = client.photo`
 
 #### Operations
 
@@ -487,26 +484,26 @@ Create an instance: `const photo = client.Photo()`
 #### Example: Load
 
 ```ts
-const photo = await client.Photo().load({ id: 'photo_id' })
+const photo = await client.photo.load({ id: 'photo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const photos = await client.Photo().list()
+const photos = await client.photo.list()
 ```
 
 #### Example: Create
 
 ```ts
-const photo = await client.Photo().create({
+const photo = await client.photo.create({
 })
 ```
 
 
 ### Post
 
-Create an instance: `const post = client.Post()`
+Create an instance: `const post = client.post`
 
 #### Operations
 
@@ -530,26 +527,26 @@ Create an instance: `const post = client.Post()`
 #### Example: Load
 
 ```ts
-const post = await client.Post().load({ id: 'post_id' })
+const post = await client.post.load({ id: 'post_id' })
 ```
 
 #### Example: List
 
 ```ts
-const posts = await client.Post().list()
+const posts = await client.post.list()
 ```
 
 #### Example: Create
 
 ```ts
-const post = await client.Post().create({
+const post = await client.post.create({
 })
 ```
 
 
 ### Todo
 
-Create an instance: `const todo = client.Todo()`
+Create an instance: `const todo = client.todo`
 
 #### Operations
 
@@ -573,26 +570,26 @@ Create an instance: `const todo = client.Todo()`
 #### Example: Load
 
 ```ts
-const todo = await client.Todo().load({ id: 'todo_id' })
+const todo = await client.todo.load({ id: 'todo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const todos = await client.Todo().list()
+const todos = await client.todo.list()
 ```
 
 #### Example: Create
 
 ```ts
-const todo = await client.Todo().create({
+const todo = await client.todo.create({
 })
 ```
 
 
 ### User
 
-Create an instance: `const user = client.User()`
+Create an instance: `const user = client.user`
 
 #### Operations
 
@@ -620,19 +617,19 @@ Create an instance: `const user = client.User()`
 #### Example: Load
 
 ```ts
-const user = await client.User().load({ id: 'user_id' })
+const user = await client.user.load({ id: 'user_id' })
 ```
 
 #### Example: List
 
 ```ts
-const users = await client.User().list()
+const users = await client.user.list()
 ```
 
 #### Example: Create
 
 ```ts
-const user = await client.User().create({
+const user = await client.user.create({
 })
 ```
 
@@ -694,7 +691,7 @@ jsonplaceholder/
 Import the SDK from the package root:
 
 ```ts
-import { JsonplaceholderSDK } from 'jsonplaceholder'
+import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder'
 ```
 
 ### Entity state
@@ -704,11 +701,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const moon = client.Moon()
-await moon.load({ planet_id: 'earth', id: 'luna' })
+const album = client.album
+await album.load({ id: "example_id" })
 
-// moon.data() now returns the loaded moon data
-// moon.match() returns { planet_id: 'earth', id: 'luna' }
+// album.data() now returns the loaded album data
+// album.match() returns { id: "example_id" }
 ```
 
 Call `make()` to create a fresh instance with the same configuration

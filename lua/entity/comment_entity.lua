@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch CommentLoadMatch
+---@param ctrl? table
+---@return Comment
+---@return string? err
 function CommentEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -104,6 +108,10 @@ end
 
 
 
+---@param reqmatch CommentListMatch
+---@param ctrl? table
+---@return Comment[]
+---@return string? err
 function CommentEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -126,6 +134,10 @@ end
 
 
 
+---@param reqdata CommentCreateData
+---@param ctrl? table
+---@return Comment
+---@return string? err
 function CommentEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -148,6 +160,10 @@ end
 
 
 
+---@param reqdata CommentUpdateData
+---@param ctrl? table
+---@return Comment
+---@return string? err
 function CommentEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -173,6 +189,10 @@ end
 
 
 
+---@param reqmatch CommentRemoveMatch
+---@param ctrl? table
+---@return Comment
+---@return string? err
 function CommentEntity:remove(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

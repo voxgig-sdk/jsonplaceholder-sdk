@@ -13,6 +13,9 @@ require_relative 'config'
 require_relative 'feature/base_feature'
 require_relative 'features'
 
+# Load typed models (Struct value objects).
+require_relative 'Jsonplaceholder_types'
+
 
 class JsonplaceholderSDK
   attr_accessor :mode, :features, :options
@@ -131,7 +134,7 @@ class JsonplaceholderSDK
     end
 
     _, err = utility.prepare_auth.call(ctx)
-    return nil, err if err
+    raise err if err
 
     utility.make_fetch_def.call(ctx)
   end
@@ -139,8 +142,14 @@ class JsonplaceholderSDK
   def direct(fetchargs = {})
     utility = @_utility
 
-    fetchdef, err = prepare(fetchargs)
-    return { "ok" => false, "err" => err }, nil if err
+    # direct() is the raw-HTTP escape hatch: it always returns a result hash
+    # ({ "ok" => ..., ... }) and never raises. prepare() raises on error, so
+    # trap that and surface it in the hash.
+    begin
+      fetchdef = prepare(fetchargs)
+    rescue JsonplaceholderError => err
+      return { "ok" => false, "err" => err }
+    end
 
     fetchargs ||= {}
     ctrl = JsonplaceholderHelpers.to_map(VoxgigStruct.getprop(fetchargs, "ctrl")) || {}
@@ -153,13 +162,13 @@ class JsonplaceholderSDK
     url = fetchdef["url"] || ""
     fetched, fetch_err = utility.fetcher.call(ctx, url, fetchdef)
 
-    return { "ok" => false, "err" => fetch_err }, nil if fetch_err
+    return { "ok" => false, "err" => fetch_err } if fetch_err
 
     if fetched.nil?
       return {
         "ok" => false,
         "err" => ctx.make_error("direct_no_response", "response: undefined"),
-      }, nil
+      }
     end
 
     if fetched.is_a?(Hash)
@@ -189,46 +198,88 @@ class JsonplaceholderSDK
         "status" => status,
         "headers" => headers,
         "data" => json_data,
-      }, nil
+      }
     end
 
     return {
       "ok" => false,
       "err" => ctx.make_error("direct_invalid", "invalid response type"),
-    }, nil
+    }
   end
 
 
+  # Idiomatic facade: client.album.list / client.album.load({ "id" => ... })
+  def album
+    require_relative 'entity/album_entity'
+    @album ||= AlbumEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.album instead.
   def Album(data = nil)
     require_relative 'entity/album_entity'
     AlbumEntity.new(self, data)
   end
 
 
+  # Idiomatic facade: client.comment.list / client.comment.load({ "id" => ... })
+  def comment
+    require_relative 'entity/comment_entity'
+    @comment ||= CommentEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.comment instead.
   def Comment(data = nil)
     require_relative 'entity/comment_entity'
     CommentEntity.new(self, data)
   end
 
 
+  # Idiomatic facade: client.photo.list / client.photo.load({ "id" => ... })
+  def photo
+    require_relative 'entity/photo_entity'
+    @photo ||= PhotoEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.photo instead.
   def Photo(data = nil)
     require_relative 'entity/photo_entity'
     PhotoEntity.new(self, data)
   end
 
 
+  # Idiomatic facade: client.post.list / client.post.load({ "id" => ... })
+  def post
+    require_relative 'entity/post_entity'
+    @post ||= PostEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.post instead.
   def Post(data = nil)
     require_relative 'entity/post_entity'
     PostEntity.new(self, data)
   end
 
 
+  # Idiomatic facade: client.todo.list / client.todo.load({ "id" => ... })
+  def todo
+    require_relative 'entity/todo_entity'
+    @todo ||= TodoEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.todo instead.
   def Todo(data = nil)
     require_relative 'entity/todo_entity'
     TodoEntity.new(self, data)
   end
 
 
+  # Idiomatic facade: client.user.list / client.user.load({ "id" => ... })
+  def user
+    require_relative 'entity/user_entity'
+    @user ||= UserEntity.new(self, nil)
+  end
+
+  # Deprecated: use client.user instead.
   def User(data = nil)
     require_relative 'entity/user_entity'
     UserEntity.new(self, data)

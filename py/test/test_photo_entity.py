@@ -45,17 +45,14 @@ class TestPhotoEntity:
             vs.getpath(setup["data"], "new.photo"), "photo_ref01"))
         photo_ref01_data["album_id"] = setup["idmap"]["album01"]
 
-        photo_ref01_data_result, err = photo_ref01_ent.create(photo_ref01_data, None)
-        assert err is None
-        photo_ref01_data = helpers.to_map(photo_ref01_data_result)
+        photo_ref01_data = helpers.to_map(photo_ref01_ent.create(photo_ref01_data, None))
         assert photo_ref01_data is not None
         assert photo_ref01_data["id"] is not None
 
         # LIST
         photo_ref01_match = {}
 
-        photo_ref01_list_result, err = photo_ref01_ent.list(photo_ref01_match, None)
-        assert err is None
+        photo_ref01_list_result = photo_ref01_ent.list(photo_ref01_match, None)
         assert isinstance(photo_ref01_list_result, list)
 
         found_item = vs.select(
@@ -72,9 +69,7 @@ class TestPhotoEntity:
         photo_ref01_markdef_up0_value = "Mark01-photo_ref01_" + str(setup["now"])
         photo_ref01_data_up0_up[photo_ref01_markdef_up0_name] = photo_ref01_markdef_up0_value
 
-        photo_ref01_resdata_up0_result, err = photo_ref01_ent.update(photo_ref01_data_up0_up, None)
-        assert err is None
-        photo_ref01_resdata_up0 = helpers.to_map(photo_ref01_resdata_up0_result)
+        photo_ref01_resdata_up0 = helpers.to_map(photo_ref01_ent.update(photo_ref01_data_up0_up, None))
         assert photo_ref01_resdata_up0 is not None
         assert photo_ref01_resdata_up0["id"] == photo_ref01_data_up0_up["id"]
         assert photo_ref01_resdata_up0[photo_ref01_markdef_up0_name] == photo_ref01_markdef_up0_value
@@ -83,8 +78,7 @@ class TestPhotoEntity:
         photo_ref01_match_dt0 = {
             "id": photo_ref01_data["id"],
         }
-        photo_ref01_data_dt0_loaded, err = photo_ref01_ent.load(photo_ref01_match_dt0, None)
-        assert err is None
+        photo_ref01_data_dt0_loaded = photo_ref01_ent.load(photo_ref01_match_dt0, None)
         photo_ref01_data_dt0_load_result = helpers.to_map(photo_ref01_data_dt0_loaded)
         assert photo_ref01_data_dt0_load_result is not None
         assert photo_ref01_data_dt0_load_result["id"] == photo_ref01_data["id"]
@@ -93,14 +87,12 @@ class TestPhotoEntity:
         photo_ref01_match_rm0 = {
             "id": photo_ref01_data["id"],
         }
-        _, err = photo_ref01_ent.remove(photo_ref01_match_rm0, None)
-        assert err is None
+        photo_ref01_ent.remove(photo_ref01_match_rm0, None)
 
         # LIST
         photo_ref01_match_rt0 = {}
 
-        photo_ref01_list_rt0_result, err = photo_ref01_ent.list(photo_ref01_match_rt0, None)
-        assert err is None
+        photo_ref01_list_rt0_result = photo_ref01_ent.list(photo_ref01_match_rt0, None)
         assert isinstance(photo_ref01_list_rt0_result, list)
 
         not_found_item = vs.select(
@@ -146,7 +138,6 @@ def _photo_basic_setup(extra):
         "JSONPLACEHOLDER_TEST_PHOTO_ENTID": idmap,
         "JSONPLACEHOLDER_TEST_LIVE": "FALSE",
         "JSONPLACEHOLDER_TEST_EXPLAIN": "FALSE",
-        "JSONPLACEHOLDER_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -157,7 +148,6 @@ def _photo_basic_setup(extra):
     if env.get("JSONPLACEHOLDER_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("JSONPLACEHOLDER_APIKEY"),
             },
             extra or {},
         ])

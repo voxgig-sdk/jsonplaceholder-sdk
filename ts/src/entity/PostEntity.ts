@@ -14,9 +14,17 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Post,
+  PostLoadMatch,
+  PostListMatch,
+  PostCreateData,
+  PostUpdateData,
+  PostRemoveMatch,
+} from '../JsonplaceholderTypes'
 
 // TODO: needs Entity superclass
-class PostEntity extends JsonplaceholderEntityBase {
+class PostEntity extends JsonplaceholderEntityBase<Post> {
 
   constructor(client: JsonplaceholderSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +40,7 @@ class PostEntity extends JsonplaceholderEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: PostLoadMatch, ctrl?: Control): Promise<Post> {
 
     const utility = this._utility
 
@@ -136,14 +144,16 @@ class PostEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Post> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: PostListMatch, ctrl?: Control): Promise<Post[]> {
 
     const utility = this._utility
 
@@ -243,14 +253,16 @@ class PostEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Post[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: PostCreateData, ctrl?: Control): Promise<Post> {
 
     const utility = this._utility
     const {
@@ -349,14 +361,16 @@ class PostEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Post> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async update(this: any, reqdata?: any, ctrl?: Control) {
+  async update(this: any, reqdata?: PostUpdateData, ctrl?: Control): Promise<Post> {
 
     const utility = this._utility
 
@@ -461,14 +475,16 @@ class PostEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Post> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async remove(this: any, reqmatch?: any, ctrl?: Control) {
+  async remove(this: any, reqmatch?: PostRemoveMatch, ctrl?: Control): Promise<Post> {
 
     const utility = this._utility
 
@@ -573,7 +589,9 @@ class PostEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Post> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

@@ -154,7 +154,6 @@ function basicSetup(extra?: any) {
     'JSONPLACEHOLDER_TEST_USER_ENTID': idmap,
     'JSONPLACEHOLDER_TEST_LIVE': 'FALSE',
     'JSONPLACEHOLDER_TEST_EXPLAIN': 'FALSE',
-    'JSONPLACEHOLDER_APIKEY': 'NONE',
   })
 
   idmap = env['JSONPLACEHOLDER_TEST_USER_ENTID']
@@ -164,7 +163,6 @@ function basicSetup(extra?: any) {
   if (live) {
     client = new JsonplaceholderSDK(merge([
       {
-        apikey: env.JSONPLACEHOLDER_APIKEY,
       },
       extra
     ]))

@@ -37,8 +37,7 @@ class AlbumEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.album"), "album_ref01"))
     album_ref01_data["user_id"] = setup[:idmap]["user01"]
 
-    album_ref01_data_result, err = album_ref01_ent.create(album_ref01_data, nil)
-    assert_nil err
+    album_ref01_data_result = album_ref01_ent.create(album_ref01_data, nil)
     album_ref01_data = Helpers.to_map(album_ref01_data_result)
     assert !album_ref01_data.nil?
     assert !album_ref01_data["id"].nil?
@@ -48,8 +47,7 @@ class AlbumEntityTest < Minitest::Test
       "user_id" => setup[:idmap]["user01"],
     }
 
-    album_ref01_list_result, err = album_ref01_ent.list(album_ref01_match, nil)
-    assert_nil err
+    album_ref01_list_result = album_ref01_ent.list(album_ref01_match, nil)
     assert album_ref01_list_result.is_a?(Array)
 
     found_item = Vs.select(
@@ -66,8 +64,7 @@ class AlbumEntityTest < Minitest::Test
     album_ref01_markdef_up0_value = "Mark01-album_ref01_#{setup[:now]}"
     album_ref01_data_up0_up[album_ref01_markdef_up0_name] = album_ref01_markdef_up0_value
 
-    album_ref01_resdata_up0_result, err = album_ref01_ent.update(album_ref01_data_up0_up, nil)
-    assert_nil err
+    album_ref01_resdata_up0_result = album_ref01_ent.update(album_ref01_data_up0_up, nil)
     album_ref01_resdata_up0 = Helpers.to_map(album_ref01_resdata_up0_result)
     assert !album_ref01_resdata_up0.nil?
     assert_equal album_ref01_resdata_up0["id"], album_ref01_data_up0_up["id"]
@@ -77,8 +74,7 @@ class AlbumEntityTest < Minitest::Test
     album_ref01_match_dt0 = {
       "id" => album_ref01_data["id"],
     }
-    album_ref01_data_dt0_loaded, err = album_ref01_ent.load(album_ref01_match_dt0, nil)
-    assert_nil err
+    album_ref01_data_dt0_loaded = album_ref01_ent.load(album_ref01_match_dt0, nil)
     album_ref01_data_dt0_load_result = Helpers.to_map(album_ref01_data_dt0_loaded)
     assert !album_ref01_data_dt0_load_result.nil?
     assert_equal album_ref01_data_dt0_load_result["id"], album_ref01_data["id"]
@@ -87,16 +83,14 @@ class AlbumEntityTest < Minitest::Test
     album_ref01_match_rm0 = {
       "id" => album_ref01_data["id"],
     }
-    _, err = album_ref01_ent.remove(album_ref01_match_rm0, nil)
-    assert_nil err
+    album_ref01_ent.remove(album_ref01_match_rm0, nil)
 
     # LIST
     album_ref01_match_rt0 = {
       "user_id" => setup[:idmap]["user01"],
     }
 
-    album_ref01_list_rt0_result, err = album_ref01_ent.list(album_ref01_match_rt0, nil)
-    assert_nil err
+    album_ref01_list_rt0_result = album_ref01_ent.list(album_ref01_match_rt0, nil)
     assert album_ref01_list_rt0_result.is_a?(Array)
 
     not_found_item = Vs.select(
@@ -140,7 +134,6 @@ def album_basic_setup(extra)
     "JSONPLACEHOLDER_TEST_ALBUM_ENTID" => idmap,
     "JSONPLACEHOLDER_TEST_LIVE" => "FALSE",
     "JSONPLACEHOLDER_TEST_EXPLAIN" => "FALSE",
-    "JSONPLACEHOLDER_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -152,7 +145,6 @@ def album_basic_setup(extra)
   if env["JSONPLACEHOLDER_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["JSONPLACEHOLDER_APIKEY"],
       },
       extra || {},
     ])

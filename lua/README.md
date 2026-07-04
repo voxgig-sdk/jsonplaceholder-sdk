@@ -9,12 +9,9 @@ The Lua SDK for the Jsonplaceholder API — an entity-oriented client using Lua 
 
 
 ## Install
-```bash
-luarocks install voxgig-sdk-jsonplaceholder
-```
-
-If the module is not yet published, add the source directory to
-your `LUA_PATH`:
+This package is not yet published to LuaRocks. Install it from the
+GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases)),
+or add the source directory to your `LUA_PATH`:
 
 ```bash
 export LUA_PATH="path/to/lua/?.lua;path/to/lua/?/init.lua;;"
@@ -31,15 +28,13 @@ loading a specific record.
 ```lua
 local sdk = require("jsonplaceholder_sdk")
 
-local client = sdk.new({
-  apikey = os.getenv("JSONPLACEHOLDER_APIKEY"),
-})
+local client = sdk.new()
 ```
 
 ### 2. List albums
 
 ```lua
-local result, err = client:Album():list()
+local result, err = client:album():list()
 if err then error(err) end
 
 if type(result) == "table" then
@@ -50,10 +45,10 @@ if type(result) == "table" then
 end
 ```
 
-### 3. Load a album
+### 3. Load an album
 
 ```lua
-local result, err = client:Album():load({ id = "example_id" })
+local result, err = client:album():load({ id = "example_id" })
 if err then error(err) end
 print(result)
 ```
@@ -62,13 +57,13 @@ print(result)
 
 ```lua
 -- Create
-local created, _ = client:Album():create({ name = "Example" })
+local created, _ = client:album():create({ name = "Example" })
 
 -- Update
-client:Album():update({ id = created["id"], name = "Example-Renamed" })
+client:album():update({ id = created["id"], name = "Example-Renamed" })
 
 -- Remove
-client:Album():remove({ id = created["id"] })
+client:album():remove({ id = created["id"] })
 ```
 
 
@@ -114,7 +109,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Jsonplaceholder():load({ id = "test01" })
+local result, err = client:album():load({ id = "test01" })
 -- result contains mock response data
 ```
 
@@ -148,7 +143,6 @@ Create a `.env.local` file at the project root:
 
 ```
 JSONPLACEHOLDER_TEST_LIVE=TRUE
-JSONPLACEHOLDER_APIKEY=<your-key>
 ```
 
 Then run:
@@ -171,7 +165,6 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |
@@ -326,7 +319,7 @@ API path: `/users`
 
 ### Album
 
-Create an instance: `const album = client.Album()`
+Create an instance: `const album = client.album`
 
 #### Operations
 
@@ -349,26 +342,26 @@ Create an instance: `const album = client.Album()`
 #### Example: Load
 
 ```ts
-const album = await client.Album().load({ id: 'album_id' })
+const album = await client.album.load({ id: 'album_id' })
 ```
 
 #### Example: List
 
 ```ts
-const albums = await client.Album().list()
+const albums = await client.album.list()
 ```
 
 #### Example: Create
 
 ```ts
-const album = await client.Album().create({
+const album = await client.album.create({
 })
 ```
 
 
 ### Comment
 
-Create an instance: `const comment = client.Comment()`
+Create an instance: `const comment = client.comment`
 
 #### Operations
 
@@ -393,26 +386,26 @@ Create an instance: `const comment = client.Comment()`
 #### Example: Load
 
 ```ts
-const comment = await client.Comment().load({ id: 'comment_id' })
+const comment = await client.comment.load({ id: 'comment_id' })
 ```
 
 #### Example: List
 
 ```ts
-const comments = await client.Comment().list()
+const comments = await client.comment.list()
 ```
 
 #### Example: Create
 
 ```ts
-const comment = await client.Comment().create({
+const comment = await client.comment.create({
 })
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.Photo()`
+Create an instance: `const photo = client.photo`
 
 #### Operations
 
@@ -437,26 +430,26 @@ Create an instance: `const photo = client.Photo()`
 #### Example: Load
 
 ```ts
-const photo = await client.Photo().load({ id: 'photo_id' })
+const photo = await client.photo.load({ id: 'photo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const photos = await client.Photo().list()
+const photos = await client.photo.list()
 ```
 
 #### Example: Create
 
 ```ts
-const photo = await client.Photo().create({
+const photo = await client.photo.create({
 })
 ```
 
 
 ### Post
 
-Create an instance: `const post = client.Post()`
+Create an instance: `const post = client.post`
 
 #### Operations
 
@@ -480,26 +473,26 @@ Create an instance: `const post = client.Post()`
 #### Example: Load
 
 ```ts
-const post = await client.Post().load({ id: 'post_id' })
+const post = await client.post.load({ id: 'post_id' })
 ```
 
 #### Example: List
 
 ```ts
-const posts = await client.Post().list()
+const posts = await client.post.list()
 ```
 
 #### Example: Create
 
 ```ts
-const post = await client.Post().create({
+const post = await client.post.create({
 })
 ```
 
 
 ### Todo
 
-Create an instance: `const todo = client.Todo()`
+Create an instance: `const todo = client.todo`
 
 #### Operations
 
@@ -523,26 +516,26 @@ Create an instance: `const todo = client.Todo()`
 #### Example: Load
 
 ```ts
-const todo = await client.Todo().load({ id: 'todo_id' })
+const todo = await client.todo.load({ id: 'todo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const todos = await client.Todo().list()
+const todos = await client.todo.list()
 ```
 
 #### Example: Create
 
 ```ts
-const todo = await client.Todo().create({
+const todo = await client.todo.create({
 })
 ```
 
 
 ### User
 
-Create an instance: `const user = client.User()`
+Create an instance: `const user = client.user`
 
 #### Operations
 
@@ -570,19 +563,19 @@ Create an instance: `const user = client.User()`
 #### Example: Load
 
 ```ts
-const user = await client.User().load({ id: 'user_id' })
+const user = await client.user.load({ id: 'user_id' })
 ```
 
 #### Example: List
 
 ```ts
-const users = await client.User().list()
+const users = await client.user.list()
 ```
 
 #### Example: Create
 
 ```ts
-const user = await client.User().create({
+const user = await client.user.create({
 })
 ```
 
@@ -658,11 +651,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local moon = client:Moon(nil)
-moon:load({ planet_id = "earth", id = "luna" }, nil)
+local album = client:album()
+album:load({ id = "example_id" })
 
--- moon:data_get() now returns the loaded moon data
--- moon:match_get() returns the last match criteria
+-- album:data_get() now returns the loaded album data
+-- album:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

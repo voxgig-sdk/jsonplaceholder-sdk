@@ -245,31 +245,49 @@ func (sdk *JsonplaceholderSDK) Direct(fetchargs map[string]any) (map[string]any,
 }
 
 
+// Album returns a Album entity bound to this client.
+// Idiomatic usage: client.Album(nil).List(nil, nil) or
+// client.Album(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *JsonplaceholderSDK) Album(data map[string]any) JsonplaceholderEntity {
 	return NewAlbumEntityFunc(sdk, data)
 }
 
 
+// Comment returns a Comment entity bound to this client.
+// Idiomatic usage: client.Comment(nil).List(nil, nil) or
+// client.Comment(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *JsonplaceholderSDK) Comment(data map[string]any) JsonplaceholderEntity {
 	return NewCommentEntityFunc(sdk, data)
 }
 
 
+// Photo returns a Photo entity bound to this client.
+// Idiomatic usage: client.Photo(nil).List(nil, nil) or
+// client.Photo(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *JsonplaceholderSDK) Photo(data map[string]any) JsonplaceholderEntity {
 	return NewPhotoEntityFunc(sdk, data)
 }
 
 
+// Post returns a Post entity bound to this client.
+// Idiomatic usage: client.Post(nil).List(nil, nil) or
+// client.Post(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *JsonplaceholderSDK) Post(data map[string]any) JsonplaceholderEntity {
 	return NewPostEntityFunc(sdk, data)
 }
 
 
+// Todo returns a Todo entity bound to this client.
+// Idiomatic usage: client.Todo(nil).List(nil, nil) or
+// client.Todo(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *JsonplaceholderSDK) Todo(data map[string]any) JsonplaceholderEntity {
 	return NewTodoEntityFunc(sdk, data)
 }
 
 
+// User returns a User entity bound to this client.
+// Idiomatic usage: client.User(nil).List(nil, nil) or
+// client.User(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *JsonplaceholderSDK) User(data map[string]any) JsonplaceholderEntity {
 	return NewUserEntityFunc(sdk, data)
 }

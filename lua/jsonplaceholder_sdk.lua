@@ -244,36 +244,114 @@ end
 
 
 
+-- Idiomatic facade: client:album():list() / client:album():load({ id = ... })
+function JsonplaceholderSDK:album(data)
+  local EntityMod = require("entity.album_entity")
+  if data == nil then
+    if self._album == nil then
+      self._album = EntityMod.new(self, nil)
+    end
+    return self._album
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:album() instead.
 function JsonplaceholderSDK:Album(data)
   local EntityMod = require("entity.album_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:comment():list() / client:comment():load({ id = ... })
+function JsonplaceholderSDK:comment(data)
+  local EntityMod = require("entity.comment_entity")
+  if data == nil then
+    if self._comment == nil then
+      self._comment = EntityMod.new(self, nil)
+    end
+    return self._comment
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:comment() instead.
 function JsonplaceholderSDK:Comment(data)
   local EntityMod = require("entity.comment_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:photo():list() / client:photo():load({ id = ... })
+function JsonplaceholderSDK:photo(data)
+  local EntityMod = require("entity.photo_entity")
+  if data == nil then
+    if self._photo == nil then
+      self._photo = EntityMod.new(self, nil)
+    end
+    return self._photo
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:photo() instead.
 function JsonplaceholderSDK:Photo(data)
   local EntityMod = require("entity.photo_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:post():list() / client:post():load({ id = ... })
+function JsonplaceholderSDK:post(data)
+  local EntityMod = require("entity.post_entity")
+  if data == nil then
+    if self._post == nil then
+      self._post = EntityMod.new(self, nil)
+    end
+    return self._post
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:post() instead.
 function JsonplaceholderSDK:Post(data)
   local EntityMod = require("entity.post_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:todo():list() / client:todo():load({ id = ... })
+function JsonplaceholderSDK:todo(data)
+  local EntityMod = require("entity.todo_entity")
+  if data == nil then
+    if self._todo == nil then
+      self._todo = EntityMod.new(self, nil)
+    end
+    return self._todo
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:todo() instead.
 function JsonplaceholderSDK:Todo(data)
   local EntityMod = require("entity.todo_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:user():list() / client:user():load({ id = ... })
+function JsonplaceholderSDK:user(data)
+  local EntityMod = require("entity.user_entity")
+  if data == nil then
+    if self._user == nil then
+      self._user = EntityMod.new(self, nil)
+    end
+    return self._user
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:user() instead.
 function JsonplaceholderSDK:User(data)
   local EntityMod = require("entity.user_entity")
   return EntityMod.new(self, data)

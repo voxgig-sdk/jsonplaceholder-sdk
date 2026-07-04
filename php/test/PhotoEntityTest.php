@@ -44,8 +44,7 @@ class PhotoEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.photo"), "photo_ref01"));
         $photo_ref01_data["album_id"] = $setup["idmap"]["album01"];
 
-        [$photo_ref01_data_result, $err] = $photo_ref01_ent->create($photo_ref01_data, null);
-        $this->assertNull($err);
+        $photo_ref01_data_result = $photo_ref01_ent->create($photo_ref01_data, null);
         $photo_ref01_data = Helpers::to_map($photo_ref01_data_result);
         $this->assertNotNull($photo_ref01_data);
         $this->assertNotNull($photo_ref01_data["id"]);
@@ -53,8 +52,7 @@ class PhotoEntityTest extends TestCase
         // LIST
         $photo_ref01_match = [];
 
-        [$photo_ref01_list_result, $err] = $photo_ref01_ent->list($photo_ref01_match, null);
-        $this->assertNull($err);
+        $photo_ref01_list_result = $photo_ref01_ent->list($photo_ref01_match, null);
         $this->assertIsArray($photo_ref01_list_result);
 
         $found_item = sdk_select(
@@ -71,8 +69,7 @@ class PhotoEntityTest extends TestCase
         $photo_ref01_markdef_up0_value = "Mark01-photo_ref01_" . $setup["now"];
         $photo_ref01_data_up0_up[$photo_ref01_markdef_up0_name] = $photo_ref01_markdef_up0_value;
 
-        [$photo_ref01_resdata_up0_result, $err] = $photo_ref01_ent->update($photo_ref01_data_up0_up, null);
-        $this->assertNull($err);
+        $photo_ref01_resdata_up0_result = $photo_ref01_ent->update($photo_ref01_data_up0_up, null);
         $photo_ref01_resdata_up0 = Helpers::to_map($photo_ref01_resdata_up0_result);
         $this->assertNotNull($photo_ref01_resdata_up0);
         $this->assertEquals($photo_ref01_resdata_up0["id"], $photo_ref01_data_up0_up["id"]);
@@ -82,8 +79,7 @@ class PhotoEntityTest extends TestCase
         $photo_ref01_match_dt0 = [
             "id" => $photo_ref01_data["id"],
         ];
-        [$photo_ref01_data_dt0_loaded, $err] = $photo_ref01_ent->load($photo_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $photo_ref01_data_dt0_loaded = $photo_ref01_ent->load($photo_ref01_match_dt0, null);
         $photo_ref01_data_dt0_load_result = Helpers::to_map($photo_ref01_data_dt0_loaded);
         $this->assertNotNull($photo_ref01_data_dt0_load_result);
         $this->assertEquals($photo_ref01_data_dt0_load_result["id"], $photo_ref01_data["id"]);
@@ -92,14 +88,12 @@ class PhotoEntityTest extends TestCase
         $photo_ref01_match_rm0 = [
             "id" => $photo_ref01_data["id"],
         ];
-        [$_, $err] = $photo_ref01_ent->remove($photo_ref01_match_rm0, null);
-        $this->assertNull($err);
+        $photo_ref01_ent->remove($photo_ref01_match_rm0, null);
 
         // LIST
         $photo_ref01_match_rt0 = [];
 
-        [$photo_ref01_list_rt0_result, $err] = $photo_ref01_ent->list($photo_ref01_match_rt0, null);
-        $this->assertNull($err);
+        $photo_ref01_list_rt0_result = $photo_ref01_ent->list($photo_ref01_match_rt0, null);
         $this->assertIsArray($photo_ref01_list_rt0_result);
 
         $not_found_item = sdk_select(
@@ -139,7 +133,6 @@ function photo_basic_setup($extra)
         "JSONPLACEHOLDER_TEST_PHOTO_ENTID" => $idmap,
         "JSONPLACEHOLDER_TEST_LIVE" => "FALSE",
         "JSONPLACEHOLDER_TEST_EXPLAIN" => "FALSE",
-        "JSONPLACEHOLDER_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -151,7 +144,6 @@ function photo_basic_setup($extra)
     if ($env["JSONPLACEHOLDER_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["JSONPLACEHOLDER_APIKEY"],
             ],
             $extra ?? [],
         ]);

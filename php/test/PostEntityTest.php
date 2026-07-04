@@ -44,8 +44,7 @@ class PostEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.post"), "post_ref01"));
         $post_ref01_data["user_id"] = $setup["idmap"]["user01"];
 
-        [$post_ref01_data_result, $err] = $post_ref01_ent->create($post_ref01_data, null);
-        $this->assertNull($err);
+        $post_ref01_data_result = $post_ref01_ent->create($post_ref01_data, null);
         $post_ref01_data = Helpers::to_map($post_ref01_data_result);
         $this->assertNotNull($post_ref01_data);
         $this->assertNotNull($post_ref01_data["id"]);
@@ -55,8 +54,7 @@ class PostEntityTest extends TestCase
             "user_id" => $setup["idmap"]["user01"],
         ];
 
-        [$post_ref01_list_result, $err] = $post_ref01_ent->list($post_ref01_match, null);
-        $this->assertNull($err);
+        $post_ref01_list_result = $post_ref01_ent->list($post_ref01_match, null);
         $this->assertIsArray($post_ref01_list_result);
 
         $found_item = sdk_select(
@@ -73,8 +71,7 @@ class PostEntityTest extends TestCase
         $post_ref01_markdef_up0_value = "Mark01-post_ref01_" . $setup["now"];
         $post_ref01_data_up0_up[$post_ref01_markdef_up0_name] = $post_ref01_markdef_up0_value;
 
-        [$post_ref01_resdata_up0_result, $err] = $post_ref01_ent->update($post_ref01_data_up0_up, null);
-        $this->assertNull($err);
+        $post_ref01_resdata_up0_result = $post_ref01_ent->update($post_ref01_data_up0_up, null);
         $post_ref01_resdata_up0 = Helpers::to_map($post_ref01_resdata_up0_result);
         $this->assertNotNull($post_ref01_resdata_up0);
         $this->assertEquals($post_ref01_resdata_up0["id"], $post_ref01_data_up0_up["id"]);
@@ -84,8 +81,7 @@ class PostEntityTest extends TestCase
         $post_ref01_match_dt0 = [
             "id" => $post_ref01_data["id"],
         ];
-        [$post_ref01_data_dt0_loaded, $err] = $post_ref01_ent->load($post_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $post_ref01_data_dt0_loaded = $post_ref01_ent->load($post_ref01_match_dt0, null);
         $post_ref01_data_dt0_load_result = Helpers::to_map($post_ref01_data_dt0_loaded);
         $this->assertNotNull($post_ref01_data_dt0_load_result);
         $this->assertEquals($post_ref01_data_dt0_load_result["id"], $post_ref01_data["id"]);
@@ -94,16 +90,14 @@ class PostEntityTest extends TestCase
         $post_ref01_match_rm0 = [
             "id" => $post_ref01_data["id"],
         ];
-        [$_, $err] = $post_ref01_ent->remove($post_ref01_match_rm0, null);
-        $this->assertNull($err);
+        $post_ref01_ent->remove($post_ref01_match_rm0, null);
 
         // LIST
         $post_ref01_match_rt0 = [
             "user_id" => $setup["idmap"]["user01"],
         ];
 
-        [$post_ref01_list_rt0_result, $err] = $post_ref01_ent->list($post_ref01_match_rt0, null);
-        $this->assertNull($err);
+        $post_ref01_list_rt0_result = $post_ref01_ent->list($post_ref01_match_rt0, null);
         $this->assertIsArray($post_ref01_list_rt0_result);
 
         $not_found_item = sdk_select(
@@ -143,7 +137,6 @@ function post_basic_setup($extra)
         "JSONPLACEHOLDER_TEST_POST_ENTID" => $idmap,
         "JSONPLACEHOLDER_TEST_LIVE" => "FALSE",
         "JSONPLACEHOLDER_TEST_EXPLAIN" => "FALSE",
-        "JSONPLACEHOLDER_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -155,7 +148,6 @@ function post_basic_setup($extra)
     if ($env["JSONPLACEHOLDER_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["JSONPLACEHOLDER_APIKEY"],
             ],
             $extra ?? [],
         ]);

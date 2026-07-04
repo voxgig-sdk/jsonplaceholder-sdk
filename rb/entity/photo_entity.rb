@@ -45,6 +45,7 @@ class PhotoEntity
     end
   end
 
+  # @return [Photo, Hash] the current Photo data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class PhotoEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Photo fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single Photo.
+  #
+  # @param reqmatch [PhotoLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Photo, Hash] the loaded Photo; raises JsonplaceholderError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -86,6 +93,11 @@ class PhotoEntity
 
 
   
+  # List Photo items matching the given filter.
+  #
+  # @param reqmatch [PhotoListMatch, Hash, nil] match filter (any subset of Photo fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<Photo>, Array] the matching Photo items; raises JsonplaceholderError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -106,6 +118,11 @@ class PhotoEntity
 
 
   
+  # Create a new Photo.
+  #
+  # @param reqdata [PhotoCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Photo, Hash] the created Photo; raises JsonplaceholderError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -128,6 +145,11 @@ class PhotoEntity
 
 
   
+  # Update an existing Photo.
+  #
+  # @param reqdata [PhotoUpdateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Photo, Hash] the updated Photo; raises JsonplaceholderError on failure
   def update(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -151,6 +173,11 @@ class PhotoEntity
 
 
   
+  # Remove an Photo matching the given criteria.
+  #
+  # @param reqmatch [PhotoRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Photo, Hash] the removed Photo; raises JsonplaceholderError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

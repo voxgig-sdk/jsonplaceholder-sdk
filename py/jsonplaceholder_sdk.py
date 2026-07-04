@@ -144,16 +144,23 @@ class JsonplaceholderSDK:
 
         _, err = utility.prepare_auth(ctx)
         if err is not None:
-            return None, err
+            raise err
 
-        return utility.make_fetch_def(ctx)
+        fetchdef, err = utility.make_fetch_def(ctx)
+        if err is not None:
+            raise err
+
+        return fetchdef
 
     def direct(self, fetchargs=None):
         utility = self._utility
 
-        fetchdef, err = self.prepare(fetchargs)
-        if err is not None:
-            return {"ok": False, "err": err}, None
+        try:
+            fetchdef = self.prepare(fetchargs)
+        except Exception as err:
+            # direct() is the raw-HTTP escape hatch: it never raises, it
+            # returns a result object callers branch on via result["ok"].
+            return {"ok": False, "err": err}
 
         if fetchargs is None:
             fetchargs = {}
@@ -170,13 +177,13 @@ class JsonplaceholderSDK:
         fetched, fetch_err = utility.fetcher(ctx, url, fetchdef)
 
         if fetch_err is not None:
-            return {"ok": False, "err": fetch_err}, None
+            return {"ok": False, "err": fetch_err}
 
         if fetched is None:
             return {
                 "ok": False,
                 "err": ctx.make_error("direct_no_response", "response: undefined"),
-            }, None
+            }
 
         if isinstance(fetched, dict):
             status = helpers.to_int(vs.getprop(fetched, "status"))
@@ -205,40 +212,106 @@ class JsonplaceholderSDK:
                 "status": status,
                 "headers": headers,
                 "data": json_data,
-            }, None
+            }
 
         return {
             "ok": False,
             "err": ctx.make_error("direct_invalid", "invalid response type"),
-        }, None
+        }
 
+
+    @property
+    def album(self):
+        """Idiomatic facade: client.album.list() / client.album.load({"id": ...})."""
+        from entity.album_entity import AlbumEntity
+        cached = getattr(self, "_album", None)
+        if cached is None:
+            cached = AlbumEntity(self, None)
+            self._album = cached
+        return cached
 
     def Album(self, data=None):
+        # Deprecated: use client.album instead.
         from entity.album_entity import AlbumEntity
         return AlbumEntity(self, data)
 
 
+    @property
+    def comment(self):
+        """Idiomatic facade: client.comment.list() / client.comment.load({"id": ...})."""
+        from entity.comment_entity import CommentEntity
+        cached = getattr(self, "_comment", None)
+        if cached is None:
+            cached = CommentEntity(self, None)
+            self._comment = cached
+        return cached
+
     def Comment(self, data=None):
+        # Deprecated: use client.comment instead.
         from entity.comment_entity import CommentEntity
         return CommentEntity(self, data)
 
 
+    @property
+    def photo(self):
+        """Idiomatic facade: client.photo.list() / client.photo.load({"id": ...})."""
+        from entity.photo_entity import PhotoEntity
+        cached = getattr(self, "_photo", None)
+        if cached is None:
+            cached = PhotoEntity(self, None)
+            self._photo = cached
+        return cached
+
     def Photo(self, data=None):
+        # Deprecated: use client.photo instead.
         from entity.photo_entity import PhotoEntity
         return PhotoEntity(self, data)
 
 
+    @property
+    def post(self):
+        """Idiomatic facade: client.post.list() / client.post.load({"id": ...})."""
+        from entity.post_entity import PostEntity
+        cached = getattr(self, "_post", None)
+        if cached is None:
+            cached = PostEntity(self, None)
+            self._post = cached
+        return cached
+
     def Post(self, data=None):
+        # Deprecated: use client.post instead.
         from entity.post_entity import PostEntity
         return PostEntity(self, data)
 
 
+    @property
+    def todo(self):
+        """Idiomatic facade: client.todo.list() / client.todo.load({"id": ...})."""
+        from entity.todo_entity import TodoEntity
+        cached = getattr(self, "_todo", None)
+        if cached is None:
+            cached = TodoEntity(self, None)
+            self._todo = cached
+        return cached
+
     def Todo(self, data=None):
+        # Deprecated: use client.todo instead.
         from entity.todo_entity import TodoEntity
         return TodoEntity(self, data)
 
 
+    @property
+    def user(self):
+        """Idiomatic facade: client.user.list() / client.user.load({"id": ...})."""
+        from entity.user_entity import UserEntity
+        cached = getattr(self, "_user", None)
+        if cached is None:
+            cached = UserEntity(self, None)
+            self._user = cached
+        return cached
+
     def User(self, data=None):
+        # Deprecated: use client.user instead.
         from entity.user_entity import UserEntity
         return UserEntity(self, data)
 

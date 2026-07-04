@@ -45,6 +45,7 @@ class CommentEntity
     end
   end
 
+  # @return [Comment, Hash] the current Comment data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class CommentEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Comment fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single Comment.
+  #
+  # @param reqmatch [CommentLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Comment, Hash] the loaded Comment; raises JsonplaceholderError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -86,6 +93,11 @@ class CommentEntity
 
 
   
+  # List Comment items matching the given filter.
+  #
+  # @param reqmatch [CommentListMatch, Hash, nil] match filter (any subset of Comment fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<Comment>, Array] the matching Comment items; raises JsonplaceholderError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -106,6 +118,11 @@ class CommentEntity
 
 
   
+  # Create a new Comment.
+  #
+  # @param reqdata [CommentCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Comment, Hash] the created Comment; raises JsonplaceholderError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -128,6 +145,11 @@ class CommentEntity
 
 
   
+  # Update an existing Comment.
+  #
+  # @param reqdata [CommentUpdateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Comment, Hash] the updated Comment; raises JsonplaceholderError on failure
   def update(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -151,6 +173,11 @@ class CommentEntity
 
 
   
+  # Remove an Comment matching the given criteria.
+  #
+  # @param reqmatch [CommentRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Comment, Hash] the removed Comment; raises JsonplaceholderError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

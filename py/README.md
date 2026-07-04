@@ -9,11 +9,9 @@ The Python SDK for the Jsonplaceholder API — an entity-oriented client followi
 
 
 ## Install
-```bash
-pip install voxgig-sdk-jsonplaceholder
-```
-
-Or install from source:
+This package is not yet published to PyPI. Install it from the GitHub
+release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases)) or
+from a source checkout:
 
 ```bash
 pip install -e .
@@ -28,47 +26,44 @@ loading a specific record.
 ### 1. Create a client
 
 ```python
-import os
 from jsonplaceholder_sdk import JsonplaceholderSDK
 
-client = JsonplaceholderSDK({
-    "apikey": os.environ.get("JSONPLACEHOLDER_APIKEY"),
-})
+client = JsonplaceholderSDK()
 ```
 
 ### 2. List albums
 
 ```python
-result, err = client.Album().list()
-if err:
-    raise Exception(err)
-
-if isinstance(result, list):
+try:
+    result = client.album.list()
     for item in result:
         d = item.data_get()
         print(d["id"], d["name"])
+except Exception as err:
+    print(f"list failed: {err}")
 ```
 
-### 3. Load a album
+### 3. Load an album
 
 ```python
-result, err = client.Album().load({"id": "example_id"})
-if err:
-    raise Exception(err)
-print(result)
+try:
+    result = client.album.load({"id": "example_id"})
+    print(result)
+except Exception as err:
+    print(f"load failed: {err}")
 ```
 
 ### 4. Create, update, and remove
 
 ```python
 # Create
-created, _ = client.Album().create({"name": "Example"})
+created = client.album.create({"name": "Example"})
 
 # Update
-client.Album().update({"id": created["id"], "name": "Example-Renamed"})
+client.album.update({"id": created["id"], "name": "Example-Renamed"})
 
 # Remove
-client.Album().remove({"id": created["id"]})
+client.album.remove({"id": created["id"]})
 ```
 
 
@@ -79,29 +74,28 @@ client.Album().remove({"id": created["id"]})
 For endpoints not covered by entity methods:
 
 ```python
-result, err = client.direct({
+result = client.direct({
     "path": "/api/resource/{id}",
     "method": "GET",
     "params": {"id": "example"},
 })
-if err:
-    raise Exception(err)
 
 if result["ok"]:
     print(result["status"])  # 200
     print(result["data"])    # response body
+else:
+    print(result["err"])     # error value
 ```
 
 ### Prepare a request without sending it
 
 ```python
-fetchdef, err = client.prepare({
+# prepare() returns the fetch definition and raises on error.
+fetchdef = client.prepare({
     "path": "/api/resource/{id}",
     "method": "DELETE",
     "params": {"id": "example"},
 })
-if err:
-    raise Exception(err)
 
 print(fetchdef["url"])
 print(fetchdef["method"])
@@ -115,7 +109,7 @@ Create a mock client for unit testing — no server required:
 ```python
 client = JsonplaceholderSDK.test()
 
-result, err = client.Jsonplaceholder().load({"id": "test01"})
+result = client.album.load({"id": "test01"})
 # result contains mock response data
 ```
 
@@ -146,7 +140,6 @@ Create a `.env.local` file at the project root:
 
 ```
 JSONPLACEHOLDER_TEST_LIVE=TRUE
-JSONPLACEHOLDER_APIKEY=<your-key>
 ```
 
 Then run:
@@ -170,7 +163,6 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `str` | API key for authentication. |
 | `base` | `str` | Base URL of the API server. |
 | `prefix` | `str` | URL path prefix prepended to all requests. |
 | `suffix` | `str` | URL path suffix appended to all requests. |
@@ -192,8 +184,8 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | --- | --- | --- |
 | `options_map` | `() -> dict` | Deep copy of current SDK options. |
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
-| `prepare` | `(fetchargs) -> (dict, err)` | Build an HTTP request definition without sending. |
-| `direct` | `(fetchargs) -> (dict, err)` | Build and send an HTTP request. |
+| `prepare` | `(fetchargs) -> dict` | Build an HTTP request definition without sending. Raises on error. |
+| `direct` | `(fetchargs) -> dict` | Build and send an HTTP request. Returns a result dict (branch on `ok`). |
 | `Album` | `(data) -> AlbumEntity` | Create a Album entity instance. |
 | `Comment` | `(data) -> CommentEntity` | Create a Comment entity instance. |
 | `Photo` | `(data) -> PhotoEntity` | Create a Photo entity instance. |
@@ -207,11 +199,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> (any, err)` | Load a single entity by match criteria. |
-| `list` | `(reqmatch, ctrl) -> (any, err)` | List entities matching the criteria. |
-| `create` | `(reqdata, ctrl) -> (any, err)` | Create a new entity. |
-| `update` | `(reqdata, ctrl) -> (any, err)` | Update an existing entity. |
-| `remove` | `(reqmatch, ctrl) -> (any, err)` | Remove an entity. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -221,8 +213,12 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(any, err)`. The first value is a
-`dict` with these keys:
+Entity operations return the bare result data (a `dict` for single-entity
+ops, a `list` for `list`) and raise on error. Wrap calls in
+`try`/`except` to handle failures.
+
+The `direct()` escape hatch never raises — it returns a result `dict`
+you branch on via `result["ok"]`:
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -325,7 +321,7 @@ API path: `/users`
 
 ### Album
 
-Create an instance: `const album = client.Album()`
+Create an instance: `const album = client.album`
 
 #### Operations
 
@@ -348,26 +344,26 @@ Create an instance: `const album = client.Album()`
 #### Example: Load
 
 ```ts
-const album = await client.Album().load({ id: 'album_id' })
+const album = await client.album.load({ id: 'album_id' })
 ```
 
 #### Example: List
 
 ```ts
-const albums = await client.Album().list()
+const albums = await client.album.list()
 ```
 
 #### Example: Create
 
 ```ts
-const album = await client.Album().create({
+const album = await client.album.create({
 })
 ```
 
 
 ### Comment
 
-Create an instance: `const comment = client.Comment()`
+Create an instance: `const comment = client.comment`
 
 #### Operations
 
@@ -392,26 +388,26 @@ Create an instance: `const comment = client.Comment()`
 #### Example: Load
 
 ```ts
-const comment = await client.Comment().load({ id: 'comment_id' })
+const comment = await client.comment.load({ id: 'comment_id' })
 ```
 
 #### Example: List
 
 ```ts
-const comments = await client.Comment().list()
+const comments = await client.comment.list()
 ```
 
 #### Example: Create
 
 ```ts
-const comment = await client.Comment().create({
+const comment = await client.comment.create({
 })
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.Photo()`
+Create an instance: `const photo = client.photo`
 
 #### Operations
 
@@ -436,26 +432,26 @@ Create an instance: `const photo = client.Photo()`
 #### Example: Load
 
 ```ts
-const photo = await client.Photo().load({ id: 'photo_id' })
+const photo = await client.photo.load({ id: 'photo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const photos = await client.Photo().list()
+const photos = await client.photo.list()
 ```
 
 #### Example: Create
 
 ```ts
-const photo = await client.Photo().create({
+const photo = await client.photo.create({
 })
 ```
 
 
 ### Post
 
-Create an instance: `const post = client.Post()`
+Create an instance: `const post = client.post`
 
 #### Operations
 
@@ -479,26 +475,26 @@ Create an instance: `const post = client.Post()`
 #### Example: Load
 
 ```ts
-const post = await client.Post().load({ id: 'post_id' })
+const post = await client.post.load({ id: 'post_id' })
 ```
 
 #### Example: List
 
 ```ts
-const posts = await client.Post().list()
+const posts = await client.post.list()
 ```
 
 #### Example: Create
 
 ```ts
-const post = await client.Post().create({
+const post = await client.post.create({
 })
 ```
 
 
 ### Todo
 
-Create an instance: `const todo = client.Todo()`
+Create an instance: `const todo = client.todo`
 
 #### Operations
 
@@ -522,26 +518,26 @@ Create an instance: `const todo = client.Todo()`
 #### Example: Load
 
 ```ts
-const todo = await client.Todo().load({ id: 'todo_id' })
+const todo = await client.todo.load({ id: 'todo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const todos = await client.Todo().list()
+const todos = await client.todo.list()
 ```
 
 #### Example: Create
 
 ```ts
-const todo = await client.Todo().create({
+const todo = await client.todo.create({
 })
 ```
 
 
 ### User
 
-Create an instance: `const user = client.User()`
+Create an instance: `const user = client.user`
 
 #### Operations
 
@@ -569,19 +565,19 @@ Create an instance: `const user = client.User()`
 #### Example: Load
 
 ```ts
-const user = await client.User().load({ id: 'user_id' })
+const user = await client.user.load({ id: 'user_id' })
 ```
 
 #### Example: List
 
 ```ts
-const users = await client.User().list()
+const users = await client.user.list()
 ```
 
 #### Example: Create
 
 ```ts
-const user = await client.User().create({
+const user = await client.user.create({
 })
 ```
 
@@ -656,11 +652,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-moon = client.Moon()
-moon.load({"planet_id": "earth", "id": "luna"})
+album = client.album
+album.load({"id": "example_id"})
 
-# moon.data_get() now returns the loaded moon data
-# moon.match_get() returns the last match criteria
+# album.data_get() now returns the loaded album data
+# album.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

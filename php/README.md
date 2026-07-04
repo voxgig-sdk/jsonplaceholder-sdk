@@ -9,9 +9,10 @@ The PHP SDK for the Jsonplaceholder API — an entity-oriented client using PHP 
 
 
 ## Install
-```bash
-composer require voxgig-sdk/jsonplaceholder
-```
+This package is not yet published to Packagist. Install it from the
+GitHub release tag (`php/vX.Y.Z`):
+
+- Releases: [https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases)
 
 
 ## Tutorial: your first API call
@@ -25,44 +26,47 @@ loading a specific record.
 <?php
 require_once 'jsonplaceholder_sdk.php';
 
-$client = new JsonplaceholderSDK([
-    "apikey" => getenv("JSONPLACEHOLDER_APIKEY"),
-]);
+$client = new JsonplaceholderSDK();
 ```
 
 ### 2. List albums
 
 ```php
-[$result, $err] = $client->Album()->list();
-if ($err) { throw new \Exception($err); }
-
-if (is_array($result)) {
-    foreach ($result as $item) {
-        $d = $item->data_get();
-        echo $d["id"] . " " . $d["name"] . "\n";
+try {
+    $result = $client->album()->list();
+    if (is_array($result)) {
+        foreach ($result as $item) {
+            $d = $item->data_get();
+            echo $d["id"] . " " . $d["name"] . "\n";
+        }
     }
+} catch (\Exception $err) {
+    echo "Error: " . $err->getMessage();
 }
 ```
 
-### 3. Load a album
+### 3. Load an album
 
 ```php
-[$result, $err] = $client->Album()->load(["id" => "example_id"]);
-if ($err) { throw new \Exception($err); }
-print_r($result);
+try {
+    $result = $client->album()->load(["id" => "example_id"]);
+    print_r($result);
+} catch (\Exception $err) {
+    echo "Error: " . $err->getMessage();
+}
 ```
 
 ### 4. Create, update, and remove
 
 ```php
 // Create
-[$created, $_] = $client->Album()->create(["name" => "Example"]);
+$created = $client->album()->create(["name" => "Example"]);
 
 // Update
-$client->Album()->update(["id" => $created["id"], "name" => "Example-Renamed"]);
+$client->album()->update(["id" => $created["id"], "name" => "Example-Renamed"]);
 
 // Remove
-$client->Album()->remove(["id" => $created["id"]]);
+$client->album()->remove(["id" => $created["id"]]);
 ```
 
 
@@ -73,28 +77,31 @@ $client->Album()->remove(["id" => $created["id"]]);
 For endpoints not covered by entity methods:
 
 ```php
-[$result, $err] = $client->direct([
+// direct() is the raw-HTTP escape hatch: it returns a result array
+// (it does not throw). Branch on $result["ok"].
+$result = $client->direct([
     "path" => "/api/resource/{id}",
     "method" => "GET",
     "params" => ["id" => "example"],
 ]);
-if ($err) { throw new \Exception($err); }
 
 if ($result["ok"]) {
     echo $result["status"];  // 200
     print_r($result["data"]);  // response body
+} else {
+    echo "Error: " . $result["err"]->getMessage();
 }
 ```
 
 ### Prepare a request without sending it
 
 ```php
-[$fetchdef, $err] = $client->prepare([
+// prepare() throws on error and returns the fetch definition.
+$fetchdef = $client->prepare([
     "path" => "/api/resource/{id}",
     "method" => "DELETE",
     "params" => ["id" => "example"],
 ]);
-if ($err) { throw new \Exception($err); }
 
 echo $fetchdef["url"];
 echo $fetchdef["method"];
@@ -108,7 +115,7 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = JsonplaceholderSDK::test();
 
-[$result, $err] = $client->Jsonplaceholder()->load(["id" => "test01"]);
+$result = $client->album()->load(["id" => "test01"]);
 // $result contains mock response data
 ```
 
@@ -143,7 +150,6 @@ Create a `.env.local` file at the project root:
 
 ```
 JSONPLACEHOLDER_TEST_LIVE=TRUE
-JSONPLACEHOLDER_APIKEY=<your-key>
 ```
 
 Then run:
@@ -166,7 +172,6 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |
@@ -217,8 +222,12 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `[$result, $err]`. The first value is an
-`array` with these keys:
+Entity operations return the bare result data (an `array` for single-entity
+ops, a `list` for `list`) and throw on error. Wrap calls in
+`try`/`catch` to handle failures.
+
+The `direct()` escape hatch never throws — it returns a result `array`
+you branch on via `$result["ok"]`:
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -321,7 +330,7 @@ API path: `/users`
 
 ### Album
 
-Create an instance: `const album = client.Album()`
+Create an instance: `const album = client.album`
 
 #### Operations
 
@@ -344,26 +353,26 @@ Create an instance: `const album = client.Album()`
 #### Example: Load
 
 ```ts
-const album = await client.Album().load({ id: 'album_id' })
+const album = await client.album.load({ id: 'album_id' })
 ```
 
 #### Example: List
 
 ```ts
-const albums = await client.Album().list()
+const albums = await client.album.list()
 ```
 
 #### Example: Create
 
 ```ts
-const album = await client.Album().create({
+const album = await client.album.create({
 })
 ```
 
 
 ### Comment
 
-Create an instance: `const comment = client.Comment()`
+Create an instance: `const comment = client.comment`
 
 #### Operations
 
@@ -388,26 +397,26 @@ Create an instance: `const comment = client.Comment()`
 #### Example: Load
 
 ```ts
-const comment = await client.Comment().load({ id: 'comment_id' })
+const comment = await client.comment.load({ id: 'comment_id' })
 ```
 
 #### Example: List
 
 ```ts
-const comments = await client.Comment().list()
+const comments = await client.comment.list()
 ```
 
 #### Example: Create
 
 ```ts
-const comment = await client.Comment().create({
+const comment = await client.comment.create({
 })
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.Photo()`
+Create an instance: `const photo = client.photo`
 
 #### Operations
 
@@ -432,26 +441,26 @@ Create an instance: `const photo = client.Photo()`
 #### Example: Load
 
 ```ts
-const photo = await client.Photo().load({ id: 'photo_id' })
+const photo = await client.photo.load({ id: 'photo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const photos = await client.Photo().list()
+const photos = await client.photo.list()
 ```
 
 #### Example: Create
 
 ```ts
-const photo = await client.Photo().create({
+const photo = await client.photo.create({
 })
 ```
 
 
 ### Post
 
-Create an instance: `const post = client.Post()`
+Create an instance: `const post = client.post`
 
 #### Operations
 
@@ -475,26 +484,26 @@ Create an instance: `const post = client.Post()`
 #### Example: Load
 
 ```ts
-const post = await client.Post().load({ id: 'post_id' })
+const post = await client.post.load({ id: 'post_id' })
 ```
 
 #### Example: List
 
 ```ts
-const posts = await client.Post().list()
+const posts = await client.post.list()
 ```
 
 #### Example: Create
 
 ```ts
-const post = await client.Post().create({
+const post = await client.post.create({
 })
 ```
 
 
 ### Todo
 
-Create an instance: `const todo = client.Todo()`
+Create an instance: `const todo = client.todo`
 
 #### Operations
 
@@ -518,26 +527,26 @@ Create an instance: `const todo = client.Todo()`
 #### Example: Load
 
 ```ts
-const todo = await client.Todo().load({ id: 'todo_id' })
+const todo = await client.todo.load({ id: 'todo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const todos = await client.Todo().list()
+const todos = await client.todo.list()
 ```
 
 #### Example: Create
 
 ```ts
-const todo = await client.Todo().create({
+const todo = await client.todo.create({
 })
 ```
 
 
 ### User
 
-Create an instance: `const user = client.User()`
+Create an instance: `const user = client.user`
 
 #### Operations
 
@@ -565,19 +574,19 @@ Create an instance: `const user = client.User()`
 #### Example: Load
 
 ```ts
-const user = await client.User().load({ id: 'user_id' })
+const user = await client.user.load({ id: 'user_id' })
 ```
 
 #### Example: List
 
 ```ts
-const users = await client.User().list()
+const users = await client.user.list()
 ```
 
 #### Example: Create
 
 ```ts
-const user = await client.User().create({
+const user = await client.user.create({
 })
 ```
 
@@ -653,11 +662,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$moon = $client->Moon();
-[$result, $err] = $moon->load(["planet_id" => "earth", "id" => "luna"]);
+$album = $client->album();
+$album->load(["id" => "example_id"]);
 
-// $moon->dataGet() now returns the loaded moon data
-// $moon->matchGet() returns the last match criteria
+// $album->dataGet() now returns the loaded album data
+// $album->matchGet() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -45,6 +45,7 @@ class AlbumEntity
     end
   end
 
+  # @return [Album, Hash] the current Album data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class AlbumEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Album fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single Album.
+  #
+  # @param reqmatch [AlbumLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Album, Hash] the loaded Album; raises JsonplaceholderError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -86,6 +93,11 @@ class AlbumEntity
 
 
   
+  # List Album items matching the given filter.
+  #
+  # @param reqmatch [AlbumListMatch, Hash, nil] match filter (any subset of Album fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<Album>, Array] the matching Album items; raises JsonplaceholderError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -106,6 +118,11 @@ class AlbumEntity
 
 
   
+  # Create a new Album.
+  #
+  # @param reqdata [AlbumCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Album, Hash] the created Album; raises JsonplaceholderError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -128,6 +145,11 @@ class AlbumEntity
 
 
   
+  # Update an existing Album.
+  #
+  # @param reqdata [AlbumUpdateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Album, Hash] the updated Album; raises JsonplaceholderError on failure
   def update(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -151,6 +173,11 @@ class AlbumEntity
 
 
   
+  # Remove an Album matching the given criteria.
+  #
+  # @param reqmatch [AlbumRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Album, Hash] the removed Album; raises JsonplaceholderError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

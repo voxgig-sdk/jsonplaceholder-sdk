@@ -14,9 +14,17 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Photo,
+  PhotoLoadMatch,
+  PhotoListMatch,
+  PhotoCreateData,
+  PhotoUpdateData,
+  PhotoRemoveMatch,
+} from '../JsonplaceholderTypes'
 
 // TODO: needs Entity superclass
-class PhotoEntity extends JsonplaceholderEntityBase {
+class PhotoEntity extends JsonplaceholderEntityBase<Photo> {
 
   constructor(client: JsonplaceholderSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +40,7 @@ class PhotoEntity extends JsonplaceholderEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: PhotoLoadMatch, ctrl?: Control): Promise<Photo> {
 
     const utility = this._utility
 
@@ -136,14 +144,16 @@ class PhotoEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Photo> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: PhotoListMatch, ctrl?: Control): Promise<Photo[]> {
 
     const utility = this._utility
 
@@ -243,14 +253,16 @@ class PhotoEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Photo[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: PhotoCreateData, ctrl?: Control): Promise<Photo> {
 
     const utility = this._utility
     const {
@@ -349,14 +361,16 @@ class PhotoEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Photo> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async update(this: any, reqdata?: any, ctrl?: Control) {
+  async update(this: any, reqdata?: PhotoUpdateData, ctrl?: Control): Promise<Photo> {
 
     const utility = this._utility
 
@@ -461,14 +475,16 @@ class PhotoEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Photo> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async remove(this: any, reqmatch?: any, ctrl?: Control) {
+  async remove(this: any, reqmatch?: PhotoRemoveMatch, ctrl?: Control): Promise<Photo> {
 
     const utility = this._utility
 
@@ -573,7 +589,9 @@ class PhotoEntity extends JsonplaceholderEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Photo> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

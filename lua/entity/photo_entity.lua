@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch PhotoLoadMatch
+---@param ctrl? table
+---@return Photo
+---@return string? err
 function PhotoEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -104,6 +108,10 @@ end
 
 
 
+---@param reqmatch PhotoListMatch
+---@param ctrl? table
+---@return Photo[]
+---@return string? err
 function PhotoEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -126,6 +134,10 @@ end
 
 
 
+---@param reqdata PhotoCreateData
+---@param ctrl? table
+---@return Photo
+---@return string? err
 function PhotoEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -148,6 +160,10 @@ end
 
 
 
+---@param reqdata PhotoUpdateData
+---@param ctrl? table
+---@return Photo
+---@return string? err
 function PhotoEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -173,6 +189,10 @@ end
 
 
 
+---@param reqmatch PhotoRemoveMatch
+---@param ctrl? table
+---@return Photo
+---@return string? err
 function PhotoEntity:remove(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

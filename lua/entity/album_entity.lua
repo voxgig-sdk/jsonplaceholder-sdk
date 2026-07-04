@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch AlbumLoadMatch
+---@param ctrl? table
+---@return Album
+---@return string? err
 function AlbumEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -104,6 +108,10 @@ end
 
 
 
+---@param reqmatch AlbumListMatch
+---@param ctrl? table
+---@return Album[]
+---@return string? err
 function AlbumEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -126,6 +134,10 @@ end
 
 
 
+---@param reqdata AlbumCreateData
+---@param ctrl? table
+---@return Album
+---@return string? err
 function AlbumEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -148,6 +160,10 @@ end
 
 
 
+---@param reqdata AlbumUpdateData
+---@param ctrl? table
+---@return Album
+---@return string? err
 function AlbumEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -173,6 +189,10 @@ end
 
 
 
+---@param reqmatch AlbumRemoveMatch
+---@param ctrl? table
+---@return Album
+---@return string? err
 function AlbumEntity:remove(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

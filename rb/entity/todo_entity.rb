@@ -45,6 +45,7 @@ class TodoEntity
     end
   end
 
+  # @return [Todo, Hash] the current Todo data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class TodoEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Todo fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single Todo.
+  #
+  # @param reqmatch [TodoLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Todo, Hash] the loaded Todo; raises JsonplaceholderError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -86,6 +93,11 @@ class TodoEntity
 
 
   
+  # List Todo items matching the given filter.
+  #
+  # @param reqmatch [TodoListMatch, Hash, nil] match filter (any subset of Todo fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<Todo>, Array] the matching Todo items; raises JsonplaceholderError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -106,6 +118,11 @@ class TodoEntity
 
 
   
+  # Create a new Todo.
+  #
+  # @param reqdata [TodoCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Todo, Hash] the created Todo; raises JsonplaceholderError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -128,6 +145,11 @@ class TodoEntity
 
 
   
+  # Update an existing Todo.
+  #
+  # @param reqdata [TodoUpdateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Todo, Hash] the updated Todo; raises JsonplaceholderError on failure
   def update(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -151,6 +173,11 @@ class TodoEntity
 
 
   
+  # Remove an Todo matching the given criteria.
+  #
+  # @param reqmatch [TodoRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Todo, Hash] the removed Todo; raises JsonplaceholderError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

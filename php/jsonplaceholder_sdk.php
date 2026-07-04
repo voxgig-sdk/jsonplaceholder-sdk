@@ -103,7 +103,7 @@ class JsonplaceholderSDK
         return $this->_rootctx;
     }
 
-    public function prepare(array $fetchargs = []): array
+    public function prepare(array $fetchargs = []): mixed
     {
         $utility = $this->_utility;
         $fetchargs = $fetchargs ?? [];
@@ -149,19 +149,27 @@ class JsonplaceholderSDK
 
         [$_, $err] = ($utility->prepare_auth)($ctx);
         if ($err) {
-            return [null, $err];
+            return ($utility->make_error)($ctx, $err);
         }
 
-        return ($utility->make_fetch_def)($ctx);
+        [$fetchdef, $fd_err] = ($utility->make_fetch_def)($ctx);
+        if ($fd_err) {
+            return ($utility->make_error)($ctx, $fd_err);
+        }
+        return $fetchdef;
     }
 
-    public function direct(array $fetchargs = []): array
+    public function direct(array $fetchargs = []): mixed
     {
         $utility = $this->_utility;
 
-        [$fetchdef, $err] = $this->prepare($fetchargs);
-        if ($err) {
-            return [["ok" => false, "err" => $err], null];
+        // direct() is the raw-HTTP escape hatch: it never throws, it returns
+        // an {ok, err, ...} dict. prepare() now raises on error, so catch it
+        // and surface the failure through the dict instead.
+        try {
+            $fetchdef = $this->prepare($fetchargs);
+        } catch (\Throwable $err) {
+            return ["ok" => false, "err" => $err];
         }
 
         $fetchargs = $fetchargs ?? [];
@@ -176,14 +184,14 @@ class JsonplaceholderSDK
         [$fetched, $fetch_err] = ($utility->fetcher)($ctx, $url, $fetchdef);
 
         if ($fetch_err) {
-            return [["ok" => false, "err" => $fetch_err], null];
+            return ["ok" => false, "err" => $fetch_err];
         }
 
         if ($fetched === null) {
-            return [[
+            return [
                 "ok" => false,
                 "err" => $ctx->make_error("direct_no_response", "response: undefined"),
-            ], null];
+            ];
         }
 
         if (is_array($fetched)) {
@@ -208,59 +216,125 @@ class JsonplaceholderSDK
                 }
             }
 
-            return [[
+            return [
                 "ok" => $status >= 200 && $status < 300,
                 "status" => $status,
                 "headers" => Struct::getprop($fetched, "headers"),
                 "data" => $json_data,
-            ], null];
+            ];
         }
 
-        return [[
+        return [
             "ok" => false,
             "err" => $ctx->make_error("direct_invalid", "invalid response type"),
-        ], null];
+        ];
     }
 
 
-    public function Album($data = null)
+    private $_album = null;
+
+    // Idiomatic facade: $client->album()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Album() (PHP method
+    // names are case-insensitive).
+    public function album($data = null)
     {
         require_once __DIR__ . '/entity/album_entity.php';
+        if ($data === null) {
+            if ($this->_album === null) {
+                $this->_album = new AlbumEntity($this, null);
+            }
+            return $this->_album;
+        }
         return new AlbumEntity($this, $data);
     }
 
 
-    public function Comment($data = null)
+    private $_comment = null;
+
+    // Idiomatic facade: $client->comment()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Comment() (PHP method
+    // names are case-insensitive).
+    public function comment($data = null)
     {
         require_once __DIR__ . '/entity/comment_entity.php';
+        if ($data === null) {
+            if ($this->_comment === null) {
+                $this->_comment = new CommentEntity($this, null);
+            }
+            return $this->_comment;
+        }
         return new CommentEntity($this, $data);
     }
 
 
-    public function Photo($data = null)
+    private $_photo = null;
+
+    // Idiomatic facade: $client->photo()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Photo() (PHP method
+    // names are case-insensitive).
+    public function photo($data = null)
     {
         require_once __DIR__ . '/entity/photo_entity.php';
+        if ($data === null) {
+            if ($this->_photo === null) {
+                $this->_photo = new PhotoEntity($this, null);
+            }
+            return $this->_photo;
+        }
         return new PhotoEntity($this, $data);
     }
 
 
-    public function Post($data = null)
+    private $_post = null;
+
+    // Idiomatic facade: $client->post()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Post() (PHP method
+    // names are case-insensitive).
+    public function post($data = null)
     {
         require_once __DIR__ . '/entity/post_entity.php';
+        if ($data === null) {
+            if ($this->_post === null) {
+                $this->_post = new PostEntity($this, null);
+            }
+            return $this->_post;
+        }
         return new PostEntity($this, $data);
     }
 
 
-    public function Todo($data = null)
+    private $_todo = null;
+
+    // Idiomatic facade: $client->todo()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Todo() (PHP method
+    // names are case-insensitive).
+    public function todo($data = null)
     {
         require_once __DIR__ . '/entity/todo_entity.php';
+        if ($data === null) {
+            if ($this->_todo === null) {
+                $this->_todo = new TodoEntity($this, null);
+            }
+            return $this->_todo;
+        }
         return new TodoEntity($this, $data);
     }
 
 
-    public function User($data = null)
+    private $_user = null;
+
+    // Idiomatic facade: $client->user()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias User() (PHP method
+    // names are case-insensitive).
+    public function user($data = null)
     {
         require_once __DIR__ . '/entity/user_entity.php';
+        if ($data === null) {
+            if ($this->_user === null) {
+                $this->_user = new UserEntity($this, null);
+            }
+            return $this->_user;
+        }
         return new UserEntity($this, $data);
     }
 

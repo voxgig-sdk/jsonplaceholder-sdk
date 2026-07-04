@@ -85,6 +85,27 @@ func (e *TodoEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an Todo; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *TodoEntity) DataTyped(data ...Todo) Todo {
+	if len(data) > 0 {
+		return typedFrom[Todo](e.Data(asMap(data[0])))
+	}
+	return typedFrom[Todo](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through Todo (all fields
+// optional at the wire level).
+func (e *TodoEntity) MatchTyped(match ...Todo) Todo {
+	if len(match) > 0 {
+		return typedFrom[Todo](e.Match(asMap(match[0])))
+	}
+	return typedFrom[Todo](e.Match())
+}
+
 
 func (e *TodoEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
@@ -111,6 +132,17 @@ func (e *TodoEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, er
 	})
 }
 
+// LoadTyped is the statically-typed variant of Load: it takes an
+// TodoLoadMatch and returns an Todo. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *TodoEntity) LoadTyped(reqmatch TodoLoadMatch, ctrl map[string]any) (Todo, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Todo{}, err
+	}
+	return typedFrom[Todo](res), nil
+}
+
 
 
 
@@ -131,6 +163,17 @@ func (e *TodoEntity) List(reqmatch map[string]any, ctrl map[string]any) (any, er
 			}
 		}
 	})
+}
+
+// ListTyped is the statically-typed variant of List: it takes an
+// TodoListMatch and returns []Todo. It delegates to the untyped
+// List (identical runtime) and converts at the typed boundary.
+func (e *TodoEntity) ListTyped(reqmatch TodoListMatch, ctrl map[string]any) ([]Todo, error) {
+	res, err := e.List(asMap(reqmatch), ctrl)
+	if err != nil {
+		return nil, err
+	}
+	return typedSliceFrom[Todo](res), nil
 }
 
 
@@ -156,6 +199,17 @@ func (e *TodoEntity) Create(reqdata map[string]any, ctrl map[string]any) (any, e
 			}
 		}
 	})
+}
+
+// CreateTyped is the statically-typed variant of Create: it takes an
+// TodoCreateData and returns an Todo. It delegates to the untyped
+// Create (identical runtime) and converts at the typed boundary.
+func (e *TodoEntity) CreateTyped(reqdata TodoCreateData, ctrl map[string]any) (Todo, error) {
+	res, err := e.Create(asMap(reqdata), ctrl)
+	if err != nil {
+		return Todo{}, err
+	}
+	return typedFrom[Todo](res), nil
 }
 
 
@@ -186,6 +240,17 @@ func (e *TodoEntity) Update(reqdata map[string]any, ctrl map[string]any) (any, e
 	})
 }
 
+// UpdateTyped is the statically-typed variant of Update: it takes an
+// TodoUpdateData and returns an Todo. It delegates to the untyped
+// Update (identical runtime) and converts at the typed boundary.
+func (e *TodoEntity) UpdateTyped(reqdata TodoUpdateData, ctrl map[string]any) (Todo, error) {
+	res, err := e.Update(asMap(reqdata), ctrl)
+	if err != nil {
+		return Todo{}, err
+	}
+	return typedFrom[Todo](res), nil
+}
+
 
 
 
@@ -212,6 +277,17 @@ func (e *TodoEntity) Remove(reqmatch map[string]any, ctrl map[string]any) (any, 
 			}
 		}
 	})
+}
+
+// RemoveTyped is the statically-typed variant of Remove: it takes an
+// TodoRemoveMatch and returns an Todo. It delegates to the untyped
+// Remove (identical runtime) and converts at the typed boundary.
+func (e *TodoEntity) RemoveTyped(reqmatch TodoRemoveMatch, ctrl map[string]any) (Todo, error) {
+	res, err := e.Remove(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Todo{}, err
+	}
+	return typedFrom[Todo](res), nil
 }
 
 

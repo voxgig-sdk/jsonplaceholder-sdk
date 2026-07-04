@@ -44,8 +44,7 @@ class AlbumEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.album"), "album_ref01"));
         $album_ref01_data["user_id"] = $setup["idmap"]["user01"];
 
-        [$album_ref01_data_result, $err] = $album_ref01_ent->create($album_ref01_data, null);
-        $this->assertNull($err);
+        $album_ref01_data_result = $album_ref01_ent->create($album_ref01_data, null);
         $album_ref01_data = Helpers::to_map($album_ref01_data_result);
         $this->assertNotNull($album_ref01_data);
         $this->assertNotNull($album_ref01_data["id"]);
@@ -55,8 +54,7 @@ class AlbumEntityTest extends TestCase
             "user_id" => $setup["idmap"]["user01"],
         ];
 
-        [$album_ref01_list_result, $err] = $album_ref01_ent->list($album_ref01_match, null);
-        $this->assertNull($err);
+        $album_ref01_list_result = $album_ref01_ent->list($album_ref01_match, null);
         $this->assertIsArray($album_ref01_list_result);
 
         $found_item = sdk_select(
@@ -73,8 +71,7 @@ class AlbumEntityTest extends TestCase
         $album_ref01_markdef_up0_value = "Mark01-album_ref01_" . $setup["now"];
         $album_ref01_data_up0_up[$album_ref01_markdef_up0_name] = $album_ref01_markdef_up0_value;
 
-        [$album_ref01_resdata_up0_result, $err] = $album_ref01_ent->update($album_ref01_data_up0_up, null);
-        $this->assertNull($err);
+        $album_ref01_resdata_up0_result = $album_ref01_ent->update($album_ref01_data_up0_up, null);
         $album_ref01_resdata_up0 = Helpers::to_map($album_ref01_resdata_up0_result);
         $this->assertNotNull($album_ref01_resdata_up0);
         $this->assertEquals($album_ref01_resdata_up0["id"], $album_ref01_data_up0_up["id"]);
@@ -84,8 +81,7 @@ class AlbumEntityTest extends TestCase
         $album_ref01_match_dt0 = [
             "id" => $album_ref01_data["id"],
         ];
-        [$album_ref01_data_dt0_loaded, $err] = $album_ref01_ent->load($album_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $album_ref01_data_dt0_loaded = $album_ref01_ent->load($album_ref01_match_dt0, null);
         $album_ref01_data_dt0_load_result = Helpers::to_map($album_ref01_data_dt0_loaded);
         $this->assertNotNull($album_ref01_data_dt0_load_result);
         $this->assertEquals($album_ref01_data_dt0_load_result["id"], $album_ref01_data["id"]);
@@ -94,16 +90,14 @@ class AlbumEntityTest extends TestCase
         $album_ref01_match_rm0 = [
             "id" => $album_ref01_data["id"],
         ];
-        [$_, $err] = $album_ref01_ent->remove($album_ref01_match_rm0, null);
-        $this->assertNull($err);
+        $album_ref01_ent->remove($album_ref01_match_rm0, null);
 
         // LIST
         $album_ref01_match_rt0 = [
             "user_id" => $setup["idmap"]["user01"],
         ];
 
-        [$album_ref01_list_rt0_result, $err] = $album_ref01_ent->list($album_ref01_match_rt0, null);
-        $this->assertNull($err);
+        $album_ref01_list_rt0_result = $album_ref01_ent->list($album_ref01_match_rt0, null);
         $this->assertIsArray($album_ref01_list_rt0_result);
 
         $not_found_item = sdk_select(
@@ -143,7 +137,6 @@ function album_basic_setup($extra)
         "JSONPLACEHOLDER_TEST_ALBUM_ENTID" => $idmap,
         "JSONPLACEHOLDER_TEST_LIVE" => "FALSE",
         "JSONPLACEHOLDER_TEST_EXPLAIN" => "FALSE",
-        "JSONPLACEHOLDER_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -155,7 +148,6 @@ function album_basic_setup($extra)
     if ($env["JSONPLACEHOLDER_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["JSONPLACEHOLDER_APIKEY"],
             ],
             $extra ?? [],
         ]);

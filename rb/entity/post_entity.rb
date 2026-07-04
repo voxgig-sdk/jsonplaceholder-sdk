@@ -45,6 +45,7 @@ class PostEntity
     end
   end
 
+  # @return [Post, Hash] the current Post data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class PostEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Post fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single Post.
+  #
+  # @param reqmatch [PostLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Post, Hash] the loaded Post; raises JsonplaceholderError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -86,6 +93,11 @@ class PostEntity
 
 
   
+  # List Post items matching the given filter.
+  #
+  # @param reqmatch [PostListMatch, Hash, nil] match filter (any subset of Post fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<Post>, Array] the matching Post items; raises JsonplaceholderError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -106,6 +118,11 @@ class PostEntity
 
 
   
+  # Create a new Post.
+  #
+  # @param reqdata [PostCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Post, Hash] the created Post; raises JsonplaceholderError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -128,6 +145,11 @@ class PostEntity
 
 
   
+  # Update an existing Post.
+  #
+  # @param reqdata [PostUpdateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Post, Hash] the updated Post; raises JsonplaceholderError on failure
   def update(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -151,6 +173,11 @@ class PostEntity
 
 
   
+  # Remove an Post matching the given criteria.
+  #
+  # @param reqmatch [PostRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Post, Hash] the removed Post; raises JsonplaceholderError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

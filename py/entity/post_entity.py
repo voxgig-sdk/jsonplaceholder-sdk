@@ -1,7 +1,17 @@
 # Jsonplaceholder SDK Post entity
 
+from __future__ import annotations
+
 from utility.voxgig_struct import voxgig_struct as vs
 from core import helpers
+from jsonplaceholder_types import (
+    Post,
+    PostLoadMatch,
+    PostListMatch,
+    PostCreateData,
+    PostUpdateData,
+    PostRemoveMatch,
+)
 
 
 class PostEntity:
@@ -44,7 +54,7 @@ class PostEntity:
             self._data = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetData")
 
-    def data_get(self):
+    def data_get(self) -> Post:
         self._utility.feature_hook(self._entctx, "GetData")
         return vs.clone(self._data)
 
@@ -53,12 +63,12 @@ class PostEntity:
             self._match = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetMatch")
 
-    def match_get(self):
+    def match_get(self) -> Post:
         self._utility.feature_hook(self._entctx, "GetMatch")
         return vs.clone(self._match)
 
     
-    def load(self, reqmatch, ctrl=None):
+    def load(self, reqmatch: PostLoadMatch, ctrl=None) -> Post:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "load",
@@ -80,7 +90,7 @@ class PostEntity:
 
 
     
-    def list(self, reqmatch, ctrl=None):
+    def list(self, reqmatch: PostListMatch, ctrl=None) -> list[Post]:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "list",
@@ -100,7 +110,7 @@ class PostEntity:
 
 
     
-    def create(self, reqdata, ctrl=None):
+    def create(self, reqdata: PostCreateData, ctrl=None) -> Post:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "create",
@@ -120,7 +130,7 @@ class PostEntity:
 
 
     
-    def update(self, reqdata, ctrl=None):
+    def update(self, reqdata: PostUpdateData, ctrl=None) -> Post:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "update",
@@ -142,7 +152,7 @@ class PostEntity:
 
 
     
-    def remove(self, reqmatch, ctrl=None):
+    def remove(self, reqmatch: PostRemoveMatch, ctrl=None) -> Post:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "remove",

@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch TodoLoadMatch
+---@param ctrl? table
+---@return Todo
+---@return string? err
 function TodoEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -104,6 +108,10 @@ end
 
 
 
+---@param reqmatch TodoListMatch
+---@param ctrl? table
+---@return Todo[]
+---@return string? err
 function TodoEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -126,6 +134,10 @@ end
 
 
 
+---@param reqdata TodoCreateData
+---@param ctrl? table
+---@return Todo
+---@return string? err
 function TodoEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -148,6 +160,10 @@ end
 
 
 
+---@param reqdata TodoUpdateData
+---@param ctrl? table
+---@return Todo
+---@return string? err
 function TodoEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -173,6 +189,10 @@ end
 
 
 
+---@param reqmatch TodoRemoveMatch
+---@param ctrl? table
+---@return Todo
+---@return string? err
 function TodoEntity:remove(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
