@@ -29,18 +29,16 @@ require_once 'jsonplaceholder_sdk.php';
 $client = new JsonplaceholderSDK();
 ```
 
-### 2. List albums
+### 2. List album records
 
 ```php
 try {
-    $result = $client->album()->list();
-    if (is_array($result)) {
-        foreach ($result as $item) {
-            $d = $item->data_get();
-            echo $d["id"] . " " . $d["name"] . "\n";
-        }
+    // list() returns an array of Album records — iterate directly.
+    $albums = $client->Album()->list();
+    foreach ($albums as $item) {
+        echo $item["id"] . " " . $item["name"] . "\n";
     }
-} catch (\Exception $err) {
+} catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
 ```
@@ -49,9 +47,10 @@ try {
 
 ```php
 try {
-    $result = $client->album()->load(["id" => "example_id"]);
-    print_r($result);
-} catch (\Exception $err) {
+    // load() returns the bare Album record (throws on error).
+    $album = $client->Album()->load(["id" => "example_id"]);
+    print_r($album);
+} catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
 ```
@@ -59,14 +58,14 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// Create
-$created = $client->album()->create(["name" => "Example"]);
+// create() returns the bare created Album record.
+$created = $client->Album()->create(["name" => "Example"]);
 
-// Update
-$client->album()->update(["id" => $created["id"], "name" => "Example-Renamed"]);
+// Update — index the bare record directly ($created["id"]).
+$client->Album()->update(["id" => $created["id"], "name" => "Example-Renamed"]);
 
 // Remove
-$client->album()->remove(["id" => $created["id"]]);
+$client->Album()->remove(["id" => $created["id"]]);
 ```
 
 
@@ -110,13 +109,17 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```php
-$client = JsonplaceholderSDK::test();
+$client = JsonplaceholderSDK::test([
+    "entity" => ["album" => ["test01" => ["id" => "test01"]]],
+]);
 
-$result = $client->album()->load(["id" => "test01"]);
-// $result contains mock response data
+// load() returns the bare mock record (throws on error).
+$album = $client->Album()->load(["id" => "test01"]);
+print_r($album);
 ```
 
 ### Use a custom fetch function
@@ -195,12 +198,12 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `get_utility` | `(): Utility` | Copy of the SDK utility object. |
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
-| `Album` | `($data): AlbumEntity` | Create a Album entity instance. |
+| `Album` | `($data): AlbumEntity` | Create an Album entity instance. |
 | `Comment` | `($data): CommentEntity` | Create a Comment entity instance. |
 | `Photo` | `($data): PhotoEntity` | Create a Photo entity instance. |
 | `Post` | `($data): PostEntity` | Create a Post entity instance. |
 | `Todo` | `($data): TodoEntity` | Create a Todo entity instance. |
-| `User` | `($data): UserEntity` | Create a User entity instance. |
+| `User` | `($data): UserEntity` | Create an User entity instance. |
 
 ### Entity interface
 
@@ -330,7 +333,7 @@ API path: `/users`
 
 ### Album
 
-Create an instance: `const album = client.album`
+Create an instance: `$album = $client->Album();`
 
 #### Operations
 
@@ -352,27 +355,29 @@ Create an instance: `const album = client.album`
 
 #### Example: Load
 
-```ts
-const album = await client.album.load({ id: 'album_id' })
+```php
+// load() returns the bare Album record (throws on error).
+$album = $client->Album()->load(["id" => "album_id"]);
 ```
 
 #### Example: List
 
-```ts
-const albums = await client.album.list()
+```php
+// list() returns an array of Album records (throws on error).
+$albums = $client->Album()->list();
 ```
 
 #### Example: Create
 
-```ts
-const album = await client.album.create({
-})
+```php
+$album = $client->Album()->create([
+]);
 ```
 
 
 ### Comment
 
-Create an instance: `const comment = client.comment`
+Create an instance: `$comment = $client->Comment();`
 
 #### Operations
 
@@ -396,27 +401,29 @@ Create an instance: `const comment = client.comment`
 
 #### Example: Load
 
-```ts
-const comment = await client.comment.load({ id: 'comment_id' })
+```php
+// load() returns the bare Comment record (throws on error).
+$comment = $client->Comment()->load(["id" => "comment_id"]);
 ```
 
 #### Example: List
 
-```ts
-const comments = await client.comment.list()
+```php
+// list() returns an array of Comment records (throws on error).
+$comments = $client->Comment()->list();
 ```
 
 #### Example: Create
 
-```ts
-const comment = await client.comment.create({
-})
+```php
+$comment = $client->Comment()->create([
+]);
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.photo`
+Create an instance: `$photo = $client->Photo();`
 
 #### Operations
 
@@ -440,27 +447,29 @@ Create an instance: `const photo = client.photo`
 
 #### Example: Load
 
-```ts
-const photo = await client.photo.load({ id: 'photo_id' })
+```php
+// load() returns the bare Photo record (throws on error).
+$photo = $client->Photo()->load(["id" => "photo_id"]);
 ```
 
 #### Example: List
 
-```ts
-const photos = await client.photo.list()
+```php
+// list() returns an array of Photo records (throws on error).
+$photos = $client->Photo()->list();
 ```
 
 #### Example: Create
 
-```ts
-const photo = await client.photo.create({
-})
+```php
+$photo = $client->Photo()->create([
+]);
 ```
 
 
 ### Post
 
-Create an instance: `const post = client.post`
+Create an instance: `$post = $client->Post();`
 
 #### Operations
 
@@ -483,27 +492,29 @@ Create an instance: `const post = client.post`
 
 #### Example: Load
 
-```ts
-const post = await client.post.load({ id: 'post_id' })
+```php
+// load() returns the bare Post record (throws on error).
+$post = $client->Post()->load(["id" => "post_id"]);
 ```
 
 #### Example: List
 
-```ts
-const posts = await client.post.list()
+```php
+// list() returns an array of Post records (throws on error).
+$posts = $client->Post()->list();
 ```
 
 #### Example: Create
 
-```ts
-const post = await client.post.create({
-})
+```php
+$post = $client->Post()->create([
+]);
 ```
 
 
 ### Todo
 
-Create an instance: `const todo = client.todo`
+Create an instance: `$todo = $client->Todo();`
 
 #### Operations
 
@@ -526,27 +537,29 @@ Create an instance: `const todo = client.todo`
 
 #### Example: Load
 
-```ts
-const todo = await client.todo.load({ id: 'todo_id' })
+```php
+// load() returns the bare Todo record (throws on error).
+$todo = $client->Todo()->load(["id" => "todo_id"]);
 ```
 
 #### Example: List
 
-```ts
-const todos = await client.todo.list()
+```php
+// list() returns an array of Todo records (throws on error).
+$todos = $client->Todo()->list();
 ```
 
 #### Example: Create
 
-```ts
-const todo = await client.todo.create({
-})
+```php
+$todo = $client->Todo()->create([
+]);
 ```
 
 
 ### User
 
-Create an instance: `const user = client.user`
+Create an instance: `$user = $client->User();`
 
 #### Operations
 
@@ -573,21 +586,23 @@ Create an instance: `const user = client.user`
 
 #### Example: Load
 
-```ts
-const user = await client.user.load({ id: 'user_id' })
+```php
+// load() returns the bare User record (throws on error).
+$user = $client->User()->load(["id" => "user_id"]);
 ```
 
 #### Example: List
 
-```ts
-const users = await client.user.list()
+```php
+// list() returns an array of User records (throws on error).
+$users = $client->User()->list();
 ```
 
 #### Example: Create
 
-```ts
-const user = await client.user.create({
-})
+```php
+$user = $client->User()->create([
+]);
 ```
 
 
@@ -662,7 +677,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$album = $client->album();
+$album = $client->Album();
 $album->load(["id" => "example_id"]);
 
 // $album->dataGet() now returns the loaded album data

@@ -209,84 +209,42 @@ class JsonplaceholderSDK {
 
 
 
-  _album?: AlbumEntity
-
-  // Idiomatic facade: `client.album.list()` / `client.album.load({ id })`.
-  get album(): AlbumEntity {
-    return (this._album ??= new AlbumEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.album` instead. */
+  // Entity access: `client.Album().list()` / `client.Album().load({ id })`.
   Album(data?: any) {
     const self = this
     return new AlbumEntity(self,data)
   }
 
 
-  _comment?: CommentEntity
-
-  // Idiomatic facade: `client.comment.list()` / `client.comment.load({ id })`.
-  get comment(): CommentEntity {
-    return (this._comment ??= new CommentEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.comment` instead. */
+  // Entity access: `client.Comment().list()` / `client.Comment().load({ id })`.
   Comment(data?: any) {
     const self = this
     return new CommentEntity(self,data)
   }
 
 
-  _photo?: PhotoEntity
-
-  // Idiomatic facade: `client.photo.list()` / `client.photo.load({ id })`.
-  get photo(): PhotoEntity {
-    return (this._photo ??= new PhotoEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.photo` instead. */
+  // Entity access: `client.Photo().list()` / `client.Photo().load({ id })`.
   Photo(data?: any) {
     const self = this
     return new PhotoEntity(self,data)
   }
 
 
-  _post?: PostEntity
-
-  // Idiomatic facade: `client.post.list()` / `client.post.load({ id })`.
-  get post(): PostEntity {
-    return (this._post ??= new PostEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.post` instead. */
+  // Entity access: `client.Post().list()` / `client.Post().load({ id })`.
   Post(data?: any) {
     const self = this
     return new PostEntity(self,data)
   }
 
 
-  _todo?: TodoEntity
-
-  // Idiomatic facade: `client.todo.list()` / `client.todo.load({ id })`.
-  get todo(): TodoEntity {
-    return (this._todo ??= new TodoEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.todo` instead. */
+  // Entity access: `client.Todo().list()` / `client.Todo().load({ id })`.
   Todo(data?: any) {
     const self = this
     return new TodoEntity(self,data)
   }
 
 
-  _user?: UserEntity
-
-  // Idiomatic facade: `client.user.list()` / `client.user.load({ id })`.
-  get user(): UserEntity {
-    return (this._user ??= new UserEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.user` instead. */
+  // Entity access: `client.User().list()` / `client.User().load({ id })`.
   User(data?: any) {
     const self = this
     return new UserEntity(self,data)

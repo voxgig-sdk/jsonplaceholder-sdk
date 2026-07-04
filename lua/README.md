@@ -31,39 +31,40 @@ local sdk = require("jsonplaceholder_sdk")
 local client = sdk.new()
 ```
 
-### 2. List albums
+### 2. List album records
+
+Entity operations return `(value, err)`. For `list`, `value` is the
+array of records itself — iterate it directly (there is no wrapper).
 
 ```lua
-local result, err = client:album():list()
+local albums, err = client:Album():list()
 if err then error(err) end
 
-if type(result) == "table" then
-  for _, item in ipairs(result) do
-    local d = item:data_get()
-    print(d["id"], d["name"])
-  end
+for _, item in ipairs(albums) do
+  print(item["id"], item["name"])
 end
 ```
 
 ### 3. Load an album
 
 ```lua
-local result, err = client:album():load({ id = "example_id" })
+local album, err = client:Album():load({ id = "example_id" })
 if err then error(err) end
-print(result)
+print(album)
 ```
 
 ### 4. Create, update, and remove
 
 ```lua
 -- Create
-local created, _ = client:album():create({ name = "Example" })
+local created, err = client:Album():create({ name = "Example" })
+if err then error(err) end
 
 -- Update
-client:album():update({ id = created["id"], name = "Example-Renamed" })
+client:Album():update({ id = created["id"], name = "Example-Renamed" })
 
 -- Remove
-client:album():remove({ id = created["id"] })
+client:Album():remove({ id = created["id"] })
 ```
 
 
@@ -109,8 +110,8 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:album():load({ id = "test01" })
--- result contains mock response data
+local result, err = client:Album():load({ id = "test01" })
+-- result is the loaded data; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -188,12 +189,12 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> table, err` | Build an HTTP request definition without sending. |
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
-| `Album` | `(data) -> AlbumEntity` | Create a Album entity instance. |
+| `Album` | `(data) -> AlbumEntity` | Create an Album entity instance. |
 | `Comment` | `(data) -> CommentEntity` | Create a Comment entity instance. |
 | `Photo` | `(data) -> PhotoEntity` | Create a Photo entity instance. |
 | `Post` | `(data) -> PostEntity` | Create a Post entity instance. |
 | `Todo` | `(data) -> TodoEntity` | Create a Todo entity instance. |
-| `User` | `(data) -> UserEntity` | Create a User entity instance. |
+| `User` | `(data) -> UserEntity` | Create an User entity instance. |
 
 ### Entity interface
 
@@ -215,17 +216,22 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(any, err)`. The first value is a
-`table` with these keys:
+Entity operations return `(value, err)`. The `value` is the operation's
+data **directly** — there is no wrapper:
 
-| Key | Type | Description |
-| --- | --- | --- |
-| `ok` | `boolean` | `true` if the HTTP status is 2xx. |
-| `status` | `number` | HTTP status code. |
-| `headers` | `table` | Response headers. |
-| `data` | `any` | Parsed JSON response body. |
+| Operation | `value` |
+| --- | --- |
+| `load` / `create` / `update` / `remove` | the entity record (a `table`) |
+| `list` | an array (`table`) of entity records |
 
-On error, `ok` is `false` and `err` contains the error value.
+Check `err` first (it is non-`nil` on failure), then use `value`:
+
+    local album, err = client:Album():load({ id = "example_id" })
+    if err then error(err) end
+    -- album is the loaded record
+
+Only `direct()` returns a response envelope — a `table` with `ok`,
+`status`, `headers`, and `data` keys.
 
 ### Entities
 
@@ -319,7 +325,7 @@ API path: `/users`
 
 ### Album
 
-Create an instance: `const album = client.album`
+Create an instance: `local album = client:Album(nil)`
 
 #### Operations
 
@@ -341,27 +347,27 @@ Create an instance: `const album = client.album`
 
 #### Example: Load
 
-```ts
-const album = await client.album.load({ id: 'album_id' })
+```lua
+local album, err = client:Album():load({ id = "album_id" })
 ```
 
 #### Example: List
 
-```ts
-const albums = await client.album.list()
+```lua
+local albums, err = client:Album():list()
 ```
 
 #### Example: Create
 
-```ts
-const album = await client.album.create({
+```lua
+local album, err = client:Album():create({
 })
 ```
 
 
 ### Comment
 
-Create an instance: `const comment = client.comment`
+Create an instance: `local comment = client:Comment(nil)`
 
 #### Operations
 
@@ -385,27 +391,27 @@ Create an instance: `const comment = client.comment`
 
 #### Example: Load
 
-```ts
-const comment = await client.comment.load({ id: 'comment_id' })
+```lua
+local comment, err = client:Comment():load({ id = "comment_id" })
 ```
 
 #### Example: List
 
-```ts
-const comments = await client.comment.list()
+```lua
+local comments, err = client:Comment():list()
 ```
 
 #### Example: Create
 
-```ts
-const comment = await client.comment.create({
+```lua
+local comment, err = client:Comment():create({
 })
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.photo`
+Create an instance: `local photo = client:Photo(nil)`
 
 #### Operations
 
@@ -429,27 +435,27 @@ Create an instance: `const photo = client.photo`
 
 #### Example: Load
 
-```ts
-const photo = await client.photo.load({ id: 'photo_id' })
+```lua
+local photo, err = client:Photo():load({ id = "photo_id" })
 ```
 
 #### Example: List
 
-```ts
-const photos = await client.photo.list()
+```lua
+local photos, err = client:Photo():list()
 ```
 
 #### Example: Create
 
-```ts
-const photo = await client.photo.create({
+```lua
+local photo, err = client:Photo():create({
 })
 ```
 
 
 ### Post
 
-Create an instance: `const post = client.post`
+Create an instance: `local post = client:Post(nil)`
 
 #### Operations
 
@@ -472,27 +478,27 @@ Create an instance: `const post = client.post`
 
 #### Example: Load
 
-```ts
-const post = await client.post.load({ id: 'post_id' })
+```lua
+local post, err = client:Post():load({ id = "post_id" })
 ```
 
 #### Example: List
 
-```ts
-const posts = await client.post.list()
+```lua
+local posts, err = client:Post():list()
 ```
 
 #### Example: Create
 
-```ts
-const post = await client.post.create({
+```lua
+local post, err = client:Post():create({
 })
 ```
 
 
 ### Todo
 
-Create an instance: `const todo = client.todo`
+Create an instance: `local todo = client:Todo(nil)`
 
 #### Operations
 
@@ -515,27 +521,27 @@ Create an instance: `const todo = client.todo`
 
 #### Example: Load
 
-```ts
-const todo = await client.todo.load({ id: 'todo_id' })
+```lua
+local todo, err = client:Todo():load({ id = "todo_id" })
 ```
 
 #### Example: List
 
-```ts
-const todos = await client.todo.list()
+```lua
+local todos, err = client:Todo():list()
 ```
 
 #### Example: Create
 
-```ts
-const todo = await client.todo.create({
+```lua
+local todo, err = client:Todo():create({
 })
 ```
 
 
 ### User
 
-Create an instance: `const user = client.user`
+Create an instance: `local user = client:User(nil)`
 
 #### Operations
 
@@ -562,20 +568,20 @@ Create an instance: `const user = client.user`
 
 #### Example: Load
 
-```ts
-const user = await client.user.load({ id: 'user_id' })
+```lua
+local user, err = client:User():load({ id = "user_id" })
 ```
 
 #### Example: List
 
-```ts
-const users = await client.user.list()
+```lua
+local users, err = client:User():list()
 ```
 
 #### Example: Create
 
-```ts
-const user = await client.user.create({
+```lua
+local user, err = client:User():create({
 })
 ```
 
@@ -651,7 +657,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local album = client:album()
+local album = client:Album()
 album:load({ id = "example_id" })
 
 -- album:data_get() now returns the loaded album data

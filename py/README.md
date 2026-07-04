@@ -31,24 +31,28 @@ from jsonplaceholder_sdk import JsonplaceholderSDK
 client = JsonplaceholderSDK()
 ```
 
-### 2. List albums
+### 2. List album records
+
+`list()` returns a `list` of records (each a `dict`) and raises on
+error — iterate it directly.
 
 ```python
 try:
-    result = client.album.list()
-    for item in result:
-        d = item.data_get()
-        print(d["id"], d["name"])
+    albums = client.Album().list({})
+    for album in albums:
+        print(album)
 except Exception as err:
     print(f"list failed: {err}")
 ```
 
 ### 3. Load an album
 
+`load()` returns the bare record (a `dict`) and raises on error.
+
 ```python
 try:
-    result = client.album.load({"id": "example_id"})
-    print(result)
+    album = client.Album().load({"id": "example_id"})
+    print(album)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -56,14 +60,14 @@ except Exception as err:
 ### 4. Create, update, and remove
 
 ```python
-# Create
-created = client.album.create({"name": "Example"})
+# Create — returns the bare created record (a dict)
+created = client.Album().create({"name": "Example"})
 
-# Update
-client.album.update({"id": created["id"], "name": "Example-Renamed"})
+# Update — the created record's id is a plain dict key
+client.Album().update({"id": created["id"], "name": "Example-Renamed"})
 
 # Remove
-client.album.remove({"id": created["id"]})
+client.Album().remove({"id": created["id"]})
 ```
 
 
@@ -109,8 +113,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = JsonplaceholderSDK.test()
 
-result = client.album.load({"id": "test01"})
-# result contains mock response data
+# Entity ops return the bare record and raise on error.
+album = client.Album().load({"id": "test01"})
+# album contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -186,12 +191,12 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> dict` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> dict` | Build and send an HTTP request. Returns a result dict (branch on `ok`). |
-| `Album` | `(data) -> AlbumEntity` | Create a Album entity instance. |
+| `Album` | `(data) -> AlbumEntity` | Create an Album entity instance. |
 | `Comment` | `(data) -> CommentEntity` | Create a Comment entity instance. |
 | `Photo` | `(data) -> PhotoEntity` | Create a Photo entity instance. |
 | `Post` | `(data) -> PostEntity` | Create a Post entity instance. |
 | `Todo` | `(data) -> TodoEntity` | Create a Todo entity instance. |
-| `User` | `(data) -> UserEntity` | Create a User entity instance. |
+| `User` | `(data) -> UserEntity` | Create an User entity instance. |
 
 ### Entity interface
 
@@ -321,7 +326,7 @@ API path: `/users`
 
 ### Album
 
-Create an instance: `const album = client.album`
+Create an instance: `album = client.Album()`
 
 #### Operations
 
@@ -343,27 +348,27 @@ Create an instance: `const album = client.album`
 
 #### Example: Load
 
-```ts
-const album = await client.album.load({ id: 'album_id' })
+```python
+album = client.Album().load({"id": "album_id"})
 ```
 
 #### Example: List
 
-```ts
-const albums = await client.album.list()
+```python
+albums = client.Album().list({})
 ```
 
 #### Example: Create
 
-```ts
-const album = await client.album.create({
+```python
+album = client.Album().create({
 })
 ```
 
 
 ### Comment
 
-Create an instance: `const comment = client.comment`
+Create an instance: `comment = client.Comment()`
 
 #### Operations
 
@@ -387,27 +392,27 @@ Create an instance: `const comment = client.comment`
 
 #### Example: Load
 
-```ts
-const comment = await client.comment.load({ id: 'comment_id' })
+```python
+comment = client.Comment().load({"id": "comment_id"})
 ```
 
 #### Example: List
 
-```ts
-const comments = await client.comment.list()
+```python
+comments = client.Comment().list({})
 ```
 
 #### Example: Create
 
-```ts
-const comment = await client.comment.create({
+```python
+comment = client.Comment().create({
 })
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.photo`
+Create an instance: `photo = client.Photo()`
 
 #### Operations
 
@@ -431,27 +436,27 @@ Create an instance: `const photo = client.photo`
 
 #### Example: Load
 
-```ts
-const photo = await client.photo.load({ id: 'photo_id' })
+```python
+photo = client.Photo().load({"id": "photo_id"})
 ```
 
 #### Example: List
 
-```ts
-const photos = await client.photo.list()
+```python
+photos = client.Photo().list({})
 ```
 
 #### Example: Create
 
-```ts
-const photo = await client.photo.create({
+```python
+photo = client.Photo().create({
 })
 ```
 
 
 ### Post
 
-Create an instance: `const post = client.post`
+Create an instance: `post = client.Post()`
 
 #### Operations
 
@@ -474,27 +479,27 @@ Create an instance: `const post = client.post`
 
 #### Example: Load
 
-```ts
-const post = await client.post.load({ id: 'post_id' })
+```python
+post = client.Post().load({"id": "post_id"})
 ```
 
 #### Example: List
 
-```ts
-const posts = await client.post.list()
+```python
+posts = client.Post().list({})
 ```
 
 #### Example: Create
 
-```ts
-const post = await client.post.create({
+```python
+post = client.Post().create({
 })
 ```
 
 
 ### Todo
 
-Create an instance: `const todo = client.todo`
+Create an instance: `todo = client.Todo()`
 
 #### Operations
 
@@ -517,27 +522,27 @@ Create an instance: `const todo = client.todo`
 
 #### Example: Load
 
-```ts
-const todo = await client.todo.load({ id: 'todo_id' })
+```python
+todo = client.Todo().load({"id": "todo_id"})
 ```
 
 #### Example: List
 
-```ts
-const todos = await client.todo.list()
+```python
+todos = client.Todo().list({})
 ```
 
 #### Example: Create
 
-```ts
-const todo = await client.todo.create({
+```python
+todo = client.Todo().create({
 })
 ```
 
 
 ### User
 
-Create an instance: `const user = client.user`
+Create an instance: `user = client.User()`
 
 #### Operations
 
@@ -564,20 +569,20 @@ Create an instance: `const user = client.user`
 
 #### Example: Load
 
-```ts
-const user = await client.user.load({ id: 'user_id' })
+```python
+user = client.User().load({"id": "user_id"})
 ```
 
 #### Example: List
 
-```ts
-const users = await client.user.list()
+```python
+users = client.User().list({})
 ```
 
 #### Example: Create
 
-```ts
-const user = await client.user.create({
+```python
+user = client.User().create({
 })
 ```
 
@@ -652,7 +657,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-album = client.album
+album = client.Album()
 album.load({"id": "example_id"})
 
 # album.data_get() now returns the loaded album data

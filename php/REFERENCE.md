@@ -105,7 +105,7 @@ Prepare a fetch definition without sending the request. Returns the
 ## AlbumEntity
 
 ```php
-$album = $client->album();
+$album = $client->Album();
 ```
 
 ### Fields
@@ -131,7 +131,7 @@ $album = $client->album();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->album()->create([
+$result = $client->Album()->create([
 ]);
 ```
 
@@ -140,7 +140,7 @@ $result = $client->album()->create([
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->album()->list([]);
+$results = $client->Album()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -148,7 +148,7 @@ $results = $client->album()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->album()->load(["id" => "album_id"]);
+$result = $client->Album()->load(["id" => "album_id"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -156,7 +156,7 @@ $result = $client->album()->load(["id" => "album_id"]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->album()->remove(["id" => "album_id"]);
+$result = $client->Album()->remove(["id" => "album_id"]);
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
@@ -164,7 +164,7 @@ $result = $client->album()->remove(["id" => "album_id"]);
 Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-$result = $client->album()->update([
+$result = $client->Album()->update([
   "id" => "album_id",
   // Fields to update
 ]);
@@ -203,7 +203,7 @@ Return the entity name.
 ## CommentEntity
 
 ```php
-$comment = $client->comment();
+$comment = $client->Comment();
 ```
 
 ### Fields
@@ -233,7 +233,7 @@ $comment = $client->comment();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->comment()->create([
+$result = $client->Comment()->create([
 ]);
 ```
 
@@ -242,7 +242,7 @@ $result = $client->comment()->create([
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->comment()->list([]);
+$results = $client->Comment()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -250,7 +250,7 @@ $results = $client->comment()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->comment()->load(["id" => "comment_id"]);
+$result = $client->Comment()->load(["id" => "comment_id"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -258,7 +258,7 @@ $result = $client->comment()->load(["id" => "comment_id"]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->comment()->remove(["id" => "comment_id"]);
+$result = $client->Comment()->remove(["id" => "comment_id"]);
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
@@ -266,7 +266,7 @@ $result = $client->comment()->remove(["id" => "comment_id"]);
 Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-$result = $client->comment()->update([
+$result = $client->Comment()->update([
   "id" => "comment_id",
   // Fields to update
 ]);
@@ -305,7 +305,7 @@ Return the entity name.
 ## PhotoEntity
 
 ```php
-$photo = $client->photo();
+$photo = $client->Photo();
 ```
 
 ### Fields
@@ -335,7 +335,7 @@ $photo = $client->photo();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->photo()->create([
+$result = $client->Photo()->create([
 ]);
 ```
 
@@ -344,7 +344,7 @@ $result = $client->photo()->create([
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->photo()->list([]);
+$results = $client->Photo()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -352,7 +352,7 @@ $results = $client->photo()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->photo()->load(["id" => "photo_id"]);
+$result = $client->Photo()->load(["id" => "photo_id"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -360,7 +360,7 @@ $result = $client->photo()->load(["id" => "photo_id"]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->photo()->remove(["id" => "photo_id"]);
+$result = $client->Photo()->remove(["id" => "photo_id"]);
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
@@ -368,7 +368,7 @@ $result = $client->photo()->remove(["id" => "photo_id"]);
 Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-$result = $client->photo()->update([
+$result = $client->Photo()->update([
   "id" => "photo_id",
   // Fields to update
 ]);
@@ -407,7 +407,7 @@ Return the entity name.
 ## PostEntity
 
 ```php
-$post = $client->post();
+$post = $client->Post();
 ```
 
 ### Fields
@@ -435,7 +435,7 @@ $post = $client->post();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->post()->create([
+$result = $client->Post()->create([
 ]);
 ```
 
@@ -444,7 +444,7 @@ $result = $client->post()->create([
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->post()->list([]);
+$results = $client->Post()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -452,7 +452,7 @@ $results = $client->post()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->post()->load(["id" => "post_id"]);
+$result = $client->Post()->load(["id" => "post_id"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -460,7 +460,7 @@ $result = $client->post()->load(["id" => "post_id"]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->post()->remove(["id" => "post_id"]);
+$result = $client->Post()->remove(["id" => "post_id"]);
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
@@ -468,7 +468,7 @@ $result = $client->post()->remove(["id" => "post_id"]);
 Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-$result = $client->post()->update([
+$result = $client->Post()->update([
   "id" => "post_id",
   // Fields to update
 ]);
@@ -507,7 +507,7 @@ Return the entity name.
 ## TodoEntity
 
 ```php
-$todo = $client->todo();
+$todo = $client->Todo();
 ```
 
 ### Fields
@@ -535,7 +535,7 @@ $todo = $client->todo();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->todo()->create([
+$result = $client->Todo()->create([
 ]);
 ```
 
@@ -544,7 +544,7 @@ $result = $client->todo()->create([
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->todo()->list([]);
+$results = $client->Todo()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -552,7 +552,7 @@ $results = $client->todo()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->todo()->load(["id" => "todo_id"]);
+$result = $client->Todo()->load(["id" => "todo_id"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -560,7 +560,7 @@ $result = $client->todo()->load(["id" => "todo_id"]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->todo()->remove(["id" => "todo_id"]);
+$result = $client->Todo()->remove(["id" => "todo_id"]);
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
@@ -568,7 +568,7 @@ $result = $client->todo()->remove(["id" => "todo_id"]);
 Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-$result = $client->todo()->update([
+$result = $client->Todo()->update([
   "id" => "todo_id",
   // Fields to update
 ]);
@@ -607,7 +607,7 @@ Return the entity name.
 ## UserEntity
 
 ```php
-$user = $client->user();
+$user = $client->User();
 ```
 
 ### Fields
@@ -643,7 +643,7 @@ $user = $client->user();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->user()->create([
+$result = $client->User()->create([
 ]);
 ```
 
@@ -652,7 +652,7 @@ $result = $client->user()->create([
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->user()->list([]);
+$results = $client->User()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -660,7 +660,7 @@ $results = $client->user()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->user()->load(["id" => "user_id"]);
+$result = $client->User()->load(["id" => "user_id"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -668,7 +668,7 @@ $result = $client->user()->load(["id" => "user_id"]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->user()->remove(["id" => "user_id"]);
+$result = $client->User()->remove(["id" => "user_id"]);
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
@@ -676,7 +676,7 @@ $result = $client->user()->remove(["id" => "user_id"]);
 Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-$result = $client->user()->update([
+$result = $client->User()->update([
   "id" => "user_id",
   // Fields to update
 ]);

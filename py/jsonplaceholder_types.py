@@ -4,242 +4,210 @@
 # params (op.<name>.points[].args.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
+#
+# These are TypedDicts, not dataclasses: the SDK ops return/accept plain dicts
+# at runtime, and a TypedDict IS a dict shape, so the types match the runtime.
+# Optional (req:false) keys are modelled as TypedDict key-optionality
+# (total=False), split into a required base + total=False subclass when a type
+# has both required and optional keys.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional, Any
+from typing import TypedDict, Any
 
 
-@dataclass
-class Album:
-    id: Optional[int] = None
-    title: Optional[str] = None
-    user_id: Optional[int] = None
-
-
-@dataclass
-class AlbumLoadMatch:
+class Album(TypedDict, total=False):
     id: int
-
-
-@dataclass
-class AlbumListMatch:
+    title: str
     user_id: int
 
 
-@dataclass
-class AlbumCreateData:
-    id: Optional[int] = None
-    title: Optional[str] = None
-    user_id: Optional[int] = None
-
-
-@dataclass
-class AlbumUpdateData:
+class AlbumLoadMatch(TypedDict):
     id: int
 
 
-@dataclass
-class AlbumRemoveMatch:
+class AlbumListMatch(TypedDict):
+    user_id: int
+
+
+class AlbumCreateData(TypedDict, total=False):
+    id: int
+    title: str
+    user_id: int
+
+
+class AlbumUpdateData(TypedDict):
     id: int
 
 
-@dataclass
-class Comment:
-    body: Optional[str] = None
-    email: Optional[str] = None
-    id: Optional[int] = None
-    name: Optional[str] = None
-    post_id: Optional[int] = None
-
-
-@dataclass
-class CommentLoadMatch:
+class AlbumRemoveMatch(TypedDict):
     id: int
 
 
-@dataclass
-class CommentListMatch:
+class Comment(TypedDict, total=False):
+    body: str
+    email: str
+    id: int
+    name: str
     post_id: int
 
 
-@dataclass
-class CommentCreateData:
-    body: Optional[str] = None
-    email: Optional[str] = None
-    id: Optional[int] = None
-    name: Optional[str] = None
-    post_id: Optional[int] = None
-
-
-@dataclass
-class CommentUpdateData:
+class CommentLoadMatch(TypedDict):
     id: int
 
 
-@dataclass
-class CommentRemoveMatch:
+class CommentListMatch(TypedDict):
+    post_id: int
+
+
+class CommentCreateData(TypedDict, total=False):
+    body: str
+    email: str
+    id: int
+    name: str
+    post_id: int
+
+
+class CommentUpdateData(TypedDict):
     id: int
 
 
-@dataclass
-class Photo:
-    album_id: Optional[int] = None
-    id: Optional[int] = None
-    thumbnail_url: Optional[str] = None
-    title: Optional[str] = None
-    url: Optional[str] = None
-
-
-@dataclass
-class PhotoLoadMatch:
+class CommentRemoveMatch(TypedDict):
     id: int
 
 
-@dataclass
-class PhotoListMatch:
+class Photo(TypedDict, total=False):
+    album_id: int
+    id: int
+    thumbnail_url: str
+    title: str
+    url: str
+
+
+class PhotoLoadMatch(TypedDict):
+    id: int
+
+
+class PhotoListMatch(TypedDict):
     album_id: int
 
 
-@dataclass
-class PhotoCreateData:
-    album_id: Optional[int] = None
-    id: Optional[int] = None
-    thumbnail_url: Optional[str] = None
-    title: Optional[str] = None
-    url: Optional[str] = None
+class PhotoCreateData(TypedDict, total=False):
+    album_id: int
+    id: int
+    thumbnail_url: str
+    title: str
+    url: str
 
 
-@dataclass
-class PhotoUpdateData:
+class PhotoUpdateData(TypedDict):
     id: int
 
 
-@dataclass
-class PhotoRemoveMatch:
+class PhotoRemoveMatch(TypedDict):
     id: int
 
 
-@dataclass
-class Post:
-    body: Optional[str] = None
-    id: Optional[int] = None
-    title: Optional[str] = None
-    user_id: Optional[int] = None
-
-
-@dataclass
-class PostLoadMatch:
+class Post(TypedDict, total=False):
+    body: str
     id: int
-
-
-@dataclass
-class PostListMatch:
+    title: str
     user_id: int
 
 
-@dataclass
-class PostCreateData:
-    body: Optional[str] = None
-    id: Optional[int] = None
-    title: Optional[str] = None
-    user_id: Optional[int] = None
-
-
-@dataclass
-class PostUpdateData:
+class PostLoadMatch(TypedDict):
     id: int
 
 
-@dataclass
-class PostRemoveMatch:
-    id: int
-
-
-@dataclass
-class Todo:
-    completed: Optional[bool] = None
-    id: Optional[int] = None
-    title: Optional[str] = None
-    user_id: Optional[int] = None
-
-
-@dataclass
-class TodoLoadMatch:
-    id: int
-
-
-@dataclass
-class TodoListMatch:
+class PostListMatch(TypedDict):
     user_id: int
 
 
-@dataclass
-class TodoCreateData:
-    completed: Optional[bool] = None
-    id: Optional[int] = None
-    title: Optional[str] = None
-    user_id: Optional[int] = None
+class PostCreateData(TypedDict, total=False):
+    body: str
+    id: int
+    title: str
+    user_id: int
 
 
-@dataclass
-class TodoUpdateData:
+class PostUpdateData(TypedDict):
     id: int
 
 
-@dataclass
-class TodoRemoveMatch:
+class PostRemoveMatch(TypedDict):
     id: int
 
 
-@dataclass
-class User:
-    address: Optional[dict] = None
-    company: Optional[dict] = None
-    email: Optional[str] = None
-    id: Optional[int] = None
-    name: Optional[str] = None
-    phone: Optional[str] = None
-    username: Optional[str] = None
-    website: Optional[str] = None
+class Todo(TypedDict, total=False):
+    completed: bool
+    id: int
+    title: str
+    user_id: int
 
 
-@dataclass
-class UserLoadMatch:
+class TodoLoadMatch(TypedDict):
     id: int
 
 
-@dataclass
-class UserListMatch:
-    address: Optional[dict] = None
-    company: Optional[dict] = None
-    email: Optional[str] = None
-    id: Optional[int] = None
-    name: Optional[str] = None
-    phone: Optional[str] = None
-    username: Optional[str] = None
-    website: Optional[str] = None
+class TodoListMatch(TypedDict):
+    user_id: int
 
 
-@dataclass
-class UserCreateData:
-    address: Optional[dict] = None
-    company: Optional[dict] = None
-    email: Optional[str] = None
-    id: Optional[int] = None
-    name: Optional[str] = None
-    phone: Optional[str] = None
-    username: Optional[str] = None
-    website: Optional[str] = None
+class TodoCreateData(TypedDict, total=False):
+    completed: bool
+    id: int
+    title: str
+    user_id: int
 
 
-@dataclass
-class UserUpdateData:
+class TodoUpdateData(TypedDict):
     id: int
 
 
-@dataclass
-class UserRemoveMatch:
+class TodoRemoveMatch(TypedDict):
     id: int
 
+
+class User(TypedDict, total=False):
+    address: dict
+    company: dict
+    email: str
+    id: int
+    name: str
+    phone: str
+    username: str
+    website: str
+
+
+class UserLoadMatch(TypedDict):
+    id: int
+
+
+class UserListMatch(TypedDict, total=False):
+    address: dict
+    company: dict
+    email: str
+    id: int
+    name: str
+    phone: str
+    username: str
+    website: str
+
+
+class UserCreateData(TypedDict, total=False):
+    address: dict
+    company: dict
+    email: str
+    id: int
+    name: str
+    phone: str
+    username: str
+    website: str
+
+
+class UserUpdateData(TypedDict):
+    id: int
+
+
+class UserRemoveMatch(TypedDict):
+    id: int

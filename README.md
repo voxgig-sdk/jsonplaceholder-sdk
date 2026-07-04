@@ -26,9 +26,11 @@ import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder'
 
 const client = new JsonplaceholderSDK()
 
-// List all albums
-const albums = await client.album.list()
-console.log(albums.data)
+// List all albums (returns Album[])
+const albums = await client.Album().list()
+for (const album of albums) {
+  console.log(album)
+}
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -88,12 +90,13 @@ from jsonplaceholder_sdk import JsonplaceholderSDK
 
 client = JsonplaceholderSDK()
 
-# List all albums
-albums = client.album.list()
-print(albums)
+# List all albums (returns a list, raises on error)
+albums = client.Album().list({})
+for album in albums:
+    print(album)
 
-# Load a specific album
-album = client.album.load({"id": "example_id"})
+# Load a specific album (returns the record, raises on error)
+album = client.Album().load({"id": "example_id"})
 print(album)
 ```
 
@@ -105,12 +108,12 @@ require_once 'jsonplaceholder_sdk.php';
 
 $client = new JsonplaceholderSDK();
 
-// List all albums (throws on error)
-$albums = $client->album()->list();
+// List all albums (returns an array; throws on error)
+$albums = $client->Album()->list();
 print_r($albums);
 
-// Load a specific album
-$album = $client->album()->load(["id" => "example_id"]);
+// Load a specific album (returns the bare record; throws on error)
+$album = $client->Album()->load(["id" => "example_id"]);
 print_r($album);
 ```
 
@@ -133,12 +136,12 @@ require_relative "Jsonplaceholder_sdk"
 
 client = JsonplaceholderSDK.new
 
-# List all albums
-albums = client.album.list
+# List all albums (returns an Array; raises on error)
+albums = client.Album.list
 puts albums
 
-# Load a specific album
-album = client.album.load({ "id" => "example_id" })
+# Load a specific album (returns the bare record; raises on error)
+album = client.Album.load({ "id" => "example_id" })
 puts album
 ```
 
@@ -150,11 +153,11 @@ local sdk = require("jsonplaceholder_sdk")
 local client = sdk.new()
 
 -- List all albums
-local albums, err = client:album():list()
+local albums, err = client:Album():list()
 print(albums)
 
 -- Load a specific album
-local album, err = client:album():load({ id = "example_id" })
+local album, err = client:Album():load({ id = "example_id" })
 print(album)
 ```
 
@@ -167,22 +170,27 @@ in-memory mock, so unit tests run offline.
 
 ```ts
 const client = JsonplaceholderSDK.test()
-const result = await client.album.load({ id: 'test01' })
-// result.ok === true, result.data contains mock data
+const album = await client.Album().load({ id: 1 })
+// album is a bare Album populated with mock data
+console.log(album)
 ```
 
 ### Python
 
 ```python
 client = JsonplaceholderSDK.test()
-result = client.album.load({"id": "test01"})
+album = client.Album().load({"id": "test01"})
+print(album)
 ```
 
 ### PHP
 
 ```php
-$client = JsonplaceholderSDK::test();
-$result = $client->album()->load(["id" => "test01"]);
+// Seed fixture data so offline calls resolve without a live server.
+$client = JsonplaceholderSDK::test([
+    "entity" => ["album" => ["test01" => ["id" => "test01"]]],
+]);
+$album = $client->Album()->load(["id" => "test01"]);
 ```
 
 ### Golang
@@ -197,15 +205,18 @@ result, err := client.Album(nil).Load(
 ### Ruby
 
 ```ruby
-client = JsonplaceholderSDK.test
-result = client.album.load({ "id" => "test01" })
+# Seed fixture data so offline calls resolve without a live server.
+client = JsonplaceholderSDK.test({
+  "entity" => { "album" => { "test01" => { "id" => "test01" } } },
+})
+album = client.Album.load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:album():load({ id = "test01" })
+local result, err = client:Album():load({ id = "test01" })
 ```
 
 ## How it works
@@ -253,6 +264,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
+if (result instanceof Error) {
+  throw result
+}
 console.log(result.data)
 ```
 

@@ -30,75 +30,61 @@ go mod edit -replace github.com/voxgig-sdk/jsonplaceholder-sdk/go=../jsonplaceho
 This tutorial walks through creating a client, listing entities, and
 loading a specific record.
 
-### 1. Create a client
+### Quickstart
+
+A complete program: create a client, then call the entity operations.
+Each operation returns `(value, error)` — the value is the data itself
+(there is no `{ok, data}` wrapper), so check `err` and use the value
+directly.
 
 ```go
 package main
 
 import (
     "fmt"
-
     sdk "github.com/voxgig-sdk/jsonplaceholder-sdk/go"
-    "github.com/voxgig-sdk/jsonplaceholder-sdk/go/core"
 )
 
 func main() {
     client := sdk.New()
-```
 
-### 2. List albums
-
-```go
-    result, err := client.Album(nil).List(nil, nil)
+    // List album records — the value is the array of records itself.
+    albums, err := client.Album(nil).List(nil, nil)
     if err != nil {
         panic(err)
     }
-
-    rm := core.ToMapAny(result)
-    if rm["ok"] == true {
-        for _, item := range rm["data"].([]any) {
-            p := core.ToMapAny(item)
-            fmt.Println(p["id"], p["name"])
-        }
+    for _, item := range albums.([]any) {
+        fmt.Println(item)
     }
-```
 
-### 3. Load an album
-
-```go
-    result, err = client.Album(nil).Load(
-        map[string]any{"id": "example_id"}, nil,
-    )
+    // Load a single album — the value is the loaded record.
+    album, err := client.Album(nil).Load(map[string]any{"id": "example_id"}, nil)
     if err != nil {
         panic(err)
     }
+    fmt.Println(album)
 
-    rm = core.ToMapAny(result)
-    if rm["ok"] == true {
-        fmt.Println(rm["data"])
+    // Create a album.
+    created, err := client.Album(nil).Create(map[string]any{"name": "Example"}, nil)
+    if err != nil {
+        panic(err)
     }
+    fmt.Println(created)
+
+    // Update a album.
+    updated, err := client.Album(nil).Update(map[string]any{"id": "example_id", "name": "Renamed"}, nil)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println(updated)
+
+    // Remove a album.
+    removed, err := client.Album(nil).Remove(map[string]any{"id": "example_id"}, nil)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println(removed)
 }
-```
-
-### 4. Create, update, and remove
-
-```go
-// Create
-created, _ := client.Album(nil).Create(
-    map[string]any{"name": "Example"}, nil,
-)
-cm := core.ToMapAny(created)
-newID := core.ToMapAny(cm["data"])["id"]
-
-// Update
-client.Album(nil).Update(
-    map[string]any{"id": newID, "name": "Example-Renamed"}, nil,
-)
-
-// Remove
-client.Album(nil).Remove(
-    map[string]any{"id": newID}, nil,
-)
 ```
 
 
@@ -148,10 +134,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-result, err := client.Album(nil).Load(
+album, err := client.Album(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
-// result contains mock response data
+if err != nil {
+    panic(err)
+}
+fmt.Println(album) // the loaded mock data
 ```
 
 ### Use a custom fetch function
@@ -228,12 +217,12 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `GetUtility` | `() *Utility` | Copy of the SDK utility object. |
 | `Prepare` | `(fetchargs map[string]any) (map[string]any, error)` | Build an HTTP request definition without sending. |
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
-| `Album` | `(data map[string]any) JsonplaceholderEntity` | Create a Album entity instance. |
+| `Album` | `(data map[string]any) JsonplaceholderEntity` | Create an Album entity instance. |
 | `Comment` | `(data map[string]any) JsonplaceholderEntity` | Create a Comment entity instance. |
 | `Photo` | `(data map[string]any) JsonplaceholderEntity` | Create a Photo entity instance. |
 | `Post` | `(data map[string]any) JsonplaceholderEntity` | Create a Post entity instance. |
 | `Todo` | `(data map[string]any) JsonplaceholderEntity` | Create a Todo entity instance. |
-| `User` | `(data map[string]any) JsonplaceholderEntity` | Create a User entity instance. |
+| `User` | `(data map[string]any) JsonplaceholderEntity` | Create an User entity instance. |
 
 ### Entity interface (JsonplaceholderEntity)
 
@@ -253,17 +242,24 @@ All entities implement the `JsonplaceholderEntity` interface.
 
 ### Result shape
 
-Entity operations return `(any, error)`. The `any` value is a
-`map[string]any` with these keys:
+Entity operations return `(value, error)`. The `value` is the
+operation's data **directly** — there is no wrapper:
 
-| Key | Type | Description |
-| --- | --- | --- |
-| `"ok"` | `bool` | `true` if the HTTP status is 2xx. |
-| `"status"` | `int` | HTTP status code. |
-| `"headers"` | `map[string]any` | Response headers. |
-| `"data"` | `any` | Parsed JSON response body. |
+| Operation | `value` |
+| --- | --- |
+| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
+| `List` | a `[]any` of entity records |
 
-On error, `"ok"` is `false` and `"err"` contains the error value.
+Check `err` first, then use the value directly (or the typed
+`...Typed` variants, which return the entity's model struct and a typed
+slice):
+
+    album, err := client.Album(nil).Load(map[string]any{"id": "example_id"}, nil)
+    if err != nil { /* handle */ }
+    // album is the loaded record
+
+Only `Direct()` returns a response envelope — a `map[string]any` with
+`"ok"`, `"status"`, `"headers"`, and `"data"` keys.
 
 ### Entities
 
@@ -380,13 +376,21 @@ Create an instance: `album := client.Album(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Album(nil).Load(map[string]any{"id": "album_id"}, nil)
+album, err := client.Album(nil).Load(map[string]any{"id": "album_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(album) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.Album(nil).List(nil, nil)
+albums, err := client.Album(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(albums) // the array of records
 ```
 
 #### Example: Create
@@ -424,13 +428,21 @@ Create an instance: `comment := client.Comment(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Comment(nil).Load(map[string]any{"id": "comment_id"}, nil)
+comment, err := client.Comment(nil).Load(map[string]any{"id": "comment_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(comment) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.Comment(nil).List(nil, nil)
+comments, err := client.Comment(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(comments) // the array of records
 ```
 
 #### Example: Create
@@ -468,13 +480,21 @@ Create an instance: `photo := client.Photo(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Photo(nil).Load(map[string]any{"id": "photo_id"}, nil)
+photo, err := client.Photo(nil).Load(map[string]any{"id": "photo_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(photo) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.Photo(nil).List(nil, nil)
+photos, err := client.Photo(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(photos) // the array of records
 ```
 
 #### Example: Create
@@ -511,13 +531,21 @@ Create an instance: `post := client.Post(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Post(nil).Load(map[string]any{"id": "post_id"}, nil)
+post, err := client.Post(nil).Load(map[string]any{"id": "post_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(post) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.Post(nil).List(nil, nil)
+posts, err := client.Post(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(posts) // the array of records
 ```
 
 #### Example: Create
@@ -554,13 +582,21 @@ Create an instance: `todo := client.Todo(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Todo(nil).Load(map[string]any{"id": "todo_id"}, nil)
+todo, err := client.Todo(nil).Load(map[string]any{"id": "todo_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(todo) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.Todo(nil).List(nil, nil)
+todos, err := client.Todo(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(todos) // the array of records
 ```
 
 #### Example: Create
@@ -601,13 +637,21 @@ Create an instance: `user := client.User(nil)`
 #### Example: Load
 
 ```go
-result, err := client.User(nil).Load(map[string]any{"id": "user_id"}, nil)
+user, err := client.User(nil).Load(map[string]any{"id": "user_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(user) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.User(nil).List(nil, nil)
+users, err := client.User(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(users) // the array of records
 ```
 
 #### Example: Create

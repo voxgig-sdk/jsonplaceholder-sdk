@@ -28,45 +28,48 @@ import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder'
 const client = new JsonplaceholderSDK()
 ```
 
-### 2. List albums
+### 2. List album records
+
+`list()` resolves to an array of Album objects — iterate it directly:
 
 ```ts
-const result = await client.album.list()
+const albums = await client.Album().list()
 
-if (result.ok) {
-  for (const item of result.data) {
-    console.log(item.id, item.name)
-  }
+for (const album of albums) {
+  console.log(album)
 }
 ```
 
 ### 3. Load an album
 
-```ts
-const result = await client.album.load({ id: 'example_id' })
+`load()` returns the entity directly and throws on failure:
 
-if (result.ok) {
-  console.log(result.data)
+```ts
+try {
+  const album = await client.Album().load({ id: 'example_id' })
+  console.log(album)
+} catch (err) {
+  console.error('load failed:', err)
 }
 ```
 
 ### 4. Create, update, and remove
 
 ```ts
-// Create
-const created = await client.album.create({
+// Create — returns the created Album
+const created = await client.Album().create({
   name: 'Example',
 })
 
-// Update
-const updated = await client.album.update({
-  id: created.data.id,
+// Update — the id comes straight off the returned entity
+const updated = await client.Album().update({
+  id: created.id,
   name: 'Example-Renamed',
 })
 
 // Remove
-const removed = await client.album.remove({
-  id: created.data.id,
+await client.Album().remove({
+  id: created.id,
 })
 ```
 
@@ -84,6 +87,9 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
+if (result instanceof Error) {
+  throw result
+}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -112,9 +118,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = JsonplaceholderSDK.test()
 
-const result = await client.album.load({ id: 'test01' })
-// result.ok === true
-// result.data contains mock response data
+const album = await client.Album().load({ id: 'test01' })
+// album is a bare entity populated with mock response data
+console.log(album)
 ```
 
 You can also use the instance method:
@@ -129,7 +135,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.album
+const entity = client.Album()
 
 // First call sets internal match
 await entity.load({ id: 'example' })
@@ -207,12 +213,12 @@ new JsonplaceholderSDK(options?: {
 | `utility()` | `Utility` | Deep copy of the SDK utility object. |
 | `prepare(fetchargs?)` | `Promise<FetchDef>` | Build an HTTP request definition without sending it. |
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
-| `Album(data?)` | `AlbumEntity` | Create a Album entity instance. |
+| `Album(data?)` | `AlbumEntity` | Create an Album entity instance. |
 | `Comment(data?)` | `CommentEntity` | Create a Comment entity instance. |
 | `Photo(data?)` | `PhotoEntity` | Create a Photo entity instance. |
 | `Post(data?)` | `PostEntity` | Create a Post entity instance. |
 | `Todo(data?)` | `TodoEntity` | Create a Todo entity instance. |
-| `User(data?)` | `UserEntity` | Create a User entity instance. |
+| `User(data?)` | `UserEntity` | Create an User entity instance. |
 | `tester(testopts?, sdkopts?)` | `JsonplaceholderSDK` | Create a test-mode client instance. |
 
 #### Static methods
@@ -229,29 +235,30 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Result>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Result>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Result>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Result>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<Result>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
 | `data` | `data(data?): any` | Get or set entity data. |
 | `match` | `match(match?): any` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
 | `client` | `client(): JsonplaceholderSDK` | Return the parent SDK client. |
 | `entopts` | `entopts(): object` | Return a copy of the entity options. |
 
-#### Result shape
+#### Return values
 
-All entity operations return a Result object:
+Entity operations resolve to the entity data directly — there is no
+result envelope:
 
-```ts
-{
-  ok: boolean      // true if the HTTP status is 2xx
-  status: number   // HTTP status code
-  headers: object  // response headers
-  data: any        // parsed JSON response body
-}
-```
+- `load`, `create` and `update` resolve to a single entity object.
+- `list` resolves to an **array** of entity objects (iterate it directly;
+  there is no `.data` and no `.ok`).
+- `remove` resolves to `void`.
+
+On a failed request these methods **throw**, so wrap calls in
+`try`/`catch` to handle errors. Only `direct()` returns the result
+envelope described below.
 
 ### DirectResult shape
 
@@ -373,7 +380,7 @@ API path: `/users`
 
 ### Album
 
-Create an instance: `const album = client.album`
+Create an instance: `const album = client.Album()`
 
 #### Operations
 
@@ -396,26 +403,26 @@ Create an instance: `const album = client.album`
 #### Example: Load
 
 ```ts
-const album = await client.album.load({ id: 'album_id' })
+const album = await client.Album().load({ id: 'album_id' })
 ```
 
 #### Example: List
 
 ```ts
-const albums = await client.album.list()
+const albums = await client.Album().list()
 ```
 
 #### Example: Create
 
 ```ts
-const album = await client.album.create({
+const album = await client.Album().create({
 })
 ```
 
 
 ### Comment
 
-Create an instance: `const comment = client.comment`
+Create an instance: `const comment = client.Comment()`
 
 #### Operations
 
@@ -440,26 +447,26 @@ Create an instance: `const comment = client.comment`
 #### Example: Load
 
 ```ts
-const comment = await client.comment.load({ id: 'comment_id' })
+const comment = await client.Comment().load({ id: 'comment_id' })
 ```
 
 #### Example: List
 
 ```ts
-const comments = await client.comment.list()
+const comments = await client.Comment().list()
 ```
 
 #### Example: Create
 
 ```ts
-const comment = await client.comment.create({
+const comment = await client.Comment().create({
 })
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.photo`
+Create an instance: `const photo = client.Photo()`
 
 #### Operations
 
@@ -484,26 +491,26 @@ Create an instance: `const photo = client.photo`
 #### Example: Load
 
 ```ts
-const photo = await client.photo.load({ id: 'photo_id' })
+const photo = await client.Photo().load({ id: 'photo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const photos = await client.photo.list()
+const photos = await client.Photo().list()
 ```
 
 #### Example: Create
 
 ```ts
-const photo = await client.photo.create({
+const photo = await client.Photo().create({
 })
 ```
 
 
 ### Post
 
-Create an instance: `const post = client.post`
+Create an instance: `const post = client.Post()`
 
 #### Operations
 
@@ -527,26 +534,26 @@ Create an instance: `const post = client.post`
 #### Example: Load
 
 ```ts
-const post = await client.post.load({ id: 'post_id' })
+const post = await client.Post().load({ id: 'post_id' })
 ```
 
 #### Example: List
 
 ```ts
-const posts = await client.post.list()
+const posts = await client.Post().list()
 ```
 
 #### Example: Create
 
 ```ts
-const post = await client.post.create({
+const post = await client.Post().create({
 })
 ```
 
 
 ### Todo
 
-Create an instance: `const todo = client.todo`
+Create an instance: `const todo = client.Todo()`
 
 #### Operations
 
@@ -570,26 +577,26 @@ Create an instance: `const todo = client.todo`
 #### Example: Load
 
 ```ts
-const todo = await client.todo.load({ id: 'todo_id' })
+const todo = await client.Todo().load({ id: 'todo_id' })
 ```
 
 #### Example: List
 
 ```ts
-const todos = await client.todo.list()
+const todos = await client.Todo().list()
 ```
 
 #### Example: Create
 
 ```ts
-const todo = await client.todo.create({
+const todo = await client.Todo().create({
 })
 ```
 
 
 ### User
 
-Create an instance: `const user = client.user`
+Create an instance: `const user = client.User()`
 
 #### Operations
 
@@ -617,19 +624,19 @@ Create an instance: `const user = client.user`
 #### Example: Load
 
 ```ts
-const user = await client.user.load({ id: 'user_id' })
+const user = await client.User().load({ id: 'user_id' })
 ```
 
 #### Example: List
 
 ```ts
-const users = await client.user.list()
+const users = await client.User().list()
 ```
 
 #### Example: Create
 
 ```ts
-const user = await client.user.create({
+const user = await client.User().create({
 })
 ```
 
@@ -701,7 +708,7 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const album = client.album
+const album = client.Album()
 await album.load({ id: "example_id" })
 
 // album.data() now returns the loaded album data
