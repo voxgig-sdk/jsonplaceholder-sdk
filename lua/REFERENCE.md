@@ -110,9 +110,9 @@ local album = client:Album(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `id` | `number` | No |  |
+| `title` | `string` | No |  |
+| `user_id` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -208,11 +208,11 @@ local comment = client:Comment(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `post_id` | ``$INTEGER`` | No |  |
+| `body` | `string` | No |  |
+| `email` | `string` | No |  |
+| `id` | `number` | No |  |
+| `name` | `string` | No |  |
+| `post_id` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -310,11 +310,11 @@ local photo = client:Photo(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `album_id` | ``$INTEGER`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `thumbnail_url` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | No |  |
+| `album_id` | `number` | No |  |
+| `id` | `number` | No |  |
+| `thumbnail_url` | `string` | No |  |
+| `title` | `string` | No |  |
+| `url` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -412,10 +412,10 @@ local post = client:Post(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `body` | `string` | No |  |
+| `id` | `number` | No |  |
+| `title` | `string` | No |  |
+| `user_id` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -512,10 +512,10 @@ local todo = client:Todo(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completed` | ``$BOOLEAN`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `completed` | `boolean` | No |  |
+| `id` | `number` | No |  |
+| `title` | `string` | No |  |
+| `user_id` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -612,14 +612,14 @@ local user = client:User(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | ``$OBJECT`` | No |  |
-| `company` | ``$OBJECT`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `phone` | ``$STRING`` | No |  |
-| `username` | ``$STRING`` | No |  |
-| `website` | ``$STRING`` | No |  |
+| `address` | `table` | No |  |
+| `company` | `table` | No |  |
+| `email` | `string` | No |  |
+| `id` | `number` | No |  |
+| `name` | `string` | No |  |
+| `phone` | `string` | No |  |
+| `username` | `string` | No |  |
+| `website` | `string` | No |  |
 
 ### Field Usage by Operation
 

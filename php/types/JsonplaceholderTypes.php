@@ -32,7 +32,7 @@ class AlbumListMatch
     public int $user_id;
 }
 
-/** Match filter for Album#create (any subset of Album fields). */
+/** Request payload for Album#create. */
 class AlbumCreateData
 {
     public ?int $id = null;
@@ -74,7 +74,7 @@ class CommentListMatch
     public int $post_id;
 }
 
-/** Match filter for Comment#create (any subset of Comment fields). */
+/** Request payload for Comment#create. */
 class CommentCreateData
 {
     public ?string $body = null;
@@ -118,7 +118,7 @@ class PhotoListMatch
     public int $album_id;
 }
 
-/** Match filter for Photo#create (any subset of Photo fields). */
+/** Request payload for Photo#create. */
 class PhotoCreateData
 {
     public ?int $album_id = null;
@@ -161,7 +161,7 @@ class PostListMatch
     public int $user_id;
 }
 
-/** Match filter for Post#create (any subset of Post fields). */
+/** Request payload for Post#create. */
 class PostCreateData
 {
     public ?string $body = null;
@@ -203,7 +203,7 @@ class TodoListMatch
     public int $user_id;
 }
 
-/** Match filter for Todo#create (any subset of Todo fields). */
+/** Request payload for Todo#create. */
 class TodoCreateData
 {
     public ?bool $completed = null;
@@ -243,7 +243,7 @@ class UserLoadMatch
     public int $id;
 }
 
-/** Match filter for User#list (any subset of User fields). */
+/** Request payload for User#list. */
 class UserListMatch
 {
     public ?array $address = null;
@@ -256,7 +256,7 @@ class UserListMatch
     public ?string $website = null;
 }
 
-/** Match filter for User#create (any subset of User fields). */
+/** Request payload for User#create. */
 class UserCreateData
 {
     public ?array $address = null;

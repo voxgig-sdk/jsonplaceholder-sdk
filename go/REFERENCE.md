@@ -117,9 +117,9 @@ album := client.Album(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `id` | `int` | No |  |
+| `title` | `string` | No |  |
+| `user_id` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -209,11 +209,11 @@ comment := client.Comment(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `post_id` | ``$INTEGER`` | No |  |
+| `body` | `string` | No |  |
+| `email` | `string` | No |  |
+| `id` | `int` | No |  |
+| `name` | `string` | No |  |
+| `post_id` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -305,11 +305,11 @@ photo := client.Photo(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `album_id` | ``$INTEGER`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `thumbnail_url` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | No |  |
+| `album_id` | `int` | No |  |
+| `id` | `int` | No |  |
+| `thumbnail_url` | `string` | No |  |
+| `title` | `string` | No |  |
+| `url` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -401,10 +401,10 @@ post := client.Post(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `body` | `string` | No |  |
+| `id` | `int` | No |  |
+| `title` | `string` | No |  |
+| `user_id` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -495,10 +495,10 @@ todo := client.Todo(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completed` | ``$BOOLEAN`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `completed` | `bool` | No |  |
+| `id` | `int` | No |  |
+| `title` | `string` | No |  |
+| `user_id` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -589,14 +589,14 @@ user := client.User(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | ``$OBJECT`` | No |  |
-| `company` | ``$OBJECT`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `phone` | ``$STRING`` | No |  |
-| `username` | ``$STRING`` | No |  |
-| `website` | ``$STRING`` | No |  |
+| `address` | `map[string]any` | No |  |
+| `company` | `map[string]any` | No |  |
+| `email` | `string` | No |  |
+| `id` | `int` | No |  |
+| `name` | `string` | No |  |
+| `phone` | `string` | No |  |
+| `username` | `string` | No |  |
+| `website` | `string` | No |  |
 
 ### Field Usage by Operation
 

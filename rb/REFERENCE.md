@@ -8,7 +8,7 @@ Complete API reference for the Jsonplaceholder Ruby SDK.
 ### Constructor
 
 ```ruby
-require_relative 'jsonplaceholder_sdk'
+require_relative 'Jsonplaceholder_sdk'
 
 client = JsonplaceholderSDK.new(options)
 ```
@@ -113,9 +113,9 @@ album = client.Album
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `id` | `Integer` | No |  |
+| `title` | `String` | No |  |
+| `user_id` | `Integer` | No |  |
 
 ### Field Usage by Operation
 
@@ -136,12 +136,12 @@ result = client.Album.create({
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Album.list(nil)
+results = client.Album.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -211,11 +211,11 @@ comment = client.Comment
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `post_id` | ``$INTEGER`` | No |  |
+| `body` | `String` | No |  |
+| `email` | `String` | No |  |
+| `id` | `Integer` | No |  |
+| `name` | `String` | No |  |
+| `post_id` | `Integer` | No |  |
 
 ### Field Usage by Operation
 
@@ -238,12 +238,12 @@ result = client.Comment.create({
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Comment.list(nil)
+results = client.Comment.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -313,11 +313,11 @@ photo = client.Photo
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `album_id` | ``$INTEGER`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `thumbnail_url` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | No |  |
+| `album_id` | `Integer` | No |  |
+| `id` | `Integer` | No |  |
+| `thumbnail_url` | `String` | No |  |
+| `title` | `String` | No |  |
+| `url` | `String` | No |  |
 
 ### Field Usage by Operation
 
@@ -340,12 +340,12 @@ result = client.Photo.create({
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Photo.list(nil)
+results = client.Photo.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -415,10 +415,10 @@ post = client.Post
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `body` | `String` | No |  |
+| `id` | `Integer` | No |  |
+| `title` | `String` | No |  |
+| `user_id` | `Integer` | No |  |
 
 ### Field Usage by Operation
 
@@ -440,12 +440,12 @@ result = client.Post.create({
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Post.list(nil)
+results = client.Post.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -515,10 +515,10 @@ todo = client.Todo
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completed` | ``$BOOLEAN`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `completed` | `Boolean` | No |  |
+| `id` | `Integer` | No |  |
+| `title` | `String` | No |  |
+| `user_id` | `Integer` | No |  |
 
 ### Field Usage by Operation
 
@@ -540,12 +540,12 @@ result = client.Todo.create({
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Todo.list(nil)
+results = client.Todo.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -615,14 +615,14 @@ user = client.User
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | ``$OBJECT`` | No |  |
-| `company` | ``$OBJECT`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `phone` | ``$STRING`` | No |  |
-| `username` | ``$STRING`` | No |  |
-| `website` | ``$STRING`` | No |  |
+| `address` | `Hash` | No |  |
+| `company` | `Hash` | No |  |
+| `email` | `String` | No |  |
+| `id` | `Integer` | No |  |
+| `name` | `String` | No |  |
+| `phone` | `String` | No |  |
+| `username` | `String` | No |  |
+| `website` | `String` | No |  |
 
 ### Field Usage by Operation
 
@@ -648,12 +648,12 @@ result = client.User.create({
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.User.list(nil)
+results = client.User.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`

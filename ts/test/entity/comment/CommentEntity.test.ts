@@ -81,12 +81,12 @@ describe('CommentEntity', async () => {
     comment_ref01_data_up0.id = comment_ref01_data.id
 
     const comment_ref01_markdef_up0 = { name: 'body', value: 'Mark01-comment_ref01_' + setup.now }
-    comment_ref01_data_up0 [comment_ref01_markdef_up0.name] = comment_ref01_markdef_up0.value
+    ;(comment_ref01_data_up0 as any)[comment_ref01_markdef_up0.name] = comment_ref01_markdef_up0.value
 
     const comment_ref01_resdata_up0 = await comment_ref01_ent.update(comment_ref01_data_up0)
     assert(comment_ref01_resdata_up0.id === comment_ref01_data_up0.id)
 
-    assert(comment_ref01_resdata_up0[comment_ref01_markdef_up0.name] === comment_ref01_markdef_up0.value)
+    assert((comment_ref01_resdata_up0 as any)[comment_ref01_markdef_up0.name] === comment_ref01_markdef_up0.value)
 
 
     // LOAD

@@ -81,12 +81,12 @@ describe('PostEntity', async () => {
     post_ref01_data_up0.id = post_ref01_data.id
 
     const post_ref01_markdef_up0 = { name: 'body', value: 'Mark01-post_ref01_' + setup.now }
-    post_ref01_data_up0 [post_ref01_markdef_up0.name] = post_ref01_markdef_up0.value
+    ;(post_ref01_data_up0 as any)[post_ref01_markdef_up0.name] = post_ref01_markdef_up0.value
 
     const post_ref01_resdata_up0 = await post_ref01_ent.update(post_ref01_data_up0)
     assert(post_ref01_resdata_up0.id === post_ref01_data_up0.id)
 
-    assert(post_ref01_resdata_up0[post_ref01_markdef_up0.name] === post_ref01_markdef_up0.value)
+    assert((post_ref01_resdata_up0 as any)[post_ref01_markdef_up0.name] === post_ref01_markdef_up0.value)
 
 
     // LOAD

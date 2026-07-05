@@ -81,12 +81,12 @@ describe('AlbumEntity', async () => {
     album_ref01_data_up0.id = album_ref01_data.id
 
     const album_ref01_markdef_up0 = { name: 'title', value: 'Mark01-album_ref01_' + setup.now }
-    album_ref01_data_up0 [album_ref01_markdef_up0.name] = album_ref01_markdef_up0.value
+    ;(album_ref01_data_up0 as any)[album_ref01_markdef_up0.name] = album_ref01_markdef_up0.value
 
     const album_ref01_resdata_up0 = await album_ref01_ent.update(album_ref01_data_up0)
     assert(album_ref01_resdata_up0.id === album_ref01_data_up0.id)
 
-    assert(album_ref01_resdata_up0[album_ref01_markdef_up0.name] === album_ref01_markdef_up0.value)
+    assert((album_ref01_resdata_up0 as any)[album_ref01_markdef_up0.name] === album_ref01_markdef_up0.value)
 
 
     // LOAD

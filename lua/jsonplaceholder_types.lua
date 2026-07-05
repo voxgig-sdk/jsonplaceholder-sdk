@@ -18,6 +18,9 @@
 ---@field user_id number
 
 ---@class AlbumCreateData
+---@field id? number
+---@field title? string
+---@field user_id? number
 
 ---@class AlbumUpdateData
 ---@field id number
@@ -39,6 +42,11 @@
 ---@field post_id number
 
 ---@class CommentCreateData
+---@field body? string
+---@field email? string
+---@field id? number
+---@field name? string
+---@field post_id? number
 
 ---@class CommentUpdateData
 ---@field id number
@@ -60,6 +68,11 @@
 ---@field album_id number
 
 ---@class PhotoCreateData
+---@field album_id? number
+---@field id? number
+---@field thumbnail_url? string
+---@field title? string
+---@field url? string
 
 ---@class PhotoUpdateData
 ---@field id number
@@ -80,6 +93,10 @@
 ---@field user_id number
 
 ---@class PostCreateData
+---@field body? string
+---@field id? number
+---@field title? string
+---@field user_id? number
 
 ---@class PostUpdateData
 ---@field id number
@@ -100,6 +117,10 @@
 ---@field user_id number
 
 ---@class TodoCreateData
+---@field completed? boolean
+---@field id? number
+---@field title? string
+---@field user_id? number
 
 ---@class TodoUpdateData
 ---@field id number
@@ -121,8 +142,24 @@
 ---@field id number
 
 ---@class UserListMatch
+---@field address? table
+---@field company? table
+---@field email? string
+---@field id? number
+---@field name? string
+---@field phone? string
+---@field username? string
+---@field website? string
 
 ---@class UserCreateData
+---@field address? table
+---@field company? table
+---@field email? string
+---@field id? number
+---@field name? string
+---@field phone? string
+---@field username? string
+---@field website? string
 
 ---@class UserUpdateData
 ---@field id number

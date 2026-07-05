@@ -43,7 +43,7 @@ AlbumListMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Album#create (any subset of Album fields).
+# Request payload for Album#create.
 #
 # @!attribute [rw] id
 #   @return [Integer, nil]
@@ -121,7 +121,7 @@ CommentListMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Comment#create (any subset of Comment fields).
+# Request payload for Comment#create.
 #
 # @!attribute [rw] body
 #   @return [String, nil]
@@ -207,7 +207,7 @@ PhotoListMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Photo#create (any subset of Photo fields).
+# Request payload for Photo#create.
 #
 # @!attribute [rw] album_id
 #   @return [Integer, nil]
@@ -289,7 +289,7 @@ PostListMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Post#create (any subset of Post fields).
+# Request payload for Post#create.
 #
 # @!attribute [rw] body
 #   @return [String, nil]
@@ -367,7 +367,7 @@ TodoListMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Todo#create (any subset of Todo fields).
+# Request payload for Todo#create.
 #
 # @!attribute [rw] completed
 #   @return [Boolean, nil]
@@ -452,7 +452,7 @@ UserLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for User#list (any subset of User fields).
+# Request payload for User#list.
 #
 # @!attribute [rw] address
 #   @return [Hash, nil]
@@ -489,7 +489,7 @@ UserListMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for User#create (any subset of User fields).
+# Request payload for User#create.
 #
 # @!attribute [rw] address
 #   @return [Hash, nil]

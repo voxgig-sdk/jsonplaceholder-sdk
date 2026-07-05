@@ -176,9 +176,9 @@ const album = client.Album()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `id` | `number` | No |  |
+| `title` | `string` | No |  |
+| `user_id` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -212,7 +212,7 @@ const results = await client.Album().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Album().load({ id: 'album_id' })
+const result = await client.Album().load({ id: 1 })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -220,7 +220,7 @@ const result = await client.Album().load({ id: 'album_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Album().remove({ id: 'album_id' })
+const result = await client.Album().remove({ id: 1 })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -229,7 +229,7 @@ Update an existing entity. The data must include the entity `id`.
 
 ```ts
 const result = await client.Album().update({
-  id: 'album_id',
+  id: 1,
   // Fields to update
 })
 ```
@@ -272,11 +272,11 @@ const comment = client.Comment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `post_id` | ``$INTEGER`` | No |  |
+| `body` | `string` | No |  |
+| `email` | `string` | No |  |
+| `id` | `number` | No |  |
+| `name` | `string` | No |  |
+| `post_id` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -312,7 +312,7 @@ const results = await client.Comment().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Comment().load({ id: 'comment_id' })
+const result = await client.Comment().load({ id: 1 })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -320,7 +320,7 @@ const result = await client.Comment().load({ id: 'comment_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Comment().remove({ id: 'comment_id' })
+const result = await client.Comment().remove({ id: 1 })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -329,7 +329,7 @@ Update an existing entity. The data must include the entity `id`.
 
 ```ts
 const result = await client.Comment().update({
-  id: 'comment_id',
+  id: 1,
   // Fields to update
 })
 ```
@@ -372,11 +372,11 @@ const photo = client.Photo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `album_id` | ``$INTEGER`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `thumbnail_url` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | No |  |
+| `album_id` | `number` | No |  |
+| `id` | `number` | No |  |
+| `thumbnail_url` | `string` | No |  |
+| `title` | `string` | No |  |
+| `url` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -412,7 +412,7 @@ const results = await client.Photo().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Photo().load({ id: 'photo_id' })
+const result = await client.Photo().load({ id: 1 })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -420,7 +420,7 @@ const result = await client.Photo().load({ id: 'photo_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Photo().remove({ id: 'photo_id' })
+const result = await client.Photo().remove({ id: 1 })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -429,7 +429,7 @@ Update an existing entity. The data must include the entity `id`.
 
 ```ts
 const result = await client.Photo().update({
-  id: 'photo_id',
+  id: 1,
   // Fields to update
 })
 ```
@@ -472,10 +472,10 @@ const post = client.Post()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `body` | `string` | No |  |
+| `id` | `number` | No |  |
+| `title` | `string` | No |  |
+| `user_id` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -510,7 +510,7 @@ const results = await client.Post().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Post().load({ id: 'post_id' })
+const result = await client.Post().load({ id: 1 })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -518,7 +518,7 @@ const result = await client.Post().load({ id: 'post_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Post().remove({ id: 'post_id' })
+const result = await client.Post().remove({ id: 1 })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -527,7 +527,7 @@ Update an existing entity. The data must include the entity `id`.
 
 ```ts
 const result = await client.Post().update({
-  id: 'post_id',
+  id: 1,
   // Fields to update
 })
 ```
@@ -570,10 +570,10 @@ const todo = client.Todo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completed` | ``$BOOLEAN`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `completed` | `boolean` | No |  |
+| `id` | `number` | No |  |
+| `title` | `string` | No |  |
+| `user_id` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -608,7 +608,7 @@ const results = await client.Todo().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Todo().load({ id: 'todo_id' })
+const result = await client.Todo().load({ id: 1 })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -616,7 +616,7 @@ const result = await client.Todo().load({ id: 'todo_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Todo().remove({ id: 'todo_id' })
+const result = await client.Todo().remove({ id: 1 })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -625,7 +625,7 @@ Update an existing entity. The data must include the entity `id`.
 
 ```ts
 const result = await client.Todo().update({
-  id: 'todo_id',
+  id: 1,
   // Fields to update
 })
 ```
@@ -668,14 +668,14 @@ const user = client.User()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | ``$OBJECT`` | No |  |
-| `company` | ``$OBJECT`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `phone` | ``$STRING`` | No |  |
-| `username` | ``$STRING`` | No |  |
-| `website` | ``$STRING`` | No |  |
+| `address` | `Record<string, any>` | No |  |
+| `company` | `Record<string, any>` | No |  |
+| `email` | `string` | No |  |
+| `id` | `number` | No |  |
+| `name` | `string` | No |  |
+| `phone` | `string` | No |  |
+| `username` | `string` | No |  |
+| `website` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -714,7 +714,7 @@ const results = await client.User().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.User().load({ id: 'user_id' })
+const result = await client.User().load({ id: 1 })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -722,7 +722,7 @@ const result = await client.User().load({ id: 'user_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.User().remove({ id: 'user_id' })
+const result = await client.User().remove({ id: 1 })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -731,7 +731,7 @@ Update an existing entity. The data must include the entity `id`.
 
 ```ts
 const result = await client.User().update({
-  id: 'user_id',
+  id: 1,
   // Fields to update
 })
 ```

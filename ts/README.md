@@ -4,6 +4,11 @@
 
 The TypeScript SDK for the Jsonplaceholder API — a type-safe, entity-oriented client with full async/await support.
 
+The API is exposed as capitalised, semantic **Entities** — e.g.
+`client.Album()` — each with a small set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`)
+instead of raw URL paths and query parameters. This keeps the surface
+predictable and low-friction for both humans and AI agents.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -46,7 +51,7 @@ for (const album of albums) {
 
 ```ts
 try {
-  const album = await client.Album().load({ id: 'example_id' })
+  const album = await client.Album().load({ id: 1 })
   console.log(album)
 } catch (err) {
   console.error('load failed:', err)
@@ -58,19 +63,48 @@ try {
 ```ts
 // Create — returns the created Album
 const created = await client.Album().create({
-  name: 'Example',
+  title: 'example_title',
+  user_id: 1,
 })
 
 // Update — the id comes straight off the returned entity
 const updated = await client.Album().update({
-  id: created.id,
-  name: 'Example-Renamed',
+  id: created.id!,
 })
 
 // Remove
 await client.Album().remove({
-  id: created.id,
+  id: created.id!,
 })
+```
+
+
+## Error handling
+
+Entity operations reject on failure, so wrap them in `try` / `catch`:
+
+```ts
+try {
+  const albums = await client.Album().list()
+  console.log(albums)
+} catch (err) {
+  console.error('list failed:', err)
+}
+```
+
+The low-level `direct()` method does **not** throw — it returns the
+value or an `Error`, so check the result before using it:
+
+```ts
+const result = await client.direct({
+  path: '/api/resource/{id}',
+  method: 'GET',
+  params: { id: 'example_id' },
+})
+
+if (result instanceof Error) {
+  throw result
+}
 ```
 
 
@@ -118,7 +152,7 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = JsonplaceholderSDK.test()
 
-const album = await client.Album().load({ id: 'test01' })
+const album = await client.Album().list()
 // album is a bare entity populated with mock response data
 console.log(album)
 ```
@@ -137,12 +171,12 @@ Entity instances remember their last match and data:
 ```ts
 const entity = client.Album()
 
-// First call sets internal match
-await entity.load({ id: 'example' })
+// First call runs the operation and stores its result
+await entity.list()
 
-// Subsequent calls reuse the stored match
+// Subsequent calls reuse the stored state
 const data = entity.data()
-console.log(data.id) // 'example'
+console.log(data.id)
 ```
 
 ### Add custom middleware
@@ -240,8 +274,8 @@ All entities share the same interface.
 | `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
 | `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
 | `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
-| `data` | `data(data?): any` | Get or set entity data. |
-| `match` | `match(match?): any` | Get or set entity match criteria. |
+| `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
+| `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
 | `client` | `client(): JsonplaceholderSDK` | Return the parent SDK client. |
 | `entopts` | `entopts(): object` | Return a copy of the entity options. |
@@ -396,14 +430,14 @@ Create an instance: `const album = client.Album()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `id` | `number` |  |
+| `title` | `string` |  |
+| `user_id` | `number` |  |
 
 #### Example: Load
 
 ```ts
-const album = await client.Album().load({ id: 'album_id' })
+const album = await client.Album().load({ id: 1 })
 ```
 
 #### Example: List
@@ -438,16 +472,16 @@ Create an instance: `const comment = client.Comment()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `post_id` | ``$INTEGER`` |  |
+| `body` | `string` |  |
+| `email` | `string` |  |
+| `id` | `number` |  |
+| `name` | `string` |  |
+| `post_id` | `number` |  |
 
 #### Example: Load
 
 ```ts
-const comment = await client.Comment().load({ id: 'comment_id' })
+const comment = await client.Comment().load({ id: 1 })
 ```
 
 #### Example: List
@@ -482,16 +516,16 @@ Create an instance: `const photo = client.Photo()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | ``$INTEGER`` |  |
-| `id` | ``$INTEGER`` |  |
-| `thumbnail_url` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
-| `url` | ``$STRING`` |  |
+| `album_id` | `number` |  |
+| `id` | `number` |  |
+| `thumbnail_url` | `string` |  |
+| `title` | `string` |  |
+| `url` | `string` |  |
 
 #### Example: Load
 
 ```ts
-const photo = await client.Photo().load({ id: 'photo_id' })
+const photo = await client.Photo().load({ id: 1 })
 ```
 
 #### Example: List
@@ -526,15 +560,15 @@ Create an instance: `const post = client.Post()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `body` | `string` |  |
+| `id` | `number` |  |
+| `title` | `string` |  |
+| `user_id` | `number` |  |
 
 #### Example: Load
 
 ```ts
-const post = await client.Post().load({ id: 'post_id' })
+const post = await client.Post().load({ id: 1 })
 ```
 
 #### Example: List
@@ -569,15 +603,15 @@ Create an instance: `const todo = client.Todo()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completed` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `completed` | `boolean` |  |
+| `id` | `number` |  |
+| `title` | `string` |  |
+| `user_id` | `number` |  |
 
 #### Example: Load
 
 ```ts
-const todo = await client.Todo().load({ id: 'todo_id' })
+const todo = await client.Todo().load({ id: 1 })
 ```
 
 #### Example: List
@@ -612,19 +646,19 @@ Create an instance: `const user = client.User()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `address` | ``$OBJECT`` |  |
-| `company` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `phone` | ``$STRING`` |  |
-| `username` | ``$STRING`` |  |
-| `website` | ``$STRING`` |  |
+| `address` | `Record<string, any>` |  |
+| `company` | `Record<string, any>` |  |
+| `email` | `string` |  |
+| `id` | `number` |  |
+| `name` | `string` |  |
+| `phone` | `string` |  |
+| `username` | `string` |  |
+| `website` | `string` |  |
 
 #### Example: Load
 
 ```ts
-const user = await client.User().load({ id: 'user_id' })
+const user = await client.User().load({ id: 1 })
 ```
 
 #### Example: List
@@ -641,12 +675,16 @@ const user = await client.User().create({
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -663,11 +701,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller.
-
-An unexpected exception triggers the `PreUnexpected` hook before
-propagating.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -703,16 +739,16 @@ import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder'
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
 const album = client.Album()
-await album.load({ id: "example_id" })
+await album.list()
 
-// album.data() now returns the loaded album data
-// album.match() returns { id: "example_id" }
+// album.data() now returns the album data from the last `list`
+// album.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

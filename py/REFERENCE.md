@@ -107,9 +107,9 @@ album = client.Album()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `id` | `int` | No |  |
+| `title` | `str` | No |  |
+| `user_id` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -130,12 +130,12 @@ result = client.Album().create({
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Album().list({})
+results = client.Album().list()
 for album in results:
     print(album)
 ```
@@ -206,11 +206,11 @@ comment = client.Comment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `post_id` | ``$INTEGER`` | No |  |
+| `body` | `str` | No |  |
+| `email` | `str` | No |  |
+| `id` | `int` | No |  |
+| `name` | `str` | No |  |
+| `post_id` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -233,12 +233,12 @@ result = client.Comment().create({
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Comment().list({})
+results = client.Comment().list()
 for comment in results:
     print(comment)
 ```
@@ -309,11 +309,11 @@ photo = client.Photo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `album_id` | ``$INTEGER`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `thumbnail_url` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | No |  |
+| `album_id` | `int` | No |  |
+| `id` | `int` | No |  |
+| `thumbnail_url` | `str` | No |  |
+| `title` | `str` | No |  |
+| `url` | `str` | No |  |
 
 ### Field Usage by Operation
 
@@ -336,12 +336,12 @@ result = client.Photo().create({
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Photo().list({})
+results = client.Photo().list()
 for photo in results:
     print(photo)
 ```
@@ -412,10 +412,10 @@ post = client.Post()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `body` | `str` | No |  |
+| `id` | `int` | No |  |
+| `title` | `str` | No |  |
+| `user_id` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -437,12 +437,12 @@ result = client.Post().create({
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Post().list({})
+results = client.Post().list()
 for post in results:
     print(post)
 ```
@@ -513,10 +513,10 @@ todo = client.Todo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completed` | ``$BOOLEAN`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `title` | ``$STRING`` | No |  |
-| `user_id` | ``$INTEGER`` | No |  |
+| `completed` | `bool` | No |  |
+| `id` | `int` | No |  |
+| `title` | `str` | No |  |
+| `user_id` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -538,12 +538,12 @@ result = client.Todo().create({
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Todo().list({})
+results = client.Todo().list()
 for todo in results:
     print(todo)
 ```
@@ -614,14 +614,14 @@ user = client.User()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address` | ``$OBJECT`` | No |  |
-| `company` | ``$OBJECT`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | No |  |
-| `name` | ``$STRING`` | No |  |
-| `phone` | ``$STRING`` | No |  |
-| `username` | ``$STRING`` | No |  |
-| `website` | ``$STRING`` | No |  |
+| `address` | `dict` | No |  |
+| `company` | `dict` | No |  |
+| `email` | `str` | No |  |
+| `id` | `int` | No |  |
+| `name` | `str` | No |  |
+| `phone` | `str` | No |  |
+| `username` | `str` | No |  |
+| `website` | `str` | No |  |
 
 ### Field Usage by Operation
 
@@ -647,12 +647,12 @@ result = client.User().create({
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.User().list({})
+results = client.User().list()
 for user in results:
     print(user)
 ```

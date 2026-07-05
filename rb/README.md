@@ -4,6 +4,8 @@
 
 The Ruby SDK for the Jsonplaceholder API — an entity-oriented client using idiomatic Ruby conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Album` — with named operations (`list`/`load`/`create`/`update`/`remove`/`patch`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -35,7 +37,7 @@ begin
   # list returns an Array of Album records — iterate directly.
   albums = client.Album.list
   albums.each do |item|
-    puts "#{item["id"]} #{item["name"]}"
+    puts "#{item["id"]} #{item["title"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -58,13 +60,40 @@ end
 
 ```ruby
 # create returns the bare created Album record.
-created = client.Album.create({ "name" => "Example" })
+created = client.Album.create({ "title" => "example", "user_id" => 1 })
 
 # Update — index the bare record directly (created["id"]).
-client.Album.update({ "id" => created["id"], "name" => "Example-Renamed" })
+client.Album.update({ "id" => created["id"] })
 
 # Remove
 client.Album.remove({ "id" => created["id"] })
+```
+
+
+## Error handling
+
+Entity operations raise on failure, so rescue them:
+
+```ruby
+begin
+  albums = client.Album.list()
+rescue => err
+  warn "list failed: #{err}"
+end
+```
+
+`direct` does **not** raise — it returns the result hash. Branch on
+`ok`; on failure `status` holds the HTTP status (for error responses) and
+`err` holds a transport error, so read both defensively:
+
+```ruby
+result = client.direct({
+  "path" => "/api/resource/{id}",
+  "method" => "GET",
+  "params" => { "id" => "example_id" },
+})
+
+warn "request failed: #{result["err"] || "HTTP #{result["status"]}"}" unless result["ok"]
 ```
 
 
@@ -85,7 +114,9 @@ if result["ok"]
   puts result["status"]  # 200
   puts result["data"]    # response body
 else
-  warn result["err"]
+  # On an HTTP error status there is no err (only a transport failure sets
+  # it), so fall back to the status code.
+  warn(result["err"] || "HTTP #{result["status"]}")
 end
 ```
 
@@ -116,8 +147,8 @@ client = JsonplaceholderSDK.test({
   "entity" => { "album" => { "test01" => { "id" => "test01" } } },
 })
 
-# load returns the bare mock record (raises on error).
-album = client.Album.load({ "id" => "test01" })
+# Entity ops return the bare mock record (raises on error).
+album = client.Album.list()
 puts album
 ```
 
@@ -208,7 +239,7 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> Array` | List entities matching the criteria. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
 | `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
 | `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
 | `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
@@ -344,9 +375,9 @@ Create an instance: `album = client.Album`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `id` | `Integer` |  |
+| `title` | `String` |  |
+| `user_id` | `Integer` |  |
 
 #### Example: Load
 
@@ -388,11 +419,11 @@ Create an instance: `comment = client.Comment`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `post_id` | ``$INTEGER`` |  |
+| `body` | `String` |  |
+| `email` | `String` |  |
+| `id` | `Integer` |  |
+| `name` | `String` |  |
+| `post_id` | `Integer` |  |
 
 #### Example: Load
 
@@ -434,11 +465,11 @@ Create an instance: `photo = client.Photo`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | ``$INTEGER`` |  |
-| `id` | ``$INTEGER`` |  |
-| `thumbnail_url` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
-| `url` | ``$STRING`` |  |
+| `album_id` | `Integer` |  |
+| `id` | `Integer` |  |
+| `thumbnail_url` | `String` |  |
+| `title` | `String` |  |
+| `url` | `String` |  |
 
 #### Example: Load
 
@@ -480,10 +511,10 @@ Create an instance: `post = client.Post`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `body` | `String` |  |
+| `id` | `Integer` |  |
+| `title` | `String` |  |
+| `user_id` | `Integer` |  |
 
 #### Example: Load
 
@@ -525,10 +556,10 @@ Create an instance: `todo = client.Todo`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completed` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `completed` | `Boolean` |  |
+| `id` | `Integer` |  |
+| `title` | `String` |  |
+| `user_id` | `Integer` |  |
 
 #### Example: Load
 
@@ -570,14 +601,14 @@ Create an instance: `user = client.User`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `address` | ``$OBJECT`` |  |
-| `company` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `phone` | ``$STRING`` |  |
-| `username` | ``$STRING`` |  |
-| `website` | ``$STRING`` |  |
+| `address` | `Hash` |  |
+| `company` | `Hash` |  |
+| `email` | `String` |  |
+| `id` | `Integer` |  |
+| `name` | `String` |  |
+| `phone` | `String` |  |
+| `username` | `String` |  |
+| `website` | `String` |  |
 
 #### Example: Load
 
@@ -601,12 +632,16 @@ user = client.User.create({
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -623,8 +658,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as a second return value.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -668,14 +704,14 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
 album = client.Album
-album.load({ "id" => "example_id" })
+album.list()
 
-# album.data_get now returns the loaded album data
+# album.data_get now returns the album data from the last list
 # album.match_get returns the last match criteria
 ```
 

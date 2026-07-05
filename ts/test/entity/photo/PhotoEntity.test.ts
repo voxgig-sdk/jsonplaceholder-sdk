@@ -80,12 +80,12 @@ describe('PhotoEntity', async () => {
     photo_ref01_data_up0.id = photo_ref01_data.id
 
     const photo_ref01_markdef_up0 = { name: 'thumbnail_url', value: 'Mark01-photo_ref01_' + setup.now }
-    photo_ref01_data_up0 [photo_ref01_markdef_up0.name] = photo_ref01_markdef_up0.value
+    ;(photo_ref01_data_up0 as any)[photo_ref01_markdef_up0.name] = photo_ref01_markdef_up0.value
 
     const photo_ref01_resdata_up0 = await photo_ref01_ent.update(photo_ref01_data_up0)
     assert(photo_ref01_resdata_up0.id === photo_ref01_data_up0.id)
 
-    assert(photo_ref01_resdata_up0[photo_ref01_markdef_up0.name] === photo_ref01_markdef_up0.value)
+    assert((photo_ref01_resdata_up0 as any)[photo_ref01_markdef_up0.name] === photo_ref01_markdef_up0.value)
 
 
     // LOAD

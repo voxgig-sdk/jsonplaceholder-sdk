@@ -19,7 +19,11 @@ export interface AlbumListMatch {
   user_id: number
 }
 
-export type AlbumCreateData = Partial<Album>
+export interface AlbumCreateData {
+  id?: number
+  title?: string
+  user_id?: number
+}
 
 export interface AlbumUpdateData {
   id: number
@@ -45,7 +49,13 @@ export interface CommentListMatch {
   post_id: number
 }
 
-export type CommentCreateData = Partial<Comment>
+export interface CommentCreateData {
+  body?: string
+  email?: string
+  id?: number
+  name?: string
+  post_id?: number
+}
 
 export interface CommentUpdateData {
   id: number
@@ -71,7 +81,13 @@ export interface PhotoListMatch {
   album_id: number
 }
 
-export type PhotoCreateData = Partial<Photo>
+export interface PhotoCreateData {
+  album_id?: number
+  id?: number
+  thumbnail_url?: string
+  title?: string
+  url?: string
+}
 
 export interface PhotoUpdateData {
   id: number
@@ -96,7 +112,12 @@ export interface PostListMatch {
   user_id: number
 }
 
-export type PostCreateData = Partial<Post>
+export interface PostCreateData {
+  body?: string
+  id?: number
+  title?: string
+  user_id?: number
+}
 
 export interface PostUpdateData {
   id: number
@@ -121,7 +142,12 @@ export interface TodoListMatch {
   user_id: number
 }
 
-export type TodoCreateData = Partial<Todo>
+export interface TodoCreateData {
+  completed?: boolean
+  id?: number
+  title?: string
+  user_id?: number
+}
 
 export interface TodoUpdateData {
   id: number
@@ -146,9 +172,27 @@ export interface UserLoadMatch {
   id: number
 }
 
-export type UserListMatch = Partial<User>
+export interface UserListMatch {
+  address?: Record<string, any>
+  company?: Record<string, any>
+  email?: string
+  id?: number
+  name?: string
+  phone?: string
+  username?: string
+  website?: string
+}
 
-export type UserCreateData = Partial<User>
+export interface UserCreateData {
+  address?: Record<string, any>
+  company?: Record<string, any>
+  email?: string
+  id?: number
+  name?: string
+  phone?: string
+  username?: string
+  website?: string
+}
 
 export interface UserUpdateData {
   id: number

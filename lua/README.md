@@ -4,6 +4,8 @@
 
 The Lua SDK for the Jsonplaceholder API — an entity-oriented client using Lua conventions.
 
+It exposes the API as capitalised, semantic **Entities** — e.g. `client:Album()` — each with the same small set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -41,7 +43,7 @@ local albums, err = client:Album():list()
 if err then error(err) end
 
 for _, item in ipairs(albums) do
-  print(item["id"], item["name"])
+  print(item["id"], item["title"])
 end
 ```
 
@@ -57,14 +59,36 @@ print(album)
 
 ```lua
 -- Create
-local created, err = client:Album():create({ name = "Example" })
+local created, err = client:Album():create({ title = "example", user_id = 1 })
 if err then error(err) end
 
 -- Update
-client:Album():update({ id = created["id"], name = "Example-Renamed" })
+client:Album():update({ id = created["id"] })
 
 -- Remove
 client:Album():remove({ id = created["id"] })
+```
+
+
+## Error handling
+
+Entity operations return `(value, err)`. Check `err` before using
+the value:
+
+```lua
+local albums, err = client:Album():list()
+if err then error(err) end
+```
+
+`direct` follows the same `(value, err)` convention:
+
+```lua
+local result, err = client:direct({
+  path = "/api/resource/{id}",
+  method = "GET",
+  params = { id = "example_id" },
+})
+if err then error(err) end
 ```
 
 
@@ -110,8 +134,8 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Album():load({ id = "test01" })
--- result is the loaded data; err is set on failure
+local result, err = client:Album():list()
+-- result is the returned data; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -341,9 +365,9 @@ Create an instance: `local album = client:Album(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `id` | `number` |  |
+| `title` | `string` |  |
+| `user_id` | `number` |  |
 
 #### Example: Load
 
@@ -383,11 +407,11 @@ Create an instance: `local comment = client:Comment(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `post_id` | ``$INTEGER`` |  |
+| `body` | `string` |  |
+| `email` | `string` |  |
+| `id` | `number` |  |
+| `name` | `string` |  |
+| `post_id` | `number` |  |
 
 #### Example: Load
 
@@ -427,11 +451,11 @@ Create an instance: `local photo = client:Photo(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | ``$INTEGER`` |  |
-| `id` | ``$INTEGER`` |  |
-| `thumbnail_url` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
-| `url` | ``$STRING`` |  |
+| `album_id` | `number` |  |
+| `id` | `number` |  |
+| `thumbnail_url` | `string` |  |
+| `title` | `string` |  |
+| `url` | `string` |  |
 
 #### Example: Load
 
@@ -471,10 +495,10 @@ Create an instance: `local post = client:Post(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `body` | `string` |  |
+| `id` | `number` |  |
+| `title` | `string` |  |
+| `user_id` | `number` |  |
 
 #### Example: Load
 
@@ -514,10 +538,10 @@ Create an instance: `local todo = client:Todo(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completed` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `completed` | `boolean` |  |
+| `id` | `number` |  |
+| `title` | `string` |  |
+| `user_id` | `number` |  |
 
 #### Example: Load
 
@@ -557,14 +581,14 @@ Create an instance: `local user = client:User(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `address` | ``$OBJECT`` |  |
-| `company` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `phone` | ``$STRING`` |  |
-| `username` | ``$STRING`` |  |
-| `website` | ``$STRING`` |  |
+| `address` | `table` |  |
+| `company` | `table` |  |
+| `email` | `string` |  |
+| `id` | `number` |  |
+| `name` | `string` |  |
+| `phone` | `string` |  |
+| `username` | `string` |  |
+| `website` | `string` |  |
 
 #### Example: Load
 
@@ -586,12 +610,16 @@ local user, err = client:User():create({
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -608,8 +636,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as a second return value.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -653,14 +682,14 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
 local album = client:Album()
-album:load({ id = "example_id" })
+album:list()
 
--- album:data_get() now returns the loaded album data
+-- album:data_get() now returns the album data from the last list
 -- album:match_get() returns the last match criteria
 ```
 

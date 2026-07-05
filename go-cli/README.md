@@ -19,6 +19,7 @@ go build -o jsonplaceholder-cli ./...
 ./jsonplaceholder-cli list album
 ./jsonplaceholder-cli load 1 album
 ./jsonplaceholder-cli load '{id:1}' album
+./jsonplaceholder-cli update '{id:1}' album
 
 # REPL
 ./jsonplaceholder-cli

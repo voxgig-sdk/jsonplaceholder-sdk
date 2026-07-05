@@ -4,6 +4,8 @@
 
 The PHP SDK for the Jsonplaceholder API — an entity-oriented client using PHP conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Album()` — with named operations (`list`/`load`/`create`/`update`/`remove`/`patch`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -36,7 +38,7 @@ try {
     // list() returns an array of Album records — iterate directly.
     $albums = $client->Album()->list();
     foreach ($albums as $item) {
-        echo $item["id"] . " " . $item["name"] . "\n";
+        echo $item["id"] . " " . $item["title"] . "\n";
     }
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -59,13 +61,44 @@ try {
 
 ```php
 // create() returns the bare created Album record.
-$created = $client->Album()->create(["name" => "Example"]);
+$created = $client->Album()->create(["title" => "example", "user_id" => 1]);
 
 // Update — index the bare record directly ($created["id"]).
-$client->Album()->update(["id" => $created["id"], "name" => "Example-Renamed"]);
+$client->Album()->update(["id" => $created["id"]]);
 
 // Remove
 $client->Album()->remove(["id" => $created["id"]]);
+```
+
+
+## Error handling
+
+Entity operations throw a `\Throwable` on failure, so wrap them in
+`try` / `catch`:
+
+```php
+try {
+    $albums = $client->Album()->list();
+} catch (\Throwable $err) {
+    echo "Error: " . $err->getMessage();
+}
+```
+
+`direct()` does **not** throw — it returns the result array. Branch on
+`ok`; on failure `status` holds the HTTP status (for error responses) and
+`err` holds a transport error, so read both defensively:
+
+```php
+$result = $client->direct([
+    "path" => "/api/resource/{id}",
+    "method" => "GET",
+    "params" => ["id" => "example_id"],
+]);
+
+if (! $result["ok"]) {
+    $err = $result["err"] ?? null;
+    echo "request failed: " . ($err ? $err->getMessage() : "HTTP " . $result["status"]);
+}
 ```
 
 
@@ -88,7 +121,10 @@ if ($result["ok"]) {
     echo $result["status"];  // 200
     print_r($result["data"]);  // response body
 } else {
-    echo "Error: " . $result["err"]->getMessage();
+    // On an HTTP error status there is no err (only a transport failure sets
+    // it), so fall back to the status code.
+    $err = $result["err"] ?? null;
+    echo "Error: " . ($err ? $err->getMessage() : "HTTP " . $result["status"]);
 }
 ```
 
@@ -117,8 +153,8 @@ $client = JsonplaceholderSDK::test([
     "entity" => ["album" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// load() returns the bare mock record (throws on error).
-$album = $client->Album()->load(["id" => "test01"]);
+// Entity ops return the bare mock record (throws on error).
+$album = $client->Album()->list();
 print_r($album);
 ```
 
@@ -212,7 +248,7 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `($reqmatch, $ctrl): array` | List entities matching the criteria. |
+| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
 | `create` | `($reqdata, $ctrl): array` | Create a new entity. |
 | `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
 | `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
@@ -349,9 +385,9 @@ Create an instance: `$album = $client->Album();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `id` | `int` |  |
+| `title` | `string` |  |
+| `user_id` | `int` |  |
 
 #### Example: Load
 
@@ -393,11 +429,11 @@ Create an instance: `$comment = $client->Comment();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `post_id` | ``$INTEGER`` |  |
+| `body` | `string` |  |
+| `email` | `string` |  |
+| `id` | `int` |  |
+| `name` | `string` |  |
+| `post_id` | `int` |  |
 
 #### Example: Load
 
@@ -439,11 +475,11 @@ Create an instance: `$photo = $client->Photo();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | ``$INTEGER`` |  |
-| `id` | ``$INTEGER`` |  |
-| `thumbnail_url` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
-| `url` | ``$STRING`` |  |
+| `album_id` | `int` |  |
+| `id` | `int` |  |
+| `thumbnail_url` | `string` |  |
+| `title` | `string` |  |
+| `url` | `string` |  |
 
 #### Example: Load
 
@@ -485,10 +521,10 @@ Create an instance: `$post = $client->Post();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `body` | `string` |  |
+| `id` | `int` |  |
+| `title` | `string` |  |
+| `user_id` | `int` |  |
 
 #### Example: Load
 
@@ -530,10 +566,10 @@ Create an instance: `$todo = $client->Todo();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completed` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
-| `user_id` | ``$INTEGER`` |  |
+| `completed` | `bool` |  |
+| `id` | `int` |  |
+| `title` | `string` |  |
+| `user_id` | `int` |  |
 
 #### Example: Load
 
@@ -575,14 +611,14 @@ Create an instance: `$user = $client->User();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `address` | ``$OBJECT`` |  |
-| `company` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `phone` | ``$STRING`` |  |
-| `username` | ``$STRING`` |  |
-| `website` | ``$STRING`` |  |
+| `address` | `array` |  |
+| `company` | `array` |  |
+| `email` | `string` |  |
+| `id` | `int` |  |
+| `name` | `string` |  |
+| `phone` | `string` |  |
+| `username` | `string` |  |
+| `website` | `string` |  |
 
 #### Example: Load
 
@@ -606,12 +642,16 @@ $user = $client->User()->create([
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -628,8 +668,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as the second element in the return array.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -673,15 +714,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
 $album = $client->Album();
-$album->load(["id" => "example_id"]);
+$album->list();
 
-// $album->dataGet() now returns the loaded album data
-// $album->matchGet() returns the last match criteria
+// $album->data_get() now returns the album data from the last list
+// $album->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration
