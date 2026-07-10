@@ -50,7 +50,7 @@ end
 ### 3. Load an album
 
 ```lua
-local album, err = client:Album():load({ id = "example_id" })
+local album, err = client:Album():load({ id = 1 })
 if err then error(err) end
 print(album)
 ```
@@ -59,7 +59,7 @@ print(album)
 
 ```lua
 -- Create
-local created, err = client:Album():create({ title = "example", user_id = 1 })
+local created, err = client:Album():create({ title = "example_title", user_id = 1 })
 if err then error(err) end
 
 -- Update
@@ -372,7 +372,7 @@ Create an instance: `local album = client:Album(nil)`
 #### Example: Load
 
 ```lua
-local album, err = client:Album():load({ id = "album_id" })
+local album, err = client:Album():load({ id = 1 })
 ```
 
 #### Example: List
@@ -416,7 +416,7 @@ Create an instance: `local comment = client:Comment(nil)`
 #### Example: Load
 
 ```lua
-local comment, err = client:Comment():load({ id = "comment_id" })
+local comment, err = client:Comment():load({ id = 1 })
 ```
 
 #### Example: List
@@ -460,7 +460,7 @@ Create an instance: `local photo = client:Photo(nil)`
 #### Example: Load
 
 ```lua
-local photo, err = client:Photo():load({ id = "photo_id" })
+local photo, err = client:Photo():load({ id = 1 })
 ```
 
 #### Example: List
@@ -503,7 +503,7 @@ Create an instance: `local post = client:Post(nil)`
 #### Example: Load
 
 ```lua
-local post, err = client:Post():load({ id = "post_id" })
+local post, err = client:Post():load({ id = 1 })
 ```
 
 #### Example: List
@@ -546,7 +546,7 @@ Create an instance: `local todo = client:Todo(nil)`
 #### Example: Load
 
 ```lua
-local todo, err = client:Todo():load({ id = "todo_id" })
+local todo, err = client:Todo():load({ id = 1 })
 ```
 
 #### Example: List
@@ -593,7 +593,7 @@ Create an instance: `local user = client:User(nil)`
 #### Example: Load
 
 ```lua
-local user, err = client:User():load({ id = "user_id" })
+local user, err = client:User():load({ id = 1 })
 ```
 
 #### Example: List

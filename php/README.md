@@ -50,7 +50,7 @@ try {
 ```php
 try {
     // load() returns the bare Album record (throws on error).
-    $album = $client->Album()->load(["id" => "example_id"]);
+    $album = $client->Album()->load(["id" => 1]);
     print_r($album);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -61,7 +61,7 @@ try {
 
 ```php
 // create() returns the bare created Album record.
-$created = $client->Album()->create(["title" => "example", "user_id" => 1]);
+$created = $client->Album()->create(["title" => "example_title", "user_id" => 1]);
 
 // Update — index the bare record directly ($created["id"]).
 $client->Album()->update(["id" => $created["id"]]);
@@ -393,7 +393,7 @@ Create an instance: `$album = $client->Album();`
 
 ```php
 // load() returns the bare Album record (throws on error).
-$album = $client->Album()->load(["id" => "album_id"]);
+$album = $client->Album()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -439,7 +439,7 @@ Create an instance: `$comment = $client->Comment();`
 
 ```php
 // load() returns the bare Comment record (throws on error).
-$comment = $client->Comment()->load(["id" => "comment_id"]);
+$comment = $client->Comment()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -485,7 +485,7 @@ Create an instance: `$photo = $client->Photo();`
 
 ```php
 // load() returns the bare Photo record (throws on error).
-$photo = $client->Photo()->load(["id" => "photo_id"]);
+$photo = $client->Photo()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -530,7 +530,7 @@ Create an instance: `$post = $client->Post();`
 
 ```php
 // load() returns the bare Post record (throws on error).
-$post = $client->Post()->load(["id" => "post_id"]);
+$post = $client->Post()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -575,7 +575,7 @@ Create an instance: `$todo = $client->Todo();`
 
 ```php
 // load() returns the bare Todo record (throws on error).
-$todo = $client->Todo()->load(["id" => "todo_id"]);
+$todo = $client->Todo()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -624,7 +624,7 @@ Create an instance: `$user = $client->User();`
 
 ```php
 // load() returns the bare User record (throws on error).
-$user = $client->User()->load(["id" => "user_id"]);
+$user = $client->User()->load(["id" => 1]);
 ```
 
 #### Example: List

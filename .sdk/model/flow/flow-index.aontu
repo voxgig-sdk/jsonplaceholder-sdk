@@ -1,0 +1,8 @@
+# Flows
+
+@"BasicAlbumFlow.aontu"
+@"BasicCommentFlow.aontu"
+@"BasicPhotoFlow.aontu"
+@"BasicPostFlow.aontu"
+@"BasicTodoFlow.aontu"
+@"BasicUserFlow.aontu"

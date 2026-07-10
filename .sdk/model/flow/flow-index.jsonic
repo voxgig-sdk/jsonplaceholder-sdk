@@ -1,8 +1,0 @@
-# Flows
-
-@"BasicAlbumFlow.jsonic"
-@"BasicCommentFlow.jsonic"
-@"BasicPhotoFlow.jsonic"
-@"BasicPostFlow.jsonic"
-@"BasicTodoFlow.jsonic"
-@"BasicUserFlow.jsonic"

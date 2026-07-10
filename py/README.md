@@ -56,7 +56,7 @@ except Exception as err:
 
 ```python
 try:
-    album = client.Album().load({"id": "example_id"})
+    album = client.Album().load({"id": 1})
     print(album)
 except Exception as err:
     print(f"load failed: {err}")
@@ -66,7 +66,7 @@ except Exception as err:
 
 ```python
 # Create — returns the bare created record (a dict)
-created = client.Album().create({"title": "example", "user_id": 1})
+created = client.Album().create({"title": "example_title", "user_id": 1})
 
 # Update — the created record's id is a plain dict key
 client.Album().update({"id": created["id"]})
@@ -385,7 +385,7 @@ Create an instance: `album = client.Album()`
 #### Example: Load
 
 ```python
-album = client.Album().load({"id": "album_id"})
+album = client.Album().load({"id": 1})
 ```
 
 #### Example: List
@@ -429,7 +429,7 @@ Create an instance: `comment = client.Comment()`
 #### Example: Load
 
 ```python
-comment = client.Comment().load({"id": "comment_id"})
+comment = client.Comment().load({"id": 1})
 ```
 
 #### Example: List
@@ -473,7 +473,7 @@ Create an instance: `photo = client.Photo()`
 #### Example: Load
 
 ```python
-photo = client.Photo().load({"id": "photo_id"})
+photo = client.Photo().load({"id": 1})
 ```
 
 #### Example: List
@@ -516,7 +516,7 @@ Create an instance: `post = client.Post()`
 #### Example: Load
 
 ```python
-post = client.Post().load({"id": "post_id"})
+post = client.Post().load({"id": 1})
 ```
 
 #### Example: List
@@ -559,7 +559,7 @@ Create an instance: `todo = client.Todo()`
 #### Example: Load
 
 ```python
-todo = client.Todo().load({"id": "todo_id"})
+todo = client.Todo().load({"id": 1})
 ```
 
 #### Example: List
@@ -606,7 +606,7 @@ Create an instance: `user = client.User()`
 #### Example: Load
 
 ```python
-user = client.User().load({"id": "user_id"})
+user = client.User().load({"id": 1})
 ```
 
 #### Example: List

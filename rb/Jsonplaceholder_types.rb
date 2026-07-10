@@ -37,7 +37,7 @@ AlbumLoadMatch = Struct.new(
 # Request payload for Album#list.
 #
 # @!attribute [rw] user_id
-#   @return [Integer]
+#   @return [Integer, nil]
 AlbumListMatch = Struct.new(
   :user_id,
   keyword_init: true
@@ -115,7 +115,7 @@ CommentLoadMatch = Struct.new(
 # Request payload for Comment#list.
 #
 # @!attribute [rw] post_id
-#   @return [Integer]
+#   @return [Integer, nil]
 CommentListMatch = Struct.new(
   :post_id,
   keyword_init: true
@@ -201,7 +201,7 @@ PhotoLoadMatch = Struct.new(
 # Request payload for Photo#list.
 #
 # @!attribute [rw] album_id
-#   @return [Integer]
+#   @return [Integer, nil]
 PhotoListMatch = Struct.new(
   :album_id,
   keyword_init: true
@@ -283,7 +283,7 @@ PostLoadMatch = Struct.new(
 # Request payload for Post#list.
 #
 # @!attribute [rw] user_id
-#   @return [Integer]
+#   @return [Integer, nil]
 PostListMatch = Struct.new(
   :user_id,
   keyword_init: true
@@ -361,7 +361,7 @@ TodoLoadMatch = Struct.new(
 # Request payload for Todo#list.
 #
 # @!attribute [rw] user_id
-#   @return [Integer]
+#   @return [Integer, nil]
 TodoListMatch = Struct.new(
   :user_id,
   keyword_init: true

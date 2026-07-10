@@ -16,7 +16,7 @@ export interface AlbumLoadMatch {
 }
 
 export interface AlbumListMatch {
-  user_id: number
+  user_id?: number
 }
 
 export interface AlbumCreateData {
@@ -46,7 +46,7 @@ export interface CommentLoadMatch {
 }
 
 export interface CommentListMatch {
-  post_id: number
+  post_id?: number
 }
 
 export interface CommentCreateData {
@@ -78,7 +78,7 @@ export interface PhotoLoadMatch {
 }
 
 export interface PhotoListMatch {
-  album_id: number
+  album_id?: number
 }
 
 export interface PhotoCreateData {
@@ -109,7 +109,7 @@ export interface PostLoadMatch {
 }
 
 export interface PostListMatch {
-  user_id: number
+  user_id?: number
 }
 
 export interface PostCreateData {
@@ -139,7 +139,7 @@ export interface TodoLoadMatch {
 }
 
 export interface TodoListMatch {
-  user_id: number
+  user_id?: number
 }
 
 export interface TodoCreateData {

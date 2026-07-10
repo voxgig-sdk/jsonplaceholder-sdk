@@ -15,7 +15,7 @@
 ---@field id number
 
 ---@class AlbumListMatch
----@field user_id number
+---@field user_id? number
 
 ---@class AlbumCreateData
 ---@field id? number
@@ -39,7 +39,7 @@
 ---@field id number
 
 ---@class CommentListMatch
----@field post_id number
+---@field post_id? number
 
 ---@class CommentCreateData
 ---@field body? string
@@ -65,7 +65,7 @@
 ---@field id number
 
 ---@class PhotoListMatch
----@field album_id number
+---@field album_id? number
 
 ---@class PhotoCreateData
 ---@field album_id? number
@@ -90,7 +90,7 @@
 ---@field id number
 
 ---@class PostListMatch
----@field user_id number
+---@field user_id? number
 
 ---@class PostCreateData
 ---@field body? string
@@ -114,7 +114,7 @@
 ---@field id number
 
 ---@class TodoListMatch
----@field user_id number
+---@field user_id? number
 
 ---@class TodoCreateData
 ---@field completed? boolean

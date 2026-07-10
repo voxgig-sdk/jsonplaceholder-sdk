@@ -20,9 +20,9 @@ main: {
           url: "http://jsonplaceholder.typicode.com"
         }
       ]
+      summary: "Free fake and reliable API for testing and prototyping."
       title: "JSONPlaceholder"
       version: "1.0.0"
+      website: "https://jsonplaceholder.typicode.com"
     }
   }
-}
-

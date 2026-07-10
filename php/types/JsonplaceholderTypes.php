@@ -29,7 +29,7 @@ class AlbumLoadMatch
 /** Request payload for Album#list. */
 class AlbumListMatch
 {
-    public int $user_id;
+    public ?int $user_id = null;
 }
 
 /** Request payload for Album#create. */
@@ -71,7 +71,7 @@ class CommentLoadMatch
 /** Request payload for Comment#list. */
 class CommentListMatch
 {
-    public int $post_id;
+    public ?int $post_id = null;
 }
 
 /** Request payload for Comment#create. */
@@ -115,7 +115,7 @@ class PhotoLoadMatch
 /** Request payload for Photo#list. */
 class PhotoListMatch
 {
-    public int $album_id;
+    public ?int $album_id = null;
 }
 
 /** Request payload for Photo#create. */
@@ -158,7 +158,7 @@ class PostLoadMatch
 /** Request payload for Post#list. */
 class PostListMatch
 {
-    public int $user_id;
+    public ?int $user_id = null;
 }
 
 /** Request payload for Post#create. */
@@ -200,7 +200,7 @@ class TodoLoadMatch
 /** Request payload for Todo#list. */
 class TodoListMatch
 {
-    public int $user_id;
+    public ?int $user_id = null;
 }
 
 /** Request payload for Todo#create. */
