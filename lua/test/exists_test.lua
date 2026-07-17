@@ -1,4 +1,4 @@
--- ProjectName SDK exists test
+-- Jsonplaceholder SDK exists test
 
 local sdk = require("jsonplaceholder_sdk")
 
