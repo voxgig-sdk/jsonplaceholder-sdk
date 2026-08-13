@@ -83,7 +83,7 @@ describe("TodoEntity", function()
 
     local todo_ref01_data_result, err = todo_ref01_ent:create(todo_ref01_data, nil)
     assert.is_nil(err)
-    todo_ref01_data = helpers.to_map(todo_ref01_data_result)
+    todo_ref01_data = helpers.to_map(type(todo_ref01_data_result) == 'table' and todo_ref01_data_result.data_get and todo_ref01_data_result:data_get() or todo_ref01_data_result)
     assert.is_not_nil(todo_ref01_data)
     assert.is_not_nil(todo_ref01_data["id"])
 
@@ -112,7 +112,7 @@ describe("TodoEntity", function()
 
     local todo_ref01_resdata_up0_result, err = todo_ref01_ent:update(todo_ref01_data_up0_up, nil)
     assert.is_nil(err)
-    local todo_ref01_resdata_up0 = helpers.to_map(todo_ref01_resdata_up0_result)
+    local todo_ref01_resdata_up0 = helpers.to_map(type(todo_ref01_resdata_up0_result) == 'table' and todo_ref01_resdata_up0_result.data_get and todo_ref01_resdata_up0_result:data_get() or todo_ref01_resdata_up0_result)
     assert.is_not_nil(todo_ref01_resdata_up0)
     assert.are.equal(todo_ref01_resdata_up0["id"], todo_ref01_data_up0_up["id"])
     assert.are.equal(todo_ref01_resdata_up0[todo_ref01_markdef_up0_name], todo_ref01_markdef_up0_value)
@@ -123,7 +123,7 @@ describe("TodoEntity", function()
     }
     local todo_ref01_data_dt0_loaded, err = todo_ref01_ent:load(todo_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local todo_ref01_data_dt0_load_result = helpers.to_map(todo_ref01_data_dt0_loaded)
+    local todo_ref01_data_dt0_load_result = helpers.to_map(type(todo_ref01_data_dt0_loaded) == 'table' and todo_ref01_data_dt0_loaded.data_get and todo_ref01_data_dt0_loaded:data_get() or todo_ref01_data_dt0_loaded)
     assert.is_not_nil(todo_ref01_data_dt0_load_result)
     assert.are.equal(todo_ref01_data_dt0_load_result["id"], todo_ref01_data["id"])
 

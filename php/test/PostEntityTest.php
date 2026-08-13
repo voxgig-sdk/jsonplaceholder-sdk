@@ -84,7 +84,7 @@ class PostEntityTest extends TestCase
         $post_ref01_data["user_id"] = $setup["idmap"]["user01"];
 
         $post_ref01_data_result = $post_ref01_ent->create($post_ref01_data, null);
-        $post_ref01_data = Helpers::to_map($post_ref01_data_result);
+        $post_ref01_data = Helpers::to_map(is_object($post_ref01_data_result) && method_exists($post_ref01_data_result, 'data_get') ? $post_ref01_data_result->data_get() : $post_ref01_data_result);
         $this->assertNotNull($post_ref01_data);
         $this->assertNotNull($post_ref01_data["id"]);
 
@@ -111,7 +111,7 @@ class PostEntityTest extends TestCase
         $post_ref01_data_up0_up[$post_ref01_markdef_up0_name] = $post_ref01_markdef_up0_value;
 
         $post_ref01_resdata_up0_result = $post_ref01_ent->update($post_ref01_data_up0_up, null);
-        $post_ref01_resdata_up0 = Helpers::to_map($post_ref01_resdata_up0_result);
+        $post_ref01_resdata_up0 = Helpers::to_map(is_object($post_ref01_resdata_up0_result) && method_exists($post_ref01_resdata_up0_result, 'data_get') ? $post_ref01_resdata_up0_result->data_get() : $post_ref01_resdata_up0_result);
         $this->assertNotNull($post_ref01_resdata_up0);
         $this->assertEquals($post_ref01_resdata_up0["id"], $post_ref01_data_up0_up["id"]);
         $this->assertEquals($post_ref01_resdata_up0[$post_ref01_markdef_up0_name], $post_ref01_markdef_up0_value);
@@ -121,7 +121,7 @@ class PostEntityTest extends TestCase
             "id" => $post_ref01_data["id"],
         ];
         $post_ref01_data_dt0_loaded = $post_ref01_ent->load($post_ref01_match_dt0, null);
-        $post_ref01_data_dt0_load_result = Helpers::to_map($post_ref01_data_dt0_loaded);
+        $post_ref01_data_dt0_load_result = Helpers::to_map(is_object($post_ref01_data_dt0_loaded) && method_exists($post_ref01_data_dt0_loaded, 'data_get') ? $post_ref01_data_dt0_loaded->data_get() : $post_ref01_data_dt0_loaded);
         $this->assertNotNull($post_ref01_data_dt0_load_result);
         $this->assertEquals($post_ref01_data_dt0_load_result["id"], $post_ref01_data["id"]);
 

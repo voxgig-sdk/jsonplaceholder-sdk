@@ -48,7 +48,7 @@ end
 
 ```ruby
 begin
-  # load returns the bare Album record (raises on error).
+  # load returns the ENTITY — call data_get for the Album record (raises on error).
   album = client.Album.load({ "id" => 1 })
   puts album
 rescue => err
@@ -59,14 +59,14 @@ end
 ### 4. Create, update, and remove
 
 ```ruby
-# create returns the bare created Album record.
-created = client.Album.create({ "title" => "example_title", "user_id" => 1 })
+# create returns the ENTITY — call data_get for the created Album record.
+created = client.Album.create({ "title" => "example_title", "userId" => 1 })
 
-# Update — index the bare record directly (created["id"]).
-client.Album.update({ "id" => created["id"] })
+# Update — index the record via data_get (created.data_get["id"]).
+client.Album.update({ "id" => created.data_get["id"], "title" => "example_title", "userId" => 1 })
 
 # Remove
-client.Album.remove({ "id" => created["id"] })
+client.Album.remove({ "id" => created.data_get["id"] })
 ```
 
 
@@ -76,7 +76,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  albums = client.Album.list()
+  photos = client.Photo.list()
 rescue => err
   warn "list failed: #{err}"
 end
@@ -144,12 +144,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```ruby
 client = JsonplaceholderSDK.test({
-  "entity" => { "album" => { "test01" => { "id" => "test01" } } },
+  "entity" => { "photo" => { "test01" => { "id" => "test01" } } },
 })
 
-# Entity ops return the bare mock record (raises on error).
-album = client.Album.list()
-puts album
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
+photo = client.Photo.list()
+puts photo
 ```
 
 ### Use a custom fetch function
@@ -275,7 +276,7 @@ returns a result `Hash` with these keys:
 | --- | --- |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -289,7 +290,7 @@ API path: `/albums`
 | `email` |  |
 | `id` |  |
 | `name` |  |
-| `post_id` |  |
+| `postId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -299,9 +300,9 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `album_id` |  |
+| `albumId` |  |
 | `id` |  |
-| `thumbnail_url` |  |
+| `thumbnailUrl` |  |
 | `title` |  |
 | `url` |  |
 
@@ -316,7 +317,7 @@ API path: `/photos`
 | `body` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -329,7 +330,7 @@ API path: `/posts`
 | `completed` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -377,12 +378,12 @@ Create an instance: `album = client.Album`
 | --- | --- | --- |
 | `id` | `Integer` |  |
 | `title` | `String` |  |
-| `user_id` | `Integer` |  |
+| `userId` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Album record (raises on error).
+# load returns the ENTITY — call data_get for the Album record (raises on error).
 album = client.Album.load({ "id" => 1 })
 ```
 
@@ -423,12 +424,12 @@ Create an instance: `comment = client.Comment`
 | `email` | `String` |  |
 | `id` | `Integer` |  |
 | `name` | `String` |  |
-| `post_id` | `Integer` |  |
+| `postId` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Comment record (raises on error).
+# load returns the ENTITY — call data_get for the Comment record (raises on error).
 comment = client.Comment.load({ "id" => 1 })
 ```
 
@@ -465,16 +466,16 @@ Create an instance: `photo = client.Photo`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | `Integer` |  |
+| `albumId` | `Integer` |  |
 | `id` | `Integer` |  |
-| `thumbnail_url` | `String` |  |
+| `thumbnailUrl` | `String` |  |
 | `title` | `String` |  |
 | `url` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Photo record (raises on error).
+# load returns the ENTITY — call data_get for the Photo record (raises on error).
 photo = client.Photo.load({ "id" => 1 })
 ```
 
@@ -514,12 +515,12 @@ Create an instance: `post = client.Post`
 | `body` | `String` |  |
 | `id` | `Integer` |  |
 | `title` | `String` |  |
-| `user_id` | `Integer` |  |
+| `userId` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Post record (raises on error).
+# load returns the ENTITY — call data_get for the Post record (raises on error).
 post = client.Post.load({ "id" => 1 })
 ```
 
@@ -559,12 +560,12 @@ Create an instance: `todo = client.Todo`
 | `completed` | `Boolean` |  |
 | `id` | `Integer` |  |
 | `title` | `String` |  |
-| `user_id` | `Integer` |  |
+| `userId` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Todo record (raises on error).
+# load returns the ENTITY — call data_get for the Todo record (raises on error).
 todo = client.Todo.load({ "id" => 1 })
 ```
 
@@ -613,7 +614,7 @@ Create an instance: `user = client.User`
 #### Example: Load
 
 ```ruby
-# load returns the bare User record (raises on error).
+# load returns the ENTITY — call data_get for the User record (raises on error).
 user = client.User.load({ "id" => 1 })
 ```
 
@@ -708,11 +709,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-album = client.Album
-album.list()
+photo = client.Photo
+photo.list()
 
-# album.data_get now returns the album data from the last list
-# album.match_get returns the last match criteria
+# photo.data_get now returns the photo data from the last list
+# photo.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

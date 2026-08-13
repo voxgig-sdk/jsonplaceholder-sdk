@@ -63,7 +63,7 @@ describe('PostEntity', async () => {
     let post_ref01_data = setup.data.new.post['post_ref01']
     post_ref01_data['user_id'] = setup.idmap['user01']
 
-    post_ref01_data = await post_ref01_ent.create(post_ref01_data)
+    post_ref01_data = (await post_ref01_ent.create(post_ref01_data)).data()
     assert(null != post_ref01_data.id)
 
 
@@ -71,7 +71,7 @@ describe('PostEntity', async () => {
     const post_ref01_match: any = {}
     post_ref01_match['user_id'] = setup.idmap['user01']
 
-    const post_ref01_list = await post_ref01_ent.list(post_ref01_match)
+    const post_ref01_list = (await post_ref01_ent.list(post_ref01_match)).map((e: any) => e.data())
 
     assert(!isempty(select(post_ref01_list, { id: post_ref01_data.id })))
 
@@ -83,7 +83,7 @@ describe('PostEntity', async () => {
     const post_ref01_markdef_up0 = { name: 'body', value: 'Mark01-post_ref01_' + setup.now }
     ;(post_ref01_data_up0 as any)[post_ref01_markdef_up0.name] = post_ref01_markdef_up0.value
 
-    const post_ref01_resdata_up0 = await post_ref01_ent.update(post_ref01_data_up0)
+    const post_ref01_resdata_up0 = (await post_ref01_ent.update(post_ref01_data_up0)).data()
     assert(post_ref01_resdata_up0.id === post_ref01_data_up0.id)
 
     assert((post_ref01_resdata_up0 as any)[post_ref01_markdef_up0.name] === post_ref01_markdef_up0.value)
@@ -92,7 +92,7 @@ describe('PostEntity', async () => {
     // LOAD
     const post_ref01_match_dt0: any = {}
     post_ref01_match_dt0.id = post_ref01_data.id
-    const post_ref01_data_dt0 = await post_ref01_ent.load(post_ref01_match_dt0)
+    const post_ref01_data_dt0 = (await post_ref01_ent.load(post_ref01_match_dt0)).data()
     assert(post_ref01_data_dt0.id === post_ref01_data.id)
 
 
@@ -105,7 +105,7 @@ describe('PostEntity', async () => {
     const post_ref01_match_rt0: any = {}
     post_ref01_match_rt0['user_id'] = setup.idmap['user01']
 
-    const post_ref01_list_rt0 = await post_ref01_ent.list(post_ref01_match_rt0)
+    const post_ref01_list_rt0 = (await post_ref01_ent.list(post_ref01_match_rt0)).map((e: any) => e.data())
 
     assert(isempty(select(post_ref01_list_rt0, { id: post_ref01_data.id })))
 

@@ -84,7 +84,7 @@ class TodoEntityTest extends TestCase
         $todo_ref01_data["user_id"] = $setup["idmap"]["user01"];
 
         $todo_ref01_data_result = $todo_ref01_ent->create($todo_ref01_data, null);
-        $todo_ref01_data = Helpers::to_map($todo_ref01_data_result);
+        $todo_ref01_data = Helpers::to_map(is_object($todo_ref01_data_result) && method_exists($todo_ref01_data_result, 'data_get') ? $todo_ref01_data_result->data_get() : $todo_ref01_data_result);
         $this->assertNotNull($todo_ref01_data);
         $this->assertNotNull($todo_ref01_data["id"]);
 
@@ -111,7 +111,7 @@ class TodoEntityTest extends TestCase
         $todo_ref01_data_up0_up[$todo_ref01_markdef_up0_name] = $todo_ref01_markdef_up0_value;
 
         $todo_ref01_resdata_up0_result = $todo_ref01_ent->update($todo_ref01_data_up0_up, null);
-        $todo_ref01_resdata_up0 = Helpers::to_map($todo_ref01_resdata_up0_result);
+        $todo_ref01_resdata_up0 = Helpers::to_map(is_object($todo_ref01_resdata_up0_result) && method_exists($todo_ref01_resdata_up0_result, 'data_get') ? $todo_ref01_resdata_up0_result->data_get() : $todo_ref01_resdata_up0_result);
         $this->assertNotNull($todo_ref01_resdata_up0);
         $this->assertEquals($todo_ref01_resdata_up0["id"], $todo_ref01_data_up0_up["id"]);
         $this->assertEquals($todo_ref01_resdata_up0[$todo_ref01_markdef_up0_name], $todo_ref01_markdef_up0_value);
@@ -121,7 +121,7 @@ class TodoEntityTest extends TestCase
             "id" => $todo_ref01_data["id"],
         ];
         $todo_ref01_data_dt0_loaded = $todo_ref01_ent->load($todo_ref01_match_dt0, null);
-        $todo_ref01_data_dt0_load_result = Helpers::to_map($todo_ref01_data_dt0_loaded);
+        $todo_ref01_data_dt0_load_result = Helpers::to_map(is_object($todo_ref01_data_dt0_loaded) && method_exists($todo_ref01_data_dt0_loaded, 'data_get') ? $todo_ref01_data_dt0_loaded->data_get() : $todo_ref01_data_dt0_loaded);
         $this->assertNotNull($todo_ref01_data_dt0_load_result);
         $this->assertEquals($todo_ref01_data_dt0_load_result["id"], $todo_ref01_data["id"]);
 

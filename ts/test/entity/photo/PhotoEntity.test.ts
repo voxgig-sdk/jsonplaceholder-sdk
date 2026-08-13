@@ -63,14 +63,14 @@ describe('PhotoEntity', async () => {
     let photo_ref01_data = setup.data.new.photo['photo_ref01']
     photo_ref01_data['album_id'] = setup.idmap['album01']
 
-    photo_ref01_data = await photo_ref01_ent.create(photo_ref01_data)
+    photo_ref01_data = (await photo_ref01_ent.create(photo_ref01_data)).data()
     assert(null != photo_ref01_data.id)
 
 
     // LIST
     const photo_ref01_match: any = {}
 
-    const photo_ref01_list = await photo_ref01_ent.list(photo_ref01_match)
+    const photo_ref01_list = (await photo_ref01_ent.list(photo_ref01_match)).map((e: any) => e.data())
 
     assert(!isempty(select(photo_ref01_list, { id: photo_ref01_data.id })))
 
@@ -79,10 +79,10 @@ describe('PhotoEntity', async () => {
     const photo_ref01_data_up0: any = {}
     photo_ref01_data_up0.id = photo_ref01_data.id
 
-    const photo_ref01_markdef_up0 = { name: 'thumbnail_url', value: 'Mark01-photo_ref01_' + setup.now }
+    const photo_ref01_markdef_up0 = { name: 'thumbnailUrl', value: 'Mark01-photo_ref01_' + setup.now }
     ;(photo_ref01_data_up0 as any)[photo_ref01_markdef_up0.name] = photo_ref01_markdef_up0.value
 
-    const photo_ref01_resdata_up0 = await photo_ref01_ent.update(photo_ref01_data_up0)
+    const photo_ref01_resdata_up0 = (await photo_ref01_ent.update(photo_ref01_data_up0)).data()
     assert(photo_ref01_resdata_up0.id === photo_ref01_data_up0.id)
 
     assert((photo_ref01_resdata_up0 as any)[photo_ref01_markdef_up0.name] === photo_ref01_markdef_up0.value)
@@ -91,7 +91,7 @@ describe('PhotoEntity', async () => {
     // LOAD
     const photo_ref01_match_dt0: any = {}
     photo_ref01_match_dt0.id = photo_ref01_data.id
-    const photo_ref01_data_dt0 = await photo_ref01_ent.load(photo_ref01_match_dt0)
+    const photo_ref01_data_dt0 = (await photo_ref01_ent.load(photo_ref01_match_dt0)).data()
     assert(photo_ref01_data_dt0.id === photo_ref01_data.id)
 
 
@@ -103,7 +103,7 @@ describe('PhotoEntity', async () => {
     // LIST
     const photo_ref01_match_rt0: any = {}
 
-    const photo_ref01_list_rt0 = await photo_ref01_ent.list(photo_ref01_match_rt0)
+    const photo_ref01_list_rt0 = (await photo_ref01_ent.list(photo_ref01_match_rt0)).map((e: any) => e.data())
 
     assert(isempty(select(photo_ref01_list_rt0, { id: photo_ref01_data.id })))
 

@@ -67,14 +67,14 @@ func main() {
     fmt.Println(album)
 
     // Create a album.
-    created, err := client.Album(nil).Create(map[string]any{"title": "example_title", "user_id": 1}, nil)
+    created, err := client.Album(nil).Create(map[string]any{"title": "example_title", "userId": 1}, nil)
     if err != nil {
         panic(err)
     }
     fmt.Println(created)
 
     // Update a album.
-    updated, err := client.Album(nil).Update(map[string]any{"id": 1}, nil)
+    updated, err := client.Album(nil).Update(map[string]any{"id": 1, "title": "example_title", "userId": 1}, nil)
     if err != nil {
         panic(err)
     }
@@ -96,12 +96,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-albums, err := client.Album(nil).List(nil, nil)
+photos, err := client.Photo(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = albums
+_ = photos
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -165,13 +165,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-album, err := client.Album(nil).List(
+photo, err := client.Photo(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(album) // the returned mock data
+fmt.Println(photo) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -300,7 +300,7 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 | --- | --- |
 | `"id"` |  |
 | `"title"` |  |
-| `"user_id"` |  |
+| `"userId"` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -314,7 +314,7 @@ API path: `/albums`
 | `"email"` |  |
 | `"id"` |  |
 | `"name"` |  |
-| `"post_id"` |  |
+| `"postId"` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -324,9 +324,9 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `"album_id"` |  |
+| `"albumId"` |  |
 | `"id"` |  |
-| `"thumbnail_url"` |  |
+| `"thumbnailUrl"` |  |
 | `"title"` |  |
 | `"url"` |  |
 
@@ -341,7 +341,7 @@ API path: `/photos`
 | `"body"` |  |
 | `"id"` |  |
 | `"title"` |  |
-| `"user_id"` |  |
+| `"userId"` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -354,7 +354,7 @@ API path: `/posts`
 | `"completed"` |  |
 | `"id"` |  |
 | `"title"` |  |
-| `"user_id"` |  |
+| `"userId"` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -402,7 +402,7 @@ Create an instance: `album := client.Album(nil)`
 | --- | --- | --- |
 | `id` | `int` |  |
 | `title` | `string` |  |
-| `user_id` | `int` |  |
+| `userId` | `int` |  |
 
 #### Example: Load
 
@@ -458,7 +458,7 @@ Create an instance: `comment := client.Comment(nil)`
 | `email` | `string` |  |
 | `id` | `int` |  |
 | `name` | `string` |  |
-| `post_id` | `int` |  |
+| `postId` | `int` |  |
 
 #### Example: Load
 
@@ -510,9 +510,9 @@ Create an instance: `photo := client.Photo(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | `int` |  |
+| `albumId` | `int` |  |
 | `id` | `int` |  |
-| `thumbnail_url` | `string` |  |
+| `thumbnailUrl` | `string` |  |
 | `title` | `string` |  |
 | `url` | `string` |  |
 
@@ -569,7 +569,7 @@ Create an instance: `post := client.Post(nil)`
 | `body` | `string` |  |
 | `id` | `int` |  |
 | `title` | `string` |  |
-| `user_id` | `int` |  |
+| `userId` | `int` |  |
 
 #### Example: Load
 
@@ -624,7 +624,7 @@ Create an instance: `todo := client.Todo(nil)`
 | `completed` | `bool` |  |
 | `id` | `int` |  |
 | `title` | `string` |  |
-| `user_id` | `int` |  |
+| `userId` | `int` |  |
 
 #### Example: Load
 
@@ -790,11 +790,11 @@ Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-album := client.Album(nil)
-album.List(nil, nil)
+photo := client.Photo(nil)
+photo.List(nil, nil)
 
-// album.Data() now returns the album data from the last list
-// album.Match() returns the last match criteria
+// photo.Data() now returns the photo data from the last list
+// photo.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

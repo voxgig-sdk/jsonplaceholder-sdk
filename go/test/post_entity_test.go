@@ -108,7 +108,7 @@ func TestPostEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		postRef01Data = core.ToMapAny(postRef01DataResult)
+		postRef01Data = core.ToMapAny(entityData(postRef01DataResult))
 		if postRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -148,7 +148,7 @@ func TestPostEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		postRef01ResdataUp0 := core.ToMapAny(postRef01ResdataUp0Result)
+		postRef01ResdataUp0 := core.ToMapAny(entityData(postRef01ResdataUp0Result))
 		if postRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
@@ -167,7 +167,7 @@ func TestPostEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		postRef01DataDt0LoadResult := core.ToMapAny(postRef01DataDt0Loaded)
+		postRef01DataDt0LoadResult := core.ToMapAny(entityData(postRef01DataDt0Loaded))
 		if postRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

@@ -30,7 +30,7 @@ main: kit: entity: album: {
       type: "`$STRING`"
     }
     {
-      name: "user_id"
+      name: "userId"
       op: {
         create: {
           req: true

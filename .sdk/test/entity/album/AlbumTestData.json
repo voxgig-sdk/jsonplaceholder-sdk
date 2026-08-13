@@ -4,16 +4,19 @@
       "ALBUM00": {
         "id": "ALBUM00",
         "title": "s1f",
+        "userId": "s20",
         "user_id": "USER01"
       },
       "ALBUM01": {
         "id": "ALBUM01",
         "title": "s3d",
+        "userId": "s3e",
         "user_id": "USER01"
       },
       "ALBUM02": {
         "id": "ALBUM02",
         "title": "s5b",
+        "userId": "s5c",
         "user_id": "USER01"
       }
     }
@@ -22,7 +25,7 @@
     "album": {
       "album_ref01": {
         "title": "s79",
-        "user_id": "USER01"
+        "userId": "s7a"
       }
     }
   }

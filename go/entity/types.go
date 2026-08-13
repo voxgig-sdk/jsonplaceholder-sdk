@@ -6,13 +6,17 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/voxgig-sdk/jsonplaceholder-sdk/go/core"
+)
 
 // Album is the typed data model for the album entity.
 type Album struct {
 	Id *int `json:"id,omitempty"`
 	Title *string `json:"title,omitempty"`
-	UserId *int `json:"user_id,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // AlbumLoadMatch is the typed request payload for Album.LoadTyped.
@@ -29,12 +33,14 @@ type AlbumListMatch struct {
 type AlbumCreateData struct {
 	Id *int `json:"id,omitempty"`
 	Title *string `json:"title,omitempty"`
-	UserId *int `json:"user_id,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // AlbumUpdateData is the typed request payload for Album.UpdateTyped.
 type AlbumUpdateData struct {
 	Id int `json:"id"`
+	Title *string `json:"title,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // AlbumRemoveMatch is the typed request payload for Album.RemoveTyped.
@@ -48,7 +54,7 @@ type Comment struct {
 	Email *string `json:"email,omitempty"`
 	Id *int `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
-	PostId *int `json:"post_id,omitempty"`
+	PostId *int `json:"postId,omitempty"`
 }
 
 // CommentLoadMatch is the typed request payload for Comment.LoadTyped.
@@ -67,12 +73,16 @@ type CommentCreateData struct {
 	Email *string `json:"email,omitempty"`
 	Id *int `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
-	PostId *int `json:"post_id,omitempty"`
+	PostId *int `json:"postId,omitempty"`
 }
 
 // CommentUpdateData is the typed request payload for Comment.UpdateTyped.
 type CommentUpdateData struct {
 	Id int `json:"id"`
+	Body *string `json:"body,omitempty"`
+	Email *string `json:"email,omitempty"`
+	Name *string `json:"name,omitempty"`
+	PostId *int `json:"postId,omitempty"`
 }
 
 // CommentRemoveMatch is the typed request payload for Comment.RemoveTyped.
@@ -82,9 +92,9 @@ type CommentRemoveMatch struct {
 
 // Photo is the typed data model for the photo entity.
 type Photo struct {
-	AlbumId *int `json:"album_id,omitempty"`
+	AlbumId *int `json:"albumId,omitempty"`
 	Id *int `json:"id,omitempty"`
-	ThumbnailUrl *string `json:"thumbnail_url,omitempty"`
+	ThumbnailUrl *string `json:"thumbnailUrl,omitempty"`
 	Title *string `json:"title,omitempty"`
 	Url *string `json:"url,omitempty"`
 }
@@ -101,9 +111,9 @@ type PhotoListMatch struct {
 
 // PhotoCreateData is the typed request payload for Photo.CreateTyped.
 type PhotoCreateData struct {
-	AlbumId *int `json:"album_id,omitempty"`
+	AlbumId *int `json:"albumId,omitempty"`
 	Id *int `json:"id,omitempty"`
-	ThumbnailUrl *string `json:"thumbnail_url,omitempty"`
+	ThumbnailUrl *string `json:"thumbnailUrl,omitempty"`
 	Title *string `json:"title,omitempty"`
 	Url *string `json:"url,omitempty"`
 }
@@ -111,6 +121,10 @@ type PhotoCreateData struct {
 // PhotoUpdateData is the typed request payload for Photo.UpdateTyped.
 type PhotoUpdateData struct {
 	Id int `json:"id"`
+	AlbumId *int `json:"albumId,omitempty"`
+	ThumbnailUrl *string `json:"thumbnailUrl,omitempty"`
+	Title *string `json:"title,omitempty"`
+	Url *string `json:"url,omitempty"`
 }
 
 // PhotoRemoveMatch is the typed request payload for Photo.RemoveTyped.
@@ -123,7 +137,7 @@ type Post struct {
 	Body *string `json:"body,omitempty"`
 	Id *int `json:"id,omitempty"`
 	Title *string `json:"title,omitempty"`
-	UserId *int `json:"user_id,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // PostLoadMatch is the typed request payload for Post.LoadTyped.
@@ -141,12 +155,15 @@ type PostCreateData struct {
 	Body *string `json:"body,omitempty"`
 	Id *int `json:"id,omitempty"`
 	Title *string `json:"title,omitempty"`
-	UserId *int `json:"user_id,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // PostUpdateData is the typed request payload for Post.UpdateTyped.
 type PostUpdateData struct {
 	Id int `json:"id"`
+	Body *string `json:"body,omitempty"`
+	Title *string `json:"title,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // PostRemoveMatch is the typed request payload for Post.RemoveTyped.
@@ -159,7 +176,7 @@ type Todo struct {
 	Completed *bool `json:"completed,omitempty"`
 	Id *int `json:"id,omitempty"`
 	Title *string `json:"title,omitempty"`
-	UserId *int `json:"user_id,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // TodoLoadMatch is the typed request payload for Todo.LoadTyped.
@@ -177,12 +194,15 @@ type TodoCreateData struct {
 	Completed *bool `json:"completed,omitempty"`
 	Id *int `json:"id,omitempty"`
 	Title *string `json:"title,omitempty"`
-	UserId *int `json:"user_id,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // TodoUpdateData is the typed request payload for Todo.UpdateTyped.
 type TodoUpdateData struct {
 	Id int `json:"id"`
+	Completed *bool `json:"completed,omitempty"`
+	Title *string `json:"title,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // TodoRemoveMatch is the typed request payload for Todo.RemoveTyped.
@@ -234,6 +254,13 @@ type UserCreateData struct {
 // UserUpdateData is the typed request payload for User.UpdateTyped.
 type UserUpdateData struct {
 	Id int `json:"id"`
+	Address *map[string]any `json:"address,omitempty"`
+	Company *map[string]any `json:"company,omitempty"`
+	Email *string `json:"email,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Phone *string `json:"phone,omitempty"`
+	Username *string `json:"username,omitempty"`
+	Website *string `json:"website,omitempty"`
 }
 
 // UserRemoveMatch is the typed request payload for User.RemoveTyped.
@@ -253,12 +280,26 @@ func asMap(v any) map[string]any {
 	return out
 }
 
-// typedFrom decodes a runtime value (a map[string]any produced by the op
-// pipeline) into a typed model T via a JSON round-trip. On any error it
-// returns the zero value of T; the op's own (value, error) tuple carries the
-// real error.
+// entityData unwraps an entity to its data map.
+//
+// Operations resolve to the ENTITY, not the raw data (see AGENTS.md), and an
+// entity's fields are UNEXPORTED — marshalling one directly yields `{}`, so
+// every typed accessor would silently hand back a zero-valued struct. The
+// typed boundary therefore takes the data hop first.
+func entityData(v any) any {
+	if ent, ok := v.(core.Entity); ok {
+		return ent.Data()
+	}
+	return v
+}
+
+// typedFrom decodes a runtime value (an entity, or the map[string]any the op
+// pipeline produced) into a typed model T via a JSON round-trip. On any error
+// it returns the zero value of T; the op's own (value, error) tuple carries
+// the real error.
 func typedFrom[T any](v any) T {
 	var out T
+	v = entityData(v)
 	if v == nil {
 		return out
 	}
@@ -270,12 +311,20 @@ func typedFrom[T any](v any) T {
 	return out
 }
 
-// typedSliceFrom decodes a runtime list value ([]any of maps) into a typed
-// slice []T via a JSON round-trip, for list ops.
+// typedSliceFrom decodes a runtime list value into a typed slice []T via a
+// JSON round-trip, for list ops. `list` resolves to a slice of ENTITY
+// instances, so each element takes the data hop.
 func typedSliceFrom[T any](v any) []T {
 	var out []T
 	if v == nil {
 		return out
+	}
+	if list, ok := v.([]any); ok {
+		unwrapped := make([]any, 0, len(list))
+		for _, item := range list {
+			unwrapped = append(unwrapped, entityData(item))
+		}
+		v = unwrapped
 	}
 	b, err := json.Marshal(v)
 	if err != nil {

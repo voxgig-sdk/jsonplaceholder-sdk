@@ -49,7 +49,7 @@ try {
 
 ```php
 try {
-    // load() returns the bare Album record (throws on error).
+    // load() returns the ENTITY — call data_get() for the Album record (throws on error).
     $album = $client->Album()->load(["id" => 1]);
     print_r($album);
 } catch (\Throwable $err) {
@@ -60,14 +60,14 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// create() returns the bare created Album record.
-$created = $client->Album()->create(["title" => "example_title", "user_id" => 1]);
+// create() returns the ENTITY — call data_get() for the created Album record.
+$created = $client->Album()->create(["title" => "example_title", "userId" => 1]);
 
-// Update — index the bare record directly ($created["id"]).
-$client->Album()->update(["id" => $created["id"]]);
+// Update — index the record via data_get() ($created->data_get()["id"]).
+$client->Album()->update(["id" => $created->data_get()["id"], "title" => "example_title", "userId" => 1]);
 
 // Remove
-$client->Album()->remove(["id" => $created["id"]]);
+$client->Album()->remove(["id" => $created->data_get()["id"]]);
 ```
 
 
@@ -78,7 +78,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $albums = $client->Album()->list();
+    $photos = $client->Photo()->list();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -150,12 +150,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = JsonplaceholderSDK::test([
-    "entity" => ["album" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["photo" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// Entity ops return the bare mock record (throws on error).
-$album = $client->Album()->list();
-print_r($album);
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
+$photo = $client->Photo()->list();
+print_r($photo);
 ```
 
 ### Use a custom fetch function
@@ -261,7 +262,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -285,7 +286,7 @@ On error, `ok` is `false` and `$err` contains the error value.
 | --- | --- |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -299,7 +300,7 @@ API path: `/albums`
 | `email` |  |
 | `id` |  |
 | `name` |  |
-| `post_id` |  |
+| `postId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -309,9 +310,9 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `album_id` |  |
+| `albumId` |  |
 | `id` |  |
-| `thumbnail_url` |  |
+| `thumbnailUrl` |  |
 | `title` |  |
 | `url` |  |
 
@@ -326,7 +327,7 @@ API path: `/photos`
 | `body` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -339,7 +340,7 @@ API path: `/posts`
 | `completed` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -387,12 +388,12 @@ Create an instance: `$album = $client->Album();`
 | --- | --- | --- |
 | `id` | `int` |  |
 | `title` | `string` |  |
-| `user_id` | `int` |  |
+| `userId` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Album record (throws on error).
+// load() returns the ENTITY — call data_get() for the Album record (throws on error).
 $album = $client->Album()->load(["id" => 1]);
 ```
 
@@ -433,12 +434,12 @@ Create an instance: `$comment = $client->Comment();`
 | `email` | `string` |  |
 | `id` | `int` |  |
 | `name` | `string` |  |
-| `post_id` | `int` |  |
+| `postId` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Comment record (throws on error).
+// load() returns the ENTITY — call data_get() for the Comment record (throws on error).
 $comment = $client->Comment()->load(["id" => 1]);
 ```
 
@@ -475,16 +476,16 @@ Create an instance: `$photo = $client->Photo();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | `int` |  |
+| `albumId` | `int` |  |
 | `id` | `int` |  |
-| `thumbnail_url` | `string` |  |
+| `thumbnailUrl` | `string` |  |
 | `title` | `string` |  |
 | `url` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Photo record (throws on error).
+// load() returns the ENTITY — call data_get() for the Photo record (throws on error).
 $photo = $client->Photo()->load(["id" => 1]);
 ```
 
@@ -524,12 +525,12 @@ Create an instance: `$post = $client->Post();`
 | `body` | `string` |  |
 | `id` | `int` |  |
 | `title` | `string` |  |
-| `user_id` | `int` |  |
+| `userId` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Post record (throws on error).
+// load() returns the ENTITY — call data_get() for the Post record (throws on error).
 $post = $client->Post()->load(["id" => 1]);
 ```
 
@@ -569,12 +570,12 @@ Create an instance: `$todo = $client->Todo();`
 | `completed` | `bool` |  |
 | `id` | `int` |  |
 | `title` | `string` |  |
-| `user_id` | `int` |  |
+| `userId` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Todo record (throws on error).
+// load() returns the ENTITY — call data_get() for the Todo record (throws on error).
 $todo = $client->Todo()->load(["id" => 1]);
 ```
 
@@ -623,7 +624,7 @@ Create an instance: `$user = $client->User();`
 #### Example: Load
 
 ```php
-// load() returns the bare User record (throws on error).
+// load() returns the ENTITY — call data_get() for the User record (throws on error).
 $user = $client->User()->load(["id" => 1]);
 ```
 
@@ -718,11 +719,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$album = $client->Album();
-$album->list();
+$photo = $client->Photo();
+$photo->list();
 
-// $album->data_get() now returns the album data from the last list
-// $album->match_get() returns the last match criteria
+// $photo->data_get() now returns the photo data from the last list
+// $photo->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

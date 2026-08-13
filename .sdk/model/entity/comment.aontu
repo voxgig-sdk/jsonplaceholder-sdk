@@ -68,7 +68,7 @@ main: kit: entity: comment: {
       type: "`$STRING`"
     }
     {
-      name: "post_id"
+      name: "postId"
       op: {
         create: {
           req: true

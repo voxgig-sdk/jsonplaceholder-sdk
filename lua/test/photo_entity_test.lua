@@ -83,7 +83,7 @@ describe("PhotoEntity", function()
 
     local photo_ref01_data_result, err = photo_ref01_ent:create(photo_ref01_data, nil)
     assert.is_nil(err)
-    photo_ref01_data = helpers.to_map(photo_ref01_data_result)
+    photo_ref01_data = helpers.to_map(type(photo_ref01_data_result) == 'table' and photo_ref01_data_result.data_get and photo_ref01_data_result:data_get() or photo_ref01_data_result)
     assert.is_not_nil(photo_ref01_data)
     assert.is_not_nil(photo_ref01_data["id"])
 
@@ -104,13 +104,13 @@ describe("PhotoEntity", function()
       id = photo_ref01_data["id"],
     }
 
-    local photo_ref01_markdef_up0_name = "thumbnail_url"
+    local photo_ref01_markdef_up0_name = "thumbnailUrl"
     local photo_ref01_markdef_up0_value = "Mark01-photo_ref01_" .. tostring(setup.now)
     photo_ref01_data_up0_up[photo_ref01_markdef_up0_name] = photo_ref01_markdef_up0_value
 
     local photo_ref01_resdata_up0_result, err = photo_ref01_ent:update(photo_ref01_data_up0_up, nil)
     assert.is_nil(err)
-    local photo_ref01_resdata_up0 = helpers.to_map(photo_ref01_resdata_up0_result)
+    local photo_ref01_resdata_up0 = helpers.to_map(type(photo_ref01_resdata_up0_result) == 'table' and photo_ref01_resdata_up0_result.data_get and photo_ref01_resdata_up0_result:data_get() or photo_ref01_resdata_up0_result)
     assert.is_not_nil(photo_ref01_resdata_up0)
     assert.are.equal(photo_ref01_resdata_up0["id"], photo_ref01_data_up0_up["id"])
     assert.are.equal(photo_ref01_resdata_up0[photo_ref01_markdef_up0_name], photo_ref01_markdef_up0_value)
@@ -121,7 +121,7 @@ describe("PhotoEntity", function()
     }
     local photo_ref01_data_dt0_loaded, err = photo_ref01_ent:load(photo_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local photo_ref01_data_dt0_load_result = helpers.to_map(photo_ref01_data_dt0_loaded)
+    local photo_ref01_data_dt0_load_result = helpers.to_map(type(photo_ref01_data_dt0_loaded) == 'table' and photo_ref01_data_dt0_loaded.data_get and photo_ref01_data_dt0_loaded:data_get() or photo_ref01_data_dt0_loaded)
     assert.is_not_nil(photo_ref01_data_dt0_load_result)
     assert.are.equal(photo_ref01_data_dt0_load_result["id"], photo_ref01_data["id"])
 

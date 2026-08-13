@@ -59,14 +59,14 @@ print(album)
 
 ```lua
 -- Create
-local created, err = client:Album():create({ title = "example_title", user_id = 1 })
+local created, err = client:Album():create({ title = "example_title", userId = 1 })
 if err then error(err) end
 
 -- Update
-client:Album():update({ id = created["id"] })
+client:Album():update({ id = created:data_get()["id"], title = "example_title", userId = 1 })
 
 -- Remove
-client:Album():remove({ id = created["id"] })
+client:Album():remove({ id = created:data_get()["id"] })
 ```
 
 
@@ -76,7 +76,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local albums, err = client:Album():list()
+local photos, err = client:Photo():list()
 if err then error(err) end
 ```
 
@@ -134,7 +134,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Album():list()
+local result, err = client:Photo():list()
 -- result is the returned data; err is set on failure
 ```
 
@@ -265,7 +265,7 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 | --- | --- |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -279,7 +279,7 @@ API path: `/albums`
 | `email` |  |
 | `id` |  |
 | `name` |  |
-| `post_id` |  |
+| `postId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -289,9 +289,9 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `album_id` |  |
+| `albumId` |  |
 | `id` |  |
-| `thumbnail_url` |  |
+| `thumbnailUrl` |  |
 | `title` |  |
 | `url` |  |
 
@@ -306,7 +306,7 @@ API path: `/photos`
 | `body` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -319,7 +319,7 @@ API path: `/posts`
 | `completed` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -367,7 +367,7 @@ Create an instance: `local album = client:Album(nil)`
 | --- | --- | --- |
 | `id` | `number` |  |
 | `title` | `string` |  |
-| `user_id` | `number` |  |
+| `userId` | `number` |  |
 
 #### Example: Load
 
@@ -411,7 +411,7 @@ Create an instance: `local comment = client:Comment(nil)`
 | `email` | `string` |  |
 | `id` | `number` |  |
 | `name` | `string` |  |
-| `post_id` | `number` |  |
+| `postId` | `number` |  |
 
 #### Example: Load
 
@@ -451,9 +451,9 @@ Create an instance: `local photo = client:Photo(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | `number` |  |
+| `albumId` | `number` |  |
 | `id` | `number` |  |
-| `thumbnail_url` | `string` |  |
+| `thumbnailUrl` | `string` |  |
 | `title` | `string` |  |
 | `url` | `string` |  |
 
@@ -498,7 +498,7 @@ Create an instance: `local post = client:Post(nil)`
 | `body` | `string` |  |
 | `id` | `number` |  |
 | `title` | `string` |  |
-| `user_id` | `number` |  |
+| `userId` | `number` |  |
 
 #### Example: Load
 
@@ -541,7 +541,7 @@ Create an instance: `local todo = client:Todo(nil)`
 | `completed` | `boolean` |  |
 | `id` | `number` |  |
 | `title` | `string` |  |
-| `user_id` | `number` |  |
+| `userId` | `number` |  |
 
 #### Example: Load
 
@@ -686,11 +686,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local album = client:Album()
-album:list()
+local photo = client:Photo()
+photo:list()
 
--- album:data_get() now returns the album data from the last list
--- album:match_get() returns the last match criteria
+-- photo:data_get() now returns the photo data from the last list
+-- photo:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

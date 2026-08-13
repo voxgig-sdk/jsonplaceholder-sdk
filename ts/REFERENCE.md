@@ -178,7 +178,7 @@ const album = client.Album()
 | --- | --- | --- | --- |
 | `id` | `number` | No |  |
 | `title` | `string` | No |  |
-| `user_id` | `number` | No |  |
+| `userId` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -186,7 +186,7 @@ const album = client.Album()
 | --- | --- | --- | --- | --- | --- |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -276,7 +276,7 @@ const comment = client.Comment()
 | `email` | `string` | No |  |
 | `id` | `number` | No |  |
 | `name` | `string` | No |  |
-| `post_id` | `number` | No |  |
+| `postId` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -286,7 +286,7 @@ const comment = client.Comment()
 | `email` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | Yes | Yes | - |
-| `post_id` | - | - | Yes | Yes | - |
+| `postId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -372,9 +372,9 @@ const photo = client.Photo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `album_id` | `number` | No |  |
+| `albumId` | `number` | No |  |
 | `id` | `number` | No |  |
-| `thumbnail_url` | `string` | No |  |
+| `thumbnailUrl` | `string` | No |  |
 | `title` | `string` | No |  |
 | `url` | `string` | No |  |
 
@@ -382,9 +382,9 @@ const photo = client.Photo()
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `album_id` | - | - | Yes | Yes | - |
+| `albumId` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
-| `thumbnail_url` | - | - | Yes | Yes | - |
+| `thumbnailUrl` | - | - | Yes | Yes | - |
 | `title` | - | - | Yes | Yes | - |
 | `url` | - | - | Yes | Yes | - |
 
@@ -475,7 +475,7 @@ const post = client.Post()
 | `body` | `string` | No |  |
 | `id` | `number` | No |  |
 | `title` | `string` | No |  |
-| `user_id` | `number` | No |  |
+| `userId` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -484,7 +484,7 @@ const post = client.Post()
 | `body` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -573,7 +573,7 @@ const todo = client.Todo()
 | `completed` | `boolean` | No |  |
 | `id` | `number` | No |  |
 | `title` | `string` | No |  |
-| `user_id` | `number` | No |  |
+| `userId` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -582,7 +582,7 @@ const todo = client.Todo()
 | `completed` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 

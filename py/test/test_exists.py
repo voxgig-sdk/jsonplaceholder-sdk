@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# Jsonplaceholder SDK exists test
 
 import pytest
 from jsonplaceholder_sdk import JsonplaceholderSDK

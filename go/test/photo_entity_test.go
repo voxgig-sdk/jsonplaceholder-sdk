@@ -108,7 +108,7 @@ func TestPhotoEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		photoRef01Data = core.ToMapAny(photoRef01DataResult)
+		photoRef01Data = core.ToMapAny(entityData(photoRef01DataResult))
 		if photoRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -138,7 +138,7 @@ func TestPhotoEntity(t *testing.T) {
 			"id": photoRef01Data["id"],
 		}
 
-		photoRef01MarkdefUp0Name := "thumbnail_url"
+		photoRef01MarkdefUp0Name := "thumbnailUrl"
 		photoRef01MarkdefUp0Value := fmt.Sprintf("Mark01-photo_ref01_%d", setup.now)
 		photoRef01DataUp0Up[photoRef01MarkdefUp0Name] = photoRef01MarkdefUp0Value
 
@@ -146,7 +146,7 @@ func TestPhotoEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		photoRef01ResdataUp0 := core.ToMapAny(photoRef01ResdataUp0Result)
+		photoRef01ResdataUp0 := core.ToMapAny(entityData(photoRef01ResdataUp0Result))
 		if photoRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
@@ -165,7 +165,7 @@ func TestPhotoEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		photoRef01DataDt0LoadResult := core.ToMapAny(photoRef01DataDt0Loaded)
+		photoRef01DataDt0LoadResult := core.ToMapAny(entityData(photoRef01DataDt0Loaded))
 		if photoRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

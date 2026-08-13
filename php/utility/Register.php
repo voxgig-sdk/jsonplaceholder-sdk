@@ -23,6 +23,7 @@ require_once __DIR__ . '/MakeUrl.php';
 require_once __DIR__ . '/Param.php';
 require_once __DIR__ . '/PrepareAuth.php';
 require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
 require_once __DIR__ . '/PrepareHeaders.php';
 require_once __DIR__ . '/PrepareMethod.php';
 require_once __DIR__ . '/PrepareParams.php';
@@ -59,6 +60,8 @@ JsonplaceholderUtility::setRegistrar(function (JsonplaceholderUtility $u): void 
     $u->prepare_params = [JsonplaceholderPrepareParams::class, 'call'];
     $u->prepare_path = [JsonplaceholderPreparePath::class, 'call'];
     $u->prepare_query = [JsonplaceholderPrepareQuery::class, 'call'];
+    $u->graphql_body = [JsonplaceholderGraphql::class, 'body'];
+    $u->graphql_errors = [JsonplaceholderGraphql::class, 'errors'];
     $u->result_basic = [JsonplaceholderResultBasic::class, 'call'];
     $u->result_body = [JsonplaceholderResultBody::class, 'call'];
     $u->result_headers = [JsonplaceholderResultHeaders::class, 'call'];

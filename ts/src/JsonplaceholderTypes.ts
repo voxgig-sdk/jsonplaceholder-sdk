@@ -8,7 +8,7 @@
 export interface Album {
   id?: number
   title?: string
-  user_id?: number
+  userId?: number
 }
 
 export interface AlbumLoadMatch {
@@ -22,11 +22,13 @@ export interface AlbumListMatch {
 export interface AlbumCreateData {
   id?: number
   title?: string
-  user_id?: number
+  userId?: number
 }
 
 export interface AlbumUpdateData {
   id: number
+  title?: string
+  userId?: number
 }
 
 export interface AlbumRemoveMatch {
@@ -38,7 +40,7 @@ export interface Comment {
   email?: string
   id?: number
   name?: string
-  post_id?: number
+  postId?: number
 }
 
 export interface CommentLoadMatch {
@@ -54,11 +56,15 @@ export interface CommentCreateData {
   email?: string
   id?: number
   name?: string
-  post_id?: number
+  postId?: number
 }
 
 export interface CommentUpdateData {
   id: number
+  body?: string
+  email?: string
+  name?: string
+  postId?: number
 }
 
 export interface CommentRemoveMatch {
@@ -66,9 +72,9 @@ export interface CommentRemoveMatch {
 }
 
 export interface Photo {
-  album_id?: number
+  albumId?: number
   id?: number
-  thumbnail_url?: string
+  thumbnailUrl?: string
   title?: string
   url?: string
 }
@@ -82,15 +88,19 @@ export interface PhotoListMatch {
 }
 
 export interface PhotoCreateData {
-  album_id?: number
+  albumId?: number
   id?: number
-  thumbnail_url?: string
+  thumbnailUrl?: string
   title?: string
   url?: string
 }
 
 export interface PhotoUpdateData {
   id: number
+  albumId?: number
+  thumbnailUrl?: string
+  title?: string
+  url?: string
 }
 
 export interface PhotoRemoveMatch {
@@ -101,7 +111,7 @@ export interface Post {
   body?: string
   id?: number
   title?: string
-  user_id?: number
+  userId?: number
 }
 
 export interface PostLoadMatch {
@@ -116,11 +126,14 @@ export interface PostCreateData {
   body?: string
   id?: number
   title?: string
-  user_id?: number
+  userId?: number
 }
 
 export interface PostUpdateData {
   id: number
+  body?: string
+  title?: string
+  userId?: number
 }
 
 export interface PostRemoveMatch {
@@ -131,7 +144,7 @@ export interface Todo {
   completed?: boolean
   id?: number
   title?: string
-  user_id?: number
+  userId?: number
 }
 
 export interface TodoLoadMatch {
@@ -146,11 +159,14 @@ export interface TodoCreateData {
   completed?: boolean
   id?: number
   title?: string
-  user_id?: number
+  userId?: number
 }
 
 export interface TodoUpdateData {
   id: number
+  completed?: boolean
+  title?: string
+  userId?: number
 }
 
 export interface TodoRemoveMatch {
@@ -196,6 +212,13 @@ export interface UserCreateData {
 
 export interface UserUpdateData {
   id: number
+  address?: Record<string, any>
+  company?: Record<string, any>
+  email?: string
+  name?: string
+  phone?: string
+  username?: string
+  website?: string
 }
 
 export interface UserRemoveMatch {

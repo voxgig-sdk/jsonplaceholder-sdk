@@ -83,7 +83,7 @@ describe("PostEntity", function()
 
     local post_ref01_data_result, err = post_ref01_ent:create(post_ref01_data, nil)
     assert.is_nil(err)
-    post_ref01_data = helpers.to_map(post_ref01_data_result)
+    post_ref01_data = helpers.to_map(type(post_ref01_data_result) == 'table' and post_ref01_data_result.data_get and post_ref01_data_result:data_get() or post_ref01_data_result)
     assert.is_not_nil(post_ref01_data)
     assert.is_not_nil(post_ref01_data["id"])
 
@@ -112,7 +112,7 @@ describe("PostEntity", function()
 
     local post_ref01_resdata_up0_result, err = post_ref01_ent:update(post_ref01_data_up0_up, nil)
     assert.is_nil(err)
-    local post_ref01_resdata_up0 = helpers.to_map(post_ref01_resdata_up0_result)
+    local post_ref01_resdata_up0 = helpers.to_map(type(post_ref01_resdata_up0_result) == 'table' and post_ref01_resdata_up0_result.data_get and post_ref01_resdata_up0_result:data_get() or post_ref01_resdata_up0_result)
     assert.is_not_nil(post_ref01_resdata_up0)
     assert.are.equal(post_ref01_resdata_up0["id"], post_ref01_data_up0_up["id"])
     assert.are.equal(post_ref01_resdata_up0[post_ref01_markdef_up0_name], post_ref01_markdef_up0_value)
@@ -123,7 +123,7 @@ describe("PostEntity", function()
     }
     local post_ref01_data_dt0_loaded, err = post_ref01_ent:load(post_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local post_ref01_data_dt0_load_result = helpers.to_map(post_ref01_data_dt0_loaded)
+    local post_ref01_data_dt0_load_result = helpers.to_map(type(post_ref01_data_dt0_loaded) == 'table' and post_ref01_data_dt0_loaded.data_get and post_ref01_data_dt0_loaded:data_get() or post_ref01_data_dt0_loaded)
     assert.is_not_nil(post_ref01_data_dt0_load_result)
     assert.are.equal(post_ref01_data_dt0_load_result["id"], post_ref01_data["id"])
 

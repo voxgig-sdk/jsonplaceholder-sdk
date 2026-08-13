@@ -84,7 +84,7 @@ class PhotoEntityTest extends TestCase
         $photo_ref01_data["album_id"] = $setup["idmap"]["album01"];
 
         $photo_ref01_data_result = $photo_ref01_ent->create($photo_ref01_data, null);
-        $photo_ref01_data = Helpers::to_map($photo_ref01_data_result);
+        $photo_ref01_data = Helpers::to_map(is_object($photo_ref01_data_result) && method_exists($photo_ref01_data_result, 'data_get') ? $photo_ref01_data_result->data_get() : $photo_ref01_data_result);
         $this->assertNotNull($photo_ref01_data);
         $this->assertNotNull($photo_ref01_data["id"]);
 
@@ -104,12 +104,12 @@ class PhotoEntityTest extends TestCase
             "id" => $photo_ref01_data["id"],
         ];
 
-        $photo_ref01_markdef_up0_name = "thumbnail_url";
+        $photo_ref01_markdef_up0_name = "thumbnailUrl";
         $photo_ref01_markdef_up0_value = "Mark01-photo_ref01_" . $setup["now"];
         $photo_ref01_data_up0_up[$photo_ref01_markdef_up0_name] = $photo_ref01_markdef_up0_value;
 
         $photo_ref01_resdata_up0_result = $photo_ref01_ent->update($photo_ref01_data_up0_up, null);
-        $photo_ref01_resdata_up0 = Helpers::to_map($photo_ref01_resdata_up0_result);
+        $photo_ref01_resdata_up0 = Helpers::to_map(is_object($photo_ref01_resdata_up0_result) && method_exists($photo_ref01_resdata_up0_result, 'data_get') ? $photo_ref01_resdata_up0_result->data_get() : $photo_ref01_resdata_up0_result);
         $this->assertNotNull($photo_ref01_resdata_up0);
         $this->assertEquals($photo_ref01_resdata_up0["id"], $photo_ref01_data_up0_up["id"]);
         $this->assertEquals($photo_ref01_resdata_up0[$photo_ref01_markdef_up0_name], $photo_ref01_markdef_up0_value);
@@ -119,7 +119,7 @@ class PhotoEntityTest extends TestCase
             "id" => $photo_ref01_data["id"],
         ];
         $photo_ref01_data_dt0_loaded = $photo_ref01_ent->load($photo_ref01_match_dt0, null);
-        $photo_ref01_data_dt0_load_result = Helpers::to_map($photo_ref01_data_dt0_loaded);
+        $photo_ref01_data_dt0_load_result = Helpers::to_map(is_object($photo_ref01_data_dt0_loaded) && method_exists($photo_ref01_data_dt0_loaded, 'data_get') ? $photo_ref01_data_dt0_loaded->data_get() : $photo_ref01_data_dt0_loaded);
         $this->assertNotNull($photo_ref01_data_dt0_load_result);
         $this->assertEquals($photo_ref01_data_dt0_load_result["id"], $photo_ref01_data["id"]);
 

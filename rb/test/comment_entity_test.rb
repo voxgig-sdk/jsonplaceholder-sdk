@@ -74,7 +74,7 @@ class CommentEntityTest < Minitest::Test
     comment_ref01_data["post_id"] = setup[:idmap]["post01"]
 
     comment_ref01_data_result = comment_ref01_ent.create(comment_ref01_data, nil)
-    comment_ref01_data = Helpers.to_map(comment_ref01_data_result)
+    comment_ref01_data = Helpers.to_map(comment_ref01_data_result.respond_to?(:data_get) ? comment_ref01_data_result.data_get : comment_ref01_data_result)
     assert !comment_ref01_data.nil?
     assert !comment_ref01_data["id"].nil?
 
@@ -101,7 +101,7 @@ class CommentEntityTest < Minitest::Test
     comment_ref01_data_up0_up[comment_ref01_markdef_up0_name] = comment_ref01_markdef_up0_value
 
     comment_ref01_resdata_up0_result = comment_ref01_ent.update(comment_ref01_data_up0_up, nil)
-    comment_ref01_resdata_up0 = Helpers.to_map(comment_ref01_resdata_up0_result)
+    comment_ref01_resdata_up0 = Helpers.to_map(comment_ref01_resdata_up0_result.respond_to?(:data_get) ? comment_ref01_resdata_up0_result.data_get : comment_ref01_resdata_up0_result)
     assert !comment_ref01_resdata_up0.nil?
     assert_equal comment_ref01_resdata_up0["id"], comment_ref01_data_up0_up["id"]
     assert_equal comment_ref01_resdata_up0[comment_ref01_markdef_up0_name], comment_ref01_markdef_up0_value
@@ -111,7 +111,7 @@ class CommentEntityTest < Minitest::Test
       "id" => comment_ref01_data["id"],
     }
     comment_ref01_data_dt0_loaded = comment_ref01_ent.load(comment_ref01_match_dt0, nil)
-    comment_ref01_data_dt0_load_result = Helpers.to_map(comment_ref01_data_dt0_loaded)
+    comment_ref01_data_dt0_load_result = Helpers.to_map(comment_ref01_data_dt0_loaded.respond_to?(:data_get) ? comment_ref01_data_dt0_loaded.data_get : comment_ref01_data_dt0_loaded)
     assert !comment_ref01_data_dt0_load_result.nil?
     assert_equal comment_ref01_data_dt0_load_result["id"], comment_ref01_data["id"]
 

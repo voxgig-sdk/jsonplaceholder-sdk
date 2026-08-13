@@ -120,7 +120,7 @@ fmt.Println(album.GetName()) // "album"
 | --- | --- | --- | --- |
 | `id` | `int` | No |  |
 | `title` | `string` | No |  |
-| `user_id` | `int` | No |  |
+| `userId` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -128,7 +128,7 @@ fmt.Println(album.GetName()) // "album"
 | --- | --- | --- | --- | --- | --- |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -235,7 +235,7 @@ fmt.Println(comment.GetName()) // "comment"
 | `email` | `string` | No |  |
 | `id` | `int` | No |  |
 | `name` | `string` | No |  |
-| `post_id` | `int` | No |  |
+| `postId` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -245,7 +245,7 @@ fmt.Println(comment.GetName()) // "comment"
 | `email` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | Yes | Yes | - |
-| `post_id` | - | - | Yes | Yes | - |
+| `postId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -348,9 +348,9 @@ fmt.Println(photo.GetName()) // "photo"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `album_id` | `int` | No |  |
+| `albumId` | `int` | No |  |
 | `id` | `int` | No |  |
-| `thumbnail_url` | `string` | No |  |
+| `thumbnailUrl` | `string` | No |  |
 | `title` | `string` | No |  |
 | `url` | `string` | No |  |
 
@@ -358,9 +358,9 @@ fmt.Println(photo.GetName()) // "photo"
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `album_id` | - | - | Yes | Yes | - |
+| `albumId` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
-| `thumbnail_url` | - | - | Yes | Yes | - |
+| `thumbnailUrl` | - | - | Yes | Yes | - |
 | `title` | - | - | Yes | Yes | - |
 | `url` | - | - | Yes | Yes | - |
 
@@ -468,7 +468,7 @@ fmt.Println(post.GetName()) // "post"
 | `body` | `string` | No |  |
 | `id` | `int` | No |  |
 | `title` | `string` | No |  |
-| `user_id` | `int` | No |  |
+| `userId` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -477,7 +477,7 @@ fmt.Println(post.GetName()) // "post"
 | `body` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -583,7 +583,7 @@ fmt.Println(todo.GetName()) // "todo"
 | `completed` | `bool` | No |  |
 | `id` | `int` | No |  |
 | `title` | `string` | No |  |
-| `user_id` | `int` | No |  |
+| `userId` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -592,7 +592,7 @@ fmt.Println(todo.GetName()) // "todo"
 | `completed` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 

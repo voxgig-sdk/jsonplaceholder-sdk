@@ -84,7 +84,7 @@ class AlbumEntityTest extends TestCase
         $album_ref01_data["user_id"] = $setup["idmap"]["user01"];
 
         $album_ref01_data_result = $album_ref01_ent->create($album_ref01_data, null);
-        $album_ref01_data = Helpers::to_map($album_ref01_data_result);
+        $album_ref01_data = Helpers::to_map(is_object($album_ref01_data_result) && method_exists($album_ref01_data_result, 'data_get') ? $album_ref01_data_result->data_get() : $album_ref01_data_result);
         $this->assertNotNull($album_ref01_data);
         $this->assertNotNull($album_ref01_data["id"]);
 
@@ -111,7 +111,7 @@ class AlbumEntityTest extends TestCase
         $album_ref01_data_up0_up[$album_ref01_markdef_up0_name] = $album_ref01_markdef_up0_value;
 
         $album_ref01_resdata_up0_result = $album_ref01_ent->update($album_ref01_data_up0_up, null);
-        $album_ref01_resdata_up0 = Helpers::to_map($album_ref01_resdata_up0_result);
+        $album_ref01_resdata_up0 = Helpers::to_map(is_object($album_ref01_resdata_up0_result) && method_exists($album_ref01_resdata_up0_result, 'data_get') ? $album_ref01_resdata_up0_result->data_get() : $album_ref01_resdata_up0_result);
         $this->assertNotNull($album_ref01_resdata_up0);
         $this->assertEquals($album_ref01_resdata_up0["id"], $album_ref01_data_up0_up["id"]);
         $this->assertEquals($album_ref01_resdata_up0[$album_ref01_markdef_up0_name], $album_ref01_markdef_up0_value);
@@ -121,7 +121,7 @@ class AlbumEntityTest extends TestCase
             "id" => $album_ref01_data["id"],
         ];
         $album_ref01_data_dt0_loaded = $album_ref01_ent->load($album_ref01_match_dt0, null);
-        $album_ref01_data_dt0_load_result = Helpers::to_map($album_ref01_data_dt0_loaded);
+        $album_ref01_data_dt0_load_result = Helpers::to_map(is_object($album_ref01_data_dt0_loaded) && method_exists($album_ref01_data_dt0_loaded, 'data_get') ? $album_ref01_data_dt0_loaded->data_get() : $album_ref01_data_dt0_loaded);
         $this->assertNotNull($album_ref01_data_dt0_load_result);
         $this->assertEquals($album_ref01_data_dt0_load_result["id"], $album_ref01_data["id"]);
 

@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from jsonplaceholder_sdk.utility.voxgig_struct import voxgig_struct as vs
 from jsonplaceholder_sdk import JsonplaceholderSDK
-from core import helpers
+from jsonplaceholder_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -42,7 +42,7 @@ class TestTodoEntity:
         assert len(seen) == 3
 
         # Inbound: streaming active -> yields each item from the feature.
-        from config import make_config
+        from jsonplaceholder_sdk.config import make_config
         cfg = make_config()
         if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
             sdk = JsonplaceholderSDK.test(
@@ -79,7 +79,7 @@ class TestTodoEntity:
             vs.getpath(setup["data"], "new.todo"), "todo_ref01"))
         todo_ref01_data["user_id"] = setup["idmap"]["user01"]
 
-        todo_ref01_data = helpers.to_map(todo_ref01_ent.create(todo_ref01_data, None))
+        todo_ref01_data = helpers.to_map(runner.entity_data(todo_ref01_ent.create(todo_ref01_data, None)))
         assert todo_ref01_data is not None
         assert todo_ref01_data["id"] is not None
 
@@ -105,7 +105,7 @@ class TestTodoEntity:
         todo_ref01_markdef_up0_value = "Mark01-todo_ref01_" + str(setup["now"])
         todo_ref01_data_up0_up[todo_ref01_markdef_up0_name] = todo_ref01_markdef_up0_value
 
-        todo_ref01_resdata_up0 = helpers.to_map(todo_ref01_ent.update(todo_ref01_data_up0_up, None))
+        todo_ref01_resdata_up0 = helpers.to_map(runner.entity_data(todo_ref01_ent.update(todo_ref01_data_up0_up, None)))
         assert todo_ref01_resdata_up0 is not None
         assert todo_ref01_resdata_up0["id"] == todo_ref01_data_up0_up["id"]
         assert todo_ref01_resdata_up0[todo_ref01_markdef_up0_name] == todo_ref01_markdef_up0_value
@@ -115,7 +115,7 @@ class TestTodoEntity:
             "id": todo_ref01_data["id"],
         }
         todo_ref01_data_dt0_loaded = todo_ref01_ent.load(todo_ref01_match_dt0, None)
-        todo_ref01_data_dt0_load_result = helpers.to_map(todo_ref01_data_dt0_loaded)
+        todo_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(todo_ref01_data_dt0_loaded))
         assert todo_ref01_data_dt0_load_result is not None
         assert todo_ref01_data_dt0_load_result["id"] == todo_ref01_data["id"]
 

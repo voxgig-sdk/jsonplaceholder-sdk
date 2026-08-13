@@ -83,7 +83,7 @@ class UserEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.user"), "user_ref01"));
 
         $user_ref01_data_result = $user_ref01_ent->create($user_ref01_data, null);
-        $user_ref01_data = Helpers::to_map($user_ref01_data_result);
+        $user_ref01_data = Helpers::to_map(is_object($user_ref01_data_result) && method_exists($user_ref01_data_result, 'data_get') ? $user_ref01_data_result->data_get() : $user_ref01_data_result);
         $this->assertNotNull($user_ref01_data);
         $this->assertNotNull($user_ref01_data["id"]);
 
@@ -108,7 +108,7 @@ class UserEntityTest extends TestCase
         $user_ref01_data_up0_up[$user_ref01_markdef_up0_name] = $user_ref01_markdef_up0_value;
 
         $user_ref01_resdata_up0_result = $user_ref01_ent->update($user_ref01_data_up0_up, null);
-        $user_ref01_resdata_up0 = Helpers::to_map($user_ref01_resdata_up0_result);
+        $user_ref01_resdata_up0 = Helpers::to_map(is_object($user_ref01_resdata_up0_result) && method_exists($user_ref01_resdata_up0_result, 'data_get') ? $user_ref01_resdata_up0_result->data_get() : $user_ref01_resdata_up0_result);
         $this->assertNotNull($user_ref01_resdata_up0);
         $this->assertEquals($user_ref01_resdata_up0["id"], $user_ref01_data_up0_up["id"]);
         $this->assertEquals($user_ref01_resdata_up0[$user_ref01_markdef_up0_name], $user_ref01_markdef_up0_value);
@@ -118,7 +118,7 @@ class UserEntityTest extends TestCase
             "id" => $user_ref01_data["id"],
         ];
         $user_ref01_data_dt0_loaded = $user_ref01_ent->load($user_ref01_match_dt0, null);
-        $user_ref01_data_dt0_load_result = Helpers::to_map($user_ref01_data_dt0_loaded);
+        $user_ref01_data_dt0_load_result = Helpers::to_map(is_object($user_ref01_data_dt0_loaded) && method_exists($user_ref01_data_dt0_loaded, 'data_get') ? $user_ref01_data_dt0_loaded->data_get() : $user_ref01_data_dt0_loaded);
         $this->assertNotNull($user_ref01_data_dt0_load_result);
         $this->assertEquals($user_ref01_data_dt0_load_result["id"], $user_ref01_data["id"]);
 

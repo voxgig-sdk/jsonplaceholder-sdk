@@ -52,7 +52,7 @@ except Exception as err:
 
 ### 3. Load an album
 
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -65,14 +65,14 @@ except Exception as err:
 ### 4. Create, update, and remove
 
 ```python
-# Create — returns the bare created record (a dict)
-created = client.Album().create({"title": "example_title", "user_id": 1})
+# Create — returns the ENTITY (call data_get() for the record)
+created = client.Album().create({"title": "example_title", "userId": 1})
 
 # Update — the created record's id is a plain dict key
-client.Album().update({"id": created["id"]})
+client.Album().update({"id": created.data_get()["id"], "title": "example_title", "userId": 1})
 
 # Remove
-client.Album().remove({"id": created["id"]})
+client.Album().remove({"id": created.data_get()["id"]})
 ```
 
 
@@ -82,8 +82,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    albums = client.Album().list()
-    print(albums)
+    photos = client.Photo().list()
+    print(photos)
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -149,9 +149,10 @@ Create a mock client for unit testing — no server required:
 ```python
 client = JsonplaceholderSDK.test()
 
-# Entity ops return the bare record and raise on error.
-album = client.Album().list()
-# album contains the mock response record
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
+photo = client.Photo().list()
+# photo contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -254,7 +255,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -278,7 +279,7 @@ On error, `ok` is `False` and `err` contains the error value.
 | --- | --- |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -292,7 +293,7 @@ API path: `/albums`
 | `email` |  |
 | `id` |  |
 | `name` |  |
-| `post_id` |  |
+| `postId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -302,9 +303,9 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `album_id` |  |
+| `albumId` |  |
 | `id` |  |
-| `thumbnail_url` |  |
+| `thumbnailUrl` |  |
 | `title` |  |
 | `url` |  |
 
@@ -319,7 +320,7 @@ API path: `/photos`
 | `body` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -332,7 +333,7 @@ API path: `/posts`
 | `completed` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -380,7 +381,7 @@ Create an instance: `album = client.Album()`
 | --- | --- | --- |
 | `id` | `int` |  |
 | `title` | `str` |  |
-| `user_id` | `int` |  |
+| `userId` | `int` |  |
 
 #### Example: Load
 
@@ -424,7 +425,7 @@ Create an instance: `comment = client.Comment()`
 | `email` | `str` |  |
 | `id` | `int` |  |
 | `name` | `str` |  |
-| `post_id` | `int` |  |
+| `postId` | `int` |  |
 
 #### Example: Load
 
@@ -464,9 +465,9 @@ Create an instance: `photo = client.Photo()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | `int` |  |
+| `albumId` | `int` |  |
 | `id` | `int` |  |
-| `thumbnail_url` | `str` |  |
+| `thumbnailUrl` | `str` |  |
 | `title` | `str` |  |
 | `url` | `str` |  |
 
@@ -511,7 +512,7 @@ Create an instance: `post = client.Post()`
 | `body` | `str` |  |
 | `id` | `int` |  |
 | `title` | `str` |  |
-| `user_id` | `int` |  |
+| `userId` | `int` |  |
 
 #### Example: Load
 
@@ -554,7 +555,7 @@ Create an instance: `todo = client.Todo()`
 | `completed` | `bool` |  |
 | `id` | `int` |  |
 | `title` | `str` |  |
-| `user_id` | `int` |  |
+| `userId` | `int` |  |
 
 #### Example: Load
 
@@ -698,11 +699,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-album = client.Album()
-album.list()
+photo = client.Photo()
+photo.list()
 
-# album.data_get() now returns the album data from the last list
-# album.match_get() returns the last match criteria
+# photo.data_get() now returns the photo data from the last list
+# photo.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

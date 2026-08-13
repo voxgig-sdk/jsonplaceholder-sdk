@@ -74,7 +74,7 @@ class PostEntityTest < Minitest::Test
     post_ref01_data["user_id"] = setup[:idmap]["user01"]
 
     post_ref01_data_result = post_ref01_ent.create(post_ref01_data, nil)
-    post_ref01_data = Helpers.to_map(post_ref01_data_result)
+    post_ref01_data = Helpers.to_map(post_ref01_data_result.respond_to?(:data_get) ? post_ref01_data_result.data_get : post_ref01_data_result)
     assert !post_ref01_data.nil?
     assert !post_ref01_data["id"].nil?
 
@@ -101,7 +101,7 @@ class PostEntityTest < Minitest::Test
     post_ref01_data_up0_up[post_ref01_markdef_up0_name] = post_ref01_markdef_up0_value
 
     post_ref01_resdata_up0_result = post_ref01_ent.update(post_ref01_data_up0_up, nil)
-    post_ref01_resdata_up0 = Helpers.to_map(post_ref01_resdata_up0_result)
+    post_ref01_resdata_up0 = Helpers.to_map(post_ref01_resdata_up0_result.respond_to?(:data_get) ? post_ref01_resdata_up0_result.data_get : post_ref01_resdata_up0_result)
     assert !post_ref01_resdata_up0.nil?
     assert_equal post_ref01_resdata_up0["id"], post_ref01_data_up0_up["id"]
     assert_equal post_ref01_resdata_up0[post_ref01_markdef_up0_name], post_ref01_markdef_up0_value
@@ -111,7 +111,7 @@ class PostEntityTest < Minitest::Test
       "id" => post_ref01_data["id"],
     }
     post_ref01_data_dt0_loaded = post_ref01_ent.load(post_ref01_match_dt0, nil)
-    post_ref01_data_dt0_load_result = Helpers.to_map(post_ref01_data_dt0_loaded)
+    post_ref01_data_dt0_load_result = Helpers.to_map(post_ref01_data_dt0_loaded.respond_to?(:data_get) ? post_ref01_data_dt0_loaded.data_get : post_ref01_data_dt0_loaded)
     assert !post_ref01_data_dt0_load_result.nil?
     assert_equal post_ref01_data_dt0_load_result["id"], post_ref01_data["id"]
 

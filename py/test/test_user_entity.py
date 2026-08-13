@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from jsonplaceholder_sdk.utility.voxgig_struct import voxgig_struct as vs
 from jsonplaceholder_sdk import JsonplaceholderSDK
-from core import helpers
+from jsonplaceholder_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -42,7 +42,7 @@ class TestUserEntity:
         assert len(seen) == 3
 
         # Inbound: streaming active -> yields each item from the feature.
-        from config import make_config
+        from jsonplaceholder_sdk.config import make_config
         cfg = make_config()
         if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
             sdk = JsonplaceholderSDK.test(
@@ -78,7 +78,7 @@ class TestUserEntity:
         user_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.user"), "user_ref01"))
 
-        user_ref01_data = helpers.to_map(user_ref01_ent.create(user_ref01_data, None))
+        user_ref01_data = helpers.to_map(runner.entity_data(user_ref01_ent.create(user_ref01_data, None)))
         assert user_ref01_data is not None
         assert user_ref01_data["id"] is not None
 
@@ -102,7 +102,7 @@ class TestUserEntity:
         user_ref01_markdef_up0_value = "Mark01-user_ref01_" + str(setup["now"])
         user_ref01_data_up0_up[user_ref01_markdef_up0_name] = user_ref01_markdef_up0_value
 
-        user_ref01_resdata_up0 = helpers.to_map(user_ref01_ent.update(user_ref01_data_up0_up, None))
+        user_ref01_resdata_up0 = helpers.to_map(runner.entity_data(user_ref01_ent.update(user_ref01_data_up0_up, None)))
         assert user_ref01_resdata_up0 is not None
         assert user_ref01_resdata_up0["id"] == user_ref01_data_up0_up["id"]
         assert user_ref01_resdata_up0[user_ref01_markdef_up0_name] == user_ref01_markdef_up0_value
@@ -112,7 +112,7 @@ class TestUserEntity:
             "id": user_ref01_data["id"],
         }
         user_ref01_data_dt0_loaded = user_ref01_ent.load(user_ref01_match_dt0, None)
-        user_ref01_data_dt0_load_result = helpers.to_map(user_ref01_data_dt0_loaded)
+        user_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(user_ref01_data_dt0_loaded))
         assert user_ref01_data_dt0_load_result is not None
         assert user_ref01_data_dt0_load_result["id"] == user_ref01_data["id"]
 

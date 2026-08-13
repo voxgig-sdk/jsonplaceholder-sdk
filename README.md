@@ -38,18 +38,27 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = JsonplaceholderSDK.test()
-const albums = await client.Album().list()
-// albums is an array of bare Album records populated with mock data
-console.log(albums)
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = JsonplaceholderSDK.test({
+  entity: {
+    photo: {
+      test01: { id: 'test01' },
+    },
+  },
+})
+const photos = await client.Photo().list()
+// photos is an array of Photo entities, populated with mock data
+// — call photos[0].data() for the record itself
+console.log(photos)
 ```
 
 ### Python
 
 ```python
 client = JsonplaceholderSDK.test()
-albums = client.Album().list()
-print(albums)
+photos = client.Photo().list()
+print(photos)
 ```
 
 ### PHP
@@ -57,16 +66,16 @@ print(albums)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = JsonplaceholderSDK::test([
-    "entity" => ["album" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["photo" => ["test01" => ["id" => "test01"]]],
 ]);
-$albums = $client->Album()->list();
+$photos = $client->Photo()->list();
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Album(nil).List(
+result, err := client.Photo(nil).List(
     nil, nil,
 )
 ```
@@ -76,16 +85,16 @@ result, err := client.Album(nil).List(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = JsonplaceholderSDK.test({
-  "entity" => { "album" => { "test01" => { "id" => "test01" } } },
+  "entity" => { "photo" => { "test01" => { "id" => "test01" } } },
 })
-albums = client.Album.list()
+photos = client.Photo.list()
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local results, err = client:Album():list()
+local results, err = client:Photo():list()
 ```
 
 ## Packages
@@ -110,7 +119,7 @@ import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder'
 
 const client = new JsonplaceholderSDK()
 
-// List all albums (returns Album[])
+// List all albums (returns AlbumEntity[] — .data() for the record)
 const albums = await client.Album().list()
 for (const album of albums) {
   console.log(album)
@@ -157,7 +166,7 @@ The API exposes 6 entities:
 | --- | --- | --- |
 | **Album** | The Album entity (create, list, load, patch, remove, update). | `/albums` |
 | **Comment** | The Comment entity (create, list, load, patch, remove, update). | `/comments` |
-| **Photo** | The Photo entity (create, list, load, patch, remove, update). | `/photos` |
+| **Photo** | The Photo entity (create, list, load, patch, remove, update). | `/albums/{id}/photos` |
 | **Post** | The Post entity (create, list, load, patch, remove, update). | `/posts` |
 | **Todo** | The Todo entity (create, list, load, patch, remove, update). | `/todos` |
 | **User** | The User entity (create, list, load, patch, remove, update). | `/users` |
@@ -196,7 +205,7 @@ $client = new JsonplaceholderSDK();
 $albums = $client->Album()->list();
 print_r($albums);
 
-// Load a specific album (returns the bare record; throws on error)
+// Load a specific album (returns the ENTITY; call data_get() for the record; throws on error)
 $album = $client->Album()->load(["id" => 1]);
 print_r($album);
 ```
@@ -227,7 +236,7 @@ client = JsonplaceholderSDK.new
 albums = client.Album.list
 puts albums
 
-# Load a specific album (returns the bare record; raises on error)
+# Load a specific album (returns the ENTITY; call data_get for the record)
 album = client.Album.load({ "id" => 1 })
 puts album
 ```
@@ -364,6 +373,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://jsonplaceholder.typicode.com/](https://jsonplaceholder.typicode.com/)
 

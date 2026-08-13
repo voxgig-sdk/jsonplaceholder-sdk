@@ -17,7 +17,7 @@ class Album
 {
     public ?int $id = null;
     public ?string $title = null;
-    public ?int $user_id = null;
+    public ?int $userId = null;
 }
 
 /** Request payload for Album#load. */
@@ -37,13 +37,15 @@ class AlbumCreateData
 {
     public ?int $id = null;
     public ?string $title = null;
-    public ?int $user_id = null;
+    public ?int $userId = null;
 }
 
 /** Request payload for Album#update. */
 class AlbumUpdateData
 {
     public int $id;
+    public ?string $title = null;
+    public ?int $userId = null;
 }
 
 /** Request payload for Album#remove. */
@@ -59,7 +61,7 @@ class Comment
     public ?string $email = null;
     public ?int $id = null;
     public ?string $name = null;
-    public ?int $post_id = null;
+    public ?int $postId = null;
 }
 
 /** Request payload for Comment#load. */
@@ -81,13 +83,17 @@ class CommentCreateData
     public ?string $email = null;
     public ?int $id = null;
     public ?string $name = null;
-    public ?int $post_id = null;
+    public ?int $postId = null;
 }
 
 /** Request payload for Comment#update. */
 class CommentUpdateData
 {
     public int $id;
+    public ?string $body = null;
+    public ?string $email = null;
+    public ?string $name = null;
+    public ?int $postId = null;
 }
 
 /** Request payload for Comment#remove. */
@@ -99,9 +105,9 @@ class CommentRemoveMatch
 /** Photo entity data model. */
 class Photo
 {
-    public ?int $album_id = null;
+    public ?int $albumId = null;
     public ?int $id = null;
-    public ?string $thumbnail_url = null;
+    public ?string $thumbnailUrl = null;
     public ?string $title = null;
     public ?string $url = null;
 }
@@ -121,9 +127,9 @@ class PhotoListMatch
 /** Request payload for Photo#create. */
 class PhotoCreateData
 {
-    public ?int $album_id = null;
+    public ?int $albumId = null;
     public ?int $id = null;
-    public ?string $thumbnail_url = null;
+    public ?string $thumbnailUrl = null;
     public ?string $title = null;
     public ?string $url = null;
 }
@@ -132,6 +138,10 @@ class PhotoCreateData
 class PhotoUpdateData
 {
     public int $id;
+    public ?int $albumId = null;
+    public ?string $thumbnailUrl = null;
+    public ?string $title = null;
+    public ?string $url = null;
 }
 
 /** Request payload for Photo#remove. */
@@ -146,7 +156,7 @@ class Post
     public ?string $body = null;
     public ?int $id = null;
     public ?string $title = null;
-    public ?int $user_id = null;
+    public ?int $userId = null;
 }
 
 /** Request payload for Post#load. */
@@ -167,13 +177,16 @@ class PostCreateData
     public ?string $body = null;
     public ?int $id = null;
     public ?string $title = null;
-    public ?int $user_id = null;
+    public ?int $userId = null;
 }
 
 /** Request payload for Post#update. */
 class PostUpdateData
 {
     public int $id;
+    public ?string $body = null;
+    public ?string $title = null;
+    public ?int $userId = null;
 }
 
 /** Request payload for Post#remove. */
@@ -188,7 +201,7 @@ class Todo
     public ?bool $completed = null;
     public ?int $id = null;
     public ?string $title = null;
-    public ?int $user_id = null;
+    public ?int $userId = null;
 }
 
 /** Request payload for Todo#load. */
@@ -209,13 +222,16 @@ class TodoCreateData
     public ?bool $completed = null;
     public ?int $id = null;
     public ?string $title = null;
-    public ?int $user_id = null;
+    public ?int $userId = null;
 }
 
 /** Request payload for Todo#update. */
 class TodoUpdateData
 {
     public int $id;
+    public ?bool $completed = null;
+    public ?string $title = null;
+    public ?int $userId = null;
 }
 
 /** Request payload for Todo#remove. */
@@ -273,6 +289,13 @@ class UserCreateData
 class UserUpdateData
 {
     public int $id;
+    public ?array $address = null;
+    public ?array $company = null;
+    public ?string $email = null;
+    public ?string $name = null;
+    public ?string $phone = null;
+    public ?string $username = null;
+    public ?string $website = null;
 }
 
 /** Request payload for User#remove. */

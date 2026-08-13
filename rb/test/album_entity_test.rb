@@ -74,7 +74,7 @@ class AlbumEntityTest < Minitest::Test
     album_ref01_data["user_id"] = setup[:idmap]["user01"]
 
     album_ref01_data_result = album_ref01_ent.create(album_ref01_data, nil)
-    album_ref01_data = Helpers.to_map(album_ref01_data_result)
+    album_ref01_data = Helpers.to_map(album_ref01_data_result.respond_to?(:data_get) ? album_ref01_data_result.data_get : album_ref01_data_result)
     assert !album_ref01_data.nil?
     assert !album_ref01_data["id"].nil?
 
@@ -101,7 +101,7 @@ class AlbumEntityTest < Minitest::Test
     album_ref01_data_up0_up[album_ref01_markdef_up0_name] = album_ref01_markdef_up0_value
 
     album_ref01_resdata_up0_result = album_ref01_ent.update(album_ref01_data_up0_up, nil)
-    album_ref01_resdata_up0 = Helpers.to_map(album_ref01_resdata_up0_result)
+    album_ref01_resdata_up0 = Helpers.to_map(album_ref01_resdata_up0_result.respond_to?(:data_get) ? album_ref01_resdata_up0_result.data_get : album_ref01_resdata_up0_result)
     assert !album_ref01_resdata_up0.nil?
     assert_equal album_ref01_resdata_up0["id"], album_ref01_data_up0_up["id"]
     assert_equal album_ref01_resdata_up0[album_ref01_markdef_up0_name], album_ref01_markdef_up0_value
@@ -111,7 +111,7 @@ class AlbumEntityTest < Minitest::Test
       "id" => album_ref01_data["id"],
     }
     album_ref01_data_dt0_loaded = album_ref01_ent.load(album_ref01_match_dt0, nil)
-    album_ref01_data_dt0_load_result = Helpers.to_map(album_ref01_data_dt0_loaded)
+    album_ref01_data_dt0_load_result = Helpers.to_map(album_ref01_data_dt0_loaded.respond_to?(:data_get) ? album_ref01_data_dt0_loaded.data_get : album_ref01_data_dt0_loaded)
     assert !album_ref01_data_dt0_load_result.nil?
     assert_equal album_ref01_data_dt0_load_result["id"], album_ref01_data["id"]
 

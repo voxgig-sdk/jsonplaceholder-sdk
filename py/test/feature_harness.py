@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import JsonplaceholderControl
-from core.error import JsonplaceholderError
-from core.result import JsonplaceholderResult
-from core.spec import JsonplaceholderSpec
+from jsonplaceholder_sdk.config import make_config
+from jsonplaceholder_sdk.features import _make_feature
+from jsonplaceholder_sdk.core.control import JsonplaceholderControl
+from jsonplaceholder_sdk.core.error import JsonplaceholderError
+from jsonplaceholder_sdk.core.result import JsonplaceholderResult
+from jsonplaceholder_sdk.core.spec import JsonplaceholderSpec
 
 
 # True when this SDK was generated with the named feature.

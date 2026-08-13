@@ -108,7 +108,7 @@ func TestAlbumEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		albumRef01Data = core.ToMapAny(albumRef01DataResult)
+		albumRef01Data = core.ToMapAny(entityData(albumRef01DataResult))
 		if albumRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -148,7 +148,7 @@ func TestAlbumEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		albumRef01ResdataUp0 := core.ToMapAny(albumRef01ResdataUp0Result)
+		albumRef01ResdataUp0 := core.ToMapAny(entityData(albumRef01ResdataUp0Result))
 		if albumRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
@@ -167,7 +167,7 @@ func TestAlbumEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		albumRef01DataDt0LoadResult := core.ToMapAny(albumRef01DataDt0Loaded)
+		albumRef01DataDt0LoadResult := core.ToMapAny(entityData(albumRef01DataDt0Loaded))
 		if albumRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

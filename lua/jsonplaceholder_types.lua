@@ -9,7 +9,7 @@
 ---@class Album
 ---@field id? number
 ---@field title? string
----@field user_id? number
+---@field userId? number
 
 ---@class AlbumLoadMatch
 ---@field id number
@@ -20,10 +20,12 @@
 ---@class AlbumCreateData
 ---@field id? number
 ---@field title? string
----@field user_id? number
+---@field userId? number
 
 ---@class AlbumUpdateData
 ---@field id number
+---@field title? string
+---@field userId? number
 
 ---@class AlbumRemoveMatch
 ---@field id number
@@ -33,7 +35,7 @@
 ---@field email? string
 ---@field id? number
 ---@field name? string
----@field post_id? number
+---@field postId? number
 
 ---@class CommentLoadMatch
 ---@field id number
@@ -46,18 +48,22 @@
 ---@field email? string
 ---@field id? number
 ---@field name? string
----@field post_id? number
+---@field postId? number
 
 ---@class CommentUpdateData
 ---@field id number
+---@field body? string
+---@field email? string
+---@field name? string
+---@field postId? number
 
 ---@class CommentRemoveMatch
 ---@field id number
 
 ---@class Photo
----@field album_id? number
+---@field albumId? number
 ---@field id? number
----@field thumbnail_url? string
+---@field thumbnailUrl? string
 ---@field title? string
 ---@field url? string
 
@@ -68,14 +74,18 @@
 ---@field album_id? number
 
 ---@class PhotoCreateData
----@field album_id? number
+---@field albumId? number
 ---@field id? number
----@field thumbnail_url? string
+---@field thumbnailUrl? string
 ---@field title? string
 ---@field url? string
 
 ---@class PhotoUpdateData
 ---@field id number
+---@field albumId? number
+---@field thumbnailUrl? string
+---@field title? string
+---@field url? string
 
 ---@class PhotoRemoveMatch
 ---@field id number
@@ -84,7 +94,7 @@
 ---@field body? string
 ---@field id? number
 ---@field title? string
----@field user_id? number
+---@field userId? number
 
 ---@class PostLoadMatch
 ---@field id number
@@ -96,10 +106,13 @@
 ---@field body? string
 ---@field id? number
 ---@field title? string
----@field user_id? number
+---@field userId? number
 
 ---@class PostUpdateData
 ---@field id number
+---@field body? string
+---@field title? string
+---@field userId? number
 
 ---@class PostRemoveMatch
 ---@field id number
@@ -108,7 +121,7 @@
 ---@field completed? boolean
 ---@field id? number
 ---@field title? string
----@field user_id? number
+---@field userId? number
 
 ---@class TodoLoadMatch
 ---@field id number
@@ -120,10 +133,13 @@
 ---@field completed? boolean
 ---@field id? number
 ---@field title? string
----@field user_id? number
+---@field userId? number
 
 ---@class TodoUpdateData
 ---@field id number
+---@field completed? boolean
+---@field title? string
+---@field userId? number
 
 ---@class TodoRemoveMatch
 ---@field id number
@@ -163,6 +179,13 @@
 
 ---@class UserUpdateData
 ---@field id number
+---@field address? table
+---@field company? table
+---@field email? string
+---@field name? string
+---@field phone? string
+---@field username? string
+---@field website? string
 
 ---@class UserRemoveMatch
 ---@field id number

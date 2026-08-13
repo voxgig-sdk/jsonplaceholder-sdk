@@ -16,11 +16,11 @@
 import pytest
 
 from projectname_sdk import JsonplaceholderSDK
-from core.error import JsonplaceholderError
-from core.result import JsonplaceholderResult
-from core.response import JsonplaceholderResponse
-from core.spec import JsonplaceholderSpec
-from feature.base_feature import JsonplaceholderBaseFeature
+from projectname_sdk.core.error import JsonplaceholderError
+from projectname_sdk.core.result import JsonplaceholderResult
+from projectname_sdk.core.response import JsonplaceholderResponse
+from projectname_sdk.core.spec import JsonplaceholderSpec
+from projectname_sdk.feature.base_feature import JsonplaceholderBaseFeature
 
 
 def _client():

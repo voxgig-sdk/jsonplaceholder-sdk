@@ -35,7 +35,9 @@ const client = new JsonplaceholderSDK()
 
 ### 2. List album records
 
-`list()` resolves to an array of Album objects — iterate it directly:
+`list()` resolves to an array of Album ENTITIES — every operation
+resolves to entities, not raw records. Iterate them directly, and call
+`.data()` on one for the record it holds:
 
 ```ts
 const albums = await client.Album().list()
@@ -61,20 +63,22 @@ try {
 ### 4. Create, update, and remove
 
 ```ts
-// Create — returns the created Album
+// Create — returns the created Album ENTITY (.data() for the record)
 const created = await client.Album().create({
   title: 'example_title',
-  user_id: 1,
+  userId: 1,
 })
 
-// Update — the id comes straight off the returned entity
+// Update — the id comes off the returned entity's data()
 const updated = await client.Album().update({
-  id: created.id!,
+  id: created.data().id!,
+  title: 'example_title',
+  userId: 1,
 })
 
 // Remove
 await client.Album().remove({
-  id: created.id!,
+  id: created.data().id!,
 })
 ```
 
@@ -85,8 +89,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const albums = await client.Album().list()
-  console.log(albums)
+  const photos = await client.Photo().list()
+  console.log(photos)
 } catch (err) {
   console.error('list failed:', err)
 }
@@ -152,9 +156,10 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = JsonplaceholderSDK.test()
 
-const album = await client.Album().list()
-// album is a bare entity populated with mock response data
-console.log(album)
+const photo = await client.Photo().list()
+// photo is the entity, populated with mock response data
+// — call photo.data() for the record itself
+console.log(photo)
 ```
 
 You can also use the instance method:
@@ -169,7 +174,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Album()
+const entity = client.Photo()
 
 // First call runs the operation and stores its result
 await entity.list()
@@ -330,7 +335,7 @@ The `prepare()` method returns:
 | --- | --- |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -344,7 +349,7 @@ API path: `/albums`
 | `email` |  |
 | `id` |  |
 | `name` |  |
-| `post_id` |  |
+| `postId` |  |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -354,9 +359,9 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `album_id` |  |
+| `albumId` |  |
 | `id` |  |
-| `thumbnail_url` |  |
+| `thumbnailUrl` |  |
 | `title` |  |
 | `url` |  |
 
@@ -371,7 +376,7 @@ API path: `/photos`
 | `body` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -384,7 +389,7 @@ API path: `/posts`
 | `completed` |  |
 | `id` |  |
 | `title` |  |
-| `user_id` |  |
+| `userId` |  |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -432,7 +437,7 @@ Create an instance: `const album = client.Album()`
 | --- | --- | --- |
 | `id` | `number` |  |
 | `title` | `string` |  |
-| `user_id` | `number` |  |
+| `userId` | `number` |  |
 
 #### Example: Load
 
@@ -476,7 +481,7 @@ Create an instance: `const comment = client.Comment()`
 | `email` | `string` |  |
 | `id` | `number` |  |
 | `name` | `string` |  |
-| `post_id` | `number` |  |
+| `postId` | `number` |  |
 
 #### Example: Load
 
@@ -516,9 +521,9 @@ Create an instance: `const photo = client.Photo()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `album_id` | `number` |  |
+| `albumId` | `number` |  |
 | `id` | `number` |  |
-| `thumbnail_url` | `string` |  |
+| `thumbnailUrl` | `string` |  |
 | `title` | `string` |  |
 | `url` | `string` |  |
 
@@ -563,7 +568,7 @@ Create an instance: `const post = client.Post()`
 | `body` | `string` |  |
 | `id` | `number` |  |
 | `title` | `string` |  |
-| `user_id` | `number` |  |
+| `userId` | `number` |  |
 
 #### Example: Load
 
@@ -606,7 +611,7 @@ Create an instance: `const todo = client.Todo()`
 | `completed` | `boolean` |  |
 | `id` | `number` |  |
 | `title` | `string` |  |
-| `user_id` | `number` |  |
+| `userId` | `number` |  |
 
 #### Example: Load
 
@@ -744,11 +749,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const album = client.Album()
-await album.list()
+const photo = client.Photo()
+await photo.list()
 
-// album.data() now returns the album data from the last `list`
-// album.match() returns the last match criteria
+// photo.data() now returns the photo data from the last `list`
+// photo.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

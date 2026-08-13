@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from jsonplaceholder_sdk.utility.voxgig_struct import voxgig_struct as vs
 from jsonplaceholder_sdk import JsonplaceholderSDK
-from core import helpers
+from jsonplaceholder_sdk.core import helpers
 from test import runner
 
 

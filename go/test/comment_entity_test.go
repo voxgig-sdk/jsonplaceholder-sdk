@@ -108,7 +108,7 @@ func TestCommentEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		commentRef01Data = core.ToMapAny(commentRef01DataResult)
+		commentRef01Data = core.ToMapAny(entityData(commentRef01DataResult))
 		if commentRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -148,7 +148,7 @@ func TestCommentEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		commentRef01ResdataUp0 := core.ToMapAny(commentRef01ResdataUp0Result)
+		commentRef01ResdataUp0 := core.ToMapAny(entityData(commentRef01ResdataUp0Result))
 		if commentRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
@@ -167,7 +167,7 @@ func TestCommentEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		commentRef01DataDt0LoadResult := core.ToMapAny(commentRef01DataDt0Loaded)
+		commentRef01DataDt0LoadResult := core.ToMapAny(entityData(commentRef01DataDt0Loaded))
 		if commentRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}

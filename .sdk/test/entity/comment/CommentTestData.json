@@ -6,6 +6,7 @@
         "email": "s33",
         "id": "COMMENT00",
         "name": "s35",
+        "postId": "s36",
         "post_id": "POST01"
       },
       "COMMENT01": {
@@ -13,6 +14,7 @@
         "email": "s65",
         "id": "COMMENT01",
         "name": "s67",
+        "postId": "s68",
         "post_id": "POST01"
       },
       "COMMENT02": {
@@ -20,6 +22,7 @@
         "email": "s97",
         "id": "COMMENT02",
         "name": "s99",
+        "postId": "s9a",
         "post_id": "POST01"
       }
     }
@@ -30,7 +33,7 @@
         "body": "sc8",
         "email": "sc9",
         "name": "scb",
-        "post_id": "POST01"
+        "postId": "scc"
       }
     }
   }

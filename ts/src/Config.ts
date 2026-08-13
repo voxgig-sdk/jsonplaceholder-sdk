@@ -21,7 +21,7 @@ class Config {
 
 
   main = {
-    name: 'ProjectName',
+    name: 'Jsonplaceholder',
   }
 
 
@@ -99,7 +99,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "user_id",
+          "name": "userId",
           "op": {
             "create": {
               "req": true,
@@ -128,6 +128,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/albums",
               "parts": [
@@ -161,6 +162,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/albums",
               "parts": [
@@ -192,6 +194,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/users/{id}/albums",
               "parts": [
@@ -237,6 +240,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/albums/{id}",
               "parts": [
@@ -275,6 +279,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PATCH",
               "orig": "/albums/{id}",
               "parts": [
@@ -314,6 +319,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/albums/{id}",
               "parts": [
@@ -353,6 +359,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PUT",
               "orig": "/albums/{id}",
               "parts": [
@@ -456,7 +463,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "post_id",
+          "name": "postId",
           "op": {
             "create": {
               "req": true,
@@ -485,6 +492,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/comments",
               "parts": [
@@ -518,6 +526,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/comments",
               "parts": [
@@ -549,6 +558,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/posts/{id}/comments",
               "parts": [
@@ -594,6 +604,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/comments/{id}",
               "parts": [
@@ -632,6 +643,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PATCH",
               "orig": "/comments/{id}",
               "parts": [
@@ -671,6 +683,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/comments/{id}",
               "parts": [
@@ -710,6 +723,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PUT",
               "orig": "/comments/{id}",
               "parts": [
@@ -743,7 +757,7 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "album_id",
+          "name": "albumId",
           "op": {
             "create": {
               "req": true,
@@ -771,7 +785,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "thumbnail_url",
+          "name": "thumbnailUrl",
           "op": {
             "create": {
               "req": true,
@@ -842,6 +856,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/photos",
               "parts": [
@@ -876,6 +891,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/albums/{id}/photos",
               "parts": [
@@ -913,6 +929,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/photos",
               "parts": [
@@ -951,6 +968,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/photos/{id}",
               "parts": [
@@ -989,6 +1007,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PATCH",
               "orig": "/photos/{id}",
               "parts": [
@@ -1028,6 +1047,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/photos/{id}",
               "parts": [
@@ -1067,6 +1087,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PUT",
               "orig": "/photos/{id}",
               "parts": [
@@ -1149,7 +1170,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "user_id",
+          "name": "userId",
           "op": {
             "create": {
               "req": true,
@@ -1178,6 +1199,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/posts",
               "parts": [
@@ -1211,6 +1233,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/posts",
               "parts": [
@@ -1242,6 +1265,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/users/{id}/posts",
               "parts": [
@@ -1287,6 +1311,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/posts/{id}",
               "parts": [
@@ -1325,6 +1350,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PATCH",
               "orig": "/posts/{id}",
               "parts": [
@@ -1364,6 +1390,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/posts/{id}",
               "parts": [
@@ -1403,6 +1430,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PUT",
               "orig": "/posts/{id}",
               "parts": [
@@ -1485,7 +1513,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "user_id",
+          "name": "userId",
           "op": {
             "create": {
               "req": true,
@@ -1514,6 +1542,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/todos",
               "parts": [
@@ -1547,6 +1576,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/todos",
               "parts": [
@@ -1578,6 +1608,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/users/{id}/todos",
               "parts": [
@@ -1623,6 +1654,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/todos/{id}",
               "parts": [
@@ -1661,6 +1693,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PATCH",
               "orig": "/todos/{id}",
               "parts": [
@@ -1700,6 +1733,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/todos/{id}",
               "parts": [
@@ -1739,6 +1773,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PUT",
               "orig": "/todos/{id}",
               "parts": [
@@ -1878,6 +1913,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/users",
               "parts": [
@@ -1900,6 +1936,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/users",
               "parts": [
@@ -1934,6 +1971,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/users/{id}",
               "parts": [
@@ -1972,6 +2010,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PATCH",
               "orig": "/users/{id}",
               "parts": [
@@ -2011,6 +2050,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/users/{id}",
               "parts": [
@@ -2050,6 +2090,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PUT",
               "orig": "/users/{id}",
               "parts": [

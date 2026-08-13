@@ -35,7 +35,7 @@ main: kit: flow: BasicPhotoFlow:
         ref: "photo_ref01",
         srcdatavar: "photo_ref01_data",
         suffix: "_up0",
-        textfield: "thumbnail_url"
+        textfield: "thumbnailUrl"
       }
 
       op: "update",

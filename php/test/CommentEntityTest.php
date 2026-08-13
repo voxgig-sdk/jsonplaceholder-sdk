@@ -84,7 +84,7 @@ class CommentEntityTest extends TestCase
         $comment_ref01_data["post_id"] = $setup["idmap"]["post01"];
 
         $comment_ref01_data_result = $comment_ref01_ent->create($comment_ref01_data, null);
-        $comment_ref01_data = Helpers::to_map($comment_ref01_data_result);
+        $comment_ref01_data = Helpers::to_map(is_object($comment_ref01_data_result) && method_exists($comment_ref01_data_result, 'data_get') ? $comment_ref01_data_result->data_get() : $comment_ref01_data_result);
         $this->assertNotNull($comment_ref01_data);
         $this->assertNotNull($comment_ref01_data["id"]);
 
@@ -111,7 +111,7 @@ class CommentEntityTest extends TestCase
         $comment_ref01_data_up0_up[$comment_ref01_markdef_up0_name] = $comment_ref01_markdef_up0_value;
 
         $comment_ref01_resdata_up0_result = $comment_ref01_ent->update($comment_ref01_data_up0_up, null);
-        $comment_ref01_resdata_up0 = Helpers::to_map($comment_ref01_resdata_up0_result);
+        $comment_ref01_resdata_up0 = Helpers::to_map(is_object($comment_ref01_resdata_up0_result) && method_exists($comment_ref01_resdata_up0_result, 'data_get') ? $comment_ref01_resdata_up0_result->data_get() : $comment_ref01_resdata_up0_result);
         $this->assertNotNull($comment_ref01_resdata_up0);
         $this->assertEquals($comment_ref01_resdata_up0["id"], $comment_ref01_data_up0_up["id"]);
         $this->assertEquals($comment_ref01_resdata_up0[$comment_ref01_markdef_up0_name], $comment_ref01_markdef_up0_value);
@@ -121,7 +121,7 @@ class CommentEntityTest extends TestCase
             "id" => $comment_ref01_data["id"],
         ];
         $comment_ref01_data_dt0_loaded = $comment_ref01_ent->load($comment_ref01_match_dt0, null);
-        $comment_ref01_data_dt0_load_result = Helpers::to_map($comment_ref01_data_dt0_loaded);
+        $comment_ref01_data_dt0_load_result = Helpers::to_map(is_object($comment_ref01_data_dt0_loaded) && method_exists($comment_ref01_data_dt0_loaded, 'data_get') ? $comment_ref01_data_dt0_loaded->data_get() : $comment_ref01_data_dt0_loaded);
         $this->assertNotNull($comment_ref01_data_dt0_load_result);
         $this->assertEquals($comment_ref01_data_dt0_load_result["id"], $comment_ref01_data["id"]);
 

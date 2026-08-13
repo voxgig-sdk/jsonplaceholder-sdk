@@ -49,7 +49,7 @@ main: kit: entity: post: {
       type: "`$STRING`"
     }
     {
-      name: "user_id"
+      name: "userId"
       op: {
         create: {
           req: true

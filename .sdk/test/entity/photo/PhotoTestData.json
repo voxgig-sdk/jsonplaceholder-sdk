@@ -2,33 +2,36 @@
   "existing": {
     "photo": {
       "PHOTO00": {
-        "album_id": "ALBUM01",
+        "albumId": "s32",
         "id": "PHOTO00",
-        "thumbnail_url": "s34",
+        "thumbnailUrl": "s34",
         "title": "s35",
-        "url": "s36"
+        "url": "s36",
+        "album_id": "ALBUM01"
       },
       "PHOTO01": {
-        "album_id": "ALBUM01",
+        "albumId": "s64",
         "id": "PHOTO01",
-        "thumbnail_url": "s66",
+        "thumbnailUrl": "s66",
         "title": "s67",
-        "url": "s68"
+        "url": "s68",
+        "album_id": "ALBUM01"
       },
       "PHOTO02": {
-        "album_id": "ALBUM01",
+        "albumId": "s96",
         "id": "PHOTO02",
-        "thumbnail_url": "s98",
+        "thumbnailUrl": "s98",
         "title": "s99",
-        "url": "s9a"
+        "url": "s9a",
+        "album_id": "ALBUM01"
       }
     }
   },
   "new": {
     "photo": {
       "photo_ref01": {
-        "album_id": "ALBUM01",
-        "thumbnail_url": "sca",
+        "albumId": "sc8",
+        "thumbnailUrl": "sca",
         "title": "scb",
         "url": "scc"
       }

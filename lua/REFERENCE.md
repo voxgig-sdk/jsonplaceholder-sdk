@@ -112,7 +112,7 @@ local album = client:Album(nil)
 | --- | --- | --- | --- |
 | `id` | `number` | No |  |
 | `title` | `string` | No |  |
-| `user_id` | `number` | No |  |
+| `userId` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -120,7 +120,7 @@ local album = client:Album(nil)
 | --- | --- | --- | --- | --- | --- |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -212,7 +212,7 @@ local comment = client:Comment(nil)
 | `email` | `string` | No |  |
 | `id` | `number` | No |  |
 | `name` | `string` | No |  |
-| `post_id` | `number` | No |  |
+| `postId` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -222,7 +222,7 @@ local comment = client:Comment(nil)
 | `email` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | Yes | Yes | - |
-| `post_id` | - | - | Yes | Yes | - |
+| `postId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -310,9 +310,9 @@ local photo = client:Photo(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `album_id` | `number` | No |  |
+| `albumId` | `number` | No |  |
 | `id` | `number` | No |  |
-| `thumbnail_url` | `string` | No |  |
+| `thumbnailUrl` | `string` | No |  |
 | `title` | `string` | No |  |
 | `url` | `string` | No |  |
 
@@ -320,9 +320,9 @@ local photo = client:Photo(nil)
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `album_id` | - | - | Yes | Yes | - |
+| `albumId` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
-| `thumbnail_url` | - | - | Yes | Yes | - |
+| `thumbnailUrl` | - | - | Yes | Yes | - |
 | `title` | - | - | Yes | Yes | - |
 | `url` | - | - | Yes | Yes | - |
 
@@ -415,7 +415,7 @@ local post = client:Post(nil)
 | `body` | `string` | No |  |
 | `id` | `number` | No |  |
 | `title` | `string` | No |  |
-| `user_id` | `number` | No |  |
+| `userId` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -424,7 +424,7 @@ local post = client:Post(nil)
 | `body` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -515,7 +515,7 @@ local todo = client:Todo(nil)
 | `completed` | `boolean` | No |  |
 | `id` | `number` | No |  |
 | `title` | `string` | No |  |
-| `user_id` | `number` | No |  |
+| `userId` | `number` | No |  |
 
 ### Field Usage by Operation
 
@@ -524,7 +524,7 @@ local todo = client:Todo(nil)
 | `completed` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 

@@ -109,7 +109,7 @@ album = client.Album()
 | --- | --- | --- | --- |
 | `id` | `int` | No |  |
 | `title` | `str` | No |  |
-| `user_id` | `int` | No |  |
+| `userId` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -117,7 +117,7 @@ album = client.Album()
 | --- | --- | --- | --- | --- | --- |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -210,7 +210,7 @@ comment = client.Comment()
 | `email` | `str` | No |  |
 | `id` | `int` | No |  |
 | `name` | `str` | No |  |
-| `post_id` | `int` | No |  |
+| `postId` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -220,7 +220,7 @@ comment = client.Comment()
 | `email` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | Yes | Yes | - |
-| `post_id` | - | - | Yes | Yes | - |
+| `postId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -309,9 +309,9 @@ photo = client.Photo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `album_id` | `int` | No |  |
+| `albumId` | `int` | No |  |
 | `id` | `int` | No |  |
-| `thumbnail_url` | `str` | No |  |
+| `thumbnailUrl` | `str` | No |  |
 | `title` | `str` | No |  |
 | `url` | `str` | No |  |
 
@@ -319,9 +319,9 @@ photo = client.Photo()
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `album_id` | - | - | Yes | Yes | - |
+| `albumId` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
-| `thumbnail_url` | - | - | Yes | Yes | - |
+| `thumbnailUrl` | - | - | Yes | Yes | - |
 | `title` | - | - | Yes | Yes | - |
 | `url` | - | - | Yes | Yes | - |
 
@@ -415,7 +415,7 @@ post = client.Post()
 | `body` | `str` | No |  |
 | `id` | `int` | No |  |
 | `title` | `str` | No |  |
-| `user_id` | `int` | No |  |
+| `userId` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -424,7 +424,7 @@ post = client.Post()
 | `body` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 
@@ -516,7 +516,7 @@ todo = client.Todo()
 | `completed` | `bool` | No |  |
 | `id` | `int` | No |  |
 | `title` | `str` | No |  |
-| `user_id` | `int` | No |  |
+| `userId` | `int` | No |  |
 
 ### Field Usage by Operation
 
@@ -525,7 +525,7 @@ todo = client.Todo()
 | `completed` | - | - | Yes | Yes | - |
 | `id` | - | - | - | - | - |
 | `title` | - | - | Yes | Yes | - |
-| `user_id` | - | - | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | - |
 
 ### Operations
 
