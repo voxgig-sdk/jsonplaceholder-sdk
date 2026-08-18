@@ -15,7 +15,7 @@ require_relative "../Jsonplaceholder_sdk"
 module JsonplaceholderFeatureHarness
   # True when this SDK was generated with the named feature.
   def self.has_feature?(name)
-    f = JsonplaceholderConfig.make_config["feature"]
+    f = JsonplaceholderConfig.shared_config["feature"]
     f.is_a?(Hash) && !f[name].nil?
   end
 

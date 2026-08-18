@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from jsonplaceholder_sdk.config import make_config
+from jsonplaceholder_sdk.config import shared_config
 from jsonplaceholder_sdk.features import _make_feature
 from jsonplaceholder_sdk.core.control import JsonplaceholderControl
 from jsonplaceholder_sdk.core.error import JsonplaceholderError
@@ -24,7 +24,7 @@ from jsonplaceholder_sdk.core.spec import JsonplaceholderSpec
 
 # True when this SDK was generated with the named feature.
 def has_feature(name):
-    feature = make_config().get("feature")
+    feature = shared_config().get("feature")
     return isinstance(feature, dict) and feature.get(name) is not None
 
 

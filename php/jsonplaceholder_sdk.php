@@ -40,7 +40,7 @@ class JsonplaceholderSDK
         $utility = new JsonplaceholderUtility();
         $this->_utility = $utility;
 
-        $config = JsonplaceholderConfig::make_config();
+        $config = JsonplaceholderConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

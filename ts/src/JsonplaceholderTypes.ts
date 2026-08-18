@@ -16,7 +16,9 @@ export interface AlbumLoadMatch {
 }
 
 export interface AlbumListMatch {
-  user_id?: number
+  id?: number
+  title?: string
+  userId?: number
 }
 
 export interface AlbumCreateData {
@@ -48,7 +50,11 @@ export interface CommentLoadMatch {
 }
 
 export interface CommentListMatch {
-  post_id?: number
+  body?: string
+  email?: string
+  id?: number
+  name?: string
+  postId?: number
 }
 
 export interface CommentCreateData {
@@ -84,7 +90,11 @@ export interface PhotoLoadMatch {
 }
 
 export interface PhotoListMatch {
-  album_id?: number
+  albumId?: number
+  id?: number
+  thumbnailUrl?: string
+  title?: string
+  url?: string
 }
 
 export interface PhotoCreateData {
@@ -119,7 +129,10 @@ export interface PostLoadMatch {
 }
 
 export interface PostListMatch {
-  user_id?: number
+  body?: string
+  id?: number
+  title?: string
+  userId?: number
 }
 
 export interface PostCreateData {
@@ -152,7 +165,10 @@ export interface TodoLoadMatch {
 }
 
 export interface TodoListMatch {
-  user_id?: number
+  completed?: boolean
+  id?: number
+  title?: string
+  userId?: number
 }
 
 export interface TodoCreateData {

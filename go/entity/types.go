@@ -26,7 +26,9 @@ type AlbumLoadMatch struct {
 
 // AlbumListMatch is the typed request payload for Album.ListTyped.
 type AlbumListMatch struct {
-	UserId *int `json:"user_id,omitempty"`
+	Id *int `json:"id,omitempty"`
+	Title *string `json:"title,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // AlbumCreateData is the typed request payload for Album.CreateTyped.
@@ -64,7 +66,11 @@ type CommentLoadMatch struct {
 
 // CommentListMatch is the typed request payload for Comment.ListTyped.
 type CommentListMatch struct {
-	PostId *int `json:"post_id,omitempty"`
+	Body *string `json:"body,omitempty"`
+	Email *string `json:"email,omitempty"`
+	Id *int `json:"id,omitempty"`
+	Name *string `json:"name,omitempty"`
+	PostId *int `json:"postId,omitempty"`
 }
 
 // CommentCreateData is the typed request payload for Comment.CreateTyped.
@@ -106,7 +112,11 @@ type PhotoLoadMatch struct {
 
 // PhotoListMatch is the typed request payload for Photo.ListTyped.
 type PhotoListMatch struct {
-	AlbumId *int `json:"album_id,omitempty"`
+	AlbumId *int `json:"albumId,omitempty"`
+	Id *int `json:"id,omitempty"`
+	ThumbnailUrl *string `json:"thumbnailUrl,omitempty"`
+	Title *string `json:"title,omitempty"`
+	Url *string `json:"url,omitempty"`
 }
 
 // PhotoCreateData is the typed request payload for Photo.CreateTyped.
@@ -147,7 +157,10 @@ type PostLoadMatch struct {
 
 // PostListMatch is the typed request payload for Post.ListTyped.
 type PostListMatch struct {
-	UserId *int `json:"user_id,omitempty"`
+	Body *string `json:"body,omitempty"`
+	Id *int `json:"id,omitempty"`
+	Title *string `json:"title,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // PostCreateData is the typed request payload for Post.CreateTyped.
@@ -186,7 +199,10 @@ type TodoLoadMatch struct {
 
 // TodoListMatch is the typed request payload for Todo.ListTyped.
 type TodoListMatch struct {
-	UserId *int `json:"user_id,omitempty"`
+	Completed *bool `json:"completed,omitempty"`
+	Id *int `json:"id,omitempty"`
+	Title *string `json:"title,omitempty"`
+	UserId *int `json:"userId,omitempty"`
 }
 
 // TodoCreateData is the typed request payload for Todo.CreateTyped.

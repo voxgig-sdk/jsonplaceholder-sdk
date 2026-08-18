@@ -23,8 +23,8 @@ class JsonplaceholderSDK:
         utility = JsonplaceholderUtility()
         self._utility = utility
 
-        from jsonplaceholder_sdk.config import make_config
-        config = make_config()
+        from jsonplaceholder_sdk.config import shared_config
+        config = shared_config()
 
         self._rootctx = utility.make_context({
             "client": self,

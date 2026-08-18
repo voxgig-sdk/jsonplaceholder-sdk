@@ -28,7 +28,7 @@ class JsonplaceholderSDK
     utility = JsonplaceholderUtility.new
     @_utility = utility
 
-    config = JsonplaceholderConfig.make_config
+    config = JsonplaceholderConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,
