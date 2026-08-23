@@ -6,7 +6,7 @@ The Golang SDK for the Jsonplaceholder API — an entity-oriented client using s
 
 It exposes the API as capitalised, semantic **Entities** — e.g. `client.Album(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`, `Remove`, `Patch`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
-> Other languages, the CLI, and MCP server live alongside this one — see
+> Also generated from this model: `go-cli`, `go-mcp`, `lua`, `php`, `py`, `rb`, `ts` — see
 > the [top-level README](../README.md).
 
 
@@ -298,9 +298,9 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
-| `"id"` |  |
-| `"title"` |  |
-| `"userId"` |  |
+| `"id"` | Album ID |
+| `"title"` | Album title |
+| `"userId"` | User ID who created the album |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -310,11 +310,11 @@ API path: `/albums`
 
 | Field | Description |
 | --- | --- |
-| `"body"` |  |
-| `"email"` |  |
-| `"id"` |  |
-| `"name"` |  |
-| `"postId"` |  |
+| `"body"` | Comment content |
+| `"email"` | Email of the commenter |
+| `"id"` | Comment ID |
+| `"name"` | Comment name/title |
+| `"postId"` | Post ID the comment belongs to |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -324,11 +324,11 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `"albumId"` |  |
-| `"id"` |  |
-| `"thumbnailUrl"` |  |
-| `"title"` |  |
-| `"url"` |  |
+| `"albumId"` | Album ID the photo belongs to |
+| `"id"` | Photo ID |
+| `"thumbnailUrl"` | Photo thumbnail URL |
+| `"title"` | Photo title |
+| `"url"` | Photo URL |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -338,10 +338,10 @@ API path: `/photos`
 
 | Field | Description |
 | --- | --- |
-| `"body"` |  |
-| `"id"` |  |
-| `"title"` |  |
-| `"userId"` |  |
+| `"body"` | Post content |
+| `"id"` | Post ID |
+| `"title"` | Post title |
+| `"userId"` | User ID who created the post |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -351,10 +351,10 @@ API path: `/posts`
 
 | Field | Description |
 | --- | --- |
-| `"completed"` |  |
-| `"id"` |  |
-| `"title"` |  |
-| `"userId"` |  |
+| `"completed"` | Todo completion status |
+| `"id"` | Todo ID |
+| `"title"` | Todo title |
+| `"userId"` | User ID who created the todo |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -366,12 +366,12 @@ API path: `/todos`
 | --- | --- |
 | `"address"` |  |
 | `"company"` |  |
-| `"email"` |  |
-| `"id"` |  |
-| `"name"` |  |
-| `"phone"` |  |
-| `"username"` |  |
-| `"website"` |  |
+| `"email"` | User email |
+| `"id"` | User ID |
+| `"name"` | User full name |
+| `"phone"` | User phone number |
+| `"username"` | Username |
+| `"website"` | User website |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -400,9 +400,9 @@ Create an instance: `album := client.Album(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `int` |  |
-| `title` | `string` |  |
-| `userId` | `int` |  |
+| `id` | `int` | Album ID |
+| `title` | `string` | Album title |
+| `userId` | `int` | User ID who created the album |
 
 #### Example: Load
 
@@ -454,11 +454,11 @@ Create an instance: `comment := client.Comment(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `string` |  |
-| `email` | `string` |  |
-| `id` | `int` |  |
-| `name` | `string` |  |
-| `postId` | `int` |  |
+| `body` | `string` | Comment content |
+| `email` | `string` | Email of the commenter |
+| `id` | `int` | Comment ID |
+| `name` | `string` | Comment name/title |
+| `postId` | `int` | Post ID the comment belongs to |
 
 #### Example: Load
 
@@ -510,11 +510,11 @@ Create an instance: `photo := client.Photo(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `albumId` | `int` |  |
-| `id` | `int` |  |
-| `thumbnailUrl` | `string` |  |
-| `title` | `string` |  |
-| `url` | `string` |  |
+| `albumId` | `int` | Album ID the photo belongs to |
+| `id` | `int` | Photo ID |
+| `thumbnailUrl` | `string` | Photo thumbnail URL |
+| `title` | `string` | Photo title |
+| `url` | `string` | Photo URL |
 
 #### Example: Load
 
@@ -566,10 +566,10 @@ Create an instance: `post := client.Post(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `string` |  |
-| `id` | `int` |  |
-| `title` | `string` |  |
-| `userId` | `int` |  |
+| `body` | `string` | Post content |
+| `id` | `int` | Post ID |
+| `title` | `string` | Post title |
+| `userId` | `int` | User ID who created the post |
 
 #### Example: Load
 
@@ -621,10 +621,10 @@ Create an instance: `todo := client.Todo(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completed` | `bool` |  |
-| `id` | `int` |  |
-| `title` | `string` |  |
-| `userId` | `int` |  |
+| `completed` | `bool` | Todo completion status |
+| `id` | `int` | Todo ID |
+| `title` | `string` | Todo title |
+| `userId` | `int` | User ID who created the todo |
 
 #### Example: Load
 
@@ -678,12 +678,12 @@ Create an instance: `user := client.User(nil)`
 | --- | --- | --- |
 | `address` | `map[string]any` |  |
 | `company` | `map[string]any` |  |
-| `email` | `string` |  |
-| `id` | `int` |  |
-| `name` | `string` |  |
-| `phone` | `string` |  |
-| `username` | `string` |  |
-| `website` | `string` |  |
+| `email` | `string` | User email |
+| `id` | `int` | User ID |
+| `name` | `string` | User full name |
+| `phone` | `string` | User phone number |
+| `username` | `string` | Username |
+| `website` | `string` | User website |
 
 #### Example: Load
 

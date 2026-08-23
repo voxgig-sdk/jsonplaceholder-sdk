@@ -107,9 +107,9 @@ album = client.Album()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `title` | `str` | No |  |
-| `userId` | `int` | No |  |
+| `id` | `int` | No | Album ID |
+| `title` | `str` | No | Album title |
+| `userId` | `int` | No | User ID who created the album |
 
 ### Field Usage by Operation
 
@@ -206,11 +206,11 @@ comment = client.Comment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | `str` | No |  |
-| `email` | `str` | No |  |
-| `id` | `int` | No |  |
-| `name` | `str` | No |  |
-| `postId` | `int` | No |  |
+| `body` | `str` | No | Comment content |
+| `email` | `str` | No | Email of the commenter |
+| `id` | `int` | No | Comment ID |
+| `name` | `str` | No | Comment name/title |
+| `postId` | `int` | No | Post ID the comment belongs to |
 
 ### Field Usage by Operation
 
@@ -309,11 +309,11 @@ photo = client.Photo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `albumId` | `int` | No |  |
-| `id` | `int` | No |  |
-| `thumbnailUrl` | `str` | No |  |
-| `title` | `str` | No |  |
-| `url` | `str` | No |  |
+| `albumId` | `int` | No | Album ID the photo belongs to |
+| `id` | `int` | No | Photo ID |
+| `thumbnailUrl` | `str` | No | Photo thumbnail URL |
+| `title` | `str` | No | Photo title |
+| `url` | `str` | No | Photo URL |
 
 ### Field Usage by Operation
 
@@ -412,10 +412,10 @@ post = client.Post()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | `str` | No |  |
-| `id` | `int` | No |  |
-| `title` | `str` | No |  |
-| `userId` | `int` | No |  |
+| `body` | `str` | No | Post content |
+| `id` | `int` | No | Post ID |
+| `title` | `str` | No | Post title |
+| `userId` | `int` | No | User ID who created the post |
 
 ### Field Usage by Operation
 
@@ -513,10 +513,10 @@ todo = client.Todo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completed` | `bool` | No |  |
-| `id` | `int` | No |  |
-| `title` | `str` | No |  |
-| `userId` | `int` | No |  |
+| `completed` | `bool` | No | Todo completion status |
+| `id` | `int` | No | Todo ID |
+| `title` | `str` | No | Todo title |
+| `userId` | `int` | No | User ID who created the todo |
 
 ### Field Usage by Operation
 
@@ -616,12 +616,12 @@ user = client.User()
 | --- | --- | --- | --- |
 | `address` | `dict` | No |  |
 | `company` | `dict` | No |  |
-| `email` | `str` | No |  |
-| `id` | `int` | No |  |
-| `name` | `str` | No |  |
-| `phone` | `str` | No |  |
-| `username` | `str` | No |  |
-| `website` | `str` | No |  |
+| `email` | `str` | No | User email |
+| `id` | `int` | No | User ID |
+| `name` | `str` | No | User full name |
+| `phone` | `str` | No | User phone number |
+| `username` | `str` | No | Username |
+| `website` | `str` | No | User website |
 
 ### Field Usage by Operation
 

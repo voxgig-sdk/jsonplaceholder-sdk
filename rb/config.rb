@@ -19,6 +19,9 @@ module JsonplaceholderConfig
     {
       "main" => {
         "name" => "Jsonplaceholder",
+        "slug" => "jsonplaceholder",
+        "version" => "0.0.1",
+        "target" => "rb",
       },
       "feature" => {
         "test" => {
@@ -46,6 +49,7 @@ module JsonplaceholderConfig
           "fields" => [
             {
               "name" => "id",
+              "short" => "Album ID",
               "type" => "`$INTEGER`",
             },
             {
@@ -64,6 +68,7 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Album title",
               "type" => "`$STRING`",
             },
             {
@@ -82,6 +87,7 @@ module JsonplaceholderConfig
                   "type" => "`$INTEGER`",
                 },
               },
+              "short" => "User ID who created the album",
               "type" => "`$INTEGER`",
             },
           ],
@@ -342,6 +348,7 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Comment content",
               "type" => "`$STRING`",
             },
             {
@@ -360,10 +367,12 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Email of the commenter",
               "type" => "`$STRING`",
             },
             {
               "name" => "id",
+              "short" => "Comment ID",
               "type" => "`$INTEGER`",
             },
             {
@@ -382,6 +391,7 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Comment name/title",
               "type" => "`$STRING`",
             },
             {
@@ -400,6 +410,7 @@ module JsonplaceholderConfig
                   "type" => "`$INTEGER`",
                 },
               },
+              "short" => "Post ID the comment belongs to",
               "type" => "`$INTEGER`",
             },
           ],
@@ -660,10 +671,12 @@ module JsonplaceholderConfig
                   "type" => "`$INTEGER`",
                 },
               },
+              "short" => "Album ID the photo belongs to",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "id",
+              "short" => "Photo ID",
               "type" => "`$INTEGER`",
             },
             {
@@ -682,6 +695,7 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Photo thumbnail URL",
               "type" => "`$STRING`",
             },
             {
@@ -700,6 +714,7 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Photo title",
               "type" => "`$STRING`",
             },
             {
@@ -718,6 +733,7 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Photo URL",
               "type" => "`$STRING`",
             },
           ],
@@ -978,10 +994,12 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Post content",
               "type" => "`$STRING`",
             },
             {
               "name" => "id",
+              "short" => "Post ID",
               "type" => "`$INTEGER`",
             },
             {
@@ -1000,6 +1018,7 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Post title",
               "type" => "`$STRING`",
             },
             {
@@ -1018,6 +1037,7 @@ module JsonplaceholderConfig
                   "type" => "`$INTEGER`",
                 },
               },
+              "short" => "User ID who created the post",
               "type" => "`$INTEGER`",
             },
           ],
@@ -1278,10 +1298,12 @@ module JsonplaceholderConfig
                   "type" => "`$BOOLEAN`",
                 },
               },
+              "short" => "Todo completion status",
               "type" => "`$BOOLEAN`",
             },
             {
               "name" => "id",
+              "short" => "Todo ID",
               "type" => "`$INTEGER`",
             },
             {
@@ -1300,6 +1322,7 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Todo title",
               "type" => "`$STRING`",
             },
             {
@@ -1318,6 +1341,7 @@ module JsonplaceholderConfig
                   "type" => "`$INTEGER`",
                 },
               },
+              "short" => "User ID who created the todo",
               "type" => "`$INTEGER`",
             },
           ],
@@ -1586,10 +1610,12 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "User email",
               "type" => "`$STRING`",
             },
             {
               "name" => "id",
+              "short" => "User ID",
               "type" => "`$INTEGER`",
             },
             {
@@ -1608,10 +1634,12 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "User full name",
               "type" => "`$STRING`",
             },
             {
               "name" => "phone",
+              "short" => "User phone number",
               "type" => "`$STRING`",
             },
             {
@@ -1630,10 +1658,12 @@ module JsonplaceholderConfig
                   "type" => "`$STRING`",
                 },
               },
+              "short" => "Username",
               "type" => "`$STRING`",
             },
             {
               "name" => "website",
+              "short" => "User website",
               "type" => "`$STRING`",
             },
           ],

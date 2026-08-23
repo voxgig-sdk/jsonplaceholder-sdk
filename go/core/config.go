@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "Jsonplaceholder",
+			"slug": "jsonplaceholder",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -38,6 +41,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "id",
+						"short": "Album ID",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -56,6 +60,7 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Album title",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -74,6 +79,7 @@ func MakeConfig() map[string]any {
 								"type": "`$INTEGER`",
 							},
 						},
+						"short": "User ID who created the album",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -334,6 +340,7 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Comment content",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -352,10 +359,12 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Email of the commenter",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "Comment ID",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -374,6 +383,7 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Comment name/title",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -392,6 +402,7 @@ func MakeConfig() map[string]any {
 								"type": "`$INTEGER`",
 							},
 						},
+						"short": "Post ID the comment belongs to",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -652,10 +663,12 @@ func MakeConfig() map[string]any {
 								"type": "`$INTEGER`",
 							},
 						},
+						"short": "Album ID the photo belongs to",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "Photo ID",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -674,6 +687,7 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Photo thumbnail URL",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -692,6 +706,7 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Photo title",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -710,6 +725,7 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Photo URL",
 						"type": "`$STRING`",
 					},
 				},
@@ -970,10 +986,12 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Post content",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "Post ID",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -992,6 +1010,7 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Post title",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -1010,6 +1029,7 @@ func MakeConfig() map[string]any {
 								"type": "`$INTEGER`",
 							},
 						},
+						"short": "User ID who created the post",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1270,10 +1290,12 @@ func MakeConfig() map[string]any {
 								"type": "`$BOOLEAN`",
 							},
 						},
+						"short": "Todo completion status",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "Todo ID",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -1292,6 +1314,7 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Todo title",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -1310,6 +1333,7 @@ func MakeConfig() map[string]any {
 								"type": "`$INTEGER`",
 							},
 						},
+						"short": "User ID who created the todo",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1578,10 +1602,12 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "User email",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "User ID",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -1600,10 +1626,12 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "User full name",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "phone",
+						"short": "User phone number",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -1622,10 +1650,12 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "Username",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "website",
+						"short": "User website",
 						"type": "`$STRING`",
 					},
 				},

@@ -7,6 +7,9 @@ local function make_config()
   return {
     main = {
       name = "Jsonplaceholder",
+      slug = "jsonplaceholder",
+      version = "0.0.1",
+      target = "lua",
     },
     feature = {
       ["test"] = {
@@ -34,6 +37,7 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "id",
+            ["short"] = "Album ID",
             ["type"] = "`$INTEGER`",
           },
           {
@@ -52,6 +56,7 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Album title",
             ["type"] = "`$STRING`",
           },
           {
@@ -70,6 +75,7 @@ local function make_config()
                 ["type"] = "`$INTEGER`",
               },
             },
+            ["short"] = "User ID who created the album",
             ["type"] = "`$INTEGER`",
           },
         },
@@ -330,6 +336,7 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Comment content",
             ["type"] = "`$STRING`",
           },
           {
@@ -348,10 +355,12 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Email of the commenter",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "id",
+            ["short"] = "Comment ID",
             ["type"] = "`$INTEGER`",
           },
           {
@@ -370,6 +379,7 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Comment name/title",
             ["type"] = "`$STRING`",
           },
           {
@@ -388,6 +398,7 @@ local function make_config()
                 ["type"] = "`$INTEGER`",
               },
             },
+            ["short"] = "Post ID the comment belongs to",
             ["type"] = "`$INTEGER`",
           },
         },
@@ -648,10 +659,12 @@ local function make_config()
                 ["type"] = "`$INTEGER`",
               },
             },
+            ["short"] = "Album ID the photo belongs to",
             ["type"] = "`$INTEGER`",
           },
           {
             ["name"] = "id",
+            ["short"] = "Photo ID",
             ["type"] = "`$INTEGER`",
           },
           {
@@ -670,6 +683,7 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Photo thumbnail URL",
             ["type"] = "`$STRING`",
           },
           {
@@ -688,6 +702,7 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Photo title",
             ["type"] = "`$STRING`",
           },
           {
@@ -706,6 +721,7 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Photo URL",
             ["type"] = "`$STRING`",
           },
         },
@@ -966,10 +982,12 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Post content",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "id",
+            ["short"] = "Post ID",
             ["type"] = "`$INTEGER`",
           },
           {
@@ -988,6 +1006,7 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Post title",
             ["type"] = "`$STRING`",
           },
           {
@@ -1006,6 +1025,7 @@ local function make_config()
                 ["type"] = "`$INTEGER`",
               },
             },
+            ["short"] = "User ID who created the post",
             ["type"] = "`$INTEGER`",
           },
         },
@@ -1266,10 +1286,12 @@ local function make_config()
                 ["type"] = "`$BOOLEAN`",
               },
             },
+            ["short"] = "Todo completion status",
             ["type"] = "`$BOOLEAN`",
           },
           {
             ["name"] = "id",
+            ["short"] = "Todo ID",
             ["type"] = "`$INTEGER`",
           },
           {
@@ -1288,6 +1310,7 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Todo title",
             ["type"] = "`$STRING`",
           },
           {
@@ -1306,6 +1329,7 @@ local function make_config()
                 ["type"] = "`$INTEGER`",
               },
             },
+            ["short"] = "User ID who created the todo",
             ["type"] = "`$INTEGER`",
           },
         },
@@ -1574,10 +1598,12 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "User email",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "id",
+            ["short"] = "User ID",
             ["type"] = "`$INTEGER`",
           },
           {
@@ -1596,10 +1622,12 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "User full name",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "phone",
+            ["short"] = "User phone number",
             ["type"] = "`$STRING`",
           },
           {
@@ -1618,10 +1646,12 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
+            ["short"] = "Username",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "website",
+            ["short"] = "User website",
             ["type"] = "`$STRING`",
           },
         },

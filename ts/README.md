@@ -9,7 +9,7 @@ The API is exposed as capitalised, semantic **Entities** — e.g.
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
-> Other languages, the CLI, and MCP server live alongside this one — see
+> Also generated from this model: `go`, `go-cli`, `go-mcp`, `lua`, `php`, `py`, `rb` — see
 > the [top-level README](../README.md).
 
 
@@ -333,9 +333,9 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `id` | Album ID |
+| `title` | Album title |
+| `userId` | User ID who created the album |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -345,11 +345,11 @@ API path: `/albums`
 
 | Field | Description |
 | --- | --- |
-| `body` |  |
-| `email` |  |
-| `id` |  |
-| `name` |  |
-| `postId` |  |
+| `body` | Comment content |
+| `email` | Email of the commenter |
+| `id` | Comment ID |
+| `name` | Comment name/title |
+| `postId` | Post ID the comment belongs to |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -359,11 +359,11 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `albumId` |  |
-| `id` |  |
-| `thumbnailUrl` |  |
-| `title` |  |
-| `url` |  |
+| `albumId` | Album ID the photo belongs to |
+| `id` | Photo ID |
+| `thumbnailUrl` | Photo thumbnail URL |
+| `title` | Photo title |
+| `url` | Photo URL |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -373,10 +373,10 @@ API path: `/photos`
 
 | Field | Description |
 | --- | --- |
-| `body` |  |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `body` | Post content |
+| `id` | Post ID |
+| `title` | Post title |
+| `userId` | User ID who created the post |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -386,10 +386,10 @@ API path: `/posts`
 
 | Field | Description |
 | --- | --- |
-| `completed` |  |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `completed` | Todo completion status |
+| `id` | Todo ID |
+| `title` | Todo title |
+| `userId` | User ID who created the todo |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -401,12 +401,12 @@ API path: `/todos`
 | --- | --- |
 | `address` |  |
 | `company` |  |
-| `email` |  |
-| `id` |  |
-| `name` |  |
-| `phone` |  |
-| `username` |  |
-| `website` |  |
+| `email` | User email |
+| `id` | User ID |
+| `name` | User full name |
+| `phone` | User phone number |
+| `username` | Username |
+| `website` | User website |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -435,9 +435,9 @@ Create an instance: `const album = client.Album()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `number` |  |
-| `title` | `string` |  |
-| `userId` | `number` |  |
+| `id` | `number` | Album ID |
+| `title` | `string` | Album title |
+| `userId` | `number` | User ID who created the album |
 
 #### Example: Load
 
@@ -477,11 +477,11 @@ Create an instance: `const comment = client.Comment()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `string` |  |
-| `email` | `string` |  |
-| `id` | `number` |  |
-| `name` | `string` |  |
-| `postId` | `number` |  |
+| `body` | `string` | Comment content |
+| `email` | `string` | Email of the commenter |
+| `id` | `number` | Comment ID |
+| `name` | `string` | Comment name/title |
+| `postId` | `number` | Post ID the comment belongs to |
 
 #### Example: Load
 
@@ -521,11 +521,11 @@ Create an instance: `const photo = client.Photo()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `albumId` | `number` |  |
-| `id` | `number` |  |
-| `thumbnailUrl` | `string` |  |
-| `title` | `string` |  |
-| `url` | `string` |  |
+| `albumId` | `number` | Album ID the photo belongs to |
+| `id` | `number` | Photo ID |
+| `thumbnailUrl` | `string` | Photo thumbnail URL |
+| `title` | `string` | Photo title |
+| `url` | `string` | Photo URL |
 
 #### Example: Load
 
@@ -565,10 +565,10 @@ Create an instance: `const post = client.Post()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `string` |  |
-| `id` | `number` |  |
-| `title` | `string` |  |
-| `userId` | `number` |  |
+| `body` | `string` | Post content |
+| `id` | `number` | Post ID |
+| `title` | `string` | Post title |
+| `userId` | `number` | User ID who created the post |
 
 #### Example: Load
 
@@ -608,10 +608,10 @@ Create an instance: `const todo = client.Todo()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completed` | `boolean` |  |
-| `id` | `number` |  |
-| `title` | `string` |  |
-| `userId` | `number` |  |
+| `completed` | `boolean` | Todo completion status |
+| `id` | `number` | Todo ID |
+| `title` | `string` | Todo title |
+| `userId` | `number` | User ID who created the todo |
 
 #### Example: Load
 
@@ -653,12 +653,12 @@ Create an instance: `const user = client.User()`
 | --- | --- | --- |
 | `address` | `Record<string, any>` |  |
 | `company` | `Record<string, any>` |  |
-| `email` | `string` |  |
-| `id` | `number` |  |
-| `name` | `string` |  |
-| `phone` | `string` |  |
-| `username` | `string` |  |
-| `website` | `string` |  |
+| `email` | `string` | User email |
+| `id` | `number` | User ID |
+| `name` | `string` | User full name |
+| `phone` | `string` | User phone number |
+| `username` | `string` | Username |
+| `website` | `string` | User website |
 
 #### Example: Load
 

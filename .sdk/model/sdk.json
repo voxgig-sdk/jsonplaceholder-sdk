@@ -36,6 +36,7 @@
               "active": true,
               "name": "id",
               "req": false,
+              "short": "Album ID",
               "type": "`$INTEGER`"
             },
             {
@@ -56,6 +57,7 @@
                 }
               },
               "req": false,
+              "short": "Album title",
               "type": "`$STRING`"
             },
             {
@@ -76,6 +78,7 @@
                 }
               },
               "req": false,
+              "short": "User ID who created the album",
               "type": "`$INTEGER`"
             }
           ],
@@ -360,6 +363,7 @@
                 }
               },
               "req": false,
+              "short": "Comment content",
               "type": "`$STRING`"
             },
             {
@@ -380,12 +384,14 @@
                 }
               },
               "req": false,
+              "short": "Email of the commenter",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "Comment ID",
               "type": "`$INTEGER`"
             },
             {
@@ -406,6 +412,7 @@
                 }
               },
               "req": false,
+              "short": "Comment name/title",
               "type": "`$STRING`"
             },
             {
@@ -426,6 +433,7 @@
                 }
               },
               "req": false,
+              "short": "Post ID the comment belongs to",
               "type": "`$INTEGER`"
             }
           ],
@@ -710,12 +718,14 @@
                 }
               },
               "req": false,
+              "short": "Album ID the photo belongs to",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "Photo ID",
               "type": "`$INTEGER`"
             },
             {
@@ -736,6 +746,7 @@
                 }
               },
               "req": false,
+              "short": "Photo thumbnail URL",
               "type": "`$STRING`"
             },
             {
@@ -756,6 +767,7 @@
                 }
               },
               "req": false,
+              "short": "Photo title",
               "type": "`$STRING`"
             },
             {
@@ -776,6 +788,7 @@
                 }
               },
               "req": false,
+              "short": "Photo URL",
               "type": "`$STRING`"
             }
           ],
@@ -1060,12 +1073,14 @@
                 }
               },
               "req": false,
+              "short": "Post content",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "Post ID",
               "type": "`$INTEGER`"
             },
             {
@@ -1086,6 +1101,7 @@
                 }
               },
               "req": false,
+              "short": "Post title",
               "type": "`$STRING`"
             },
             {
@@ -1106,6 +1122,7 @@
                 }
               },
               "req": false,
+              "short": "User ID who created the post",
               "type": "`$INTEGER`"
             }
           ],
@@ -1390,12 +1407,14 @@
                 }
               },
               "req": false,
+              "short": "Todo completion status",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "Todo ID",
               "type": "`$INTEGER`"
             },
             {
@@ -1416,6 +1435,7 @@
                 }
               },
               "req": false,
+              "short": "Todo title",
               "type": "`$STRING`"
             },
             {
@@ -1436,6 +1456,7 @@
                 }
               },
               "req": false,
+              "short": "User ID who created the todo",
               "type": "`$INTEGER`"
             }
           ],
@@ -1732,12 +1753,14 @@
                 }
               },
               "req": false,
+              "short": "User email",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "User ID",
               "type": "`$INTEGER`"
             },
             {
@@ -1758,12 +1781,14 @@
                 }
               },
               "req": false,
+              "short": "User full name",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "phone",
               "req": false,
+              "short": "User phone number",
               "type": "`$STRING`"
             },
             {
@@ -1784,12 +1809,14 @@
                 }
               },
               "req": false,
+              "short": "Username",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "website",
               "req": false,
+              "short": "User website",
               "type": "`$STRING`"
             }
           ],

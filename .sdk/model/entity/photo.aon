@@ -1,0 +1,329 @@
+# Entity: photo
+
+main: kit: entity: photo: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "albumId"
+      op: {
+        create: {
+          req: true
+          type: "`$INTEGER`"
+        }
+        patch: {
+          req: true
+          type: "`$INTEGER`"
+        }
+        update: {
+          req: true
+          type: "`$INTEGER`"
+        }
+      }
+      req: false
+      short: "Album ID the photo belongs to"
+      type: "`$INTEGER`"
+    }
+    {
+      name: "id"
+      req: false
+      short: "Photo ID"
+      type: "`$INTEGER`"
+    }
+    {
+      name: "thumbnailUrl"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+        patch: {
+          req: true
+          type: "`$STRING`"
+        }
+        update: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      req: false
+      short: "Photo thumbnail URL"
+      type: "`$STRING`"
+    }
+    {
+      name: "title"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+        patch: {
+          req: true
+          type: "`$STRING`"
+        }
+        update: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      req: false
+      short: "Photo title"
+      type: "`$STRING`"
+    }
+    {
+      name: "url"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+        patch: {
+          req: true
+          type: "`$STRING`"
+        }
+        update: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      req: false
+      short: "Photo URL"
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "photo"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/photos"
+          parts: [
+            "photos"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "album_id"
+                orig: "id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/albums/{id}/photos"
+          parts: [
+            "albums"
+            "{album_id}"
+            "photos"
+          ]
+          rename: {
+            param: {
+              id: "album_id"
+            }
+          }
+          select: {
+            exist: [
+              "album_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "album_id"
+                orig: "album_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/photos"
+          parts: [
+            "photos"
+          ]
+          select: {
+            exist: [
+              "album_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/photos/{id}"
+          parts: [
+            "photos"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    patch: {
+      name: "patch"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/photos/{id}"
+          parts: [
+            "photos"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/photos/{id}"
+          parts: [
+            "photos"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "PUT"
+          orig: "/photos/{id}"
+          parts: [
+            "photos"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "album"
+      ]
+    ]
+  }
+
+
+
+}

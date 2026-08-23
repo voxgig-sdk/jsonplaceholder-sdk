@@ -263,9 +263,9 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `id` | Album ID |
+| `title` | Album title |
+| `userId` | User ID who created the album |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -275,11 +275,11 @@ API path: `/albums`
 
 | Field | Description |
 | --- | --- |
-| `body` |  |
-| `email` |  |
-| `id` |  |
-| `name` |  |
-| `postId` |  |
+| `body` | Comment content |
+| `email` | Email of the commenter |
+| `id` | Comment ID |
+| `name` | Comment name/title |
+| `postId` | Post ID the comment belongs to |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -289,11 +289,11 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `albumId` |  |
-| `id` |  |
-| `thumbnailUrl` |  |
-| `title` |  |
-| `url` |  |
+| `albumId` | Album ID the photo belongs to |
+| `id` | Photo ID |
+| `thumbnailUrl` | Photo thumbnail URL |
+| `title` | Photo title |
+| `url` | Photo URL |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -303,10 +303,10 @@ API path: `/photos`
 
 | Field | Description |
 | --- | --- |
-| `body` |  |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `body` | Post content |
+| `id` | Post ID |
+| `title` | Post title |
+| `userId` | User ID who created the post |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -316,10 +316,10 @@ API path: `/posts`
 
 | Field | Description |
 | --- | --- |
-| `completed` |  |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `completed` | Todo completion status |
+| `id` | Todo ID |
+| `title` | Todo title |
+| `userId` | User ID who created the todo |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -331,12 +331,12 @@ API path: `/todos`
 | --- | --- |
 | `address` |  |
 | `company` |  |
-| `email` |  |
-| `id` |  |
-| `name` |  |
-| `phone` |  |
-| `username` |  |
-| `website` |  |
+| `email` | User email |
+| `id` | User ID |
+| `name` | User full name |
+| `phone` | User phone number |
+| `username` | Username |
+| `website` | User website |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -365,9 +365,9 @@ Create an instance: `local album = client:Album(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `number` |  |
-| `title` | `string` |  |
-| `userId` | `number` |  |
+| `id` | `number` | Album ID |
+| `title` | `string` | Album title |
+| `userId` | `number` | User ID who created the album |
 
 #### Example: Load
 
@@ -407,11 +407,11 @@ Create an instance: `local comment = client:Comment(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `string` |  |
-| `email` | `string` |  |
-| `id` | `number` |  |
-| `name` | `string` |  |
-| `postId` | `number` |  |
+| `body` | `string` | Comment content |
+| `email` | `string` | Email of the commenter |
+| `id` | `number` | Comment ID |
+| `name` | `string` | Comment name/title |
+| `postId` | `number` | Post ID the comment belongs to |
 
 #### Example: Load
 
@@ -451,11 +451,11 @@ Create an instance: `local photo = client:Photo(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `albumId` | `number` |  |
-| `id` | `number` |  |
-| `thumbnailUrl` | `string` |  |
-| `title` | `string` |  |
-| `url` | `string` |  |
+| `albumId` | `number` | Album ID the photo belongs to |
+| `id` | `number` | Photo ID |
+| `thumbnailUrl` | `string` | Photo thumbnail URL |
+| `title` | `string` | Photo title |
+| `url` | `string` | Photo URL |
 
 #### Example: Load
 
@@ -495,10 +495,10 @@ Create an instance: `local post = client:Post(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `string` |  |
-| `id` | `number` |  |
-| `title` | `string` |  |
-| `userId` | `number` |  |
+| `body` | `string` | Post content |
+| `id` | `number` | Post ID |
+| `title` | `string` | Post title |
+| `userId` | `number` | User ID who created the post |
 
 #### Example: Load
 
@@ -538,10 +538,10 @@ Create an instance: `local todo = client:Todo(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completed` | `boolean` |  |
-| `id` | `number` |  |
-| `title` | `string` |  |
-| `userId` | `number` |  |
+| `completed` | `boolean` | Todo completion status |
+| `id` | `number` | Todo ID |
+| `title` | `string` | Todo title |
+| `userId` | `number` | User ID who created the todo |
 
 #### Example: Load
 
@@ -583,12 +583,12 @@ Create an instance: `local user = client:User(nil)`
 | --- | --- | --- |
 | `address` | `table` |  |
 | `company` | `table` |  |
-| `email` | `string` |  |
-| `id` | `number` |  |
-| `name` | `string` |  |
-| `phone` | `string` |  |
-| `username` | `string` |  |
-| `website` | `string` |  |
+| `email` | `string` | User email |
+| `id` | `number` | User ID |
+| `name` | `string` | User full name |
+| `phone` | `string` | User phone number |
+| `username` | `string` | Username |
+| `website` | `string` | User website |
 
 #### Example: Load
 

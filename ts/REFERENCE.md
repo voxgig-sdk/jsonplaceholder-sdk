@@ -176,9 +176,9 @@ const album = client.Album()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `number` | No |  |
-| `title` | `string` | No |  |
-| `userId` | `number` | No |  |
+| `id` | `number` | No | Album ID |
+| `title` | `string` | No | Album title |
+| `userId` | `number` | No | User ID who created the album |
 
 ### Field Usage by Operation
 
@@ -272,11 +272,11 @@ const comment = client.Comment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | `string` | No |  |
-| `email` | `string` | No |  |
-| `id` | `number` | No |  |
-| `name` | `string` | No |  |
-| `postId` | `number` | No |  |
+| `body` | `string` | No | Comment content |
+| `email` | `string` | No | Email of the commenter |
+| `id` | `number` | No | Comment ID |
+| `name` | `string` | No | Comment name/title |
+| `postId` | `number` | No | Post ID the comment belongs to |
 
 ### Field Usage by Operation
 
@@ -372,11 +372,11 @@ const photo = client.Photo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `albumId` | `number` | No |  |
-| `id` | `number` | No |  |
-| `thumbnailUrl` | `string` | No |  |
-| `title` | `string` | No |  |
-| `url` | `string` | No |  |
+| `albumId` | `number` | No | Album ID the photo belongs to |
+| `id` | `number` | No | Photo ID |
+| `thumbnailUrl` | `string` | No | Photo thumbnail URL |
+| `title` | `string` | No | Photo title |
+| `url` | `string` | No | Photo URL |
 
 ### Field Usage by Operation
 
@@ -472,10 +472,10 @@ const post = client.Post()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | `string` | No |  |
-| `id` | `number` | No |  |
-| `title` | `string` | No |  |
-| `userId` | `number` | No |  |
+| `body` | `string` | No | Post content |
+| `id` | `number` | No | Post ID |
+| `title` | `string` | No | Post title |
+| `userId` | `number` | No | User ID who created the post |
 
 ### Field Usage by Operation
 
@@ -570,10 +570,10 @@ const todo = client.Todo()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completed` | `boolean` | No |  |
-| `id` | `number` | No |  |
-| `title` | `string` | No |  |
-| `userId` | `number` | No |  |
+| `completed` | `boolean` | No | Todo completion status |
+| `id` | `number` | No | Todo ID |
+| `title` | `string` | No | Todo title |
+| `userId` | `number` | No | User ID who created the todo |
 
 ### Field Usage by Operation
 
@@ -670,12 +670,12 @@ const user = client.User()
 | --- | --- | --- | --- |
 | `address` | `Record<string, any>` | No |  |
 | `company` | `Record<string, any>` | No |  |
-| `email` | `string` | No |  |
-| `id` | `number` | No |  |
-| `name` | `string` | No |  |
-| `phone` | `string` | No |  |
-| `username` | `string` | No |  |
-| `website` | `string` | No |  |
+| `email` | `string` | No | User email |
+| `id` | `number` | No | User ID |
+| `name` | `string` | No | User full name |
+| `phone` | `string` | No | User phone number |
+| `username` | `string` | No | Username |
+| `website` | `string` | No | User website |
 
 ### Field Usage by Operation
 

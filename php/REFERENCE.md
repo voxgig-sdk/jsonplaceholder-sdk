@@ -112,9 +112,9 @@ $album = $client->Album();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `title` | `string` | No |  |
-| `userId` | `int` | No |  |
+| `id` | `int` | No | Album ID |
+| `title` | `string` | No | Album title |
+| `userId` | `int` | No | User ID who created the album |
 
 ### Field Usage by Operation
 
@@ -210,11 +210,11 @@ $comment = $client->Comment();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | `string` | No |  |
-| `email` | `string` | No |  |
-| `id` | `int` | No |  |
-| `name` | `string` | No |  |
-| `postId` | `int` | No |  |
+| `body` | `string` | No | Comment content |
+| `email` | `string` | No | Email of the commenter |
+| `id` | `int` | No | Comment ID |
+| `name` | `string` | No | Comment name/title |
+| `postId` | `int` | No | Post ID the comment belongs to |
 
 ### Field Usage by Operation
 
@@ -312,11 +312,11 @@ $photo = $client->Photo();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `albumId` | `int` | No |  |
-| `id` | `int` | No |  |
-| `thumbnailUrl` | `string` | No |  |
-| `title` | `string` | No |  |
-| `url` | `string` | No |  |
+| `albumId` | `int` | No | Album ID the photo belongs to |
+| `id` | `int` | No | Photo ID |
+| `thumbnailUrl` | `string` | No | Photo thumbnail URL |
+| `title` | `string` | No | Photo title |
+| `url` | `string` | No | Photo URL |
 
 ### Field Usage by Operation
 
@@ -414,10 +414,10 @@ $post = $client->Post();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | `string` | No |  |
-| `id` | `int` | No |  |
-| `title` | `string` | No |  |
-| `userId` | `int` | No |  |
+| `body` | `string` | No | Post content |
+| `id` | `int` | No | Post ID |
+| `title` | `string` | No | Post title |
+| `userId` | `int` | No | User ID who created the post |
 
 ### Field Usage by Operation
 
@@ -514,10 +514,10 @@ $todo = $client->Todo();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completed` | `bool` | No |  |
-| `id` | `int` | No |  |
-| `title` | `string` | No |  |
-| `userId` | `int` | No |  |
+| `completed` | `bool` | No | Todo completion status |
+| `id` | `int` | No | Todo ID |
+| `title` | `string` | No | Todo title |
+| `userId` | `int` | No | User ID who created the todo |
 
 ### Field Usage by Operation
 
@@ -616,12 +616,12 @@ $user = $client->User();
 | --- | --- | --- | --- |
 | `address` | `array` | No |  |
 | `company` | `array` | No |  |
-| `email` | `string` | No |  |
-| `id` | `int` | No |  |
-| `name` | `string` | No |  |
-| `phone` | `string` | No |  |
-| `username` | `string` | No |  |
-| `website` | `string` | No |  |
+| `email` | `string` | No | User email |
+| `id` | `int` | No | User ID |
+| `name` | `string` | No | User full name |
+| `phone` | `string` | No | User phone number |
+| `username` | `string` | No | Username |
+| `website` | `string` | No | User website |
 
 ### Field Usage by Operation
 

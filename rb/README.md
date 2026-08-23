@@ -274,9 +274,9 @@ returns a result `Hash` with these keys:
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `id` | Album ID |
+| `title` | Album title |
+| `userId` | User ID who created the album |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -286,11 +286,11 @@ API path: `/albums`
 
 | Field | Description |
 | --- | --- |
-| `body` |  |
-| `email` |  |
-| `id` |  |
-| `name` |  |
-| `postId` |  |
+| `body` | Comment content |
+| `email` | Email of the commenter |
+| `id` | Comment ID |
+| `name` | Comment name/title |
+| `postId` | Post ID the comment belongs to |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -300,11 +300,11 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `albumId` |  |
-| `id` |  |
-| `thumbnailUrl` |  |
-| `title` |  |
-| `url` |  |
+| `albumId` | Album ID the photo belongs to |
+| `id` | Photo ID |
+| `thumbnailUrl` | Photo thumbnail URL |
+| `title` | Photo title |
+| `url` | Photo URL |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -314,10 +314,10 @@ API path: `/photos`
 
 | Field | Description |
 | --- | --- |
-| `body` |  |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `body` | Post content |
+| `id` | Post ID |
+| `title` | Post title |
+| `userId` | User ID who created the post |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -327,10 +327,10 @@ API path: `/posts`
 
 | Field | Description |
 | --- | --- |
-| `completed` |  |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `completed` | Todo completion status |
+| `id` | Todo ID |
+| `title` | Todo title |
+| `userId` | User ID who created the todo |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -342,12 +342,12 @@ API path: `/todos`
 | --- | --- |
 | `address` |  |
 | `company` |  |
-| `email` |  |
-| `id` |  |
-| `name` |  |
-| `phone` |  |
-| `username` |  |
-| `website` |  |
+| `email` | User email |
+| `id` | User ID |
+| `name` | User full name |
+| `phone` | User phone number |
+| `username` | Username |
+| `website` | User website |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -376,9 +376,9 @@ Create an instance: `album = client.Album`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `Integer` |  |
-| `title` | `String` |  |
-| `userId` | `Integer` |  |
+| `id` | `Integer` | Album ID |
+| `title` | `String` | Album title |
+| `userId` | `Integer` | User ID who created the album |
 
 #### Example: Load
 
@@ -420,11 +420,11 @@ Create an instance: `comment = client.Comment`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `String` |  |
-| `email` | `String` |  |
-| `id` | `Integer` |  |
-| `name` | `String` |  |
-| `postId` | `Integer` |  |
+| `body` | `String` | Comment content |
+| `email` | `String` | Email of the commenter |
+| `id` | `Integer` | Comment ID |
+| `name` | `String` | Comment name/title |
+| `postId` | `Integer` | Post ID the comment belongs to |
 
 #### Example: Load
 
@@ -466,11 +466,11 @@ Create an instance: `photo = client.Photo`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `albumId` | `Integer` |  |
-| `id` | `Integer` |  |
-| `thumbnailUrl` | `String` |  |
-| `title` | `String` |  |
-| `url` | `String` |  |
+| `albumId` | `Integer` | Album ID the photo belongs to |
+| `id` | `Integer` | Photo ID |
+| `thumbnailUrl` | `String` | Photo thumbnail URL |
+| `title` | `String` | Photo title |
+| `url` | `String` | Photo URL |
 
 #### Example: Load
 
@@ -512,10 +512,10 @@ Create an instance: `post = client.Post`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `String` |  |
-| `id` | `Integer` |  |
-| `title` | `String` |  |
-| `userId` | `Integer` |  |
+| `body` | `String` | Post content |
+| `id` | `Integer` | Post ID |
+| `title` | `String` | Post title |
+| `userId` | `Integer` | User ID who created the post |
 
 #### Example: Load
 
@@ -557,10 +557,10 @@ Create an instance: `todo = client.Todo`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completed` | `Boolean` |  |
-| `id` | `Integer` |  |
-| `title` | `String` |  |
-| `userId` | `Integer` |  |
+| `completed` | `Boolean` | Todo completion status |
+| `id` | `Integer` | Todo ID |
+| `title` | `String` | Todo title |
+| `userId` | `Integer` | User ID who created the todo |
 
 #### Example: Load
 
@@ -604,12 +604,12 @@ Create an instance: `user = client.User`
 | --- | --- | --- |
 | `address` | `Hash` |  |
 | `company` | `Hash` |  |
-| `email` | `String` |  |
-| `id` | `Integer` |  |
-| `name` | `String` |  |
-| `phone` | `String` |  |
-| `username` | `String` |  |
-| `website` | `String` |  |
+| `email` | `String` | User email |
+| `id` | `Integer` | User ID |
+| `name` | `String` | User full name |
+| `phone` | `String` | User phone number |
+| `username` | `String` | Username |
+| `website` | `String` | User website |
 
 #### Example: Load
 

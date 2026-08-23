@@ -1,8 +1,0 @@
-# Entity Models
-
-@"album.aontu"
-@"comment.aontu"
-@"photo.aontu"
-@"post.aontu"
-@"todo.aontu"
-@"user.aontu"

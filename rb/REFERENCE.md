@@ -113,9 +113,9 @@ album = client.Album
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `Integer` | No |  |
-| `title` | `String` | No |  |
-| `userId` | `Integer` | No |  |
+| `id` | `Integer` | No | Album ID |
+| `title` | `String` | No | Album title |
+| `userId` | `Integer` | No | User ID who created the album |
 
 ### Field Usage by Operation
 
@@ -211,11 +211,11 @@ comment = client.Comment
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | `String` | No |  |
-| `email` | `String` | No |  |
-| `id` | `Integer` | No |  |
-| `name` | `String` | No |  |
-| `postId` | `Integer` | No |  |
+| `body` | `String` | No | Comment content |
+| `email` | `String` | No | Email of the commenter |
+| `id` | `Integer` | No | Comment ID |
+| `name` | `String` | No | Comment name/title |
+| `postId` | `Integer` | No | Post ID the comment belongs to |
 
 ### Field Usage by Operation
 
@@ -313,11 +313,11 @@ photo = client.Photo
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `albumId` | `Integer` | No |  |
-| `id` | `Integer` | No |  |
-| `thumbnailUrl` | `String` | No |  |
-| `title` | `String` | No |  |
-| `url` | `String` | No |  |
+| `albumId` | `Integer` | No | Album ID the photo belongs to |
+| `id` | `Integer` | No | Photo ID |
+| `thumbnailUrl` | `String` | No | Photo thumbnail URL |
+| `title` | `String` | No | Photo title |
+| `url` | `String` | No | Photo URL |
 
 ### Field Usage by Operation
 
@@ -415,10 +415,10 @@ post = client.Post
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `body` | `String` | No |  |
-| `id` | `Integer` | No |  |
-| `title` | `String` | No |  |
-| `userId` | `Integer` | No |  |
+| `body` | `String` | No | Post content |
+| `id` | `Integer` | No | Post ID |
+| `title` | `String` | No | Post title |
+| `userId` | `Integer` | No | User ID who created the post |
 
 ### Field Usage by Operation
 
@@ -515,10 +515,10 @@ todo = client.Todo
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completed` | `Boolean` | No |  |
-| `id` | `Integer` | No |  |
-| `title` | `String` | No |  |
-| `userId` | `Integer` | No |  |
+| `completed` | `Boolean` | No | Todo completion status |
+| `id` | `Integer` | No | Todo ID |
+| `title` | `String` | No | Todo title |
+| `userId` | `Integer` | No | User ID who created the todo |
 
 ### Field Usage by Operation
 
@@ -617,12 +617,12 @@ user = client.User
 | --- | --- | --- | --- |
 | `address` | `Hash` | No |  |
 | `company` | `Hash` | No |  |
-| `email` | `String` | No |  |
-| `id` | `Integer` | No |  |
-| `name` | `String` | No |  |
-| `phone` | `String` | No |  |
-| `username` | `String` | No |  |
-| `website` | `String` | No |  |
+| `email` | `String` | No | User email |
+| `id` | `Integer` | No | User ID |
+| `name` | `String` | No | User full name |
+| `phone` | `String` | No | User phone number |
+| `username` | `String` | No | Username |
+| `website` | `String` | No | User website |
 
 ### Field Usage by Operation
 

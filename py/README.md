@@ -277,9 +277,9 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `id` | Album ID |
+| `title` | Album title |
+| `userId` | User ID who created the album |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -289,11 +289,11 @@ API path: `/albums`
 
 | Field | Description |
 | --- | --- |
-| `body` |  |
-| `email` |  |
-| `id` |  |
-| `name` |  |
-| `postId` |  |
+| `body` | Comment content |
+| `email` | Email of the commenter |
+| `id` | Comment ID |
+| `name` | Comment name/title |
+| `postId` | Post ID the comment belongs to |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -303,11 +303,11 @@ API path: `/comments`
 
 | Field | Description |
 | --- | --- |
-| `albumId` |  |
-| `id` |  |
-| `thumbnailUrl` |  |
-| `title` |  |
-| `url` |  |
+| `albumId` | Album ID the photo belongs to |
+| `id` | Photo ID |
+| `thumbnailUrl` | Photo thumbnail URL |
+| `title` | Photo title |
+| `url` | Photo URL |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -317,10 +317,10 @@ API path: `/photos`
 
 | Field | Description |
 | --- | --- |
-| `body` |  |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `body` | Post content |
+| `id` | Post ID |
+| `title` | Post title |
+| `userId` | User ID who created the post |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -330,10 +330,10 @@ API path: `/posts`
 
 | Field | Description |
 | --- | --- |
-| `completed` |  |
-| `id` |  |
-| `title` |  |
-| `userId` |  |
+| `completed` | Todo completion status |
+| `id` | Todo ID |
+| `title` | Todo title |
+| `userId` | User ID who created the todo |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -345,12 +345,12 @@ API path: `/todos`
 | --- | --- |
 | `address` |  |
 | `company` |  |
-| `email` |  |
-| `id` |  |
-| `name` |  |
-| `phone` |  |
-| `username` |  |
-| `website` |  |
+| `email` | User email |
+| `id` | User ID |
+| `name` | User full name |
+| `phone` | User phone number |
+| `username` | Username |
+| `website` | User website |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -379,9 +379,9 @@ Create an instance: `album = client.Album()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `int` |  |
-| `title` | `str` |  |
-| `userId` | `int` |  |
+| `id` | `int` | Album ID |
+| `title` | `str` | Album title |
+| `userId` | `int` | User ID who created the album |
 
 #### Example: Load
 
@@ -421,11 +421,11 @@ Create an instance: `comment = client.Comment()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `str` |  |
-| `email` | `str` |  |
-| `id` | `int` |  |
-| `name` | `str` |  |
-| `postId` | `int` |  |
+| `body` | `str` | Comment content |
+| `email` | `str` | Email of the commenter |
+| `id` | `int` | Comment ID |
+| `name` | `str` | Comment name/title |
+| `postId` | `int` | Post ID the comment belongs to |
 
 #### Example: Load
 
@@ -465,11 +465,11 @@ Create an instance: `photo = client.Photo()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `albumId` | `int` |  |
-| `id` | `int` |  |
-| `thumbnailUrl` | `str` |  |
-| `title` | `str` |  |
-| `url` | `str` |  |
+| `albumId` | `int` | Album ID the photo belongs to |
+| `id` | `int` | Photo ID |
+| `thumbnailUrl` | `str` | Photo thumbnail URL |
+| `title` | `str` | Photo title |
+| `url` | `str` | Photo URL |
 
 #### Example: Load
 
@@ -509,10 +509,10 @@ Create an instance: `post = client.Post()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `body` | `str` |  |
-| `id` | `int` |  |
-| `title` | `str` |  |
-| `userId` | `int` |  |
+| `body` | `str` | Post content |
+| `id` | `int` | Post ID |
+| `title` | `str` | Post title |
+| `userId` | `int` | User ID who created the post |
 
 #### Example: Load
 
@@ -552,10 +552,10 @@ Create an instance: `todo = client.Todo()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completed` | `bool` |  |
-| `id` | `int` |  |
-| `title` | `str` |  |
-| `userId` | `int` |  |
+| `completed` | `bool` | Todo completion status |
+| `id` | `int` | Todo ID |
+| `title` | `str` | Todo title |
+| `userId` | `int` | User ID who created the todo |
 
 #### Example: Load
 
@@ -597,12 +597,12 @@ Create an instance: `user = client.User()`
 | --- | --- | --- |
 | `address` | `dict` |  |
 | `company` | `dict` |  |
-| `email` | `str` |  |
-| `id` | `int` |  |
-| `name` | `str` |  |
-| `phone` | `str` |  |
-| `username` | `str` |  |
-| `website` | `str` |  |
+| `email` | `str` | User email |
+| `id` | `int` | User ID |
+| `name` | `str` | User full name |
+| `phone` | `str` | User phone number |
+| `username` | `str` | Username |
+| `website` | `str` | User website |
 
 #### Example: Load
 
