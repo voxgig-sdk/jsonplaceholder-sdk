@@ -42,6 +42,7 @@ class JsonplaceholderConfig
           'options' => [
             'active' => false,
           ],
+          'transport' => 'base',
         ],
             ],
             "options" => [
