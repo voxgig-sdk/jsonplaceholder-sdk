@@ -27,9 +27,7 @@ class AlbumLoadMatch(TypedDict):
 
 
 class AlbumListMatch(TypedDict, total=False):
-    id: int
-    title: str
-    userId: int
+    user_id: int
 
 
 class AlbumCreateData(TypedDict, total=False):
@@ -64,11 +62,7 @@ class CommentLoadMatch(TypedDict):
 
 
 class CommentListMatch(TypedDict, total=False):
-    body: str
-    email: str
-    id: int
-    name: str
-    postId: int
+    post_id: int
 
 
 class CommentCreateData(TypedDict, total=False):
@@ -107,11 +101,7 @@ class PhotoLoadMatch(TypedDict):
 
 
 class PhotoListMatch(TypedDict, total=False):
-    albumId: int
-    id: int
-    thumbnailUrl: str
-    title: str
-    url: str
+    album_id: int
 
 
 class PhotoCreateData(TypedDict, total=False):
@@ -149,10 +139,7 @@ class PostLoadMatch(TypedDict):
 
 
 class PostListMatch(TypedDict, total=False):
-    body: str
-    id: int
-    title: str
-    userId: int
+    user_id: int
 
 
 class PostCreateData(TypedDict, total=False):
@@ -188,10 +175,7 @@ class TodoLoadMatch(TypedDict):
 
 
 class TodoListMatch(TypedDict, total=False):
-    completed: bool
-    id: int
-    title: str
-    userId: int
+    user_id: int
 
 
 class TodoCreateData(TypedDict, total=False):

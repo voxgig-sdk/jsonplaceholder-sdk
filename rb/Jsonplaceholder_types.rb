@@ -36,18 +36,10 @@ AlbumLoadMatch = Struct.new(
 
 # Request payload for Album#list.
 #
-# @!attribute [rw] id
-#   @return [Integer, nil]
-#
-# @!attribute [rw] title
-#   @return [String, nil]
-#
-# @!attribute [rw] userId
+# @!attribute [rw] user_id
 #   @return [Integer, nil]
 AlbumListMatch = Struct.new(
-  :id,
-  :title,
-  :userId,
+  :user_id,
   keyword_init: true
 )
 
@@ -130,26 +122,10 @@ CommentLoadMatch = Struct.new(
 
 # Request payload for Comment#list.
 #
-# @!attribute [rw] body
-#   @return [String, nil]
-#
-# @!attribute [rw] email
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
-#
-# @!attribute [rw] name
-#   @return [String, nil]
-#
-# @!attribute [rw] postId
+# @!attribute [rw] post_id
 #   @return [Integer, nil]
 CommentListMatch = Struct.new(
-  :body,
-  :email,
-  :id,
-  :name,
-  :postId,
+  :post_id,
   keyword_init: true
 )
 
@@ -248,26 +224,10 @@ PhotoLoadMatch = Struct.new(
 
 # Request payload for Photo#list.
 #
-# @!attribute [rw] albumId
+# @!attribute [rw] album_id
 #   @return [Integer, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
-#
-# @!attribute [rw] thumbnailUrl
-#   @return [String, nil]
-#
-# @!attribute [rw] title
-#   @return [String, nil]
-#
-# @!attribute [rw] url
-#   @return [String, nil]
 PhotoListMatch = Struct.new(
-  :albumId,
-  :id,
-  :thumbnailUrl,
-  :title,
-  :url,
+  :album_id,
   keyword_init: true
 )
 
@@ -362,22 +322,10 @@ PostLoadMatch = Struct.new(
 
 # Request payload for Post#list.
 #
-# @!attribute [rw] body
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
-#
-# @!attribute [rw] title
-#   @return [String, nil]
-#
-# @!attribute [rw] userId
+# @!attribute [rw] user_id
 #   @return [Integer, nil]
 PostListMatch = Struct.new(
-  :body,
-  :id,
-  :title,
-  :userId,
+  :user_id,
   keyword_init: true
 )
 
@@ -464,22 +412,10 @@ TodoLoadMatch = Struct.new(
 
 # Request payload for Todo#list.
 #
-# @!attribute [rw] completed
-#   @return [Boolean, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
-#
-# @!attribute [rw] title
-#   @return [String, nil]
-#
-# @!attribute [rw] userId
+# @!attribute [rw] user_id
 #   @return [Integer, nil]
 TodoListMatch = Struct.new(
-  :completed,
-  :id,
-  :title,
-  :userId,
+  :user_id,
   keyword_init: true
 )
 
