@@ -101,7 +101,7 @@ func TestTodoEntity(t *testing.T) {
 		// CREATE
 		todoRef01Ent := client.Todo(nil)
 		todoRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "todo"}, setup.data), "todo_ref01"))
+			vs.GetPath(setup.data, []any{"new", "todo"}), "todo_ref01"))
 		todoRef01Data["user_id"] = setup.idmap["user01"]
 
 		todoRef01DataResult, err := todoRef01Ent.Create(todoRef01Data, nil)
@@ -230,7 +230,7 @@ func todoBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"todo01", "todo02", "todo03", "user01", "user02", "user03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -258,10 +258,22 @@ func todoBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["JSONPLACEHOLDER_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewJsonplaceholderSDK(core.ToMapAny(mergedOpts))
 	}

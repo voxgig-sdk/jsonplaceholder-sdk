@@ -32,6 +32,7 @@ main: kit: entity: photo: {
       type: "`$INTEGER`"
     }
     {
+      format: "uri"
       name: "thumbnailUrl"
       op: {
         create: {
@@ -72,6 +73,7 @@ main: kit: entity: photo: {
       type: "`$STRING`"
     }
     {
+      format: "uri"
       name: "url"
       op: {
         create: {
@@ -106,8 +108,10 @@ main: kit: entity: photo: {
         {
           method: "POST"
           orig: "/photos"
-          parts: [
-            "photos"
+          segments: [
+            {
+              lit: "photos"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -133,16 +137,22 @@ main: kit: entity: photo: {
           }
           method: "GET"
           orig: "/albums/{id}/photos"
-          parts: [
-            "albums"
-            "{album_id}"
-            "photos"
-          ]
           rename: {
             param: {
               id: "album_id"
             }
           }
+          segments: [
+            {
+              lit: "albums"
+            }
+            {
+              var: "album_id"
+            }
+            {
+              lit: "photos"
+            }
+          ]
           select: {
             exist: [
               "album_id"
@@ -167,8 +177,10 @@ main: kit: entity: photo: {
           }
           method: "GET"
           orig: "/photos"
-          parts: [
-            "photos"
+          segments: [
+            {
+              lit: "photos"
+            }
           ]
           select: {
             exist: [
@@ -199,9 +211,13 @@ main: kit: entity: photo: {
           }
           method: "GET"
           orig: "/photos/{id}"
-          parts: [
-            "photos"
-            "{id}"
+          segments: [
+            {
+              lit: "photos"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -232,9 +248,13 @@ main: kit: entity: photo: {
           }
           method: "PATCH"
           orig: "/photos/{id}"
-          parts: [
-            "photos"
-            "{id}"
+          segments: [
+            {
+              lit: "photos"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -265,9 +285,13 @@ main: kit: entity: photo: {
           }
           method: "DELETE"
           orig: "/photos/{id}"
-          parts: [
-            "photos"
-            "{id}"
+          segments: [
+            {
+              lit: "photos"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -298,9 +322,13 @@ main: kit: entity: photo: {
           }
           method: "PUT"
           orig: "/photos/{id}"
-          parts: [
-            "photos"
-            "{id}"
+          segments: [
+            {
+              lit: "photos"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

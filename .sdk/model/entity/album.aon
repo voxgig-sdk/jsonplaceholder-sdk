@@ -66,8 +66,10 @@ main: kit: entity: album: {
         {
           method: "POST"
           orig: "/albums"
-          parts: [
-            "albums"
+          segments: [
+            {
+              lit: "albums"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -93,8 +95,10 @@ main: kit: entity: album: {
           }
           method: "GET"
           orig: "/albums"
-          parts: [
-            "albums"
+          segments: [
+            {
+              lit: "albums"
+            }
           ]
           select: {
             exist: [
@@ -120,16 +124,22 @@ main: kit: entity: album: {
           }
           method: "GET"
           orig: "/users/{id}/albums"
-          parts: [
-            "users"
-            "{user_id}"
-            "albums"
-          ]
           rename: {
             param: {
               id: "user_id"
             }
           }
+          segments: [
+            {
+              lit: "users"
+            }
+            {
+              var: "user_id"
+            }
+            {
+              lit: "albums"
+            }
+          ]
           select: {
             exist: [
               "user_id"
@@ -159,9 +169,13 @@ main: kit: entity: album: {
           }
           method: "GET"
           orig: "/albums/{id}"
-          parts: [
-            "albums"
-            "{id}"
+          segments: [
+            {
+              lit: "albums"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -192,9 +206,13 @@ main: kit: entity: album: {
           }
           method: "PATCH"
           orig: "/albums/{id}"
-          parts: [
-            "albums"
-            "{id}"
+          segments: [
+            {
+              lit: "albums"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -225,9 +243,13 @@ main: kit: entity: album: {
           }
           method: "DELETE"
           orig: "/albums/{id}"
-          parts: [
-            "albums"
-            "{id}"
+          segments: [
+            {
+              lit: "albums"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -258,9 +280,13 @@ main: kit: entity: album: {
           }
           method: "PUT"
           orig: "/albums/{id}"
-          parts: [
-            "albums"
-            "{id}"
+          segments: [
+            {
+              lit: "albums"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

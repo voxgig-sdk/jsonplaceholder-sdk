@@ -26,6 +26,7 @@ main: kit: entity: comment: {
       type: "`$STRING`"
     }
     {
+      format: "email"
       name: "email"
       op: {
         create: {
@@ -106,8 +107,10 @@ main: kit: entity: comment: {
         {
           method: "POST"
           orig: "/comments"
-          parts: [
-            "comments"
+          segments: [
+            {
+              lit: "comments"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -133,8 +136,10 @@ main: kit: entity: comment: {
           }
           method: "GET"
           orig: "/comments"
-          parts: [
-            "comments"
+          segments: [
+            {
+              lit: "comments"
+            }
           ]
           select: {
             exist: [
@@ -160,16 +165,22 @@ main: kit: entity: comment: {
           }
           method: "GET"
           orig: "/posts/{id}/comments"
-          parts: [
-            "posts"
-            "{post_id}"
-            "comments"
-          ]
           rename: {
             param: {
               id: "post_id"
             }
           }
+          segments: [
+            {
+              lit: "posts"
+            }
+            {
+              var: "post_id"
+            }
+            {
+              lit: "comments"
+            }
+          ]
           select: {
             exist: [
               "post_id"
@@ -199,9 +210,13 @@ main: kit: entity: comment: {
           }
           method: "GET"
           orig: "/comments/{id}"
-          parts: [
-            "comments"
-            "{id}"
+          segments: [
+            {
+              lit: "comments"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -232,9 +247,13 @@ main: kit: entity: comment: {
           }
           method: "PATCH"
           orig: "/comments/{id}"
-          parts: [
-            "comments"
-            "{id}"
+          segments: [
+            {
+              lit: "comments"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -265,9 +284,13 @@ main: kit: entity: comment: {
           }
           method: "DELETE"
           orig: "/comments/{id}"
-          parts: [
-            "comments"
-            "{id}"
+          segments: [
+            {
+              lit: "comments"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -298,9 +321,13 @@ main: kit: entity: comment: {
           }
           method: "PUT"
           orig: "/comments/{id}"
-          parts: [
-            "comments"
-            "{id}"
+          segments: [
+            {
+              lit: "comments"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

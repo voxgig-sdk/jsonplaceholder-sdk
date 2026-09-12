@@ -86,8 +86,10 @@ main: kit: entity: todo: {
         {
           method: "POST"
           orig: "/todos"
-          parts: [
-            "todos"
+          segments: [
+            {
+              lit: "todos"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -113,8 +115,10 @@ main: kit: entity: todo: {
           }
           method: "GET"
           orig: "/todos"
-          parts: [
-            "todos"
+          segments: [
+            {
+              lit: "todos"
+            }
           ]
           select: {
             exist: [
@@ -140,16 +144,22 @@ main: kit: entity: todo: {
           }
           method: "GET"
           orig: "/users/{id}/todos"
-          parts: [
-            "users"
-            "{user_id}"
-            "todos"
-          ]
           rename: {
             param: {
               id: "user_id"
             }
           }
+          segments: [
+            {
+              lit: "users"
+            }
+            {
+              var: "user_id"
+            }
+            {
+              lit: "todos"
+            }
+          ]
           select: {
             exist: [
               "user_id"
@@ -179,9 +189,13 @@ main: kit: entity: todo: {
           }
           method: "GET"
           orig: "/todos/{id}"
-          parts: [
-            "todos"
-            "{id}"
+          segments: [
+            {
+              lit: "todos"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -212,9 +226,13 @@ main: kit: entity: todo: {
           }
           method: "PATCH"
           orig: "/todos/{id}"
-          parts: [
-            "todos"
-            "{id}"
+          segments: [
+            {
+              lit: "todos"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -245,9 +263,13 @@ main: kit: entity: todo: {
           }
           method: "DELETE"
           orig: "/todos/{id}"
-          parts: [
-            "todos"
-            "{id}"
+          segments: [
+            {
+              lit: "todos"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -278,9 +300,13 @@ main: kit: entity: todo: {
           }
           method: "PUT"
           orig: "/todos/{id}"
-          parts: [
-            "todos"
-            "{id}"
+          segments: [
+            {
+              lit: "todos"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

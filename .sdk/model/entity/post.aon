@@ -86,8 +86,10 @@ main: kit: entity: post: {
         {
           method: "POST"
           orig: "/posts"
-          parts: [
-            "posts"
+          segments: [
+            {
+              lit: "posts"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -113,8 +115,10 @@ main: kit: entity: post: {
           }
           method: "GET"
           orig: "/posts"
-          parts: [
-            "posts"
+          segments: [
+            {
+              lit: "posts"
+            }
           ]
           select: {
             exist: [
@@ -140,16 +144,22 @@ main: kit: entity: post: {
           }
           method: "GET"
           orig: "/users/{id}/posts"
-          parts: [
-            "users"
-            "{user_id}"
-            "posts"
-          ]
           rename: {
             param: {
               id: "user_id"
             }
           }
+          segments: [
+            {
+              lit: "users"
+            }
+            {
+              var: "user_id"
+            }
+            {
+              lit: "posts"
+            }
+          ]
           select: {
             exist: [
               "user_id"
@@ -179,9 +189,13 @@ main: kit: entity: post: {
           }
           method: "GET"
           orig: "/posts/{id}"
-          parts: [
-            "posts"
-            "{id}"
+          segments: [
+            {
+              lit: "posts"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -212,9 +226,13 @@ main: kit: entity: post: {
           }
           method: "PATCH"
           orig: "/posts/{id}"
-          parts: [
-            "posts"
-            "{id}"
+          segments: [
+            {
+              lit: "posts"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -245,9 +263,13 @@ main: kit: entity: post: {
           }
           method: "DELETE"
           orig: "/posts/{id}"
-          parts: [
-            "posts"
-            "{id}"
+          segments: [
+            {
+              lit: "posts"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -278,9 +300,13 @@ main: kit: entity: post: {
           }
           method: "PUT"
           orig: "/posts/{id}"
-          parts: [
-            "posts"
-            "{id}"
+          segments: [
+            {
+              lit: "posts"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

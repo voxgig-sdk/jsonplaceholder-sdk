@@ -106,6 +106,10 @@ class JsonplaceholderConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'album',
           'op' => [
             'create' => [
@@ -117,13 +121,18 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/albums',
-                  'parts' => [
-                    'albums',
+                  'segments' => [
+                    [
+                      'lit' => 'albums',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'albums',
                   ],
                 ],
               ],
@@ -146,8 +155,10 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/albums',
-                  'parts' => [
-                    'albums',
+                  'segments' => [
+                    [
+                      'lit' => 'albums',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -157,6 +168,9 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'albums',
                   ],
                 ],
                 [
@@ -174,14 +188,20 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/users/{id}/albums',
-                  'parts' => [
-                    'users',
-                    '{user_id}',
-                    'albums',
-                  ],
                   'rename' => [
                     'param' => [
                       'id' => 'user_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'user_id',
+                    ],
+                    [
+                      'lit' => 'albums',
                     ],
                   ],
                   'select' => [
@@ -192,6 +212,11 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{user_id}',
+                    'albums',
                   ],
                 ],
               ],
@@ -215,9 +240,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/albums/{id}',
-                  'parts' => [
-                    'albums',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'albums',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -227,6 +256,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'albums',
+                    '{id}',
                   ],
                 ],
               ],
@@ -250,9 +283,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/albums/{id}',
-                  'parts' => [
-                    'albums',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'albums',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -262,6 +299,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'albums',
+                    '{id}',
                   ],
                 ],
               ],
@@ -285,9 +326,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/albums/{id}',
-                  'parts' => [
-                    'albums',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'albums',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -297,6 +342,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'albums',
+                    '{id}',
                   ],
                 ],
               ],
@@ -320,9 +369,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/albums/{id}',
-                  'parts' => [
-                    'albums',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'albums',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -332,6 +385,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'albums',
+                    '{id}',
                   ],
                 ],
               ],
@@ -367,6 +424,7 @@ class JsonplaceholderConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'email',
               'name' => 'email',
               'op' => [
                 'create' => [
@@ -429,6 +487,10 @@ class JsonplaceholderConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'comment',
           'op' => [
             'create' => [
@@ -440,13 +502,18 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/comments',
-                  'parts' => [
-                    'comments',
+                  'segments' => [
+                    [
+                      'lit' => 'comments',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'comments',
                   ],
                 ],
               ],
@@ -469,8 +536,10 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/comments',
-                  'parts' => [
-                    'comments',
+                  'segments' => [
+                    [
+                      'lit' => 'comments',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -480,6 +549,9 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'comments',
                   ],
                 ],
                 [
@@ -497,14 +569,20 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/posts/{id}/comments',
-                  'parts' => [
-                    'posts',
-                    '{post_id}',
-                    'comments',
-                  ],
                   'rename' => [
                     'param' => [
                       'id' => 'post_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'posts',
+                    ],
+                    [
+                      'var' => 'post_id',
+                    ],
+                    [
+                      'lit' => 'comments',
                     ],
                   ],
                   'select' => [
@@ -515,6 +593,11 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'posts',
+                    '{post_id}',
+                    'comments',
                   ],
                 ],
               ],
@@ -538,9 +621,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/comments/{id}',
-                  'parts' => [
-                    'comments',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'comments',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -550,6 +637,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'comments',
+                    '{id}',
                   ],
                 ],
               ],
@@ -573,9 +664,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/comments/{id}',
-                  'parts' => [
-                    'comments',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'comments',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -585,6 +680,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'comments',
+                    '{id}',
                   ],
                 ],
               ],
@@ -608,9 +707,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/comments/{id}',
-                  'parts' => [
-                    'comments',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'comments',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -620,6 +723,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'comments',
+                    '{id}',
                   ],
                 ],
               ],
@@ -643,9 +750,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/comments/{id}',
-                  'parts' => [
-                    'comments',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'comments',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -655,6 +766,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'comments',
+                    '{id}',
                   ],
                 ],
               ],
@@ -695,6 +810,7 @@ class JsonplaceholderConfig
               'type' => '`$INTEGER`',
             ],
             [
+              'format' => 'uri',
               'name' => 'thumbnailUrl',
               'op' => [
                 'create' => [
@@ -733,6 +849,7 @@ class JsonplaceholderConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'uri',
               'name' => 'url',
               'op' => [
                 'create' => [
@@ -752,6 +869,10 @@ class JsonplaceholderConfig
               'type' => '`$STRING`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'photo',
           'op' => [
             'create' => [
@@ -763,13 +884,18 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/photos',
-                  'parts' => [
-                    'photos',
+                  'segments' => [
+                    [
+                      'lit' => 'photos',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'photos',
                   ],
                 ],
               ],
@@ -793,14 +919,20 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/albums/{id}/photos',
-                  'parts' => [
-                    'albums',
-                    '{album_id}',
-                    'photos',
-                  ],
                   'rename' => [
                     'param' => [
                       'id' => 'album_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'albums',
+                    ],
+                    [
+                      'var' => 'album_id',
+                    ],
+                    [
+                      'lit' => 'photos',
                     ],
                   ],
                   'select' => [
@@ -811,6 +943,11 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'albums',
+                    '{album_id}',
+                    'photos',
                   ],
                 ],
                 [
@@ -827,8 +964,10 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/photos',
-                  'parts' => [
-                    'photos',
+                  'segments' => [
+                    [
+                      'lit' => 'photos',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -838,6 +977,9 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'photos',
                   ],
                 ],
               ],
@@ -861,9 +1003,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/photos/{id}',
-                  'parts' => [
-                    'photos',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'photos',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -873,6 +1019,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'photos',
+                    '{id}',
                   ],
                 ],
               ],
@@ -896,9 +1046,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/photos/{id}',
-                  'parts' => [
-                    'photos',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'photos',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -908,6 +1062,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'photos',
+                    '{id}',
                   ],
                 ],
               ],
@@ -931,9 +1089,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/photos/{id}',
-                  'parts' => [
-                    'photos',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'photos',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -943,6 +1105,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'photos',
+                    '{id}',
                   ],
                 ],
               ],
@@ -966,9 +1132,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/photos/{id}',
-                  'parts' => [
-                    'photos',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'photos',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -978,6 +1148,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'photos',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1056,6 +1230,10 @@ class JsonplaceholderConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'post',
           'op' => [
             'create' => [
@@ -1067,13 +1245,18 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/posts',
-                  'parts' => [
-                    'posts',
+                  'segments' => [
+                    [
+                      'lit' => 'posts',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'posts',
                   ],
                 ],
               ],
@@ -1096,8 +1279,10 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/posts',
-                  'parts' => [
-                    'posts',
+                  'segments' => [
+                    [
+                      'lit' => 'posts',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1107,6 +1292,9 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'posts',
                   ],
                 ],
                 [
@@ -1124,14 +1312,20 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/users/{id}/posts',
-                  'parts' => [
-                    'users',
-                    '{user_id}',
-                    'posts',
-                  ],
                   'rename' => [
                     'param' => [
                       'id' => 'user_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'user_id',
+                    ],
+                    [
+                      'lit' => 'posts',
                     ],
                   ],
                   'select' => [
@@ -1142,6 +1336,11 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{user_id}',
+                    'posts',
                   ],
                 ],
               ],
@@ -1165,9 +1364,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/posts/{id}',
-                  'parts' => [
-                    'posts',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'posts',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1177,6 +1380,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'posts',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1200,9 +1407,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/posts/{id}',
-                  'parts' => [
-                    'posts',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'posts',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1212,6 +1423,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'posts',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1235,9 +1450,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/posts/{id}',
-                  'parts' => [
-                    'posts',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'posts',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1247,6 +1466,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'posts',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1270,9 +1493,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/posts/{id}',
-                  'parts' => [
-                    'posts',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'posts',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1282,6 +1509,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'posts',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1360,6 +1591,10 @@ class JsonplaceholderConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'todo',
           'op' => [
             'create' => [
@@ -1371,13 +1606,18 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/todos',
-                  'parts' => [
-                    'todos',
+                  'segments' => [
+                    [
+                      'lit' => 'todos',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'todos',
                   ],
                 ],
               ],
@@ -1400,8 +1640,10 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/todos',
-                  'parts' => [
-                    'todos',
+                  'segments' => [
+                    [
+                      'lit' => 'todos',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1411,6 +1653,9 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'todos',
                   ],
                 ],
                 [
@@ -1428,14 +1673,20 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/users/{id}/todos',
-                  'parts' => [
-                    'users',
-                    '{user_id}',
-                    'todos',
-                  ],
                   'rename' => [
                     'param' => [
                       'id' => 'user_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'user_id',
+                    ],
+                    [
+                      'lit' => 'todos',
                     ],
                   ],
                   'select' => [
@@ -1446,6 +1697,11 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{user_id}',
+                    'todos',
                   ],
                 ],
               ],
@@ -1469,9 +1725,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/todos/{id}',
-                  'parts' => [
-                    'todos',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'todos',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1481,6 +1741,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'todos',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1504,9 +1768,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/todos/{id}',
-                  'parts' => [
-                    'todos',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'todos',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1516,6 +1784,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'todos',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1539,9 +1811,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/todos/{id}',
-                  'parts' => [
-                    'todos',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'todos',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1551,6 +1827,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'todos',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1574,9 +1854,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/todos/{id}',
-                  'parts' => [
-                    'todos',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'todos',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1586,6 +1870,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'todos',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1610,6 +1898,7 @@ class JsonplaceholderConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'email',
               'name' => 'email',
               'op' => [
                 'create' => [
@@ -1682,6 +1971,10 @@ class JsonplaceholderConfig
               'type' => '`$STRING`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'user',
           'op' => [
             'create' => [
@@ -1693,13 +1986,18 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/users',
-                  'parts' => [
-                    'users',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
                   ],
                 ],
               ],
@@ -1713,13 +2011,18 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/users',
-                  'parts' => [
-                    'users',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
                   ],
                 ],
               ],
@@ -1743,9 +2046,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/users/{id}',
-                  'parts' => [
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1755,6 +2062,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1778,9 +2089,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/users/{id}',
-                  'parts' => [
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1790,6 +2105,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1813,9 +2132,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/users/{id}',
-                  'parts' => [
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1825,6 +2148,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1848,9 +2175,13 @@ class JsonplaceholderConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/users/{id}',
-                  'parts' => [
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1860,6 +2191,10 @@ class JsonplaceholderConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
