@@ -105,7 +105,7 @@ local results, err = client:Photo():list()
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases) |
+| TypeScript | `@voxgig-sdk/jsonplaceholder-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases) |
 | Python | `voxgig-sdk-jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases) |
 | PHP | `voxgig-sdk/jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases) |
 | Golang | `github.com/voxgig-sdk/jsonplaceholder-sdk/go` | `go get github.com/voxgig-sdk/jsonplaceholder-sdk/go@latest` |
@@ -119,7 +119,7 @@ local results, err = client:Photo():list()
 ### TypeScript
 
 ```ts
-import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder'
+import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder-sdk'
 
 const client = new JsonplaceholderSDK()
 

@@ -28,7 +28,7 @@ loading a specific record.
 ### 1. Create a client
 
 ```ts
-import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder'
+import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder-sdk'
 
 const client = new JsonplaceholderSDK()
 ```
@@ -762,7 +762,7 @@ jsonplaceholder/
 Import the SDK from the package root:
 
 ```ts
-import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder'
+import { JsonplaceholderSDK } from '@voxgig-sdk/jsonplaceholder-sdk'
 ```
 
 ### Entity state
