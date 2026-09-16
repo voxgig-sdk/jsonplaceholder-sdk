@@ -6,7 +6,7 @@
         "email": "s33",
         "id": "COMMENT00",
         "name": "s35",
-        "postId": "s36",
+        "postId": 54,
         "post_id": "POST01"
       },
       "COMMENT01": {
@@ -14,7 +14,7 @@
         "email": "s65",
         "id": "COMMENT01",
         "name": "s67",
-        "postId": "s68",
+        "postId": 104,
         "post_id": "POST01"
       },
       "COMMENT02": {
@@ -22,7 +22,7 @@
         "email": "s97",
         "id": "COMMENT02",
         "name": "s99",
-        "postId": "s9a",
+        "postId": 154,
         "post_id": "POST01"
       }
     }
@@ -33,7 +33,461 @@
         "body": "sc8",
         "email": "sc9",
         "name": "scb",
-        "postId": "scc"
+        "postId": 204
+      }
+    }
+  },
+  "requests": {
+    "POST /comments": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "createComment",
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "body": {
+                    "description": "Comment content",
+                    "type": "string"
+                  },
+                  "email": {
+                    "description": "Email of the commenter",
+                    "format": "email",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Comment name/title",
+                    "type": "string"
+                  },
+                  "postId": {
+                    "description": "Post ID the comment belongs to",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "postId",
+                  "name",
+                  "email",
+                  "body"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "body": {
+                      "description": "Comment content",
+                      "type": "string"
+                    },
+                    "email": {
+                      "description": "Email of the commenter",
+                      "format": "email",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "Comment ID",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "description": "Comment name/title",
+                      "type": "string"
+                    },
+                    "postId": {
+                      "description": "Post ID the comment belongs to",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Comment created successfully"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /comments": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getComments",
+        "parameters": [
+          {
+            "description": "Filter comments by post ID",
+            "in": "query",
+            "name": "postId",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "body": {
+                        "description": "Comment content",
+                        "type": "string"
+                      },
+                      "email": {
+                        "description": "Email of the commenter",
+                        "format": "email",
+                        "type": "string"
+                      },
+                      "id": {
+                        "description": "Comment ID",
+                        "type": "integer"
+                      },
+                      "name": {
+                        "description": "Comment name/title",
+                        "type": "string"
+                      },
+                      "postId": {
+                        "description": "Post ID the comment belongs to",
+                        "type": "integer"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /posts/{id}/comments": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getPostComments",
+        "parameters": [
+          {
+            "description": "Post ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "body": {
+                        "description": "Comment content",
+                        "type": "string"
+                      },
+                      "email": {
+                        "description": "Email of the commenter",
+                        "format": "email",
+                        "type": "string"
+                      },
+                      "id": {
+                        "description": "Comment ID",
+                        "type": "integer"
+                      },
+                      "name": {
+                        "description": "Comment name/title",
+                        "type": "string"
+                      },
+                      "postId": {
+                        "description": "Post ID the comment belongs to",
+                        "type": "integer"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /comments/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getCommentById",
+        "parameters": [
+          {
+            "description": "Comment ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "body": {
+                      "description": "Comment content",
+                      "type": "string"
+                    },
+                    "email": {
+                      "description": "Email of the commenter",
+                      "format": "email",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "Comment ID",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "description": "Comment name/title",
+                      "type": "string"
+                    },
+                    "postId": {
+                      "description": "Post ID the comment belongs to",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Comment not found"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "PATCH /comments/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "patchComment",
+        "parameters": [
+          {
+            "description": "Comment ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "body": {
+                    "description": "Comment content",
+                    "type": "string"
+                  },
+                  "email": {
+                    "description": "Email of the commenter",
+                    "format": "email",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Comment name/title",
+                    "type": "string"
+                  },
+                  "postId": {
+                    "description": "Post ID the comment belongs to",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "postId",
+                  "name",
+                  "email",
+                  "body"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "body": {
+                      "description": "Comment content",
+                      "type": "string"
+                    },
+                    "email": {
+                      "description": "Email of the commenter",
+                      "format": "email",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "Comment ID",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "description": "Comment name/title",
+                      "type": "string"
+                    },
+                    "postId": {
+                      "description": "Post ID the comment belongs to",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Comment updated successfully"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "DELETE /comments/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "deleteComment",
+        "parameters": [
+          {
+            "description": "Comment ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "description": "Comment deleted successfully"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "PUT /comments/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "updateComment",
+        "parameters": [
+          {
+            "description": "Comment ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "body": {
+                    "description": "Comment content",
+                    "type": "string"
+                  },
+                  "email": {
+                    "description": "Email of the commenter",
+                    "format": "email",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Comment name/title",
+                    "type": "string"
+                  },
+                  "postId": {
+                    "description": "Post ID the comment belongs to",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "postId",
+                  "name",
+                  "email",
+                  "body"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "body": {
+                      "description": "Comment content",
+                      "type": "string"
+                    },
+                    "email": {
+                      "description": "Email of the commenter",
+                      "format": "email",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "Comment ID",
+                      "type": "integer"
+                    },
+                    "name": {
+                      "description": "Comment name/title",
+                      "type": "string"
+                    },
+                    "postId": {
+                      "description": "Post ID the comment belongs to",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Comment updated successfully"
+          }
+        },
+        "securitySource": "unspecified"
       }
     }
   }

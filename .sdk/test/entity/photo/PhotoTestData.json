@@ -2,7 +2,7 @@
   "existing": {
     "photo": {
       "PHOTO00": {
-        "albumId": "s32",
+        "albumId": 50,
         "id": "PHOTO00",
         "thumbnailUrl": "s34",
         "title": "s35",
@@ -10,7 +10,7 @@
         "album_id": "ALBUM01"
       },
       "PHOTO01": {
-        "albumId": "s64",
+        "albumId": 100,
         "id": "PHOTO01",
         "thumbnailUrl": "s66",
         "title": "s67",
@@ -18,7 +18,7 @@
         "album_id": "ALBUM01"
       },
       "PHOTO02": {
-        "albumId": "s96",
+        "albumId": 150,
         "id": "PHOTO02",
         "thumbnailUrl": "s98",
         "title": "s99",
@@ -30,10 +30,473 @@
   "new": {
     "photo": {
       "photo_ref01": {
-        "albumId": "sc8",
+        "albumId": 200,
         "thumbnailUrl": "sca",
         "title": "scb",
         "url": "scc"
+      }
+    }
+  },
+  "requests": {
+    "POST /photos": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "createPhoto",
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "albumId": {
+                    "description": "Album ID the photo belongs to",
+                    "type": "integer"
+                  },
+                  "thumbnailUrl": {
+                    "description": "Photo thumbnail URL",
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "Photo title",
+                    "type": "string"
+                  },
+                  "url": {
+                    "description": "Photo URL",
+                    "format": "uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "albumId",
+                  "title",
+                  "url",
+                  "thumbnailUrl"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "albumId": {
+                      "description": "Album ID the photo belongs to",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "description": "Photo ID",
+                      "type": "integer"
+                    },
+                    "thumbnailUrl": {
+                      "description": "Photo thumbnail URL",
+                      "format": "uri",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "Photo title",
+                      "type": "string"
+                    },
+                    "url": {
+                      "description": "Photo URL",
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Photo created successfully"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /albums/{id}/photos": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getAlbumPhotos",
+        "parameters": [
+          {
+            "description": "Album ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "albumId": {
+                        "description": "Album ID the photo belongs to",
+                        "type": "integer"
+                      },
+                      "id": {
+                        "description": "Photo ID",
+                        "type": "integer"
+                      },
+                      "thumbnailUrl": {
+                        "description": "Photo thumbnail URL",
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "title": {
+                        "description": "Photo title",
+                        "type": "string"
+                      },
+                      "url": {
+                        "description": "Photo URL",
+                        "format": "uri",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /photos": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getPhotos",
+        "parameters": [
+          {
+            "description": "Filter photos by album ID",
+            "in": "query",
+            "name": "albumId",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "albumId": {
+                        "description": "Album ID the photo belongs to",
+                        "type": "integer"
+                      },
+                      "id": {
+                        "description": "Photo ID",
+                        "type": "integer"
+                      },
+                      "thumbnailUrl": {
+                        "description": "Photo thumbnail URL",
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "title": {
+                        "description": "Photo title",
+                        "type": "string"
+                      },
+                      "url": {
+                        "description": "Photo URL",
+                        "format": "uri",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /photos/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getPhotoById",
+        "parameters": [
+          {
+            "description": "Photo ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "albumId": {
+                      "description": "Album ID the photo belongs to",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "description": "Photo ID",
+                      "type": "integer"
+                    },
+                    "thumbnailUrl": {
+                      "description": "Photo thumbnail URL",
+                      "format": "uri",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "Photo title",
+                      "type": "string"
+                    },
+                    "url": {
+                      "description": "Photo URL",
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Photo not found"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "PATCH /photos/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "patchPhoto",
+        "parameters": [
+          {
+            "description": "Photo ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "albumId": {
+                    "description": "Album ID the photo belongs to",
+                    "type": "integer"
+                  },
+                  "thumbnailUrl": {
+                    "description": "Photo thumbnail URL",
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "Photo title",
+                    "type": "string"
+                  },
+                  "url": {
+                    "description": "Photo URL",
+                    "format": "uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "albumId",
+                  "title",
+                  "url",
+                  "thumbnailUrl"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "albumId": {
+                      "description": "Album ID the photo belongs to",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "description": "Photo ID",
+                      "type": "integer"
+                    },
+                    "thumbnailUrl": {
+                      "description": "Photo thumbnail URL",
+                      "format": "uri",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "Photo title",
+                      "type": "string"
+                    },
+                    "url": {
+                      "description": "Photo URL",
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Photo updated successfully"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "DELETE /photos/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "deletePhoto",
+        "parameters": [
+          {
+            "description": "Photo ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "description": "Photo deleted successfully"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "PUT /photos/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "updatePhoto",
+        "parameters": [
+          {
+            "description": "Photo ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "albumId": {
+                    "description": "Album ID the photo belongs to",
+                    "type": "integer"
+                  },
+                  "thumbnailUrl": {
+                    "description": "Photo thumbnail URL",
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "Photo title",
+                    "type": "string"
+                  },
+                  "url": {
+                    "description": "Photo URL",
+                    "format": "uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "albumId",
+                  "title",
+                  "url",
+                  "thumbnailUrl"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "albumId": {
+                      "description": "Album ID the photo belongs to",
+                      "type": "integer"
+                    },
+                    "id": {
+                      "description": "Photo ID",
+                      "type": "integer"
+                    },
+                    "thumbnailUrl": {
+                      "description": "Photo thumbnail URL",
+                      "format": "uri",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "Photo title",
+                      "type": "string"
+                    },
+                    "url": {
+                      "description": "Photo URL",
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Photo updated successfully"
+          }
+        },
+        "securitySource": "unspecified"
       }
     }
   }

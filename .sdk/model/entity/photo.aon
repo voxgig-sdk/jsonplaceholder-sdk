@@ -106,6 +106,12 @@ main: kit: entity: photo: {
       name: "create"
       points: [
         {
+          contract: {
+            id: "POST /photos"
+            json: "{\"operationId\":\"createPhoto\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"albumId\",\"title\",\"url\",\"thumbnailUrl\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Photo created successfully\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "POST"
           orig: "/photos"
           segments: [
@@ -134,6 +140,12 @@ main: kit: entity: photo: {
                 type: "`$INTEGER`"
               }
             ]
+          }
+          contract: {
+            id: "GET /albums/{id}/photos"
+            json: "{\"operationId\":\"getAlbumPhotos\",\"parameters\":[{\"description\":\"Album ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "GET"
           orig: "/albums/{id}/photos"
@@ -175,6 +187,12 @@ main: kit: entity: photo: {
               }
             ]
           }
+          contract: {
+            id: "GET /photos"
+            json: "{\"operationId\":\"getPhotos\",\"parameters\":[{\"description\":\"Filter photos by album ID\",\"in\":\"query\",\"name\":\"albumId\",\"required\":false,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "GET"
           orig: "/photos"
           segments: [
@@ -208,6 +226,12 @@ main: kit: entity: photo: {
                 type: "`$INTEGER`"
               }
             ]
+          }
+          contract: {
+            id: "GET /photos/{id}"
+            json: "{\"operationId\":\"getPhotoById\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Successful response\"},\"404\":{\"description\":\"Photo not found\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "GET"
           orig: "/photos/{id}"
@@ -246,6 +270,12 @@ main: kit: entity: photo: {
               }
             ]
           }
+          contract: {
+            id: "PATCH /photos/{id}"
+            json: "{\"operationId\":\"patchPhoto\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"albumId\",\"title\",\"url\",\"thumbnailUrl\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Photo updated successfully\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "PATCH"
           orig: "/photos/{id}"
           segments: [
@@ -283,6 +313,12 @@ main: kit: entity: photo: {
               }
             ]
           }
+          contract: {
+            id: "DELETE /photos/{id}"
+            json: "{\"operationId\":\"deletePhoto\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"Photo deleted successfully\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "DELETE"
           orig: "/photos/{id}"
           segments: [
@@ -319,6 +355,12 @@ main: kit: entity: photo: {
                 type: "`$INTEGER`"
               }
             ]
+          }
+          contract: {
+            id: "PUT /photos/{id}"
+            json: "{\"operationId\":\"updatePhoto\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"albumId\",\"title\",\"url\",\"thumbnailUrl\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Photo updated successfully\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "PUT"
           orig: "/photos/{id}"

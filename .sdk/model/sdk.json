@@ -24,7 +24,71 @@
         "repr": "auto"
       },
       "contributor": {},
-      "docs": {},
+      "doc": {
+        "active": true,
+        "assets": {
+          "path": ".sdk/doc/assets"
+        },
+        "brand": {
+          "label": "",
+          "notice": "",
+          "shortNotice": "",
+          "url": ""
+        },
+        "ci": {
+          "active": true,
+          "branch": "main"
+        },
+        "content": {
+          "path": ".sdk/doc/content"
+        },
+        "edition": {
+          "summary": {
+            "active": true,
+            "base": "node_modules/@voxgig/docgen/project/.sdk",
+            "brand": {},
+            "filter": {
+              "entities": [],
+              "features": [],
+              "targets": []
+            },
+            "kind": "summary",
+            "name": "summary",
+            "origname": "",
+            "output": {
+              "path": "SUMMARY.md"
+            },
+            "package": "@voxgig/docgen",
+            "site": {
+              "active": true
+            },
+            "style": {},
+            "title": ""
+          }
+        },
+        "qa": {
+          "vocabulary": []
+        },
+        "style": {
+          "color": {
+            "accent": "#00c6d8",
+            "background": "#f5f5f9",
+            "darkBackground": "#0f1117",
+            "darkText": "#e6edf3",
+            "primary": "#e70042",
+            "text": "#0a0a0a"
+          },
+          "font": "Nunito, system-ui, sans-serif",
+          "fontFile": "",
+          "headingFont": "Nunito, system-ui, sans-serif",
+          "headingFontFile": "",
+          "logo": "",
+          "mode": "light",
+          "mono": "ui-monospace, monospace",
+          "monoFile": ""
+        },
+        "target": {}
+      },
       "entity": {
         "album": {
           "active": true,
@@ -95,6 +159,12 @@
                 {
                   "active": true,
                   "args": {},
+                  "contract": {
+                    "id": "POST /albums",
+                    "json": "{\"operationId\":\"createAlbum\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"title\":{\"description\":\"Album title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the album\",\"type\":\"integer\"}},\"required\":[\"userId\",\"title\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"id\":{\"description\":\"Album ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Album title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the album\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Album created successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "POST",
                   "orig": "/albums",
@@ -129,6 +199,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "GET /albums",
+                    "json": "{\"operationId\":\"getAlbums\",\"parameters\":[{\"description\":\"Filter albums by user ID\",\"in\":\"query\",\"name\":\"userId\",\"required\":false,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"id\":{\"description\":\"Album ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Album title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the album\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/albums",
@@ -160,6 +236,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "GET /users/{id}/albums",
+                    "json": "{\"operationId\":\"getUserAlbums\",\"parameters\":[{\"description\":\"User ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"id\":{\"description\":\"Album ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Album title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the album\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "GET",
@@ -210,6 +292,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "GET /albums/{id}",
+                    "json": "{\"operationId\":\"getAlbumById\",\"parameters\":[{\"description\":\"Album ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"id\":{\"description\":\"Album ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Album title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the album\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Successful response\"},\"404\":{\"description\":\"Album not found\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/albums/{id}",
@@ -250,6 +338,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "PATCH /albums/{id}",
+                    "json": "{\"operationId\":\"patchAlbum\",\"parameters\":[{\"description\":\"Album ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"title\":{\"description\":\"Album title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the album\",\"type\":\"integer\"}},\"required\":[\"userId\",\"title\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"id\":{\"description\":\"Album ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Album title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the album\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Album updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "PATCH",
@@ -292,6 +386,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "DELETE /albums/{id}",
+                    "json": "{\"operationId\":\"deleteAlbum\",\"parameters\":[{\"description\":\"Album ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"Album deleted successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/albums/{id}",
@@ -332,6 +432,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "PUT /albums/{id}",
+                    "json": "{\"operationId\":\"updateAlbum\",\"parameters\":[{\"description\":\"Album ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"title\":{\"description\":\"Album title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the album\",\"type\":\"integer\"}},\"required\":[\"userId\",\"title\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"id\":{\"description\":\"Album ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Album title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the album\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Album updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "PUT",
@@ -477,6 +583,12 @@
                 {
                   "active": true,
                   "args": {},
+                  "contract": {
+                    "id": "POST /comments",
+                    "json": "{\"operationId\":\"createComment\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"required\":[\"postId\",\"name\",\"email\",\"body\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Comment created successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "POST",
                   "orig": "/comments",
@@ -511,6 +623,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "GET /comments",
+                    "json": "{\"operationId\":\"getComments\",\"parameters\":[{\"description\":\"Filter comments by post ID\",\"in\":\"query\",\"name\":\"postId\",\"required\":false,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/comments",
@@ -542,6 +660,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "GET /posts/{id}/comments",
+                    "json": "{\"operationId\":\"getPostComments\",\"parameters\":[{\"description\":\"Post ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "GET",
@@ -592,6 +716,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "GET /comments/{id}",
+                    "json": "{\"operationId\":\"getCommentById\",\"parameters\":[{\"description\":\"Comment ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Successful response\"},\"404\":{\"description\":\"Comment not found\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/comments/{id}",
@@ -632,6 +762,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "PATCH /comments/{id}",
+                    "json": "{\"operationId\":\"patchComment\",\"parameters\":[{\"description\":\"Comment ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"required\":[\"postId\",\"name\",\"email\",\"body\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Comment updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "PATCH",
@@ -674,6 +810,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "DELETE /comments/{id}",
+                    "json": "{\"operationId\":\"deleteComment\",\"parameters\":[{\"description\":\"Comment ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"Comment deleted successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/comments/{id}",
@@ -714,6 +856,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "PUT /comments/{id}",
+                    "json": "{\"operationId\":\"updateComment\",\"parameters\":[{\"description\":\"Comment ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"required\":[\"postId\",\"name\",\"email\",\"body\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Comment updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "PUT",
@@ -860,6 +1008,12 @@
                 {
                   "active": true,
                   "args": {},
+                  "contract": {
+                    "id": "POST /photos",
+                    "json": "{\"operationId\":\"createPhoto\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"albumId\",\"title\",\"url\",\"thumbnailUrl\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Photo created successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "POST",
                   "orig": "/photos",
@@ -893,6 +1047,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "GET /albums/{id}/photos",
+                    "json": "{\"operationId\":\"getAlbumPhotos\",\"parameters\":[{\"description\":\"Album ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "GET",
@@ -937,6 +1097,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "GET /photos",
+                    "json": "{\"operationId\":\"getPhotos\",\"parameters\":[{\"description\":\"Filter photos by album ID\",\"in\":\"query\",\"name\":\"albumId\",\"required\":false,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/photos",
@@ -974,6 +1140,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "GET /photos/{id}",
+                    "json": "{\"operationId\":\"getPhotoById\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Successful response\"},\"404\":{\"description\":\"Photo not found\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "GET",
@@ -1016,6 +1188,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "PATCH /photos/{id}",
+                    "json": "{\"operationId\":\"patchPhoto\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"albumId\",\"title\",\"url\",\"thumbnailUrl\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Photo updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/photos/{id}",
@@ -1057,6 +1235,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "DELETE /photos/{id}",
+                    "json": "{\"operationId\":\"deletePhoto\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"Photo deleted successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/photos/{id}",
@@ -1097,6 +1281,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "PUT /photos/{id}",
+                    "json": "{\"operationId\":\"updatePhoto\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"albumId\",\"title\",\"url\",\"thumbnailUrl\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Photo updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "PUT",
@@ -1220,6 +1410,12 @@
                 {
                   "active": true,
                   "args": {},
+                  "contract": {
+                    "id": "POST /posts",
+                    "json": "{\"operationId\":\"createPost\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Post content\",\"type\":\"string\"},\"title\":{\"description\":\"Post title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the post\",\"type\":\"integer\"}},\"required\":[\"title\",\"body\",\"userId\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Post content\",\"type\":\"string\"},\"id\":{\"description\":\"Post ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Post title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the post\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Post created successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "POST",
                   "orig": "/posts",
@@ -1254,6 +1450,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "GET /posts",
+                    "json": "{\"operationId\":\"getPosts\",\"parameters\":[{\"description\":\"Filter posts by user ID\",\"in\":\"query\",\"name\":\"userId\",\"required\":false,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"body\":{\"description\":\"Post content\",\"type\":\"string\"},\"id\":{\"description\":\"Post ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Post title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the post\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/posts",
@@ -1285,6 +1487,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "GET /users/{id}/posts",
+                    "json": "{\"operationId\":\"getUserPosts\",\"parameters\":[{\"description\":\"User ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"body\":{\"description\":\"Post content\",\"type\":\"string\"},\"id\":{\"description\":\"Post ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Post title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the post\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "GET",
@@ -1335,6 +1543,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "GET /posts/{id}",
+                    "json": "{\"operationId\":\"getPostById\",\"parameters\":[{\"description\":\"Post ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Post content\",\"type\":\"string\"},\"id\":{\"description\":\"Post ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Post title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the post\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Successful response\"},\"404\":{\"description\":\"Post not found\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/posts/{id}",
@@ -1375,6 +1589,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "PATCH /posts/{id}",
+                    "json": "{\"operationId\":\"patchPost\",\"parameters\":[{\"description\":\"Post ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Post content\",\"type\":\"string\"},\"title\":{\"description\":\"Post title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the post\",\"type\":\"integer\"}},\"required\":[\"title\",\"body\",\"userId\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Post content\",\"type\":\"string\"},\"id\":{\"description\":\"Post ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Post title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the post\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Post updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "PATCH",
@@ -1417,6 +1637,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "DELETE /posts/{id}",
+                    "json": "{\"operationId\":\"deletePost\",\"parameters\":[{\"description\":\"Post ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"Post deleted successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/posts/{id}",
@@ -1457,6 +1683,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "PUT /posts/{id}",
+                    "json": "{\"operationId\":\"updatePost\",\"parameters\":[{\"description\":\"Post ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Post content\",\"type\":\"string\"},\"title\":{\"description\":\"Post title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the post\",\"type\":\"integer\"}},\"required\":[\"title\",\"body\",\"userId\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Post content\",\"type\":\"string\"},\"id\":{\"description\":\"Post ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Post title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the post\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Post updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "PUT",
@@ -1580,6 +1812,12 @@
                 {
                   "active": true,
                   "args": {},
+                  "contract": {
+                    "id": "POST /todos",
+                    "json": "{\"operationId\":\"createTodo\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"completed\":{\"description\":\"Todo completion status\",\"type\":\"boolean\"},\"title\":{\"description\":\"Todo title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the todo\",\"type\":\"integer\"}},\"required\":[\"userId\",\"title\",\"completed\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"completed\":{\"description\":\"Todo completion status\",\"type\":\"boolean\"},\"id\":{\"description\":\"Todo ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Todo title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the todo\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Todo created successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "POST",
                   "orig": "/todos",
@@ -1614,6 +1852,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "GET /todos",
+                    "json": "{\"operationId\":\"getTodos\",\"parameters\":[{\"description\":\"Filter todos by user ID\",\"in\":\"query\",\"name\":\"userId\",\"required\":false,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"completed\":{\"description\":\"Todo completion status\",\"type\":\"boolean\"},\"id\":{\"description\":\"Todo ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Todo title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the todo\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/todos",
@@ -1645,6 +1889,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "GET /users/{id}/todos",
+                    "json": "{\"operationId\":\"getUserTodos\",\"parameters\":[{\"description\":\"User ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"completed\":{\"description\":\"Todo completion status\",\"type\":\"boolean\"},\"id\":{\"description\":\"Todo ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Todo title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the todo\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "GET",
@@ -1695,6 +1945,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "GET /todos/{id}",
+                    "json": "{\"operationId\":\"getTodoById\",\"parameters\":[{\"description\":\"Todo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"completed\":{\"description\":\"Todo completion status\",\"type\":\"boolean\"},\"id\":{\"description\":\"Todo ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Todo title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the todo\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Successful response\"},\"404\":{\"description\":\"Todo not found\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/todos/{id}",
@@ -1735,6 +1991,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "PATCH /todos/{id}",
+                    "json": "{\"operationId\":\"patchTodo\",\"parameters\":[{\"description\":\"Todo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"completed\":{\"description\":\"Todo completion status\",\"type\":\"boolean\"},\"title\":{\"description\":\"Todo title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the todo\",\"type\":\"integer\"}},\"required\":[\"userId\",\"title\",\"completed\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"completed\":{\"description\":\"Todo completion status\",\"type\":\"boolean\"},\"id\":{\"description\":\"Todo ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Todo title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the todo\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Todo updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "PATCH",
@@ -1777,6 +2039,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "DELETE /todos/{id}",
+                    "json": "{\"operationId\":\"deleteTodo\",\"parameters\":[{\"description\":\"Todo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"Todo deleted successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/todos/{id}",
@@ -1817,6 +2085,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "PUT /todos/{id}",
+                    "json": "{\"operationId\":\"updateTodo\",\"parameters\":[{\"description\":\"Todo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"completed\":{\"description\":\"Todo completion status\",\"type\":\"boolean\"},\"title\":{\"description\":\"Todo title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the todo\",\"type\":\"integer\"}},\"required\":[\"userId\",\"title\",\"completed\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"completed\":{\"description\":\"Todo completion status\",\"type\":\"boolean\"},\"id\":{\"description\":\"Todo ID\",\"type\":\"integer\"},\"title\":{\"description\":\"Todo title\",\"type\":\"string\"},\"userId\":{\"description\":\"User ID who created the todo\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Todo updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "PUT",
@@ -1967,6 +2241,12 @@
                 {
                   "active": true,
                   "args": {},
+                  "contract": {
+                    "id": "POST /users",
+                    "json": "{\"operationId\":\"createUser\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"description\":\"City\",\"type\":\"string\"},\"geo\":{\"properties\":{\"lat\":{\"description\":\"Latitude\",\"type\":\"string\"},\"lng\":{\"description\":\"Longitude\",\"type\":\"string\"}},\"type\":\"object\"},\"street\":{\"description\":\"Street address\",\"type\":\"string\"},\"suite\":{\"description\":\"Suite/apartment number\",\"type\":\"string\"},\"zipcode\":{\"description\":\"ZIP/postal code\",\"type\":\"string\"}},\"type\":\"object\"},\"company\":{\"properties\":{\"bs\":{\"description\":\"Company business\",\"type\":\"string\"},\"catchPhrase\":{\"description\":\"Company catch phrase\",\"type\":\"string\"},\"name\":{\"description\":\"Company name\",\"type\":\"string\"}},\"type\":\"object\"},\"email\":{\"description\":\"User email\",\"format\":\"email\",\"type\":\"string\"},\"name\":{\"description\":\"User full name\",\"type\":\"string\"},\"phone\":{\"description\":\"User phone number\",\"type\":\"string\"},\"username\":{\"description\":\"Username\",\"type\":\"string\"},\"website\":{\"description\":\"User website\",\"type\":\"string\"}},\"required\":[\"name\",\"username\",\"email\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"description\":\"City\",\"type\":\"string\"},\"geo\":{\"properties\":{\"lat\":{\"description\":\"Latitude\",\"type\":\"string\"},\"lng\":{\"description\":\"Longitude\",\"type\":\"string\"}},\"type\":\"object\"},\"street\":{\"description\":\"Street address\",\"type\":\"string\"},\"suite\":{\"description\":\"Suite/apartment number\",\"type\":\"string\"},\"zipcode\":{\"description\":\"ZIP/postal code\",\"type\":\"string\"}},\"type\":\"object\"},\"company\":{\"properties\":{\"bs\":{\"description\":\"Company business\",\"type\":\"string\"},\"catchPhrase\":{\"description\":\"Company catch phrase\",\"type\":\"string\"},\"name\":{\"description\":\"Company name\",\"type\":\"string\"}},\"type\":\"object\"},\"email\":{\"description\":\"User email\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"User ID\",\"type\":\"integer\"},\"name\":{\"description\":\"User full name\",\"type\":\"string\"},\"phone\":{\"description\":\"User phone number\",\"type\":\"string\"},\"username\":{\"description\":\"Username\",\"type\":\"string\"},\"website\":{\"description\":\"User website\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"User created successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "POST",
                   "orig": "/users",
@@ -1990,6 +2270,12 @@
                 {
                   "active": true,
                   "args": {},
+                  "contract": {
+                    "id": "GET /users",
+                    "json": "{\"operationId\":\"getUsers\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"description\":\"City\",\"type\":\"string\"},\"geo\":{\"properties\":{\"lat\":{\"description\":\"Latitude\",\"type\":\"string\"},\"lng\":{\"description\":\"Longitude\",\"type\":\"string\"}},\"type\":\"object\"},\"street\":{\"description\":\"Street address\",\"type\":\"string\"},\"suite\":{\"description\":\"Suite/apartment number\",\"type\":\"string\"},\"zipcode\":{\"description\":\"ZIP/postal code\",\"type\":\"string\"}},\"type\":\"object\"},\"company\":{\"properties\":{\"bs\":{\"description\":\"Company business\",\"type\":\"string\"},\"catchPhrase\":{\"description\":\"Company catch phrase\",\"type\":\"string\"},\"name\":{\"description\":\"Company name\",\"type\":\"string\"}},\"type\":\"object\"},\"email\":{\"description\":\"User email\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"User ID\",\"type\":\"integer\"},\"name\":{\"description\":\"User full name\",\"type\":\"string\"},\"phone\":{\"description\":\"User phone number\",\"type\":\"string\"},\"username\":{\"description\":\"Username\",\"type\":\"string\"},\"website\":{\"description\":\"User website\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "GET",
                   "orig": "/users",
@@ -2023,6 +2309,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "GET /users/{id}",
+                    "json": "{\"operationId\":\"getUserById\",\"parameters\":[{\"description\":\"User ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"description\":\"City\",\"type\":\"string\"},\"geo\":{\"properties\":{\"lat\":{\"description\":\"Latitude\",\"type\":\"string\"},\"lng\":{\"description\":\"Longitude\",\"type\":\"string\"}},\"type\":\"object\"},\"street\":{\"description\":\"Street address\",\"type\":\"string\"},\"suite\":{\"description\":\"Suite/apartment number\",\"type\":\"string\"},\"zipcode\":{\"description\":\"ZIP/postal code\",\"type\":\"string\"}},\"type\":\"object\"},\"company\":{\"properties\":{\"bs\":{\"description\":\"Company business\",\"type\":\"string\"},\"catchPhrase\":{\"description\":\"Company catch phrase\",\"type\":\"string\"},\"name\":{\"description\":\"Company name\",\"type\":\"string\"}},\"type\":\"object\"},\"email\":{\"description\":\"User email\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"User ID\",\"type\":\"integer\"},\"name\":{\"description\":\"User full name\",\"type\":\"string\"},\"phone\":{\"description\":\"User phone number\",\"type\":\"string\"},\"username\":{\"description\":\"Username\",\"type\":\"string\"},\"website\":{\"description\":\"User website\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Successful response\"},\"404\":{\"description\":\"User not found\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "GET",
@@ -2065,6 +2357,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "PATCH /users/{id}",
+                    "json": "{\"operationId\":\"patchUser\",\"parameters\":[{\"description\":\"User ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"description\":\"City\",\"type\":\"string\"},\"geo\":{\"properties\":{\"lat\":{\"description\":\"Latitude\",\"type\":\"string\"},\"lng\":{\"description\":\"Longitude\",\"type\":\"string\"}},\"type\":\"object\"},\"street\":{\"description\":\"Street address\",\"type\":\"string\"},\"suite\":{\"description\":\"Suite/apartment number\",\"type\":\"string\"},\"zipcode\":{\"description\":\"ZIP/postal code\",\"type\":\"string\"}},\"type\":\"object\"},\"company\":{\"properties\":{\"bs\":{\"description\":\"Company business\",\"type\":\"string\"},\"catchPhrase\":{\"description\":\"Company catch phrase\",\"type\":\"string\"},\"name\":{\"description\":\"Company name\",\"type\":\"string\"}},\"type\":\"object\"},\"email\":{\"description\":\"User email\",\"format\":\"email\",\"type\":\"string\"},\"name\":{\"description\":\"User full name\",\"type\":\"string\"},\"phone\":{\"description\":\"User phone number\",\"type\":\"string\"},\"username\":{\"description\":\"Username\",\"type\":\"string\"},\"website\":{\"description\":\"User website\",\"type\":\"string\"}},\"required\":[\"name\",\"username\",\"email\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"description\":\"City\",\"type\":\"string\"},\"geo\":{\"properties\":{\"lat\":{\"description\":\"Latitude\",\"type\":\"string\"},\"lng\":{\"description\":\"Longitude\",\"type\":\"string\"}},\"type\":\"object\"},\"street\":{\"description\":\"Street address\",\"type\":\"string\"},\"suite\":{\"description\":\"Suite/apartment number\",\"type\":\"string\"},\"zipcode\":{\"description\":\"ZIP/postal code\",\"type\":\"string\"}},\"type\":\"object\"},\"company\":{\"properties\":{\"bs\":{\"description\":\"Company business\",\"type\":\"string\"},\"catchPhrase\":{\"description\":\"Company catch phrase\",\"type\":\"string\"},\"name\":{\"description\":\"Company name\",\"type\":\"string\"}},\"type\":\"object\"},\"email\":{\"description\":\"User email\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"User ID\",\"type\":\"integer\"},\"name\":{\"description\":\"User full name\",\"type\":\"string\"},\"phone\":{\"description\":\"User phone number\",\"type\":\"string\"},\"username\":{\"description\":\"Username\",\"type\":\"string\"},\"website\":{\"description\":\"User website\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"User updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/users/{id}",
@@ -2105,6 +2403,12 @@
                         "type": "`$INTEGER`"
                       }
                     ]
+                  },
+                  "contract": {
+                    "id": "DELETE /users/{id}",
+                    "json": "{\"operationId\":\"deleteUser\",\"parameters\":[{\"description\":\"User ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"User deleted successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
                   },
                   "kind": "http",
                   "method": "DELETE",
@@ -2147,6 +2451,12 @@
                       }
                     ]
                   },
+                  "contract": {
+                    "id": "PUT /users/{id}",
+                    "json": "{\"operationId\":\"updateUser\",\"parameters\":[{\"description\":\"User ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"description\":\"City\",\"type\":\"string\"},\"geo\":{\"properties\":{\"lat\":{\"description\":\"Latitude\",\"type\":\"string\"},\"lng\":{\"description\":\"Longitude\",\"type\":\"string\"}},\"type\":\"object\"},\"street\":{\"description\":\"Street address\",\"type\":\"string\"},\"suite\":{\"description\":\"Suite/apartment number\",\"type\":\"string\"},\"zipcode\":{\"description\":\"ZIP/postal code\",\"type\":\"string\"}},\"type\":\"object\"},\"company\":{\"properties\":{\"bs\":{\"description\":\"Company business\",\"type\":\"string\"},\"catchPhrase\":{\"description\":\"Company catch phrase\",\"type\":\"string\"},\"name\":{\"description\":\"Company name\",\"type\":\"string\"}},\"type\":\"object\"},\"email\":{\"description\":\"User email\",\"format\":\"email\",\"type\":\"string\"},\"name\":{\"description\":\"User full name\",\"type\":\"string\"},\"phone\":{\"description\":\"User phone number\",\"type\":\"string\"},\"username\":{\"description\":\"Username\",\"type\":\"string\"},\"website\":{\"description\":\"User website\",\"type\":\"string\"}},\"required\":[\"name\",\"username\",\"email\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"address\":{\"properties\":{\"city\":{\"description\":\"City\",\"type\":\"string\"},\"geo\":{\"properties\":{\"lat\":{\"description\":\"Latitude\",\"type\":\"string\"},\"lng\":{\"description\":\"Longitude\",\"type\":\"string\"}},\"type\":\"object\"},\"street\":{\"description\":\"Street address\",\"type\":\"string\"},\"suite\":{\"description\":\"Suite/apartment number\",\"type\":\"string\"},\"zipcode\":{\"description\":\"ZIP/postal code\",\"type\":\"string\"}},\"type\":\"object\"},\"company\":{\"properties\":{\"bs\":{\"description\":\"Company business\",\"type\":\"string\"},\"catchPhrase\":{\"description\":\"Company catch phrase\",\"type\":\"string\"},\"name\":{\"description\":\"Company name\",\"type\":\"string\"}},\"type\":\"object\"},\"email\":{\"description\":\"User email\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"User ID\",\"type\":\"integer\"},\"name\":{\"description\":\"User full name\",\"type\":\"string\"},\"phone\":{\"description\":\"User phone number\",\"type\":\"string\"},\"username\":{\"description\":\"Username\",\"type\":\"string\"},\"website\":{\"description\":\"User website\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"User updated successfully\"}},\"securitySource\":\"unspecified\"}",
+                    "source": "openapi3",
+                    "version": 1
+                  },
                   "kind": "http",
                   "method": "PUT",
                   "orig": "/users/{id}",
@@ -2177,13 +2487,223 @@
         }
       },
       "feature": {
+        "ratelimit": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "burst": 5,
+              "rate": 5
+            },
+            "optspec": {
+              "now": "`$FUNCTION`",
+              "sleep": "`$FUNCTION`"
+            },
+            "strict": false
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": false,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "ratelimit",
+          "needs": {},
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
+          "target": {
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            }
+          },
+          "title": "Client-side rate limiting via a token bucket",
+          "transport": "wrap",
+          "version": "0.0.1"
+        },
+        "retry": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "factor": 2,
+              "maxDelay": 2000,
+              "minDelay": 50,
+              "retries": 2,
+              "statuses": [
+                408,
+                425,
+                429,
+                500,
+                502,
+                503,
+                504
+              ]
+            },
+            "optspec": {
+              "jitter": "`$BOOLEAN`",
+              "sleep": "`$FUNCTION`"
+            },
+            "strict": false
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": false,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "retry",
+          "needs": {},
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
+          "target": {
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            }
+          },
+          "title": "Automatic retry of transient failures with exponential backoff",
+          "transport": "wrap",
+          "version": "0.0.1"
+        },
         "test": {
           "active": true,
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "config": {
             "options": {
               "active": false
-            }
+            },
+            "optspec": {
+              "entity": "`$MAP`",
+              "net": "`$MAP`"
+            },
+            "strict": false
           },
           "hook": {
             "GetData": {
@@ -2273,6 +2793,102 @@
           },
           "title": "In-memory mock transport for testing without a live server",
           "transport": "base",
+          "version": "0.0.1"
+        },
+        "timeout": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "ms": 30000
+            },
+            "optspec": {
+              "clearTimer": "`$FUNCTION`",
+              "setTimer": "`$FUNCTION`"
+            },
+            "strict": false
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": false,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "timeout",
+          "needs": {},
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
+          "target": {
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            }
+          },
+          "title": "Per-request timeout with transport abort",
+          "transport": "wrap",
           "version": "0.0.1"
         }
       },
@@ -3000,6 +3616,48 @@
         "website": "https://jsonplaceholder.typicode.com"
       },
       "option": {},
+      "optspec": {
+        "allow": {
+          "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
+          "op": "create,update,load,list,remove,command,direct,graphql"
+        },
+        "apikey": "",
+        "auth": {
+          "basic": false,
+          "prefix": ""
+        },
+        "base": "http://localhost:8000",
+        "clean": {
+          "keys": "key,token,id"
+        },
+        "entity": {
+          "`$CHILD`": {
+            "`$OPEN`": true,
+            "active": false,
+            "alias": {}
+          }
+        },
+        "extend": "`$ANY`",
+        "headers": {
+          "`$CHILD`": "`$STRING`"
+        },
+        "prefix": "",
+        "secret": "",
+        "server": {
+          "`$CHILD`": ""
+        },
+        "suffix": "",
+        "system": {
+          "fetch": "`$ANY`"
+        },
+        "test": {
+          "active": false,
+          "entity": {
+            "`$OPEN`": true
+          }
+        },
+        "utility": {}
+      },
       "repo": {
         "host": "github.com",
         "path": ""
@@ -3554,6 +4212,7 @@
           },
           "package": "@voxgig/sdkgen",
           "provides": {
+            "schema": true,
             "sekreto": true
           },
           "publish": {
@@ -3595,7 +4254,7 @@
         "live": {
           "app": false,
           "base": "",
-          "strict": false
+          "strict": true
         }
       }
     }

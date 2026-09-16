@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { JsonplaceholderSDK, BaseFeature, stdutil } from '../../..'
@@ -47,16 +49,13 @@ describe('PhotoEntity', async () => {
 
     const live = 'TRUE' === process.env.JSONPLACEHOLDER_TEST_LIVE
     for (const op of ['create', 'list', 'update', 'load', 'remove']) {
-      if (maybeSkipControl(t, 'entityOp', 'photo.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'photo.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set JSONPLACEHOLDER_TEST_PHOTO_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[{"active":true,"name":"albumId","op":{"create":{"req":true,"type":"`$INTEGER`"},"patch":{"req":true,"type":"`$INTEGER`"},"update":{"req":true,"type":"`$INTEGER`"}},"req":false,"short":"Album ID the photo belongs to","type":"`$INTEGER`","index$":0},{"active":true,"name":"id","req":false,"short":"Photo ID","type":"`$INTEGER`","index$":1},{"active":true,"format":"uri","name":"thumbnailUrl","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"req":false,"short":"Photo thumbnail URL","type":"`$STRING`","index$":2},{"active":true,"name":"title","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"req":false,"short":"Photo title","type":"`$STRING`","index$":3},{"active":true,"format":"uri","name":"url","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"req":false,"short":"Photo URL","type":"`$STRING`","index$":4}],"id":{"field":"id","name":"id"},"name":"photo","op":{"create":{"input":"data","name":"create","points":[{"active":true,"args":{},"contract":{"id":"POST /photos","json":"{\"operationId\":\"createPhoto\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"albumId\",\"title\",\"url\",\"thumbnailUrl\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Photo created successfully\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"POST","orig":"/photos","segments":[{"lit":"photos"}],"select":{},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"album_id","orig":"id","reqd":true,"type":"`$INTEGER`","index$":0}]},"contract":{"id":"GET /albums/{id}/photos","json":"{\"operationId\":\"getAlbumPhotos\",\"parameters\":[{\"description\":\"Album ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/albums/{id}/photos","rename":{"param":{"id":"album_id"}},"segments":[{"lit":"albums"},{"var":"album_id"},{"lit":"photos"}],"select":{"exist":["album_id"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0},{"active":true,"args":{"query":[{"active":true,"kind":"query","name":"album_id","orig":"album_id","reqd":false,"type":"`$INTEGER`","index$":0}]},"contract":{"id":"GET /photos","json":"{\"operationId\":\"getPhotos\",\"parameters\":[{\"description\":\"Filter photos by album ID\",\"in\":\"query\",\"name\":\"albumId\",\"required\":false,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/photos","segments":[{"lit":"photos"}],"select":{"exist":["album_id"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"id","orig":"id","reqd":true,"type":"`$INTEGER`","index$":0}]},"contract":{"id":"GET /photos/{id}","json":"{\"operationId\":\"getPhotoById\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Successful response\"},\"404\":{\"description\":\"Photo not found\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/photos/{id}","segments":[{"lit":"photos"},{"var":"id"}],"select":{"exist":["id"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"patch":{"input":"data","name":"patch","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"id","orig":"id","reqd":true,"type":"`$INTEGER`"}]},"contract":{"id":"PATCH /photos/{id}","json":"{\"operationId\":\"patchPhoto\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"albumId\",\"title\",\"url\",\"thumbnailUrl\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Photo updated successfully\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"PATCH","orig":"/photos/{id}","segments":[{"lit":"photos"},{"var":"id"}],"select":{"exist":["id"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"patch"},"remove":{"input":"data","name":"remove","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"id","orig":"id","reqd":true,"type":"`$INTEGER`","index$":0}]},"contract":{"id":"DELETE /photos/{id}","json":"{\"operationId\":\"deletePhoto\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"Photo deleted successfully\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"DELETE","orig":"/photos/{id}","segments":[{"lit":"photos"},{"var":"id"}],"select":{"exist":["id"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"},"update":{"input":"data","name":"update","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"id","orig":"id","reqd":true,"type":"`$INTEGER`","index$":0}]},"contract":{"id":"PUT /photos/{id}","json":"{\"operationId\":\"updatePhoto\",\"parameters\":[{\"description\":\"Photo ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"albumId\",\"title\",\"url\",\"thumbnailUrl\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"albumId\":{\"description\":\"Album ID the photo belongs to\",\"type\":\"integer\"},\"id\":{\"description\":\"Photo ID\",\"type\":\"integer\"},\"thumbnailUrl\":{\"description\":\"Photo thumbnail URL\",\"format\":\"uri\",\"type\":\"string\"},\"title\":{\"description\":\"Photo title\",\"type\":\"string\"},\"url\":{\"description\":\"Photo URL\",\"format\":\"uri\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Photo updated successfully\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"PUT","orig":"/photos/{id}","segments":[{"lit":"photos"},{"var":"id"}],"select":{"exist":["id"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[["album"]]},"key$":"photo","name__orig":"photo","Name":"Photo","name_":"photo","name-":"photo","NAME":"PHOTO","index$":2}, {"active":true,"entity":"photo","key$":"BasicPhotoFlow","kind":"basic","name":"BasicPhotoFlow","param":{},"step":[{"active":true,"data":{},"input":{"ref":"photo_ref01"},"match":{"album_id":"album01"},"op":"create","spec":[],"valid":[],"index$":0},{"active":true,"data":{},"input":{},"match":{},"op":"list","spec":[],"valid":[{"apply":"ItemExists","def":{"ref":"photo_ref01"}}],"index$":1},{"active":true,"data":{},"input":{"ref":"photo_ref01","srcdatavar":"photo_ref01_data","suffix":"_up0","textfield":"thumbnailUrl"},"match":{},"op":"update","spec":[{"apply":"TextFieldMark","def":{"mark":"Mark01-photo_ref01"}}],"valid":[],"index$":2},{"active":true,"data":{},"input":{"ref":"photo_ref01","srcdatavar":"photo_ref01_data","suffix":"_dt0"},"match":{"id":"photo01"},"op":"load","spec":[],"valid":[{"apply":"TextFieldMark","def":{"mark":"Mark01-photo_ref01"}}],"index$":3},{"active":true,"data":{},"input":{"ref":"photo_ref01","suffix":"_rm0"},"match":{"id":"photo01"},"op":"remove","spec":[],"valid":[],"index$":4},{"active":true,"data":{},"input":{"suffix":"_rt0"},"match":{},"op":"list","spec":[],"valid":[{"apply":"ItemNotExists","def":{"ref":"photo_ref01"}}],"index$":5}]}, 'Photo')
     }
     const client = setup.client
     const struct = setup.struct
@@ -151,13 +150,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['JSONPLACEHOLDER_TEST_PHOTO_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'JSONPLACEHOLDER_TEST_PHOTO_ENTID': idmap,
     'JSONPLACEHOLDER_TEST_LIVE': 'FALSE',
@@ -168,7 +160,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.JSONPLACEHOLDER_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['JSONPLACEHOLDER_TEST_PHOTO_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new JsonplaceholderSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -180,7 +178,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -193,7 +192,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.JSONPLACEHOLDER_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

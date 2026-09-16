@@ -105,6 +105,12 @@ main: kit: entity: comment: {
       name: "create"
       points: [
         {
+          contract: {
+            id: "POST /comments"
+            json: "{\"operationId\":\"createComment\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"required\":[\"postId\",\"name\",\"email\",\"body\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Comment created successfully\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "POST"
           orig: "/comments"
           segments: [
@@ -134,6 +140,12 @@ main: kit: entity: comment: {
               }
             ]
           }
+          contract: {
+            id: "GET /comments"
+            json: "{\"operationId\":\"getComments\",\"parameters\":[{\"description\":\"Filter comments by post ID\",\"in\":\"query\",\"name\":\"postId\",\"required\":false,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "GET"
           orig: "/comments"
           segments: [
@@ -162,6 +174,12 @@ main: kit: entity: comment: {
                 type: "`$INTEGER`"
               }
             ]
+          }
+          contract: {
+            id: "GET /posts/{id}/comments"
+            json: "{\"operationId\":\"getPostComments\",\"parameters\":[{\"description\":\"Post ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Successful response\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "GET"
           orig: "/posts/{id}/comments"
@@ -208,6 +226,12 @@ main: kit: entity: comment: {
               }
             ]
           }
+          contract: {
+            id: "GET /comments/{id}"
+            json: "{\"operationId\":\"getCommentById\",\"parameters\":[{\"description\":\"Comment ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Successful response\"},\"404\":{\"description\":\"Comment not found\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "GET"
           orig: "/comments/{id}"
           segments: [
@@ -244,6 +268,12 @@ main: kit: entity: comment: {
                 type: "`$INTEGER`"
               }
             ]
+          }
+          contract: {
+            id: "PATCH /comments/{id}"
+            json: "{\"operationId\":\"patchComment\",\"parameters\":[{\"description\":\"Comment ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"required\":[\"postId\",\"name\",\"email\",\"body\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Comment updated successfully\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "PATCH"
           orig: "/comments/{id}"
@@ -282,6 +312,12 @@ main: kit: entity: comment: {
               }
             ]
           }
+          contract: {
+            id: "DELETE /comments/{id}"
+            json: "{\"operationId\":\"deleteComment\",\"parameters\":[{\"description\":\"Comment ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"Comment deleted successfully\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "DELETE"
           orig: "/comments/{id}"
           segments: [
@@ -318,6 +354,12 @@ main: kit: entity: comment: {
                 type: "`$INTEGER`"
               }
             ]
+          }
+          contract: {
+            id: "PUT /comments/{id}"
+            json: "{\"operationId\":\"updateComment\",\"parameters\":[{\"description\":\"Comment ID\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"integer\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"required\":[\"postId\",\"name\",\"email\",\"body\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"body\":{\"description\":\"Comment content\",\"type\":\"string\"},\"email\":{\"description\":\"Email of the commenter\",\"format\":\"email\",\"type\":\"string\"},\"id\":{\"description\":\"Comment ID\",\"type\":\"integer\"},\"name\":{\"description\":\"Comment name/title\",\"type\":\"string\"},\"postId\":{\"description\":\"Post ID the comment belongs to\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Comment updated successfully\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "PUT"
           orig: "/comments/{id}"

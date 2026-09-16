@@ -5,21 +5,21 @@
         "body": "s28",
         "id": "POST00",
         "title": "s2a",
-        "userId": "s2b",
+        "userId": 43,
         "user_id": "USER01"
       },
       "POST01": {
         "body": "s50",
         "id": "POST01",
         "title": "s52",
-        "userId": "s53",
+        "userId": 83,
         "user_id": "USER01"
       },
       "POST02": {
         "body": "s78",
         "id": "POST02",
         "title": "s7a",
-        "userId": "s7b",
+        "userId": 123,
         "user_id": "USER01"
       }
     }
@@ -29,7 +29,413 @@
       "post_ref01": {
         "body": "sa0",
         "title": "sa2",
-        "userId": "sa3"
+        "userId": 163
+      }
+    }
+  },
+  "requests": {
+    "POST /posts": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "createPost",
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "body": {
+                    "description": "Post content",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "Post title",
+                    "type": "string"
+                  },
+                  "userId": {
+                    "description": "User ID who created the post",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "title",
+                  "body",
+                  "userId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "body": {
+                      "description": "Post content",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "Post ID",
+                      "type": "integer"
+                    },
+                    "title": {
+                      "description": "Post title",
+                      "type": "string"
+                    },
+                    "userId": {
+                      "description": "User ID who created the post",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Post created successfully"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /posts": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getPosts",
+        "parameters": [
+          {
+            "description": "Filter posts by user ID",
+            "in": "query",
+            "name": "userId",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "body": {
+                        "description": "Post content",
+                        "type": "string"
+                      },
+                      "id": {
+                        "description": "Post ID",
+                        "type": "integer"
+                      },
+                      "title": {
+                        "description": "Post title",
+                        "type": "string"
+                      },
+                      "userId": {
+                        "description": "User ID who created the post",
+                        "type": "integer"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /users/{id}/posts": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getUserPosts",
+        "parameters": [
+          {
+            "description": "User ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "body": {
+                        "description": "Post content",
+                        "type": "string"
+                      },
+                      "id": {
+                        "description": "Post ID",
+                        "type": "integer"
+                      },
+                      "title": {
+                        "description": "Post title",
+                        "type": "string"
+                      },
+                      "userId": {
+                        "description": "User ID who created the post",
+                        "type": "integer"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /posts/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getPostById",
+        "parameters": [
+          {
+            "description": "Post ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "body": {
+                      "description": "Post content",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "Post ID",
+                      "type": "integer"
+                    },
+                    "title": {
+                      "description": "Post title",
+                      "type": "string"
+                    },
+                    "userId": {
+                      "description": "User ID who created the post",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "PATCH /posts/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "patchPost",
+        "parameters": [
+          {
+            "description": "Post ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "body": {
+                    "description": "Post content",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "Post title",
+                    "type": "string"
+                  },
+                  "userId": {
+                    "description": "User ID who created the post",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "title",
+                  "body",
+                  "userId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "body": {
+                      "description": "Post content",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "Post ID",
+                      "type": "integer"
+                    },
+                    "title": {
+                      "description": "Post title",
+                      "type": "string"
+                    },
+                    "userId": {
+                      "description": "User ID who created the post",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Post updated successfully"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "DELETE /posts/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "deletePost",
+        "parameters": [
+          {
+            "description": "Post ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "description": "Post deleted successfully"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "PUT /posts/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "updatePost",
+        "parameters": [
+          {
+            "description": "Post ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "body": {
+                    "description": "Post content",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "Post title",
+                    "type": "string"
+                  },
+                  "userId": {
+                    "description": "User ID who created the post",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "title",
+                  "body",
+                  "userId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "body": {
+                      "description": "Post content",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "Post ID",
+                      "type": "integer"
+                    },
+                    "title": {
+                      "description": "Post title",
+                      "type": "string"
+                    },
+                    "userId": {
+                      "description": "User ID who created the post",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Post updated successfully"
+          }
+        },
+        "securitySource": "unspecified"
       }
     }
   }
