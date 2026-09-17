@@ -127,24 +127,24 @@ class Config {
 
     entity: {
       
-      album: {
-      },
-
-      comment: {
-      },
-
-      photo: {
-      },
-
-      post: {
-      },
-
-      todo: {
-      },
-
-      user: {
-      },
-
+        album: {
+        },
+  
+        comment: {
+        },
+  
+        photo: {
+        },
+  
+        post: {
+        },
+  
+        todo: {
+        },
+  
+        user: {
+        },
+  
     }
   }
 

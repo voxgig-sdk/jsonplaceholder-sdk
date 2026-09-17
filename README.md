@@ -105,12 +105,12 @@ local results, err = client:Photo():list()
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/jsonplaceholder-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases) |
-| Python | `voxgig-sdk-jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases) |
-| PHP | `voxgig-sdk/jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases) |
+| TypeScript | `@voxgig-sdk/jsonplaceholder-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/tags) |
+| Python | `voxgig-sdk-jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/tags) |
+| PHP | `voxgig-sdk/jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/tags) |
 | Golang | `github.com/voxgig-sdk/jsonplaceholder-sdk/go` | `go get github.com/voxgig-sdk/jsonplaceholder-sdk/go@latest` |
-| Ruby | `voxgig-sdk-jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases) |
-| Lua | `voxgig-sdk-jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases) |
+| Ruby | `voxgig-sdk-jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/tags) |
+| Lua | `voxgig-sdk-jsonplaceholder` | publish pending — [install from git tag](https://github.com/voxgig-sdk/jsonplaceholder-sdk/tags) |
 | Go CLI | `github.com/voxgig-sdk/jsonplaceholder-sdk/go-cli` | `go install github.com/voxgig-sdk/jsonplaceholder-sdk/go-cli/cmd/jsonplaceholder@latest` |
 | Go MCP server | `github.com/voxgig-sdk/jsonplaceholder-sdk/go-mcp` | `go get github.com/voxgig-sdk/jsonplaceholder-sdk/go-mcp@latest` |
 
