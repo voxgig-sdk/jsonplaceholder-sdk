@@ -43,7 +43,7 @@ local albums, err = client:Album():list()
 if err then error(err) end
 
 for _, item in ipairs(albums) do
-  print(item["id"], item["title"])
+  print(item["id"])
 end
 ```
 

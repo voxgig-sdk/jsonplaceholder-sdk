@@ -1,7 +1,7 @@
 // Typed models for the Jsonplaceholder SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,9 +14,6 @@ import (
 
 // Album is the typed data model for the album entity.
 type Album struct {
-	Id *int `json:"id,omitempty"`
-	Title *string `json:"title,omitempty"`
-	UserId *int `json:"userId,omitempty"`
 }
 
 // AlbumLoadMatch is the typed request payload for Album.LoadTyped.
@@ -50,11 +47,6 @@ type AlbumRemoveMatch struct {
 
 // Comment is the typed data model for the comment entity.
 type Comment struct {
-	Body *string `json:"body,omitempty"`
-	Email *string `json:"email,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	PostId *int `json:"postId,omitempty"`
 }
 
 // CommentLoadMatch is the typed request payload for Comment.LoadTyped.
@@ -92,11 +84,6 @@ type CommentRemoveMatch struct {
 
 // Photo is the typed data model for the photo entity.
 type Photo struct {
-	AlbumId *int `json:"albumId,omitempty"`
-	Id *int `json:"id,omitempty"`
-	ThumbnailUrl *string `json:"thumbnailUrl,omitempty"`
-	Title *string `json:"title,omitempty"`
-	Url *string `json:"url,omitempty"`
 }
 
 // PhotoLoadMatch is the typed request payload for Photo.LoadTyped.
@@ -134,10 +121,6 @@ type PhotoRemoveMatch struct {
 
 // Post is the typed data model for the post entity.
 type Post struct {
-	Body *string `json:"body,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Title *string `json:"title,omitempty"`
-	UserId *int `json:"userId,omitempty"`
 }
 
 // PostLoadMatch is the typed request payload for Post.LoadTyped.
@@ -173,10 +156,6 @@ type PostRemoveMatch struct {
 
 // Todo is the typed data model for the todo entity.
 type Todo struct {
-	Completed *bool `json:"completed,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Title *string `json:"title,omitempty"`
-	UserId *int `json:"userId,omitempty"`
 }
 
 // TodoLoadMatch is the typed request payload for Todo.LoadTyped.
@@ -212,14 +191,6 @@ type TodoRemoveMatch struct {
 
 // User is the typed data model for the user entity.
 type User struct {
-	Address *map[string]any `json:"address,omitempty"`
-	Company *map[string]any `json:"company,omitempty"`
-	Email *string `json:"email,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Phone *string `json:"phone,omitempty"`
-	Username *string `json:"username,omitempty"`
-	Website *string `json:"website,omitempty"`
 }
 
 // UserLoadMatch is the typed request payload for User.LoadTyped.

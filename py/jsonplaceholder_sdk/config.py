@@ -121,11 +121,14 @@ def make_config():
         "fields": [
           {
             "name": "id",
-            "short": "Album ID",
+            "title": "Id",
             "type": "`$INTEGER`",
+            "short": "Album ID",
           },
           {
             "name": "title",
+            "title": "Title",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -141,10 +144,11 @@ def make_config():
               },
             },
             "short": "Album title",
-            "type": "`$STRING`",
           },
           {
             "name": "userId",
+            "title": "User Id",
+            "type": "`$INTEGER`",
             "op": {
               "create": {
                 "req": True,
@@ -160,7 +164,6 @@ def make_config():
               },
             },
             "short": "User ID who created the album",
-            "type": "`$INTEGER`",
           },
         ],
         "id": {
@@ -174,7 +177,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/albums",
@@ -183,14 +185,16 @@ def make_config():
                     "lit": "albums",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "albums",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "albums",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -199,16 +203,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/albums",
@@ -217,39 +211,34 @@ def make_config():
                     "lit": "albums",
                   },
                 ],
+                "parts": [
+                  "albums",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "albums",
-                ],
               },
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "user_id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/users/{id}/albums",
-                "rename": {
-                  "param": {
-                    "id": "user_id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "users",
@@ -261,20 +250,36 @@ def make_config():
                     "lit": "albums",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "user_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "users",
                   "{user_id}",
                   "albums",
                 ],
+                "rename": {
+                  "param": {
+                    "id": "user_id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "user_id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "user_id",
+                  ],
+                },
               },
             ],
           },
@@ -283,17 +288,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/albums/{id}",
@@ -305,19 +299,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "albums",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "albums",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -326,17 +332,6 @@ def make_config():
             "name": "patch",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/albums/{id}",
@@ -348,19 +343,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "albums",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "albums",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -369,17 +376,6 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/albums/{id}",
@@ -391,19 +387,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "albums",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "albums",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -412,17 +420,6 @@ def make_config():
             "name": "update",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PUT",
                 "orig": "/albums/{id}",
@@ -434,19 +431,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "albums",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "albums",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -454,7 +463,7 @@ def make_config():
         "relations": {
           "ancestors": [
             [
-              "user",
+              "$.main.kit.entity.user",
             ],
           ],
         },
@@ -463,6 +472,8 @@ def make_config():
         "fields": [
           {
             "name": "body",
+            "title": "Body",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -478,11 +489,11 @@ def make_config():
               },
             },
             "short": "Comment content",
-            "type": "`$STRING`",
           },
           {
-            "format": "email",
             "name": "email",
+            "title": "Email",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -498,15 +509,18 @@ def make_config():
               },
             },
             "short": "Email of the commenter",
-            "type": "`$STRING`",
+            "format": "email",
           },
           {
             "name": "id",
-            "short": "Comment ID",
+            "title": "Id",
             "type": "`$INTEGER`",
+            "short": "Comment ID",
           },
           {
             "name": "name",
+            "title": "Name",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -522,10 +536,11 @@ def make_config():
               },
             },
             "short": "Comment name/title",
-            "type": "`$STRING`",
           },
           {
             "name": "postId",
+            "title": "Post Id",
+            "type": "`$INTEGER`",
             "op": {
               "create": {
                 "req": True,
@@ -541,7 +556,6 @@ def make_config():
               },
             },
             "short": "Post ID the comment belongs to",
-            "type": "`$INTEGER`",
           },
         ],
         "id": {
@@ -555,7 +569,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/comments",
@@ -564,14 +577,16 @@ def make_config():
                     "lit": "comments",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "comments",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "comments",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -580,16 +595,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "post_id",
-                      "orig": "post_id",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/comments",
@@ -598,39 +603,34 @@ def make_config():
                     "lit": "comments",
                   },
                 ],
+                "parts": [
+                  "comments",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "post_id",
+                      "orig": "post_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "post_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "comments",
-                ],
               },
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "post_id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/posts/{id}/comments",
-                "rename": {
-                  "param": {
-                    "id": "post_id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "posts",
@@ -642,20 +642,36 @@ def make_config():
                     "lit": "comments",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "post_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "posts",
                   "{post_id}",
                   "comments",
                 ],
+                "rename": {
+                  "param": {
+                    "id": "post_id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "post_id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "post_id",
+                  ],
+                },
               },
             ],
           },
@@ -664,17 +680,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/comments/{id}",
@@ -686,19 +691,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "comments",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "comments",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -707,17 +724,6 @@ def make_config():
             "name": "patch",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/comments/{id}",
@@ -729,19 +735,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "comments",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "comments",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -750,17 +768,6 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/comments/{id}",
@@ -772,19 +779,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "comments",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "comments",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -793,17 +812,6 @@ def make_config():
             "name": "update",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PUT",
                 "orig": "/comments/{id}",
@@ -815,19 +823,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "comments",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "comments",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -835,7 +855,7 @@ def make_config():
         "relations": {
           "ancestors": [
             [
-              "post",
+              "$.main.kit.entity.post",
             ],
           ],
         },
@@ -844,6 +864,8 @@ def make_config():
         "fields": [
           {
             "name": "albumId",
+            "title": "Album Id",
+            "type": "`$INTEGER`",
             "op": {
               "create": {
                 "req": True,
@@ -859,16 +881,17 @@ def make_config():
               },
             },
             "short": "Album ID the photo belongs to",
-            "type": "`$INTEGER`",
           },
           {
             "name": "id",
-            "short": "Photo ID",
+            "title": "Id",
             "type": "`$INTEGER`",
+            "short": "Photo ID",
           },
           {
-            "format": "uri",
             "name": "thumbnailUrl",
+            "title": "Thumbnail Url",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -884,10 +907,12 @@ def make_config():
               },
             },
             "short": "Photo thumbnail URL",
-            "type": "`$STRING`",
+            "format": "uri",
           },
           {
             "name": "title",
+            "title": "Title",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -903,11 +928,11 @@ def make_config():
               },
             },
             "short": "Photo title",
-            "type": "`$STRING`",
           },
           {
-            "format": "uri",
             "name": "url",
+            "title": "Url",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -923,7 +948,7 @@ def make_config():
               },
             },
             "short": "Photo URL",
-            "type": "`$STRING`",
+            "format": "uri",
           },
         ],
         "id": {
@@ -937,7 +962,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/photos",
@@ -946,14 +970,16 @@ def make_config():
                     "lit": "photos",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "photos",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "photos",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -962,25 +988,9 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "album_id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/albums/{id}/photos",
-                "rename": {
-                  "param": {
-                    "id": "album_id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "albums",
@@ -992,32 +1002,38 @@ def make_config():
                     "lit": "photos",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "album_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "albums",
                   "{album_id}",
                   "photos",
                 ],
-              },
-              {
+                "rename": {
+                  "param": {
+                    "id": "album_id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
                 "args": {
-                  "query": [
+                  "params": [
                     {
-                      "kind": "query",
                       "name": "album_id",
-                      "orig": "album_id",
+                      "orig": "id",
                       "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
                     },
                   ],
                 },
+                "select": {
+                  "exist": [
+                    "album_id",
+                  ],
+                },
+              },
+              {
                 "kind": "http",
                 "method": "GET",
                 "orig": "/photos",
@@ -1026,18 +1042,29 @@ def make_config():
                     "lit": "photos",
                   },
                 ],
+                "parts": [
+                  "photos",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "album_id",
+                      "orig": "album_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "album_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "photos",
-                ],
               },
             ],
           },
@@ -1046,17 +1073,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/photos/{id}",
@@ -1068,19 +1084,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "photos",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "photos",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1089,17 +1117,6 @@ def make_config():
             "name": "patch",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/photos/{id}",
@@ -1111,19 +1128,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "photos",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "photos",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1132,17 +1161,6 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/photos/{id}",
@@ -1154,19 +1172,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "photos",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "photos",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1175,17 +1205,6 @@ def make_config():
             "name": "update",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PUT",
                 "orig": "/photos/{id}",
@@ -1197,19 +1216,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "photos",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "photos",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1217,7 +1248,7 @@ def make_config():
         "relations": {
           "ancestors": [
             [
-              "album",
+              "$.main.kit.entity.album",
             ],
           ],
         },
@@ -1226,6 +1257,8 @@ def make_config():
         "fields": [
           {
             "name": "body",
+            "title": "Body",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -1241,15 +1274,17 @@ def make_config():
               },
             },
             "short": "Post content",
-            "type": "`$STRING`",
           },
           {
             "name": "id",
-            "short": "Post ID",
+            "title": "Id",
             "type": "`$INTEGER`",
+            "short": "Post ID",
           },
           {
             "name": "title",
+            "title": "Title",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -1265,10 +1300,11 @@ def make_config():
               },
             },
             "short": "Post title",
-            "type": "`$STRING`",
           },
           {
             "name": "userId",
+            "title": "User Id",
+            "type": "`$INTEGER`",
             "op": {
               "create": {
                 "req": True,
@@ -1284,7 +1320,6 @@ def make_config():
               },
             },
             "short": "User ID who created the post",
-            "type": "`$INTEGER`",
           },
         ],
         "id": {
@@ -1298,7 +1333,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/posts",
@@ -1307,14 +1341,16 @@ def make_config():
                     "lit": "posts",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "posts",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "posts",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -1323,16 +1359,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/posts",
@@ -1341,39 +1367,34 @@ def make_config():
                     "lit": "posts",
                   },
                 ],
+                "parts": [
+                  "posts",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "posts",
-                ],
               },
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "user_id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/users/{id}/posts",
-                "rename": {
-                  "param": {
-                    "id": "user_id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "users",
@@ -1385,20 +1406,36 @@ def make_config():
                     "lit": "posts",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "user_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "users",
                   "{user_id}",
                   "posts",
                 ],
+                "rename": {
+                  "param": {
+                    "id": "user_id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "user_id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "user_id",
+                  ],
+                },
               },
             ],
           },
@@ -1407,17 +1444,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/posts/{id}",
@@ -1429,19 +1455,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "posts",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "posts",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1450,17 +1488,6 @@ def make_config():
             "name": "patch",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/posts/{id}",
@@ -1472,19 +1499,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "posts",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "posts",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1493,17 +1532,6 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/posts/{id}",
@@ -1515,19 +1543,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "posts",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "posts",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1536,17 +1576,6 @@ def make_config():
             "name": "update",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PUT",
                 "orig": "/posts/{id}",
@@ -1558,19 +1587,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "posts",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "posts",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1578,7 +1619,7 @@ def make_config():
         "relations": {
           "ancestors": [
             [
-              "user",
+              "$.main.kit.entity.user",
             ],
           ],
         },
@@ -1587,6 +1628,8 @@ def make_config():
         "fields": [
           {
             "name": "completed",
+            "title": "Completed",
+            "type": "`$BOOLEAN`",
             "op": {
               "create": {
                 "req": True,
@@ -1602,15 +1645,17 @@ def make_config():
               },
             },
             "short": "Todo completion status",
-            "type": "`$BOOLEAN`",
           },
           {
             "name": "id",
-            "short": "Todo ID",
+            "title": "Id",
             "type": "`$INTEGER`",
+            "short": "Todo ID",
           },
           {
             "name": "title",
+            "title": "Title",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -1626,10 +1671,11 @@ def make_config():
               },
             },
             "short": "Todo title",
-            "type": "`$STRING`",
           },
           {
             "name": "userId",
+            "title": "User Id",
+            "type": "`$INTEGER`",
             "op": {
               "create": {
                 "req": True,
@@ -1645,7 +1691,6 @@ def make_config():
               },
             },
             "short": "User ID who created the todo",
-            "type": "`$INTEGER`",
           },
         ],
         "id": {
@@ -1659,7 +1704,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/todos",
@@ -1668,14 +1712,16 @@ def make_config():
                     "lit": "todos",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "todos",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "todos",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -1684,16 +1730,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/todos",
@@ -1702,39 +1738,34 @@ def make_config():
                     "lit": "todos",
                   },
                 ],
+                "parts": [
+                  "todos",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "todos",
-                ],
               },
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "user_id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/users/{id}/todos",
-                "rename": {
-                  "param": {
-                    "id": "user_id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "users",
@@ -1746,20 +1777,36 @@ def make_config():
                     "lit": "todos",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "user_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "users",
                   "{user_id}",
                   "todos",
                 ],
+                "rename": {
+                  "param": {
+                    "id": "user_id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "user_id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "user_id",
+                  ],
+                },
               },
             ],
           },
@@ -1768,17 +1815,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/todos/{id}",
@@ -1790,19 +1826,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "todos",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "todos",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1811,17 +1859,6 @@ def make_config():
             "name": "patch",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/todos/{id}",
@@ -1833,19 +1870,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "todos",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "todos",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1854,17 +1903,6 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/todos/{id}",
@@ -1876,19 +1914,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "todos",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "todos",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1897,17 +1947,6 @@ def make_config():
             "name": "update",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PUT",
                 "orig": "/todos/{id}",
@@ -1919,19 +1958,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "todos",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "todos",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1939,7 +1990,7 @@ def make_config():
         "relations": {
           "ancestors": [
             [
-              "user",
+              "$.main.kit.entity.user",
             ],
           ],
         },
@@ -1948,15 +1999,18 @@ def make_config():
         "fields": [
           {
             "name": "address",
+            "title": "Address",
             "type": "`$OBJECT`",
           },
           {
             "name": "company",
+            "title": "Company",
             "type": "`$OBJECT`",
           },
           {
-            "format": "email",
             "name": "email",
+            "title": "Email",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -1972,15 +2026,18 @@ def make_config():
               },
             },
             "short": "User email",
-            "type": "`$STRING`",
+            "format": "email",
           },
           {
             "name": "id",
-            "short": "User ID",
+            "title": "Id",
             "type": "`$INTEGER`",
+            "short": "User ID",
           },
           {
             "name": "name",
+            "title": "Name",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -1996,15 +2053,17 @@ def make_config():
               },
             },
             "short": "User full name",
-            "type": "`$STRING`",
           },
           {
             "name": "phone",
-            "short": "User phone number",
+            "title": "Phone",
             "type": "`$STRING`",
+            "short": "User phone number",
           },
           {
             "name": "username",
+            "title": "Username",
+            "type": "`$STRING`",
             "op": {
               "create": {
                 "req": True,
@@ -2020,12 +2079,12 @@ def make_config():
               },
             },
             "short": "Username",
-            "type": "`$STRING`",
           },
           {
             "name": "website",
-            "short": "User website",
+            "title": "Website",
             "type": "`$STRING`",
+            "short": "User website",
           },
         ],
         "id": {
@@ -2039,7 +2098,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/users",
@@ -2048,14 +2106,16 @@ def make_config():
                     "lit": "users",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "users",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "users",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -2064,7 +2124,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/users",
@@ -2073,14 +2132,16 @@ def make_config():
                     "lit": "users",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "users",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "users",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -2089,17 +2150,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/users/{id}",
@@ -2111,19 +2161,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "users",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "users",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -2132,17 +2194,6 @@ def make_config():
             "name": "patch",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/users/{id}",
@@ -2154,19 +2205,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "users",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "users",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -2175,17 +2238,6 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/users/{id}",
@@ -2197,19 +2249,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "users",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "users",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -2218,17 +2282,6 @@ def make_config():
             "name": "update",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PUT",
                 "orig": "/users/{id}",
@@ -2240,19 +2293,31 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "users",
+                  "{id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "users",
-                  "{id}",
-                ],
               },
             ],
           },

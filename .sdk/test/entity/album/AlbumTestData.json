@@ -32,368 +32,38 @@
   "requests": {
     "POST /albums": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "createAlbum",
-        "parameters": [],
-        "protocol": "http",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "title": {
-                    "description": "Album title",
-                    "type": "string"
-                  },
-                  "userId": {
-                    "description": "User ID who created the album",
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "userId",
-                  "title"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "id": {
-                      "description": "Album ID",
-                      "type": "integer"
-                    },
-                    "title": {
-                      "description": "Album title",
-                      "type": "string"
-                    },
-                    "userId": {
-                      "description": "User ID who created the album",
-                      "type": "integer"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Album created successfully"
-          }
-        },
-        "securitySource": "unspecified"
-      }
+      "version": 2,
+      "source": "openapi3"
     },
     "GET /albums": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "getAlbums",
-        "parameters": [
-          {
-            "description": "Filter albums by user ID",
-            "in": "query",
-            "name": "userId",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "protocol": "http",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "description": "Album ID",
-                        "type": "integer"
-                      },
-                      "title": {
-                        "description": "Album title",
-                        "type": "string"
-                      },
-                      "userId": {
-                        "description": "User ID who created the album",
-                        "type": "integer"
-                      }
-                    },
-                    "type": "object"
-                  },
-                  "type": "array"
-                }
-              }
-            },
-            "description": "Successful response"
-          }
-        },
-        "securitySource": "unspecified"
-      }
+      "version": 2,
+      "source": "openapi3"
     },
     "GET /users/{id}/albums": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "getUserAlbums",
-        "parameters": [
-          {
-            "description": "User ID",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "protocol": "http",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "properties": {
-                      "id": {
-                        "description": "Album ID",
-                        "type": "integer"
-                      },
-                      "title": {
-                        "description": "Album title",
-                        "type": "string"
-                      },
-                      "userId": {
-                        "description": "User ID who created the album",
-                        "type": "integer"
-                      }
-                    },
-                    "type": "object"
-                  },
-                  "type": "array"
-                }
-              }
-            },
-            "description": "Successful response"
-          }
-        },
-        "securitySource": "unspecified"
-      }
+      "version": 2,
+      "source": "openapi3"
     },
     "GET /albums/{id}": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "getAlbumById",
-        "parameters": [
-          {
-            "description": "Album ID",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "protocol": "http",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "id": {
-                      "description": "Album ID",
-                      "type": "integer"
-                    },
-                    "title": {
-                      "description": "Album title",
-                      "type": "string"
-                    },
-                    "userId": {
-                      "description": "User ID who created the album",
-                      "type": "integer"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Successful response"
-          },
-          "404": {
-            "description": "Album not found"
-          }
-        },
-        "securitySource": "unspecified"
-      }
+      "version": 2,
+      "source": "openapi3"
     },
     "PATCH /albums/{id}": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "patchAlbum",
-        "parameters": [
-          {
-            "description": "Album ID",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "protocol": "http",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "title": {
-                    "description": "Album title",
-                    "type": "string"
-                  },
-                  "userId": {
-                    "description": "User ID who created the album",
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "userId",
-                  "title"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "id": {
-                      "description": "Album ID",
-                      "type": "integer"
-                    },
-                    "title": {
-                      "description": "Album title",
-                      "type": "string"
-                    },
-                    "userId": {
-                      "description": "User ID who created the album",
-                      "type": "integer"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Album updated successfully"
-          }
-        },
-        "securitySource": "unspecified"
-      }
+      "version": 2,
+      "source": "openapi3"
     },
     "DELETE /albums/{id}": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "deleteAlbum",
-        "parameters": [
-          {
-            "description": "Album ID",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "protocol": "http",
-        "responses": {
-          "200": {
-            "description": "Album deleted successfully"
-          }
-        },
-        "securitySource": "unspecified"
-      }
+      "version": 2,
+      "source": "openapi3"
     },
     "PUT /albums/{id}": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "updateAlbum",
-        "parameters": [
-          {
-            "description": "Album ID",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "protocol": "http",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "title": {
-                    "description": "Album title",
-                    "type": "string"
-                  },
-                  "userId": {
-                    "description": "User ID who created the album",
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "userId",
-                  "title"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "id": {
-                      "description": "Album ID",
-                      "type": "integer"
-                    },
-                    "title": {
-                      "description": "Album title",
-                      "type": "string"
-                    },
-                    "userId": {
-                      "description": "User ID who created the album",
-                      "type": "integer"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Album updated successfully"
-          }
-        },
-        "securitySource": "unspecified"
-      }
+      "version": 2,
+      "source": "openapi3"
     }
   }
 }

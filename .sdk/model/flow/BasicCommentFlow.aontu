@@ -1,0 +1,112 @@
+# BasicCommentFlow
+
+main: kit: flow: BasicCommentFlow:
+{
+  entity: "comment",
+  kind: "basic",
+  name: "BasicCommentFlow",
+  step: [
+    {
+      i: {
+        ref: "comment_ref01"
+      }
+
+      m: {
+        post_id: "post01"
+      }
+
+      o: "create"
+    }
+
+    {
+      m: {
+        post_id: "post01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "comment_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "comment_ref01",
+        srcdatavar: "comment_ref01_data",
+        suffix: "_up0",
+        textfield: "body"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-comment_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "comment_ref01",
+        srcdatavar: "comment_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "comment01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-comment_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "comment_ref01",
+        suffix: "_rm0"
+      }
+
+      m: {
+        id: "comment01"
+      }
+
+      o: "remove"
+    }
+
+    {
+      i: {
+        suffix: "_rt0"
+      }
+
+      m: {
+        post_id: "post01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "comment_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCommentFlow"
+}

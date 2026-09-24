@@ -1,8 +1,0 @@
-# Flows
-
-@"./BasicAlbumFlow.aon"
-@"./BasicCommentFlow.aon"
-@"./BasicPhotoFlow.aon"
-@"./BasicPostFlow.aon"
-@"./BasicTodoFlow.aon"
-@"./BasicUserFlow.aon"
