@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 JsonplaceholderUtility::setRegistrar(function (JsonplaceholderUtility $u): void {
     $u->clean = [JsonplaceholderClean::class, 'call'];
+    $u->clean_add = [JsonplaceholderClean::class, 'add'];
+    $u->clean_explain = [JsonplaceholderDone::class, 'clean_explain'];
     $u->done = [JsonplaceholderDone::class, 'call'];
     $u->make_error = [JsonplaceholderMakeError::class, 'call'];
     $u->feature_add = [JsonplaceholderFeatureAdd::class, 'call'];

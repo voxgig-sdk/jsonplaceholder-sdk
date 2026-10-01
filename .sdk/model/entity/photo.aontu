@@ -189,7 +189,7 @@ main: kit: entity: photo: {
               {
                 k: "query"
                 n: "album_id"
-                or: "album_id"
+                or: "albumId"
                 r: false
                 t: "`$INTEGER`"
               }

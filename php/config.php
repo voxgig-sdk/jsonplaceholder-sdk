@@ -220,7 +220,7 @@ class JsonplaceholderConfig
                     'query' => [
                       [
                         'name' => 'user_id',
-                        'orig' => 'user_id',
+                        'orig' => 'userId',
                         'type' => '`$INTEGER`',
                         'kind' => 'query',
                       ],
@@ -612,7 +612,7 @@ class JsonplaceholderConfig
                     'query' => [
                       [
                         'name' => 'post_id',
-                        'orig' => 'post_id',
+                        'orig' => 'postId',
                         'type' => '`$INTEGER`',
                         'kind' => 'query',
                       ],
@@ -1051,7 +1051,7 @@ class JsonplaceholderConfig
                     'query' => [
                       [
                         'name' => 'album_id',
-                        'orig' => 'album_id',
+                        'orig' => 'albumId',
                         'type' => '`$INTEGER`',
                         'kind' => 'query',
                       ],
@@ -1376,7 +1376,7 @@ class JsonplaceholderConfig
                     'query' => [
                       [
                         'name' => 'user_id',
-                        'orig' => 'user_id',
+                        'orig' => 'userId',
                         'type' => '`$INTEGER`',
                         'kind' => 'query',
                       ],
@@ -1747,7 +1747,7 @@ class JsonplaceholderConfig
                     'query' => [
                       [
                         'name' => 'user_id',
-                        'orig' => 'user_id',
+                        'orig' => 'userId',
                         'type' => '`$INTEGER`',
                         'kind' => 'query',
                       ],

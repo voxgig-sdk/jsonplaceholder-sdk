@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 JsonplaceholderUtility.registrar = ->(u) {
   u.clean = JsonplaceholderUtilities::Clean
+  u.clean_add = JsonplaceholderUtilities::CleanAdd
+  u.clean_explain = JsonplaceholderUtilities::CleanExplain
   u.done = JsonplaceholderUtilities::Done
   u.make_error = JsonplaceholderUtilities::MakeError
   u.feature_add = JsonplaceholderUtilities::FeatureAdd

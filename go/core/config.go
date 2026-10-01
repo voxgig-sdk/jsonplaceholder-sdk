@@ -198,7 +198,7 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "user_id",
-											"orig": "user_id",
+											"orig": "userId",
 											"type": "`$INTEGER`",
 											"kind": "query",
 										},
@@ -590,7 +590,7 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "post_id",
-											"orig": "post_id",
+											"orig": "postId",
 											"type": "`$INTEGER`",
 											"kind": "query",
 										},
@@ -1029,7 +1029,7 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "album_id",
-											"orig": "album_id",
+											"orig": "albumId",
 											"type": "`$INTEGER`",
 											"kind": "query",
 										},
@@ -1354,7 +1354,7 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "user_id",
-											"orig": "user_id",
+											"orig": "userId",
 											"type": "`$INTEGER`",
 											"kind": "query",
 										},
@@ -1725,7 +1725,7 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "user_id",
-											"orig": "user_id",
+											"orig": "userId",
 											"type": "`$INTEGER`",
 											"kind": "query",
 										},

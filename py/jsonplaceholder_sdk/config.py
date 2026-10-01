@@ -223,7 +223,7 @@ def make_config():
                   "query": [
                     {
                       "name": "user_id",
-                      "orig": "user_id",
+                      "orig": "userId",
                       "type": "`$INTEGER`",
                       "kind": "query",
                     },
@@ -615,7 +615,7 @@ def make_config():
                   "query": [
                     {
                       "name": "post_id",
-                      "orig": "post_id",
+                      "orig": "postId",
                       "type": "`$INTEGER`",
                       "kind": "query",
                     },
@@ -1054,7 +1054,7 @@ def make_config():
                   "query": [
                     {
                       "name": "album_id",
-                      "orig": "album_id",
+                      "orig": "albumId",
                       "type": "`$INTEGER`",
                       "kind": "query",
                     },
@@ -1379,7 +1379,7 @@ def make_config():
                   "query": [
                     {
                       "name": "user_id",
-                      "orig": "user_id",
+                      "orig": "userId",
                       "type": "`$INTEGER`",
                       "kind": "query",
                     },
@@ -1750,7 +1750,7 @@ def make_config():
                   "query": [
                     {
                       "name": "user_id",
-                      "orig": "user_id",
+                      "orig": "userId",
                       "type": "`$INTEGER`",
                       "kind": "query",
                     },

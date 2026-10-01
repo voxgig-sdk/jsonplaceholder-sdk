@@ -214,7 +214,7 @@ class Config {
                                 "query": [
                                     {
                                         "name": "user_id",
-                                        "orig": "user_id",
+                                        "orig": "userId",
                                         "type": "`$INTEGER`",
                                         "kind": "query"
                                     }
@@ -606,7 +606,7 @@ class Config {
                                 "query": [
                                     {
                                         "name": "post_id",
-                                        "orig": "post_id",
+                                        "orig": "postId",
                                         "type": "`$INTEGER`",
                                         "kind": "query"
                                     }
@@ -1045,7 +1045,7 @@ class Config {
                                 "query": [
                                     {
                                         "name": "album_id",
-                                        "orig": "album_id",
+                                        "orig": "albumId",
                                         "type": "`$INTEGER`",
                                         "kind": "query"
                                     }
@@ -1370,7 +1370,7 @@ class Config {
                                 "query": [
                                     {
                                         "name": "user_id",
-                                        "orig": "user_id",
+                                        "orig": "userId",
                                         "type": "`$INTEGER`",
                                         "kind": "query"
                                     }
@@ -1741,7 +1741,7 @@ class Config {
                                 "query": [
                                     {
                                         "name": "user_id",
-                                        "orig": "user_id",
+                                        "orig": "userId",
                                         "type": "`$INTEGER`",
                                         "kind": "query"
                                     }

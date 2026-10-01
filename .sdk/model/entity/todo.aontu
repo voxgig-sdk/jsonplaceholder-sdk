@@ -121,7 +121,7 @@ main: kit: entity: todo: {
               {
                 k: "query"
                 n: "user_id"
-                or: "user_id"
+                or: "userId"
                 r: false
                 t: "`$INTEGER`"
               }

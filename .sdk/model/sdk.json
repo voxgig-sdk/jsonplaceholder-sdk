@@ -202,7 +202,7 @@
                         "a": true,
                         "k": "query",
                         "n": "user_id",
-                        "or": "user_id",
+                        "or": "userId",
                         "r": false,
                         "t": "`$INTEGER`"
                       }
@@ -630,7 +630,7 @@
                         "a": true,
                         "k": "query",
                         "n": "post_id",
-                        "or": "post_id",
+                        "or": "postId",
                         "r": false,
                         "t": "`$INTEGER`"
                       }
@@ -1107,7 +1107,7 @@
                         "a": true,
                         "k": "query",
                         "n": "album_id",
-                        "or": "album_id",
+                        "or": "albumId",
                         "r": false,
                         "t": "`$INTEGER`"
                       }
@@ -1464,7 +1464,7 @@
                         "a": true,
                         "k": "query",
                         "n": "user_id",
-                        "or": "user_id",
+                        "or": "userId",
                         "r": false,
                         "t": "`$INTEGER`"
                       }
@@ -1869,7 +1869,7 @@
                         "a": true,
                         "k": "query",
                         "n": "user_id",
-                        "or": "user_id",
+                        "or": "userId",
                         "r": false,
                         "t": "`$INTEGER`"
                       }
@@ -3659,7 +3659,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {
