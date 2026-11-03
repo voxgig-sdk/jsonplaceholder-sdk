@@ -19,10 +19,6 @@ main: kit: flow: BasicCommentFlow:
     }
 
     {
-      m: {
-        post_id: "post01"
-      }
-
       o: "list",
       v: [
         {
@@ -91,10 +87,6 @@ main: kit: flow: BasicCommentFlow:
     {
       i: {
         suffix: "_rt0"
-      }
-
-      m: {
-        post_id: "post01"
       }
 
       o: "list",

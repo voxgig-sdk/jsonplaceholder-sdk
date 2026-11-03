@@ -9,8 +9,39 @@ require_once __DIR__ . '/Runner.php';
 use PHPUnit\Framework\TestCase;
 use Voxgig\Struct\Struct as Vs;
 
+class PhotoEntityTestFailHook extends JsonplaceholderBaseFeature
+{
+    public int $unexpected = 0;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->name = 'failhook';
+    }
+
+    public function init(JsonplaceholderContext $ctx, array $options): void
+    {
+    }
+
+    public function PreSpec(JsonplaceholderContext $ctx): void
+    {
+        throw new \RuntimeException('photo hook failed');
+    }
+
+    public function PreUnexpected(JsonplaceholderContext $ctx): void
+    {
+        $this->unexpected++;
+    }
+}
+
 class PhotoEntityTest extends TestCase
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const LIVE_STRICT = true;
+
     public function test_create_instance(): void
     {
         $testsdk = JsonplaceholderSDK::test(null, null);
@@ -57,6 +88,107 @@ class PhotoEntityTest extends TestCase
         }
     }
 
+    public function test_stream_error(): void
+    {
+        $offline = ["net" => ["offline" => true]];
+        $streamerr = null;
+        try {
+            iterator_to_array(JsonplaceholderSDK::test($offline, null)->Photo(null)
+                ->stream("list", null, null), false);
+        } catch (\Throwable $e) {
+            $streamerr = $e;
+        }
+        $this->assertNotNull($streamerr, 'the stream should raise the transport failure');
+        $this->assertStringContainsString('offline', $streamerr->getMessage());
+
+        iterator_to_array(JsonplaceholderSDK::test($offline, null)->Photo(null)
+            ->stream("list", null, ["ctrl" => ["throw" => false]]), false);
+
+        $cfg = JsonplaceholderConfig::shared_config();
+        if (isset($cfg["feature"]["rbac"])) {
+            $denied = JsonplaceholderSDK::test(null, ["feature" => ["rbac" => ["active" => true, "deny" => true]]]);
+            $denyerr = null;
+            try {
+                iterator_to_array($denied->Photo(null)->stream("list", null, null), false);
+            } catch (\Throwable $e) {
+                $denyerr = $e;
+            }
+            $this->assertSame('rbac_denied', $denyerr->sdk_code ?? null);
+        }
+    }
+
+    public function test_stream_ctrl(): void
+    {
+        $ctrl = ["explain" => []];
+        iterator_to_array(JsonplaceholderSDK::test(null, null)->Photo(null)
+            ->stream("list", null, ["ctrl" => $ctrl]), false);
+        $this->assertSame(["explain"], array_keys($ctrl));
+    }
+
+    public function test_unexpected(): void
+    {
+        $hook = new PhotoEntityTestFailHook();
+        $client = new JsonplaceholderSDK(["feature" => ["test" => ["active" => true]], "extend" => [$hook]]);
+
+        $err = null;
+        try {
+            $client->Photo(null)->list(null, null);
+        } catch (\Throwable $e) {
+            $err = $e;
+        }
+        $this->assertNotNull($err, 'the throwing hook should fail the operation');
+        $this->assertStringContainsString('hook failed', $err->getMessage());
+        $this->assertGreaterThan(0, $hook->unexpected, 'PreUnexpected did not fire');
+
+        $fired = $hook->unexpected;
+        $this->assertNull($client->Photo(null)->list(null, ["throw" => false]));
+        $this->assertGreaterThan($fired, $hook->unexpected, 'PreUnexpected did not fire');
+    }
+
+    public function test_cost_commits_a_throwing_transport(): void
+    {
+        $cfg = JsonplaceholderConfig::shared_config();
+        if (!isset($cfg["feature"]["cost"])) {
+            $this->markTestSkipped('feature not present in this SDK: cost');
+        }
+        $client = new JsonplaceholderSDK([
+            "test" => ["active" => true],
+            "feature" => ["cost" => ["active" => true, "unit" => 1]],
+            "utility" => ["fetcher" => function ($ctx, $url, $fetchdef) {
+                throw new \RuntimeException('photo transport failed');
+            }],
+        ]);
+
+        $err = null;
+        try {
+            $client->Photo(null)->list(null, null);
+        } catch (\Throwable $e) {
+            $err = $e;
+        }
+        $this->assertInstanceOf(JsonplaceholderError::class, $err);
+        $this->assertStringContainsString('transport failed', $err->getMessage());
+
+        $client->Photo(null)->list(null, ["throw" => false]);
+        $this->assertSame(2, $client->_cost["total"]["calls"]);
+        $this->assertSame(2, $client->_cost["total"]["attempts"]);
+    }
+
+    public function test_validate(): void
+    {
+        $cfg = JsonplaceholderConfig::shared_config();
+        if (!isset($cfg["feature"]["validate"])) {
+            $this->markTestSkipped('feature not present in this SDK: validate');
+        }
+        $client = JsonplaceholderSDK::test(null, ["feature" => ["validate" => ["active" => true]]]);
+        $err = null;
+        try {
+            $client->Photo(null)->list(["album_id" => 'x'], null);
+        } catch (\Throwable $e) {
+            $err = $e;
+        }
+        $this->assertSame('validate_failed', $err->sdk_code ?? null);
+    }
+
     public function test_basic_flow(): void
     {
         $setup = photo_basic_setup(null);
@@ -69,11 +201,53 @@ class PhotoEntityTest extends TestCase
                 return;
             }
         }
-        // The basic flow consumes synthetic IDs from the fixture. In live mode
-        // without an *_ENTID env override, those IDs hit the live API and 4xx.
-        if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set JSONPLACEHOLDER_TEST_PHOTO_ENTID JSON to run live");
+        if (!empty($setup["live"]) && getenv('VOXGIG_GETONLY_GUARD') === "TRUE") {
+            fwrite(STDOUT, 'LIVE STEP {"id":"photo.create.0","state":"excluded","attempted":false,"reason":"GET-only live run: needs POST /photos"}' . "\n");
+            fwrite(STDOUT, 'LIVE STEP {"id":"photo.update.2","state":"excluded","attempted":false,"reason":"GET-only live run: needs PUT /photos/{id}"}' . "\n");
+            fwrite(STDOUT, 'LIVE STEP {"id":"photo.remove.4","state":"excluded","attempted":false,"reason":"GET-only live run: needs DELETE /photos/{id}"}' . "\n");
+            fwrite(STDOUT, 'LIVE STEP {"id":"photo.list.5","state":"excluded","attempted":false,"reason":"GET-only live run: checks a removal this run does not make"}' . "\n");
+        $client = $setup["client"];
+        if (!empty($setup["live"])) {
+            Runner::live_existing($setup, self::LIVE_STRICT, "photo",
+                fn() => $client->Photo(null)->list(["album_id" => 1], null));
+        }
+
+        // Bootstrap entity data from existing test data.
+        $photo_ref01_data_raw = Vs::items(Helpers::to_map(
+            Vs::getpath($setup["data"], "existing.photo")));
+        $photo_ref01_data = null;
+        if (count($photo_ref01_data_raw) > 0) {
+            $photo_ref01_data = Helpers::to_map($photo_ref01_data_raw[0][1]);
+        }
+
+        // LIST
+        $photo_ref01_ent = $client->Photo(null);
+        $photo_ref01_match = [];
+        if (!empty($setup["live"])) {
+            $photo_ref01_match["album_id"] = 1;
+        }
+
+        $photo_ref01_list_result = $photo_ref01_ent->list($photo_ref01_match, null);
+        $this->assertIsArray($photo_ref01_list_result);
+
+        // LOAD
+        $photo_ref01_match_dt0 = [
+            "id" => $photo_ref01_data["id"],
+        ];
+        $photo_ref01_data_dt0_loaded = $photo_ref01_ent->load($photo_ref01_match_dt0, null);
+        $photo_ref01_data_dt0_load_result = Helpers::to_map(is_object($photo_ref01_data_dt0_loaded) && method_exists($photo_ref01_data_dt0_loaded, 'data_get') ? $photo_ref01_data_dt0_loaded->data_get() : $photo_ref01_data_dt0_loaded);
+        $this->assertNotNull($photo_ref01_data_dt0_load_result);
+        $this->assertEquals($photo_ref01_data_dt0_load_result["id"], $photo_ref01_data["id"]);
+
             return;
+        }
+
+        if (!empty($setup["live"])) {
+            foreach (["album01"] as $_liveKey) {
+                if (!empty($setup["synthetic_only"]) || null === ($setup["idmap"][$_liveKey] ?? null)) {
+                    Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: needs " . $_liveKey . " via JSONPLACEHOLDER_TEST_PHOTO_ENTID");
+                }
+            }
         }
         $client = $setup["client"];
 
@@ -90,6 +264,9 @@ class PhotoEntityTest extends TestCase
 
         // LIST
         $photo_ref01_match = [];
+        if (!empty($setup["live"])) {
+            $photo_ref01_match["album_id"] = 1;
+        }
 
         $photo_ref01_list_result = $photo_ref01_ent->list($photo_ref01_match, null);
         $this->assertIsArray($photo_ref01_list_result);
@@ -131,6 +308,9 @@ class PhotoEntityTest extends TestCase
 
         // LIST
         $photo_ref01_match_rt0 = [];
+        if (!empty($setup["live"])) {
+            $photo_ref01_match_rt0["album_id"] = 1;
+        }
 
         $photo_ref01_list_rt0_result = $photo_ref01_ent->list($photo_ref01_match_rt0, null);
         $this->assertIsArray($photo_ref01_list_rt0_result);
@@ -162,9 +342,8 @@ function photo_basic_setup($extra)
         $idmap[$k] = strtoupper($k);
     }
 
-    // Detect ENTID env override before envOverride consumes it. When live
-    // mode is on without a real override, the basic test runs against synthetic
-    // IDs from the fixture and 4xx's. Surface this so the test can skip.
+    // Whether *_ENTID supplied the idmap, read before env_override consumes
+    // it: without it, the ids a live flow binds are the fixture's synthetic ones.
     $entid_env_raw = getenv("JSONPLACEHOLDER_TEST_PHOTO_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 

@@ -17,7 +17,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 201,
     "sample": {
@@ -30,8 +35,98 @@ const PLAN: any[] = [
   {
     "entity": "album",
     "accessor": "Album",
+    "op": "list",
+    "method": "GET",
+    "path": "/users/{id}/albums",
+    "args": [
+      {
+        "name": "user_id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "userId": 1,
+        "title": "x"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "album",
+    "accessor": "Album",
+    "op": "list",
+    "method": "GET",
+    "path": "/albums",
+    "args": [],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [
+      "userId"
+    ],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "userId": 1,
+        "title": "x"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "album",
+    "accessor": "Album",
     "op": "load",
     "method": "GET",
+    "path": "/albums/{id}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "id": 1,
+      "userId": 1,
+      "title": "x"
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "album",
+    "accessor": "Album",
+    "op": "patch",
+    "method": "PATCH",
     "path": "/albums/{id}",
     "args": [
       {
@@ -42,7 +137,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -67,7 +167,9 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": null,
@@ -88,7 +190,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -107,7 +214,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 201,
     "sample": {
@@ -122,8 +234,104 @@ const PLAN: any[] = [
   {
     "entity": "comment",
     "accessor": "Comment",
+    "op": "list",
+    "method": "GET",
+    "path": "/posts/{id}/comments",
+    "args": [
+      {
+        "name": "post_id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "postId": 1,
+        "name": "x",
+        "email": "x",
+        "body": "x"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "comment",
+    "accessor": "Comment",
+    "op": "list",
+    "method": "GET",
+    "path": "/comments",
+    "args": [],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [
+      "postId"
+    ],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "postId": 1,
+        "name": "x",
+        "email": "x",
+        "body": "x"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "comment",
+    "accessor": "Comment",
     "op": "load",
     "method": "GET",
+    "path": "/comments/{id}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "id": 1,
+      "postId": 1,
+      "name": "x",
+      "email": "x",
+      "body": "x"
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "comment",
+    "accessor": "Comment",
+    "op": "patch",
+    "method": "PATCH",
     "path": "/comments/{id}",
     "args": [
       {
@@ -134,7 +342,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -161,7 +374,9 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": null,
@@ -182,7 +397,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -203,7 +423,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 201,
     "sample": {
@@ -218,8 +443,104 @@ const PLAN: any[] = [
   {
     "entity": "photo",
     "accessor": "Photo",
+    "op": "list",
+    "method": "GET",
+    "path": "/albums/{id}/photos",
+    "args": [
+      {
+        "name": "album_id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "albumId": 1,
+        "title": "x",
+        "url": "x",
+        "thumbnailUrl": "x"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "photo",
+    "accessor": "Photo",
+    "op": "list",
+    "method": "GET",
+    "path": "/photos",
+    "args": [],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [
+      "albumId"
+    ],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "albumId": 1,
+        "title": "x",
+        "url": "x",
+        "thumbnailUrl": "x"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "photo",
+    "accessor": "Photo",
     "op": "load",
     "method": "GET",
+    "path": "/photos/{id}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "id": 1,
+      "albumId": 1,
+      "title": "x",
+      "url": "x",
+      "thumbnailUrl": "x"
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "photo",
+    "accessor": "Photo",
+    "op": "patch",
+    "method": "PATCH",
     "path": "/photos/{id}",
     "args": [
       {
@@ -230,7 +551,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -257,7 +583,9 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": null,
@@ -278,7 +606,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -299,7 +632,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 201,
     "sample": {
@@ -313,8 +651,101 @@ const PLAN: any[] = [
   {
     "entity": "post",
     "accessor": "Post",
+    "op": "list",
+    "method": "GET",
+    "path": "/users/{id}/posts",
+    "args": [
+      {
+        "name": "user_id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "userId": 1,
+        "title": "x",
+        "body": "x"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "post",
+    "accessor": "Post",
+    "op": "list",
+    "method": "GET",
+    "path": "/posts",
+    "args": [],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [
+      "userId"
+    ],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "userId": 1,
+        "title": "x",
+        "body": "x"
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "post",
+    "accessor": "Post",
     "op": "load",
     "method": "GET",
+    "path": "/posts/{id}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "id": 1,
+      "userId": 1,
+      "title": "x",
+      "body": "x"
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "post",
+    "accessor": "Post",
+    "op": "patch",
+    "method": "PATCH",
     "path": "/posts/{id}",
     "args": [
       {
@@ -325,7 +756,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -351,7 +787,9 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": null,
@@ -372,7 +810,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -392,7 +835,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 201,
     "sample": {
@@ -406,8 +854,101 @@ const PLAN: any[] = [
   {
     "entity": "todo",
     "accessor": "Todo",
+    "op": "list",
+    "method": "GET",
+    "path": "/users/{id}/todos",
+    "args": [
+      {
+        "name": "user_id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "userId": 1,
+        "title": "x",
+        "completed": true
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "todo",
+    "accessor": "Todo",
+    "op": "list",
+    "method": "GET",
+    "path": "/todos",
+    "args": [],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [
+      "userId"
+    ],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": [
+      {
+        "id": 1,
+        "userId": 1,
+        "title": "x",
+        "completed": true
+      }
+    ],
+    "idField": "id"
+  },
+  {
+    "entity": "todo",
+    "accessor": "Todo",
     "op": "load",
     "method": "GET",
+    "path": "/todos/{id}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "id": 1,
+      "userId": 1,
+      "title": "x",
+      "completed": true
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "todo",
+    "accessor": "Todo",
+    "op": "patch",
+    "method": "PATCH",
     "path": "/todos/{id}",
     "args": [
       {
@@ -418,7 +959,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -444,7 +990,9 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": null,
@@ -465,7 +1013,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -485,7 +1038,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 201,
     "sample": {
@@ -522,7 +1080,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": [
@@ -562,12 +1125,65 @@ const PLAN: any[] = [
       {
         "name": "id",
         "wire": "id",
+        "value": 1
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "id": 1,
+      "name": "x",
+      "username": "x",
+      "email": "x",
+      "address": {
+        "street": "x",
+        "suite": "x",
+        "city": "x",
+        "zipcode": "x",
+        "geo": {
+          "lat": "x",
+          "lng": "x"
+        }
+      },
+      "phone": "x",
+      "website": "x",
+      "company": {
+        "name": "x",
+        "catchPhrase": "x",
+        "bs": "x"
+      }
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "user",
+    "accessor": "User",
+    "op": "patch",
+    "method": "PATCH",
+    "path": "/users/{id}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "id",
         "value": "p1"
       }
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {
@@ -610,7 +1226,9 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": null,
@@ -631,7 +1249,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": null,
     "status": 200,
     "sample": {

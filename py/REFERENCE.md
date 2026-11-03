@@ -113,52 +113,65 @@ album = client.Album()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `id` | - | - | - | - | - |
-| `title` | - | - | Yes | Yes | - |
-| `userId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | - | - | - | - | - | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AlbumEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Album().create({
+    "title": "example_title",  # str
+    "userId": 1,  # int
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[AlbumEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Album().list()
 for album in results:
-    print(album)
+    print(album.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> AlbumEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Album().load({"id": 1})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `patch(reqdata, ctrl=None) -> AlbumEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and raises on error.
+
+```python
+result = client.Album().patch({
+    "id": 1,
+    # Only the fields to change
+})
+```
+
+#### `remove(reqmatch, ctrl=None) -> AlbumEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Album().remove({"id": 1})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> AlbumEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Album().update({
@@ -214,54 +227,69 @@ comment = client.Comment()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `body` | - | - | Yes | Yes | - |
-| `email` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `name` | - | - | Yes | Yes | - |
-| `postId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `body` | - | - | Yes | Yes | Yes | - |
+| `email` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `name` | - | - | Yes | Yes | Yes | - |
+| `postId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> CommentEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Comment().create({
+    "body": "example_body",  # str
+    "email": "example_email",  # str
+    "name": "example_name",  # str
+    "postId": 1,  # int
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[CommentEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Comment().list()
 for comment in results:
-    print(comment)
+    print(comment.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> CommentEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Comment().load({"id": 1})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `patch(reqdata, ctrl=None) -> CommentEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and raises on error.
+
+```python
+result = client.Comment().patch({
+    "id": 1,
+    # Only the fields to change
+})
+```
+
+#### `remove(reqmatch, ctrl=None) -> CommentEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Comment().remove({"id": 1})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> CommentEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Comment().update({
@@ -317,54 +345,69 @@ photo = client.Photo()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `albumId` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `thumbnailUrl` | - | - | Yes | Yes | - |
-| `title` | - | - | Yes | Yes | - |
-| `url` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `albumId` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `thumbnailUrl` | - | - | Yes | Yes | Yes | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `url` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> PhotoEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Photo().create({
+    "albumId": 1,  # int
+    "thumbnailUrl": "example_thumbnailUrl",  # str
+    "title": "example_title",  # str
+    "url": "example_url",  # str
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[PhotoEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Photo().list()
 for photo in results:
-    print(photo)
+    print(photo.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PhotoEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Photo().load({"id": 1})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `patch(reqdata, ctrl=None) -> PhotoEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and raises on error.
+
+```python
+result = client.Photo().patch({
+    "id": 1,
+    # Only the fields to change
+})
+```
+
+#### `remove(reqmatch, ctrl=None) -> PhotoEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Photo().remove({"id": 1})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> PhotoEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Photo().update({
@@ -419,53 +462,67 @@ post = client.Post()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `body` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `title` | - | - | Yes | Yes | - |
-| `userId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `body` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> PostEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Post().create({
+    "body": "example_body",  # str
+    "title": "example_title",  # str
+    "userId": 1,  # int
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[PostEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Post().list()
 for post in results:
-    print(post)
+    print(post.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PostEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Post().load({"id": 1})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `patch(reqdata, ctrl=None) -> PostEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and raises on error.
+
+```python
+result = client.Post().patch({
+    "id": 1,
+    # Only the fields to change
+})
+```
+
+#### `remove(reqmatch, ctrl=None) -> PostEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Post().remove({"id": 1})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> PostEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Post().update({
@@ -520,53 +577,67 @@ todo = client.Todo()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `completed` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `title` | - | - | Yes | Yes | - |
-| `userId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `completed` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> TodoEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Todo().create({
+    "completed": True,  # bool
+    "title": "example_title",  # str
+    "userId": 1,  # int
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[TodoEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Todo().list()
 for todo in results:
-    print(todo)
+    print(todo.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> TodoEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Todo().load({"id": 1})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `patch(reqdata, ctrl=None) -> TodoEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and raises on error.
+
+```python
+result = client.Todo().patch({
+    "id": 1,
+    # Only the fields to change
+})
+```
+
+#### `remove(reqmatch, ctrl=None) -> TodoEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Todo().remove({"id": 1})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> TodoEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Todo().update({
@@ -625,57 +696,71 @@ user = client.User()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `address` | - | - | - | - | - |
-| `company` | - | - | - | - | - |
-| `email` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `name` | - | - | Yes | Yes | - |
-| `phone` | - | - | - | - | - |
-| `username` | - | - | Yes | Yes | - |
-| `website` | - | - | - | - | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `address` | - | - | - | - | - | - |
+| `company` | - | - | - | - | - | - |
+| `email` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `name` | - | - | Yes | Yes | Yes | - |
+| `phone` | - | - | - | - | - | - |
+| `username` | - | - | Yes | Yes | Yes | - |
+| `website` | - | - | - | - | - | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> UserEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.User().create({
+    "email": "example_email",  # str
+    "name": "example_name",  # str
+    "username": "example_username",  # str
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[UserEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.User().list()
 for user in results:
-    print(user)
+    print(user.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> UserEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.User().load({"id": 1})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `patch(reqdata, ctrl=None) -> UserEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and raises on error.
+
+```python
+result = client.User().patch({
+    "id": 1,
+    # Only the fields to change
+})
+```
+
+#### `remove(reqmatch, ctrl=None) -> UserEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.User().remove({"id": 1})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> UserEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.User().update({
@@ -870,6 +955,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

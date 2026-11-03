@@ -99,15 +99,15 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | Entity | SDK operation | HTTP route | Authentication |
 | --- | --- | --- | --- |
 | Album | `create` | `POST /albums` | See reference |
-| Album | `list` | `GET /albums` | See reference |
 | Album | `list` | `GET /users/{id}/albums` | See reference |
+| Album | `list` | `GET /albums` | See reference |
 | Album | `load` | `GET /albums/{id}` | See reference |
 | Album | `patch` | `PATCH /albums/{id}` | See reference |
 | Album | `remove` | `DELETE /albums/{id}` | See reference |
 | Album | `update` | `PUT /albums/{id}` | See reference |
 | Comment | `create` | `POST /comments` | See reference |
-| Comment | `list` | `GET /comments` | See reference |
 | Comment | `list` | `GET /posts/{id}/comments` | See reference |
+| Comment | `list` | `GET /comments` | See reference |
 | Comment | `load` | `GET /comments/{id}` | See reference |
 | Comment | `patch` | `PATCH /comments/{id}` | See reference |
 | Comment | `remove` | `DELETE /comments/{id}` | See reference |
@@ -120,15 +120,15 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | Photo | `remove` | `DELETE /photos/{id}` | See reference |
 | Photo | `update` | `PUT /photos/{id}` | See reference |
 | Post | `create` | `POST /posts` | See reference |
-| Post | `list` | `GET /posts` | See reference |
 | Post | `list` | `GET /users/{id}/posts` | See reference |
+| Post | `list` | `GET /posts` | See reference |
 | Post | `load` | `GET /posts/{id}` | See reference |
 | Post | `patch` | `PATCH /posts/{id}` | See reference |
 | Post | `remove` | `DELETE /posts/{id}` | See reference |
 | Post | `update` | `PUT /posts/{id}` | See reference |
 | Todo | `create` | `POST /todos` | See reference |
-| Todo | `list` | `GET /todos` | See reference |
 | Todo | `list` | `GET /users/{id}/todos` | See reference |
+| Todo | `list` | `GET /todos` | See reference |
 | Todo | `load` | `GET /todos/{id}` | See reference |
 | Todo | `patch` | `PATCH /todos/{id}` | See reference |
 | Todo | `remove` | `DELETE /todos/{id}` | See reference |

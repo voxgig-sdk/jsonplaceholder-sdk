@@ -5,7 +5,7 @@
 The Python SDK for the Jsonplaceholder API — an entity-oriented client following Pythonic conventions.
 
 The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Album()` — each
-carrying a small, uniform set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`) instead of raw URL
+carrying a small, uniform set of operations (`list`, `load`, `create`, `update`, `patch`, `remove`) instead of raw URL
 paths and query strings. You work with named resources and verbs, which
 keeps the cognitive load low.
 
@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to PyPI. Install it from the GitHub
-release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases)) or
+release tag (`py/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/jsonplaceholder-sdk/tags)) or
 from a source checkout:
 
 ```bash
@@ -38,14 +38,14 @@ client = JsonplaceholderSDK()
 
 ### 2. List album records
 
-`list()` returns a `list` of records (each a `dict`) and raises on
-error — iterate it directly.
+`list()` returns a `list` of entities, one per record, and raises on
+error; an entity's `data_get()` reads its record (a `dict`).
 
 ```python
 try:
     albums = client.Album().list()
     for album in albums:
-        print(album)
+        print(album.data_get())
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -57,7 +57,7 @@ except Exception as err:
 ```python
 try:
     album = client.Album().load({"id": 1})
-    print(album)
+    print(album.data_get())
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -68,8 +68,11 @@ except Exception as err:
 # Create — returns the ENTITY (call data_get() for the record)
 created = client.Album().create({"title": "example_title", "userId": 1})
 
-# Update — the created record's id is a plain dict key
+# Update — the created entity's record holds its id
 client.Album().update({"id": created.data_get()["id"], "title": "example_title", "userId": 1})
+
+# Patch — sends only the fields given
+client.Album().patch({"id": created.data_get()["id"], "title": "example_title", "userId": 1})
 
 # Remove
 client.Album().remove({"id": created.data_get()["id"]})
@@ -83,7 +86,7 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 ```python
 try:
     photos = client.Photo().list()
-    print(photos)
+    print([item.data_get() for item in photos])
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -149,10 +152,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = JsonplaceholderSDK.test()
 
-# Entity ops return the ENTITY and raises on error;
-# call data_get() for the record.
+# Entity ops return the entity, and list one per record; they raise on error.
 photo = client.Photo().list()
-# photo contains the mock response record
+# data_get() on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -241,11 +243,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `patch` | `(reqdata, ctrl) -> any` | Change part of an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -255,9 +258,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
-ops, a `list` for `list`) and raise on error. Wrap calls in
-`try`/`except` to handle failures.
+Entity operations return the entity, and `list` a `list` of entities, one
+per record; an entity's `data_get()` reads its record (a `dict`). They raise
+on error, so wrap calls in `try`/`except` to handle failures.
 
 The `direct()` escape hatch never raises — it returns a result `dict`
 you branch on via `result["ok"]`:
@@ -372,6 +375,7 @@ Create an instance: `album = client.Album()`
 | `create(data)` | Create a new entity with the given data. |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -399,6 +403,8 @@ albums = client.Album().list()
 
 ```python
 album = client.Album().create({
+    "title": "example_title",  # str
+    "userId": 1,  # int
 })
 ```
 
@@ -414,6 +420,7 @@ Create an instance: `comment = client.Comment()`
 | `create(data)` | Create a new entity with the given data. |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -443,6 +450,10 @@ comments = client.Comment().list()
 
 ```python
 comment = client.Comment().create({
+    "body": "example_body",  # str
+    "email": "example_email",  # str
+    "name": "example_name",  # str
+    "postId": 1,  # int
 })
 ```
 
@@ -458,6 +469,7 @@ Create an instance: `photo = client.Photo()`
 | `create(data)` | Create a new entity with the given data. |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -487,6 +499,10 @@ photos = client.Photo().list()
 
 ```python
 photo = client.Photo().create({
+    "albumId": 1,  # int
+    "thumbnailUrl": "example_thumbnailUrl",  # str
+    "title": "example_title",  # str
+    "url": "example_url",  # str
 })
 ```
 
@@ -502,6 +518,7 @@ Create an instance: `post = client.Post()`
 | `create(data)` | Create a new entity with the given data. |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -530,6 +547,9 @@ posts = client.Post().list()
 
 ```python
 post = client.Post().create({
+    "body": "example_body",  # str
+    "title": "example_title",  # str
+    "userId": 1,  # int
 })
 ```
 
@@ -545,6 +565,7 @@ Create an instance: `todo = client.Todo()`
 | `create(data)` | Create a new entity with the given data. |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -573,6 +594,9 @@ todos = client.Todo().list()
 
 ```python
 todo = client.Todo().create({
+    "completed": True,  # bool
+    "title": "example_title",  # str
+    "userId": 1,  # int
 })
 ```
 
@@ -588,6 +612,7 @@ Create an instance: `user = client.User()`
 | `create(data)` | Create a new entity with the given data. |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -620,6 +645,9 @@ users = client.User().list()
 
 ```python
 user = client.User().create({
+    "email": "example_email",  # str
+    "name": "example_name",  # str
+    "username": "example_username",  # str
 })
 ```
 

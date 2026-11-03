@@ -20,12 +20,17 @@ export interface AlbumListMatch {
 }
 
 export interface AlbumCreateData {
-  id?: number
+  title: string
+  userId: number
+}
+
+export interface AlbumUpdateData {
+  id: number
   title?: string
   userId?: number
 }
 
-export interface AlbumUpdateData {
+export interface AlbumPatchData {
   id: number
   title?: string
   userId?: number
@@ -52,14 +57,21 @@ export interface CommentListMatch {
 }
 
 export interface CommentCreateData {
+  body: string
+  email: string
+  name: string
+  postId: number
+}
+
+export interface CommentUpdateData {
+  id: number
   body?: string
   email?: string
-  id?: number
   name?: string
   postId?: number
 }
 
-export interface CommentUpdateData {
+export interface CommentPatchData {
   id: number
   body?: string
   email?: string
@@ -88,14 +100,21 @@ export interface PhotoListMatch {
 }
 
 export interface PhotoCreateData {
+  albumId: number
+  thumbnailUrl: string
+  title: string
+  url: string
+}
+
+export interface PhotoUpdateData {
+  id: number
   albumId?: number
-  id?: number
   thumbnailUrl?: string
   title?: string
   url?: string
 }
 
-export interface PhotoUpdateData {
+export interface PhotoPatchData {
   id: number
   albumId?: number
   thumbnailUrl?: string
@@ -123,13 +142,19 @@ export interface PostListMatch {
 }
 
 export interface PostCreateData {
+  body: string
+  title: string
+  userId: number
+}
+
+export interface PostUpdateData {
+  id: number
   body?: string
-  id?: number
   title?: string
   userId?: number
 }
 
-export interface PostUpdateData {
+export interface PostPatchData {
   id: number
   body?: string
   title?: string
@@ -156,13 +181,19 @@ export interface TodoListMatch {
 }
 
 export interface TodoCreateData {
+  completed: boolean
+  title: string
+  userId: number
+}
+
+export interface TodoUpdateData {
+  id: number
   completed?: boolean
-  id?: number
   title?: string
   userId?: number
 }
 
-export interface TodoUpdateData {
+export interface TodoPatchData {
   id: number
   completed?: boolean
   title?: string
@@ -202,15 +233,25 @@ export interface UserListMatch {
 export interface UserCreateData {
   address?: Record<string, any>
   company?: Record<string, any>
+  email: string
+  name: string
+  phone?: string
+  username: string
+  website?: string
+}
+
+export interface UserUpdateData {
+  id: number
+  address?: Record<string, any>
+  company?: Record<string, any>
   email?: string
-  id?: number
   name?: string
   phone?: string
   username?: string
   website?: string
 }
 
-export interface UserUpdateData {
+export interface UserPatchData {
   id: number
   address?: Record<string, any>
   company?: Record<string, any>

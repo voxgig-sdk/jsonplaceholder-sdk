@@ -93,6 +93,7 @@ class JsonplaceholderConfig
           ],
           'optspec' => [
             'clearTimer' => '`$FUNCTION`',
+            'now' => '`$FUNCTION`',
             'setTimer' => '`$FUNCTION`',
           ],
           'strict' => false,
@@ -192,6 +193,10 @@ class JsonplaceholderConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -199,39 +204,6 @@ class JsonplaceholderConfig
               'input' => 'data',
               'name' => 'list',
               'points' => [
-                [
-                  'kind' => 'http',
-                  'method' => 'GET',
-                  'orig' => '/albums',
-                  'segments' => [
-                    [
-                      'lit' => 'albums',
-                    ],
-                  ],
-                  'parts' => [
-                    'albums',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'query' => [
-                      [
-                        'name' => 'user_id',
-                        'orig' => 'userId',
-                        'type' => '`$INTEGER`',
-                        'kind' => 'query',
-                      ],
-                    ],
-                  ],
-                  'select' => [
-                    'exist' => [
-                      'user_id',
-                    ],
-                  ],
-                ],
                 [
                   'kind' => 'http',
                   'method' => 'GET',
@@ -269,6 +241,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -276,6 +249,43 @@ class JsonplaceholderConfig
                     'exist' => [
                       'user_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
+                [
+                  'kind' => 'http',
+                  'method' => 'GET',
+                  'orig' => '/albums',
+                  'segments' => [
+                    [
+                      'lit' => 'albums',
+                    ],
+                  ],
+                  'parts' => [
+                    'albums',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'query' => [
+                      [
+                        'name' => 'user_id',
+                        'orig' => 'userId',
+                        'type' => '`$INTEGER`',
+                        'kind' => 'query',
+                      ],
+                    ],
+                  ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -313,6 +323,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -320,6 +331,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -364,6 +379,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -452,6 +471,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -584,6 +607,10 @@ class JsonplaceholderConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -591,39 +618,6 @@ class JsonplaceholderConfig
               'input' => 'data',
               'name' => 'list',
               'points' => [
-                [
-                  'kind' => 'http',
-                  'method' => 'GET',
-                  'orig' => '/comments',
-                  'segments' => [
-                    [
-                      'lit' => 'comments',
-                    ],
-                  ],
-                  'parts' => [
-                    'comments',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'query' => [
-                      [
-                        'name' => 'post_id',
-                        'orig' => 'postId',
-                        'type' => '`$INTEGER`',
-                        'kind' => 'query',
-                      ],
-                    ],
-                  ],
-                  'select' => [
-                    'exist' => [
-                      'post_id',
-                    ],
-                  ],
-                ],
                 [
                   'kind' => 'http',
                   'method' => 'GET',
@@ -661,6 +655,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -668,6 +663,43 @@ class JsonplaceholderConfig
                     'exist' => [
                       'post_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
+                [
+                  'kind' => 'http',
+                  'method' => 'GET',
+                  'orig' => '/comments',
+                  'segments' => [
+                    [
+                      'lit' => 'comments',
+                    ],
+                  ],
+                  'parts' => [
+                    'comments',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'query' => [
+                      [
+                        'name' => 'post_id',
+                        'orig' => 'postId',
+                        'type' => '`$INTEGER`',
+                        'kind' => 'query',
+                      ],
+                    ],
+                  ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -705,6 +737,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -712,6 +745,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -756,6 +793,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -844,6 +885,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -977,6 +1022,10 @@ class JsonplaceholderConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1021,6 +1070,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -1028,6 +1078,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'album_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -1057,10 +1111,10 @@ class JsonplaceholderConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'album_id',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1098,6 +1152,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -1105,6 +1160,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1149,6 +1208,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1237,6 +1300,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1348,6 +1415,10 @@ class JsonplaceholderConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1355,39 +1426,6 @@ class JsonplaceholderConfig
               'input' => 'data',
               'name' => 'list',
               'points' => [
-                [
-                  'kind' => 'http',
-                  'method' => 'GET',
-                  'orig' => '/posts',
-                  'segments' => [
-                    [
-                      'lit' => 'posts',
-                    ],
-                  ],
-                  'parts' => [
-                    'posts',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'query' => [
-                      [
-                        'name' => 'user_id',
-                        'orig' => 'userId',
-                        'type' => '`$INTEGER`',
-                        'kind' => 'query',
-                      ],
-                    ],
-                  ],
-                  'select' => [
-                    'exist' => [
-                      'user_id',
-                    ],
-                  ],
-                ],
                 [
                   'kind' => 'http',
                   'method' => 'GET',
@@ -1425,6 +1463,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -1432,6 +1471,43 @@ class JsonplaceholderConfig
                     'exist' => [
                       'user_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
+                [
+                  'kind' => 'http',
+                  'method' => 'GET',
+                  'orig' => '/posts',
+                  'segments' => [
+                    [
+                      'lit' => 'posts',
+                    ],
+                  ],
+                  'parts' => [
+                    'posts',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'query' => [
+                      [
+                        'name' => 'user_id',
+                        'orig' => 'userId',
+                        'type' => '`$INTEGER`',
+                        'kind' => 'query',
+                      ],
+                    ],
+                  ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1469,6 +1545,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -1476,6 +1553,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1520,6 +1601,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1608,6 +1693,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1719,6 +1808,10 @@ class JsonplaceholderConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1726,39 +1819,6 @@ class JsonplaceholderConfig
               'input' => 'data',
               'name' => 'list',
               'points' => [
-                [
-                  'kind' => 'http',
-                  'method' => 'GET',
-                  'orig' => '/todos',
-                  'segments' => [
-                    [
-                      'lit' => 'todos',
-                    ],
-                  ],
-                  'parts' => [
-                    'todos',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'query' => [
-                      [
-                        'name' => 'user_id',
-                        'orig' => 'userId',
-                        'type' => '`$INTEGER`',
-                        'kind' => 'query',
-                      ],
-                    ],
-                  ],
-                  'select' => [
-                    'exist' => [
-                      'user_id',
-                    ],
-                  ],
-                ],
                 [
                   'kind' => 'http',
                   'method' => 'GET',
@@ -1796,6 +1856,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -1803,6 +1864,43 @@ class JsonplaceholderConfig
                     'exist' => [
                       'user_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
+                [
+                  'kind' => 'http',
+                  'method' => 'GET',
+                  'orig' => '/todos',
+                  'segments' => [
+                    [
+                      'lit' => 'todos',
+                    ],
+                  ],
+                  'parts' => [
+                    'todos',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'query' => [
+                      [
+                        'name' => 'user_id',
+                        'orig' => 'userId',
+                        'type' => '`$INTEGER`',
+                        'kind' => 'query',
+                      ],
+                    ],
+                  ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1840,6 +1938,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -1847,6 +1946,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1891,6 +1994,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1979,6 +2086,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -2113,6 +2224,10 @@ class JsonplaceholderConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2139,6 +2254,10 @@ class JsonplaceholderConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2175,6 +2294,7 @@ class JsonplaceholderConfig
                         'type' => '`$INTEGER`',
                         'kind' => 'param',
                         'reqd' => true,
+                        'example' => 1,
                       ],
                     ],
                   ],
@@ -2182,6 +2302,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -2226,6 +2350,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -2314,6 +2442,10 @@ class JsonplaceholderConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],

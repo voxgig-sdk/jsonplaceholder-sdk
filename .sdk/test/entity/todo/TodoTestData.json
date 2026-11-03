@@ -39,12 +39,12 @@
       "version": 2,
       "source": "openapi3"
     },
-    "GET /todos": {
+    "GET /users/{id}/todos": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"
     },
-    "GET /users/{id}/todos": {
+    "GET /todos": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

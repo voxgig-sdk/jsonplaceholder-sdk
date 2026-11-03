@@ -79,6 +79,7 @@ module JsonplaceholderConfig
           },
           "optspec" => {
             "clearTimer" => "`$FUNCTION`",
+            "now" => "`$FUNCTION`",
             "setTimer" => "`$FUNCTION`",
           },
           "strict" => false,
@@ -178,6 +179,10 @@ module JsonplaceholderConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -185,39 +190,6 @@ module JsonplaceholderConfig
               "input" => "data",
               "name" => "list",
               "points" => [
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/albums",
-                  "segments" => [
-                    {
-                      "lit" => "albums",
-                    },
-                  ],
-                  "parts" => [
-                    "albums",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {
-                    "query" => [
-                      {
-                        "name" => "user_id",
-                        "orig" => "userId",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "user_id",
-                    ],
-                  },
-                },
                 {
                   "kind" => "http",
                   "method" => "GET",
@@ -255,6 +227,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -262,6 +235,43 @@ module JsonplaceholderConfig
                     "exist" => [
                       "user_id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/albums",
+                  "segments" => [
+                    {
+                      "lit" => "albums",
+                    },
+                  ],
+                  "parts" => [
+                    "albums",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {
+                    "query" => [
+                      {
+                        "name" => "user_id",
+                        "orig" => "userId",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                      },
+                    ],
+                  },
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -299,6 +309,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -306,6 +317,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -350,6 +365,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -438,6 +457,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -570,6 +593,10 @@ module JsonplaceholderConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -577,39 +604,6 @@ module JsonplaceholderConfig
               "input" => "data",
               "name" => "list",
               "points" => [
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/comments",
-                  "segments" => [
-                    {
-                      "lit" => "comments",
-                    },
-                  ],
-                  "parts" => [
-                    "comments",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {
-                    "query" => [
-                      {
-                        "name" => "post_id",
-                        "orig" => "postId",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "post_id",
-                    ],
-                  },
-                },
                 {
                   "kind" => "http",
                   "method" => "GET",
@@ -647,6 +641,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -654,6 +649,43 @@ module JsonplaceholderConfig
                     "exist" => [
                       "post_id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/comments",
+                  "segments" => [
+                    {
+                      "lit" => "comments",
+                    },
+                  ],
+                  "parts" => [
+                    "comments",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {
+                    "query" => [
+                      {
+                        "name" => "post_id",
+                        "orig" => "postId",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                      },
+                    ],
+                  },
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -691,6 +723,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -698,6 +731,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -742,6 +779,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -830,6 +871,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -963,6 +1008,10 @@ module JsonplaceholderConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -1007,6 +1056,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -1014,6 +1064,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "album_id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
                 {
@@ -1043,10 +1097,10 @@ module JsonplaceholderConfig
                       },
                     ],
                   },
-                  "select" => {
-                    "exist" => [
-                      "album_id",
-                    ],
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1084,6 +1138,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -1091,6 +1146,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1135,6 +1194,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1223,6 +1286,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1334,6 +1401,10 @@ module JsonplaceholderConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -1341,39 +1412,6 @@ module JsonplaceholderConfig
               "input" => "data",
               "name" => "list",
               "points" => [
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/posts",
-                  "segments" => [
-                    {
-                      "lit" => "posts",
-                    },
-                  ],
-                  "parts" => [
-                    "posts",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {
-                    "query" => [
-                      {
-                        "name" => "user_id",
-                        "orig" => "userId",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "user_id",
-                    ],
-                  },
-                },
                 {
                   "kind" => "http",
                   "method" => "GET",
@@ -1411,6 +1449,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -1418,6 +1457,43 @@ module JsonplaceholderConfig
                     "exist" => [
                       "user_id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/posts",
+                  "segments" => [
+                    {
+                      "lit" => "posts",
+                    },
+                  ],
+                  "parts" => [
+                    "posts",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {
+                    "query" => [
+                      {
+                        "name" => "user_id",
+                        "orig" => "userId",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                      },
+                    ],
+                  },
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1455,6 +1531,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -1462,6 +1539,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1506,6 +1587,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1594,6 +1679,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1705,6 +1794,10 @@ module JsonplaceholderConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -1712,39 +1805,6 @@ module JsonplaceholderConfig
               "input" => "data",
               "name" => "list",
               "points" => [
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/todos",
-                  "segments" => [
-                    {
-                      "lit" => "todos",
-                    },
-                  ],
-                  "parts" => [
-                    "todos",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {
-                    "query" => [
-                      {
-                        "name" => "user_id",
-                        "orig" => "userId",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "user_id",
-                    ],
-                  },
-                },
                 {
                   "kind" => "http",
                   "method" => "GET",
@@ -1782,6 +1842,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -1789,6 +1850,43 @@ module JsonplaceholderConfig
                     "exist" => [
                       "user_id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/todos",
+                  "segments" => [
+                    {
+                      "lit" => "todos",
+                    },
+                  ],
+                  "parts" => [
+                    "todos",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {
+                    "query" => [
+                      {
+                        "name" => "user_id",
+                        "orig" => "userId",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                      },
+                    ],
+                  },
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1826,6 +1924,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -1833,6 +1932,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1877,6 +1980,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1965,6 +2072,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -2099,6 +2210,10 @@ module JsonplaceholderConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -2125,6 +2240,10 @@ module JsonplaceholderConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -2161,6 +2280,7 @@ module JsonplaceholderConfig
                         "type" => "`$INTEGER`",
                         "kind" => "param",
                         "reqd" => true,
+                        "example" => 1,
                       },
                     ],
                   },
@@ -2168,6 +2288,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -2212,6 +2336,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -2300,6 +2428,10 @@ module JsonplaceholderConfig
                     "exist" => [
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],

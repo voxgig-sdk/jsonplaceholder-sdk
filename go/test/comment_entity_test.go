@@ -16,6 +16,26 @@ import (
 	vs "github.com/voxgig-sdk/jsonplaceholder-sdk/go/utility/struct"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const commentEntityLiveStrict = true
+
+
+type commentFailHook struct {
+	sdk.BaseFeature
+	unexpected int
+}
+
+func (f *commentFailHook) PreSpec(ctx *sdk.Context) {
+	panic("comment hook failed")
+}
+
+func (f *commentFailHook) PreUnexpected(ctx *sdk.Context) {
+	f.unexpected++
+}
+
 func TestCommentEntity(t *testing.T) {
 	t.Run("instance", func(t *testing.T) {
 		testsdk := sdk.TestSDK(nil, nil)
@@ -43,8 +63,11 @@ func TestCommentEntity(t *testing.T) {
 		// Fallback: streaming inactive -> yields the materialised list items.
 		base := sdk.TestSDK(seed, nil)
 		var seen []any
-		for item := range base.Comment(nil).Stream("list", nil, nil) {
-			seen = append(seen, item)
+		for si := range base.Comment(nil).Stream("list", nil, nil) {
+			if si.Err != nil {
+				t.Fatalf("stream failed: %v", si.Err)
+			}
+			seen = append(seen, si.Item)
 		}
 		if len(seen) != 3 {
 			t.Fatalf("expected 3 streamed items, got %d", len(seen))
@@ -60,11 +83,14 @@ func TestCommentEntity(t *testing.T) {
 				"feature": map[string]any{"streaming": map[string]any{"active": true}},
 			})
 			var got []any
-			for item := range streamSdk.Comment(nil).Stream("list", nil, nil) {
-				if sub, ok := item.([]any); ok {
+			for si := range streamSdk.Comment(nil).Stream("list", nil, nil) {
+				if si.Err != nil {
+					t.Fatalf("stream failed: %v", si.Err)
+				}
+				if sub, ok := si.Item.([]any); ok {
 					got = append(got, sub...)
 				} else {
-					got = append(got, item)
+					got = append(got, si.Item)
 				}
 			}
 			if len(got) != 3 {
@@ -73,7 +99,91 @@ func TestCommentEntity(t *testing.T) {
 		}
 	})
 
-	t.Run("basic", func(t *testing.T) {
+	t.Run("stream-error", func(t *testing.T) {
+		offline := map[string]any{"net": map[string]any{"offline": true}}
+		var streamerr error
+		for si := range sdk.TestSDK(offline, nil).Comment(nil).Stream("list", nil, nil) {
+			if si.Err != nil {
+				streamerr = si.Err
+			}
+		}
+		if nil == streamerr || !strings.Contains(streamerr.Error(), "offline") {
+			t.Fatalf("expected the transport failure as a stream value, got %v", streamerr)
+		}
+
+		quiet := map[string]any{"ctrl": map[string]any{"throw": false}}
+		for si := range sdk.TestSDK(offline, nil).Comment(nil).Stream("list", nil, quiet) {
+			if si.Err != nil {
+				t.Fatalf("throw false: expected no error value, got %v", si.Err)
+			}
+		}
+
+		if fhHasFeature("rbac") {
+			denied := sdk.TestSDK(nil, map[string]any{
+				"feature": map[string]any{"rbac": map[string]any{"active": true, "deny": true}},
+			})
+			var denyerr error
+			for si := range denied.Comment(nil).Stream("list", nil, nil) {
+				if si.Err != nil {
+					denyerr = si.Err
+				}
+			}
+			if sdkerr, ok := denyerr.(*core.JsonplaceholderError); !ok || "rbac_denied" != sdkerr.Code {
+				t.Fatalf("expected the rbac denial as a stream value, got %v", denyerr)
+			}
+		}
+	})
+
+	t.Run("stream-ctrl", func(t *testing.T) {
+		explain := map[string]any{}
+		ctrl := map[string]any{"explain": explain}
+		for range sdk.TestSDK(nil, nil).Comment(nil).Stream("list", nil, map[string]any{"ctrl": ctrl}) {
+		}
+		if _, has := ctrl["stream"]; has || 1 != len(ctrl) {
+			t.Fatalf("the stream changed the caller's ctrl")
+		}
+		if 0 == len(explain) {
+			t.Fatalf("the caller's explain record was not filled")
+		}
+	})
+
+	t.Run("unexpected", func(t *testing.T) {
+		hook := &commentFailHook{
+			BaseFeature: sdk.BaseFeature{Version: "0.0.1", Name: "failhook", Active: true}}
+		client := sdk.TestSDK(nil, map[string]any{"extend": []any{hook}})
+
+		_, err := client.Comment(nil).List(nil, nil)
+		if nil == err || !strings.Contains(err.Error(), "hook failed") {
+			t.Fatalf("expected the hook's failure, got %v", err)
+		}
+		if 0 == hook.unexpected {
+			t.Fatalf("PreUnexpected did not fire")
+		}
+
+		fired := hook.unexpected
+		if _, err := client.Comment(nil).List(nil, map[string]any{"throw": false}); nil != err {
+			t.Fatalf("throw false: expected no error, got %v", err)
+		}
+		if fired == hook.unexpected {
+			t.Fatalf("throw false: PreUnexpected did not fire")
+		}
+	})
+
+	t.Run("validate", func(t *testing.T) {
+		if !fhHasFeature("validate") {
+			t.Skip("feature not present in this SDK: validate")
+		}
+		client := sdk.TestSDK(nil, map[string]any{
+			"feature": map[string]any{"validate": map[string]any{"active": true}},
+		})
+		_, err := client.Comment(nil).List(map[string]any{"post_id": "x"}, nil)
+		if sdkerr, ok := err.(*core.JsonplaceholderError); !ok || "validate_failed" != sdkerr.Code {
+			t.Fatalf("expected validate_failed, got %v", err)
+		}
+	})
+
+	t.Run("basic", func(tt *testing.T) {
+		var t testing.TB = tt
 		setup := commentBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
 		// with multiple ops; skipping any op skips the whole flow.
@@ -90,13 +200,73 @@ func TestCommentEntity(t *testing.T) {
 				return
 			}
 		}
-		// The basic flow consumes synthetic IDs from the fixture. In live mode
-		// without an *_ENTID env override, those IDs hit the live API and 4xx.
-		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set JSONPLACEHOLDER_TEST_COMMENT_ENTID JSON to run live")
-			return
+		if setup.live && os.Getenv("VOXGIG_GETONLY_GUARD") == "TRUE" {
+			t.Log("LIVE STEP {\"id\":\"comment.create.0\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: needs POST /comments\"}")
+			t.Log("LIVE STEP {\"id\":\"comment.update.2\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: needs PUT /comments/{id}\"}")
+			t.Log("LIVE STEP {\"id\":\"comment.remove.4\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: needs DELETE /comments/{id}\"}")
+			t.Log("LIVE STEP {\"id\":\"comment.list.5\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: checks a removal this run does not make\"}")
+		client := setup.client
+		_ = client
+		if setup.live {
+			liveExisting(t, commentEntityLiveStrict, setup.data, "comment", func() (any, error) {
+				return client.Comment(nil).List(map[string]any{"post_id": 1}, nil)
+			})
+		}
+
+		// Bootstrap entity data from existing test data (no create step in flow).
+		commentRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.comment")))
+		var commentRef01Data map[string]any
+		if len(commentRef01DataRaw) > 0 {
+			commentRef01Data = core.ToMapAny(commentRef01DataRaw[0][1])
+		}
+		// Discard guards against Go's unused-var check when the flow's steps
+		// happen not to consume the bootstrap data (e.g. list-only flows).
+		_ = commentRef01Data
+
+		// LIST
+		commentRef01Ent := client.Comment(nil)
+		commentRef01Match := map[string]any{}
+		if setup.live {
+			commentRef01Match["post_id"] = 1
+		}
+
+		commentRef01ListResult, err := commentRef01Ent.List(commentRef01Match, nil)
+		if err != nil {
+			t.Fatalf("list failed: %v", err)
+		}
+		_, commentRef01ListOk := commentRef01ListResult.([]any)
+		if !commentRef01ListOk {
+			t.Fatalf("expected list result to be an array, got %T", commentRef01ListResult)
+		}
+
+		// LOAD
+		commentRef01MatchDt0 := map[string]any{
+			"id": commentRef01Data["id"],
+		}
+		commentRef01DataDt0Loaded, err := commentRef01Ent.Load(commentRef01MatchDt0, nil)
+		if err != nil {
+			t.Fatalf("load failed: %v", err)
+		}
+		commentRef01DataDt0LoadResult := core.ToMapAny(entityData(commentRef01DataDt0Loaded))
+		if commentRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if commentRef01DataDt0LoadResult["id"] != commentRef01Data["id"] {
+			t.Fatal("expected load result id to match")
+		}
+
+		return
+		}
+
+		if setup.live {
+			for _, _liveKey := range []string{"post01"} {
+				if setup.syntheticOnly || setup.idmap[_liveKey] == nil {
+					liveMiss(t, commentEntityLiveStrict, "Live entity test blocked: needs %s via JSONPLACEHOLDER_TEST_COMMENT_ENTID", _liveKey)
+				}
+			}
 		}
 		client := setup.client
+		_ = client
 
 		// CREATE
 		commentRef01Ent := client.Comment(nil)
@@ -117,8 +287,9 @@ func TestCommentEntity(t *testing.T) {
 		}
 
 		// LIST
-		commentRef01Match := map[string]any{
-			"post_id": setup.idmap["post01"],
+		commentRef01Match := map[string]any{}
+		if setup.live {
+			commentRef01Match["post_id"] = 1
 		}
 
 		commentRef01ListResult, err := commentRef01Ent.List(commentRef01Match, nil)
@@ -185,8 +356,9 @@ func TestCommentEntity(t *testing.T) {
 		}
 
 		// LIST
-		commentRef01MatchRt0 := map[string]any{
-			"post_id": setup.idmap["post01"],
+		commentRef01MatchRt0 := map[string]any{}
+		if setup.live {
+			commentRef01MatchRt0["post_id"] = 1
 		}
 
 		commentRef01ListRt0Result, err := commentRef01Ent.List(commentRef01MatchRt0, nil)
@@ -240,9 +412,8 @@ func commentBasicSetup(extra map[string]any) *entityTestSetup {
 		},
 	)
 
-	// Detect ENTID env override before envOverride consumes it. When live
-	// mode is on without a real override, the basic test runs against synthetic
-	// IDs from the fixture and 4xx's. Surface this so the test can skip.
+	// Whether *_ENTID supplied the idmap, read before envOverride consumes it:
+	// without it, the ids a live flow binds are the fixture's synthetic ones.
 	entidEnvRaw := os.Getenv("JSONPLACEHOLDER_TEST_COMMENT_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 

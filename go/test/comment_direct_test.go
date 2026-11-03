@@ -10,6 +10,12 @@ import (
 	"github.com/voxgig-sdk/jsonplaceholder-sdk/go/core"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const commentDirectLiveStrict = true
+
 func TestCommentDirect(t *testing.T) {
 	t.Run("direct-list-comment", func(t *testing.T) {
 		setup := commentDirectSetup([]any{
@@ -27,28 +33,39 @@ func TestCommentDirect(t *testing.T) {
 			t.Skip(_reason)
 			return
 		}
+		if setup.live {
+			for _, _liveKey := range []string{"post01"} {
+				if v := setup.idmap[_liveKey]; v == nil {
+					liveMiss(t, commentDirectLiveStrict, "Live test blocked: needs %s via JSONPLACEHOLDER_TEST_COMMENT_ENTID", _liveKey)
+					return
+				}
+			}
+		}
 		client := setup.client
 
+		params := map[string]any{}
+		query := map[string]any{}
+		if setup.live {
+			params["post_id"] = setup.idmap["post01"]
+		} else {
+			params["post_id"] = "direct01"
+		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "comments",
+			"path":   "posts/{post_id}/comments",
 			"method": "GET",
-			"params": map[string]any{},
+			"params": params,
+			"query":  query,
 		})
 		if setup.live {
-			// Live-mode leniency is a model decision
-			// (main.kit.test.live.strict): synthetic IDs 4xx constantly
-			// against an arbitrary public API, so the default SKIPS here.
-			// A project that owns its test server sets strict and FAILS.
 			if err != nil {
-				t.Fatalf("list call failed (likely synthetic IDs against live API): %v", err)
+				liveMiss(t, commentDirectLiveStrict, "Live list failed: %v", err)
 			}
-			if result["ok"] != true {
-				t.Fatalf("list call not ok (likely synthetic IDs against live API): %v", result)
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, commentDirectLiveStrict, "Live list failed: %s", liveDescribe(result))
 			}
-			status := core.ToInt(result["status"])
-			if status < 200 || status >= 300 {
-				t.Fatalf("expected 2xx status, got %v", result["status"])
+			if _, ok := liveList(result["data"]); !ok {
+				liveMiss(t, commentDirectLiveStrict, "Live list returned no list: %s", liveDescribe(result))
 			}
 		} else {
 			if err != nil {
@@ -74,6 +91,17 @@ func TestCommentDirect(t *testing.T) {
 			if len(*setup.calls) != 1 {
 				t.Fatalf("expected 1 call, got %d", len(*setup.calls))
 			}
+			call := (*setup.calls)[0]
+			if initMap, ok := call["init"].(map[string]any); ok {
+				if initMap["method"] != "GET" {
+					t.Fatalf("expected method GET, got %v", initMap["method"])
+				}
+			}
+			if url, ok := call["url"].(string); ok {
+				if !strings.Contains(url, "direct01") {
+					t.Fatalf("expected url to contain direct01, got %v", url)
+				}
+			}
 		}
 	})
 
@@ -95,26 +123,7 @@ func TestCommentDirect(t *testing.T) {
 		params := map[string]any{}
 		query := map[string]any{}
 		if setup.live {
-			listParams := map[string]any{}
-			listResult, listErr := client.Direct(map[string]any{
-				"path":   "comments",
-				"method": "GET",
-				"params": listParams,
-			})
-			if listErr != nil {
-				t.Fatalf("list call failed (likely synthetic IDs against live API): %v", listErr)
-			}
-			if listResult["ok"] != true {
-				t.Fatalf("list call not ok (likely synthetic IDs against live API): %v", listResult)
-			}
-
-			// Get first entity ID from list
-			listData, _ := listResult["data"].([]any)
-			if len(listData) == 0 {
-				t.Skip("no entities to load in live mode")
-			}
-			firstEnt := core.ToMapAny(listData[0])
-			params["id"] = firstEnt["id"]
+			params["id"] = 1
 		} else {
 			params["id"] = "direct01"
 		}
@@ -126,19 +135,14 @@ func TestCommentDirect(t *testing.T) {
 			"query":  query,
 		})
 		if setup.live {
-			// Live mode is lenient: synthetic IDs frequently 4xx. Skip
-			// rather than fail when the load endpoint isn't reachable with
-			// the IDs we can construct from setup.idmap — unless the model
-			// sets main.kit.test.live.strict.
 			if err != nil {
-				t.Fatalf("load call failed (likely synthetic IDs against live API): %v", err)
+				liveMiss(t, commentDirectLiveStrict, "Live load failed: %v", err)
 			}
-			if result["ok"] != true {
-				t.Fatalf("load call not ok (likely synthetic IDs against live API): %v", result)
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, commentDirectLiveStrict, "Live load failed: %s", liveDescribe(result))
 			}
-			status := core.ToInt(result["status"])
-			if status < 200 || status >= 300 {
-				t.Fatalf("expected 2xx status, got %v", result["status"])
+			if result["data"] == nil {
+				liveMiss(t, commentDirectLiveStrict, "Live load returned no data: %s", liveDescribe(result))
 			}
 		} else {
 			if err != nil {
@@ -219,6 +223,12 @@ func commentDirectSetup(mockres any) *commentDirectSetupResult {
 				json.Unmarshal([]byte(entidStr), &idmap)
 			} else if entidMap, ok := entidRaw.(map[string]any); ok {
 				idmap = entidMap
+			}
+		}
+		// A path parameter's example stands in for an id *_ENTID does not give.
+		for k, v := range map[string]any{"comment01": 1, "post01": 1} {
+			if idmap[k] == nil {
+				idmap[k] = v
 			}
 		}
 

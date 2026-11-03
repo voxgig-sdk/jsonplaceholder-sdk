@@ -43,12 +43,12 @@
       "version": 2,
       "source": "openapi3"
     },
-    "GET /comments": {
+    "GET /posts/{id}/comments": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"
     },
-    "GET /posts/{id}/comments": {
+    "GET /comments": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

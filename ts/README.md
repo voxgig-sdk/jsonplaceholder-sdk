@@ -5,7 +5,7 @@
 The TypeScript SDK for the Jsonplaceholder API — a type-safe, entity-oriented client with full async/await support.
 
 The API is exposed as capitalised, semantic **Entities** — e.g.
-`client.Album()` — each with a small set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`)
+`client.Album()` — each with a small set of operations (`list`, `load`, `create`, `update`, `patch`, `remove`)
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
@@ -15,7 +15,7 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases)), or from a
+release tag (`ts/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/jsonplaceholder-sdk/tags)), or from a
 clone, which carries the compiled `dist/`:
 
 ```bash
@@ -47,18 +47,18 @@ resolves to entities, not raw records. Iterate them directly, and call
 const albums = await client.Album().list()
 
 for (const album of albums) {
-  console.log(album)
+  console.log(album.data())
 }
 ```
 
 ### 3. Load an album
 
-`load()` returns the entity directly and throws on failure:
+`load()` returns the entity and throws on failure; `.data()` reads its record:
 
 ```ts
 try {
   const album = await client.Album().load({ id: 1 })
-  console.log(album)
+  console.log(album.data())
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -80,6 +80,13 @@ const updated = await client.Album().update({
   userId: 1,
 })
 
+// Patch — sends only the fields given; the id comes off the returned entity's data()
+const patched = await client.Album().patch({
+  id: created.data().id!,
+  title: 'example_title',
+  userId: 1,
+})
+
 // Remove
 await client.Album().remove({
   id: created.data().id!,
@@ -94,14 +101,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const photos = await client.Photo().list()
-  console.log(photos)
+  console.log(photos.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -110,8 +118,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -129,9 +137,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -160,10 +165,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = JsonplaceholderSDK.test()
 
-const photo = await client.Photo().list()
-// photo is the entity, populated with mock response data
-// — call photo.data() for the record itself
-console.log(photo)
+const photos = await client.Photo().list()
+// photos is an array of Photo entities, one per mock record
+console.log(photos.map((photo) => photo.data()))
 ```
 
 You can also use the instance method:
@@ -283,11 +287,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity, and return it. |
+| `patch` | `patch(reqdata?, ctrl?): Promise<Entity>` | Change part of an existing entity, and return it. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<Entity>` | Remove an entity, and return it marked as deleted. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -296,13 +301,13 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
-- `load`, `create` and `update` resolve to a single entity object.
+- `load`, `create`, `update` and `patch` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
-- `remove` resolves to `void`.
+- `remove` resolves to the entity, marked as deleted.
 
 On a failed request these methods **throw**, so wrap calls in
 `try`/`catch` to handle errors. Only `direct()` returns the result
@@ -437,6 +442,7 @@ Create an instance: `const album = client.Album()`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -464,6 +470,8 @@ const albums = await client.Album().list()
 
 ```ts
 const album = await client.Album().create({
+  title: 'example_title',
+  userId: 1,
 })
 ```
 
@@ -479,6 +487,7 @@ Create an instance: `const comment = client.Comment()`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -508,6 +517,10 @@ const comments = await client.Comment().list()
 
 ```ts
 const comment = await client.Comment().create({
+  body: 'example_body',
+  email: 'example_email',
+  name: 'example_name',
+  postId: 1,
 })
 ```
 
@@ -523,6 +536,7 @@ Create an instance: `const photo = client.Photo()`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -552,6 +566,10 @@ const photos = await client.Photo().list()
 
 ```ts
 const photo = await client.Photo().create({
+  albumId: 1,
+  thumbnailUrl: 'example_thumbnailUrl',
+  title: 'example_title',
+  url: 'example_url',
 })
 ```
 
@@ -567,6 +585,7 @@ Create an instance: `const post = client.Post()`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -595,6 +614,9 @@ const posts = await client.Post().list()
 
 ```ts
 const post = await client.Post().create({
+  body: 'example_body',
+  title: 'example_title',
+  userId: 1,
 })
 ```
 
@@ -610,6 +632,7 @@ Create an instance: `const todo = client.Todo()`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -638,6 +661,9 @@ const todos = await client.Todo().list()
 
 ```ts
 const todo = await client.Todo().create({
+  completed: true,
+  title: 'example_title',
+  userId: 1,
 })
 ```
 
@@ -653,6 +679,7 @@ Create an instance: `const user = client.User()`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -685,6 +712,9 @@ const users = await client.User().list()
 
 ```ts
 const user = await client.User().create({
+  email: 'example_email',
+  name: 'example_name',
+  username: 'example_username',
 })
 ```
 

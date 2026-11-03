@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { JsonplaceholderSDK, BaseFeature, stdutil } from '../../..'
+import { JsonplaceholderSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,64 @@ describe('CommentEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    name = 'failhook'
+    version = '0.0.1'
+    active = true
+    unexpected = 0
+    init() { }
+    PreSpec() { throw new Error('comment hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of JsonplaceholderSDK.test(offline).Comment().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of JsonplaceholderSDK.test(offline).Comment()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != (config as any).feature?.rbac) {
+      const denied = JsonplaceholderSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.Comment().stream('list')) { }
+      }, (err: any) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain: any = {}
+    const ctrl: any = { explain }
+    for await (const _item of JsonplaceholderSDK.test().Comment().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new JsonplaceholderSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.Comment().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.Comment().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = JsonplaceholderSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Comment().list({"post_id":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.JSONPLACEHOLDER_TEST_LIVE
@@ -51,7 +109,7 @@ describe('CommentEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"body":{"a":true,"h":"Body","n":"body","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Comment content","t":"`$STRING`","key$":"body","index$":0},"email":{"a":true,"fo":"email","h":"Email","n":"email","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Email of the commenter","t":"`$STRING`","key$":"email","index$":1},"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"Comment ID","t":"`$INTEGER`","key$":"id","index$":2},"name":{"a":true,"h":"Name","n":"name","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Comment name/title","t":"`$STRING`","key$":"name","index$":3},"postId":{"a":true,"h":"Post Id","n":"postId","op":{"create":{"req":true,"type":"`$INTEGER`"},"patch":{"req":true,"type":"`$INTEGER`"},"update":{"req":true,"type":"`$INTEGER`"}},"r":false,"sh":"Post ID the comment belongs to","t":"`$INTEGER`","key$":"postId","index$":4}},"id":{"field":"id","name":"id"},"name":"comment","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /comments","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/comments","q":{},"r":{},"s":[{"lit":"comments"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /comments","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"post_id","or":"postId","r":false,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/comments","q":{"exist":["post_id"]},"r":{},"s":[{"lit":"comments"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /posts/{id}/comments","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"post_id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/posts/{id}/comments","q":{"exist":["post_id"]},"r":{"param":{"id":"post_id"}},"s":[{"lit":"posts"},{"var":"post_id"},{"lit":"comments"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /comments/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/comments/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"comments"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"patch":{"input":"data","name":"patch","points":[{"a":true,"co":{"id":"PATCH /comments/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PATCH","o":"/comments/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"comments"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"patch"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /comments/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"DELETE","o":"/comments/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"comments"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"},"update":{"input":"data","name":"update","points":[{"a":true,"co":{"id":"PUT /comments/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PUT","o":"/comments/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"comments"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[["$.main.kit.entity.post"]]},"key$":"comment","name__orig":"comment","Name":"Comment","name_":"comment","name-":"comment","NAME":"COMMENT","index$":1}, {"active":true,"entity":"comment","key$":"BasicCommentFlow","kind":"basic","name":"BasicCommentFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"comment_ref01"},"m":{"post_id":"post01"},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{"post_id":"post01"},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"comment_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"comment_ref01","srcdatavar":"comment_ref01_data","suffix":"_up0","textfield":"body"},"m":{},"o":"update","s":[{"apply":"TextFieldMark","def":{"mark":"Mark01-comment_ref01"}}],"v":[],"index$":2},{"a":true,"d":{},"i":{"ref":"comment_ref01","srcdatavar":"comment_ref01_data","suffix":"_dt0"},"m":{"id":"comment01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-comment_ref01"}}],"index$":3},{"a":true,"d":{},"i":{"ref":"comment_ref01","suffix":"_rm0"},"m":{"id":"comment01"},"o":"remove","s":[],"v":[],"index$":4},{"a":true,"d":{},"i":{"suffix":"_rt0"},"m":{"post_id":"post01"},"o":"list","s":[],"v":[{"apply":"ItemNotExists","def":{"ref":"comment_ref01"}}],"index$":5}]}, 'Comment', {"POST /comments":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["postId","name","email","body"],"properties":{"postId":{"type":"integer","description":"Post ID the comment belongs to","key$":"postId"},"name":{"type":"string","description":"Comment name/title","key$":"name"},"email":{"type":"string","format":"email","description":"Email of the commenter","key$":"email"},"body":{"type":"string","description":"Comment content","key$":"body"}},"x-ref":"#/components/schemas/CommentInput","index$":1}}}},"parameters":[]},"GET /comments":{"protocol":"http","parameters":[{"name":"postId","in":"query","description":"Filter comments by post ID","required":false,"schema":{"type":"integer"},"index$":0}]},"GET /posts/{id}/comments":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"index$":0}]},"GET /comments/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Comment ID","required":true,"schema":{"type":"integer"},"index$":0}]},"PATCH /comments/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["postId","name","email","body"],"properties":{"postId":{"type":"integer","description":"Post ID the comment belongs to","key$":"postId"},"name":{"type":"string","description":"Comment name/title","key$":"name"},"email":{"type":"string","format":"email","description":"Email of the commenter","key$":"email"},"body":{"type":"string","description":"Comment content","key$":"body"}},"x-ref":"#/components/schemas/CommentInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Comment ID","required":true,"schema":{"type":"integer"},"index$":0}]},"DELETE /comments/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Comment ID","required":true,"schema":{"type":"integer"},"index$":0}]},"PUT /comments/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["postId","name","email","body"],"properties":{"postId":{"type":"integer","description":"Post ID the comment belongs to","key$":"postId"},"name":{"type":"string","description":"Comment name/title","key$":"name"},"email":{"type":"string","format":"email","description":"Email of the commenter","key$":"email"},"body":{"type":"string","description":"Comment content","key$":"body"}},"x-ref":"#/components/schemas/CommentInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Comment ID","required":true,"schema":{"type":"integer"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"body":{"a":true,"h":"Body","n":"body","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Comment content","t":"`$STRING`","key$":"body","index$":0},"email":{"a":true,"fo":"email","h":"Email","n":"email","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Email of the commenter","t":"`$STRING`","key$":"email","index$":1},"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"Comment ID","t":"`$INTEGER`","key$":"id","index$":2},"name":{"a":true,"h":"Name","n":"name","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Comment name/title","t":"`$STRING`","key$":"name","index$":3},"postId":{"a":true,"h":"Post Id","n":"postId","op":{"create":{"req":true,"type":"`$INTEGER`"},"patch":{"req":true,"type":"`$INTEGER`"},"update":{"req":true,"type":"`$INTEGER`"}},"r":false,"sh":"Post ID the comment belongs to","t":"`$INTEGER`","key$":"postId","index$":4}},"id":{"field":"id","name":"id"},"name":"comment","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["body","email","name","postId"],"co":{"id":"POST /comments","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/comments","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"comments"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /posts/{id}/comments","source":"openapi3","version":2},"g":{"params":[{"a":true,"ex":1,"k":"param","n":"post_id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/posts/{id}/comments","q":{"exist":["post_id"]},"r":{"param":{"id":"post_id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"posts"},{"var":"post_id"},{"lit":"comments"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /comments","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"post_id","or":"postId","r":false,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/comments","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"comments"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /comments/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"ex":1,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/comments/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"comments"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"patch":{"input":"data","name":"patch","points":[{"a":true,"bf":["body","email","name","postId"],"co":{"id":"PATCH /comments/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PATCH","o":"/comments/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"comments"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"patch"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /comments/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"DELETE","o":"/comments/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"comments"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"},"update":{"input":"data","name":"update","points":[{"a":true,"bf":["body","email","name","postId"],"co":{"id":"PUT /comments/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PUT","o":"/comments/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"comments"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[["$.main.kit.entity.post"]]},"key$":"comment","name__orig":"comment","Name":"Comment","name_":"comment","name-":"comment","NAME":"COMMENT","index$":1}, {"active":true,"entity":"comment","key$":"BasicCommentFlow","kind":"basic","name":"BasicCommentFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"comment_ref01"},"m":{"post_id":"post01"},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"comment_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"comment_ref01","srcdatavar":"comment_ref01_data","suffix":"_up0","textfield":"body"},"m":{},"o":"update","s":[{"apply":"TextFieldMark","def":{"mark":"Mark01-comment_ref01"}}],"v":[],"index$":2},{"a":true,"d":{},"i":{"ref":"comment_ref01","srcdatavar":"comment_ref01_data","suffix":"_dt0"},"m":{"id":"comment01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-comment_ref01"}}],"index$":3,"route":"GET /comments/{id}","record":{}},{"a":true,"d":{},"i":{"ref":"comment_ref01","suffix":"_rm0"},"m":{"id":"comment01"},"o":"remove","s":[],"v":[],"index$":4},{"a":true,"d":{},"i":{"suffix":"_rt0"},"m":{},"o":"list","s":[],"v":[{"apply":"ItemNotExists","def":{"ref":"comment_ref01"}}],"index$":5}]}, 'Comment', {"POST /comments":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["postId","name","email","body"],"properties":{"postId":{"type":"integer","description":"Post ID the comment belongs to","key$":"postId"},"name":{"type":"string","description":"Comment name/title","key$":"name"},"email":{"type":"string","format":"email","description":"Email of the commenter","key$":"email"},"body":{"type":"string","description":"Comment content","key$":"body"}},"x-ref":"#/components/schemas/CommentInput","index$":1}}}},"parameters":[]},"GET /posts/{id}/comments":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"example":1,"index$":0}]},"GET /comments":{"protocol":"http","parameters":[{"name":"postId","in":"query","description":"Filter comments by post ID","required":false,"schema":{"type":"integer"},"index$":0}]},"GET /comments/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Comment ID","required":true,"schema":{"type":"integer"},"example":1,"index$":0}]},"PATCH /comments/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["postId","name","email","body"],"properties":{"postId":{"type":"integer","description":"Post ID the comment belongs to","key$":"postId"},"name":{"type":"string","description":"Comment name/title","key$":"name"},"email":{"type":"string","format":"email","description":"Email of the commenter","key$":"email"},"body":{"type":"string","description":"Comment content","key$":"body"}},"x-ref":"#/components/schemas/CommentInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Comment ID","required":true,"schema":{"type":"integer"},"index$":0}]},"DELETE /comments/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Comment ID","required":true,"schema":{"type":"integer"},"index$":0}]},"PUT /comments/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["postId","name","email","body"],"properties":{"postId":{"type":"integer","description":"Post ID the comment belongs to","key$":"postId"},"name":{"type":"string","description":"Comment name/title","key$":"name"},"email":{"type":"string","format":"email","description":"Email of the commenter","key$":"email"},"body":{"type":"string","description":"Comment content","key$":"body"}},"x-ref":"#/components/schemas/CommentInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Comment ID","required":true,"schema":{"type":"integer"},"index$":0}]}}, { strict: LIVE_STRICT, t }, 'TRUE' === process.env.VOXGIG_GETONLY_GUARD ? {"comment.create.0":"GET-only live run: needs POST /comments","comment.update.2":"GET-only live run: needs PUT /comments/{id}","comment.remove.4":"GET-only live run: needs DELETE /comments/{id}","comment.list.5":"GET-only live run: checks a removal this run does not make"} : {})
     }
     const client = setup.client
     const struct = setup.struct
@@ -71,7 +129,6 @@ describe('CommentEntity', async () => {
 
     // LIST
     const comment_ref01_match: any = {}
-    comment_ref01_match['post_id'] = setup.idmap['post01']
 
     const comment_ref01_list = (await comment_ref01_ent.list(comment_ref01_match)).map((e: any) => e.data())
 
@@ -105,7 +162,6 @@ describe('CommentEntity', async () => {
 
     // LIST
     const comment_ref01_match_rt0: any = {}
-    comment_ref01_match_rt0['post_id'] = setup.idmap['post01']
 
     const comment_ref01_list_rt0 = (await comment_ref01_ent.list(comment_ref01_match_rt0)).map((e: any) => e.data())
 
@@ -116,6 +172,12 @@ describe('CommentEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

@@ -115,6 +115,15 @@ main: kit: entity: user: {
       name: "create"
       points: [
         {
+          bf: [
+            "address"
+            "company"
+            "email"
+            "name"
+            "phone"
+            "username"
+            "website"
+          ]
           co: {
             id: "POST /users"
             source: "openapi3"
@@ -122,6 +131,10 @@ main: kit: entity: user: {
           }
           m: "POST"
           o: "/users"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "users"
@@ -145,6 +158,10 @@ main: kit: entity: user: {
           }
           m: "GET"
           o: "/users"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "users"
@@ -169,6 +186,7 @@ main: kit: entity: user: {
           g: {
             params: [
               {
+                ex: 1
                 k: "param"
                 n: "id"
                 or: "id"
@@ -183,6 +201,10 @@ main: kit: entity: user: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -203,6 +225,15 @@ main: kit: entity: user: {
       name: "patch"
       points: [
         {
+          bf: [
+            "address"
+            "company"
+            "email"
+            "name"
+            "phone"
+            "username"
+            "website"
+          ]
           co: {
             id: "PATCH /users/{id}"
             source: "openapi3"
@@ -225,6 +256,10 @@ main: kit: entity: user: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -287,6 +322,15 @@ main: kit: entity: user: {
       name: "update"
       points: [
         {
+          bf: [
+            "address"
+            "company"
+            "email"
+            "name"
+            "phone"
+            "username"
+            "website"
+          ]
           co: {
             id: "PUT /users/{id}"
             source: "openapi3"
@@ -309,6 +353,10 @@ main: kit: entity: user: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

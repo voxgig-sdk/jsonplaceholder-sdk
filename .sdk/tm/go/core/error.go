@@ -12,6 +12,8 @@ type JsonplaceholderError struct {
 	Ctx    *Context `json:"-"`
 	Result any
 	Spec   any
+	// The HTTP status, -1 when there was no response.
+	Status int
 }
 
 func NewJsonplaceholderError(code string, msg string, ctx *Context) *JsonplaceholderError {
@@ -21,7 +23,12 @@ func NewJsonplaceholderError(code string, msg string, ctx *Context) *Jsonplaceho
 		Code:               code,
 		Msg:                msg,
 		Ctx:                ctx,
+		Status:             -1,
 	}
+}
+
+func (e *JsonplaceholderError) NotFound() bool {
+	return 404 == e.Status
 }
 
 func (e *JsonplaceholderError) Error() string {
@@ -35,6 +42,7 @@ func (e *JsonplaceholderError) Record() map[string]any {
 		"sdk":     e.Sdk,
 		"code":    e.Code,
 		"message": e.Msg,
+		"status":  e.Status,
 		"result":  e.Result,
 		"spec":    e.Spec,
 	}

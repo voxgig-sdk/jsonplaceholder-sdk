@@ -35,13 +35,20 @@ class AlbumListMatch
 /** Request payload for Album#create. */
 class AlbumCreateData
 {
-    public ?int $id = null;
-    public ?string $title = null;
-    public ?int $userId = null;
+    public string $title;
+    public int $userId;
 }
 
 /** Request payload for Album#update. */
 class AlbumUpdateData
+{
+    public int $id;
+    public ?string $title = null;
+    public ?int $userId = null;
+}
+
+/** Request payload for Album#patch. */
+class AlbumPatchData
 {
     public int $id;
     public ?string $title = null;
@@ -79,15 +86,24 @@ class CommentListMatch
 /** Request payload for Comment#create. */
 class CommentCreateData
 {
-    public ?string $body = null;
-    public ?string $email = null;
-    public ?int $id = null;
-    public ?string $name = null;
-    public ?int $postId = null;
+    public string $body;
+    public string $email;
+    public string $name;
+    public int $postId;
 }
 
 /** Request payload for Comment#update. */
 class CommentUpdateData
+{
+    public int $id;
+    public ?string $body = null;
+    public ?string $email = null;
+    public ?string $name = null;
+    public ?int $postId = null;
+}
+
+/** Request payload for Comment#patch. */
+class CommentPatchData
 {
     public int $id;
     public ?string $body = null;
@@ -127,15 +143,24 @@ class PhotoListMatch
 /** Request payload for Photo#create. */
 class PhotoCreateData
 {
+    public int $albumId;
+    public string $thumbnailUrl;
+    public string $title;
+    public string $url;
+}
+
+/** Request payload for Photo#update. */
+class PhotoUpdateData
+{
+    public int $id;
     public ?int $albumId = null;
-    public ?int $id = null;
     public ?string $thumbnailUrl = null;
     public ?string $title = null;
     public ?string $url = null;
 }
 
-/** Request payload for Photo#update. */
-class PhotoUpdateData
+/** Request payload for Photo#patch. */
+class PhotoPatchData
 {
     public int $id;
     public ?int $albumId = null;
@@ -174,14 +199,22 @@ class PostListMatch
 /** Request payload for Post#create. */
 class PostCreateData
 {
-    public ?string $body = null;
-    public ?int $id = null;
-    public ?string $title = null;
-    public ?int $userId = null;
+    public string $body;
+    public string $title;
+    public int $userId;
 }
 
 /** Request payload for Post#update. */
 class PostUpdateData
+{
+    public int $id;
+    public ?string $body = null;
+    public ?string $title = null;
+    public ?int $userId = null;
+}
+
+/** Request payload for Post#patch. */
+class PostPatchData
 {
     public int $id;
     public ?string $body = null;
@@ -219,14 +252,22 @@ class TodoListMatch
 /** Request payload for Todo#create. */
 class TodoCreateData
 {
-    public ?bool $completed = null;
-    public ?int $id = null;
-    public ?string $title = null;
-    public ?int $userId = null;
+    public bool $completed;
+    public string $title;
+    public int $userId;
 }
 
 /** Request payload for Todo#update. */
 class TodoUpdateData
+{
+    public int $id;
+    public ?bool $completed = null;
+    public ?string $title = null;
+    public ?int $userId = null;
+}
+
+/** Request payload for Todo#patch. */
+class TodoPatchData
 {
     public int $id;
     public ?bool $completed = null;
@@ -277,16 +318,28 @@ class UserCreateData
 {
     public ?array $address = null;
     public ?array $company = null;
+    public string $email;
+    public string $name;
+    public ?string $phone = null;
+    public string $username;
+    public ?string $website = null;
+}
+
+/** Request payload for User#update. */
+class UserUpdateData
+{
+    public int $id;
+    public ?array $address = null;
+    public ?array $company = null;
     public ?string $email = null;
-    public ?int $id = null;
     public ?string $name = null;
     public ?string $phone = null;
     public ?string $username = null;
     public ?string $website = null;
 }
 
-/** Request payload for User#update. */
-class UserUpdateData
+/** Request payload for User#patch. */
+class UserPatchData
 {
     public int $id;
     public ?array $address = null;

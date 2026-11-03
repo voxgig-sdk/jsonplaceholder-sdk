@@ -67,6 +67,10 @@ main: kit: entity: album: {
       name: "create"
       points: [
         {
+          bf: [
+            "title"
+            "userId"
+          ]
           co: {
             id: "POST /albums"
             source: "openapi3"
@@ -74,6 +78,10 @@ main: kit: entity: album: {
           }
           m: "POST"
           o: "/albums"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "albums"
@@ -91,40 +99,6 @@ main: kit: entity: album: {
       points: [
         {
           co: {
-            id: "GET /albums"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            query: [
-              {
-                k: "query"
-                n: "user_id"
-                or: "userId"
-                r: false
-                t: "`$INTEGER`"
-              }
-            ]
-          }
-          m: "GET"
-          o: "/albums"
-          q: {
-            exist: [
-              "user_id"
-            ]
-          }
-          s: [
-            {
-              lit: "albums"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
             id: "GET /users/{id}/albums"
             source: "openapi3"
             version: 2
@@ -132,6 +106,7 @@ main: kit: entity: album: {
           g: {
             params: [
               {
+                ex: 1
                 k: "param"
                 n: "user_id"
                 or: "id"
@@ -152,6 +127,10 @@ main: kit: entity: album: {
               id: "user_id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "users"
@@ -159,6 +138,39 @@ main: kit: entity: album: {
             {
               var: "user_id"
             }
+            {
+              lit: "albums"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /albums"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "user_id"
+                or: "userId"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/albums"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
             {
               lit: "albums"
             }
@@ -182,6 +194,7 @@ main: kit: entity: album: {
           g: {
             params: [
               {
+                ex: 1
                 k: "param"
                 n: "id"
                 or: "id"
@@ -196,6 +209,10 @@ main: kit: entity: album: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -216,6 +233,10 @@ main: kit: entity: album: {
       name: "patch"
       points: [
         {
+          bf: [
+            "title"
+            "userId"
+          ]
           co: {
             id: "PATCH /albums/{id}"
             source: "openapi3"
@@ -238,6 +259,10 @@ main: kit: entity: album: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -300,6 +325,10 @@ main: kit: entity: album: {
       name: "update"
       points: [
         {
+          bf: [
+            "title"
+            "userId"
+          ]
           co: {
             id: "PUT /albums/{id}"
             source: "openapi3"
@@ -322,6 +351,10 @@ main: kit: entity: album: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

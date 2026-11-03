@@ -18,11 +18,15 @@
 ---@field user_id? number
 
 ---@class AlbumCreateData
----@field id? number
+---@field title string
+---@field userId number
+
+---@class AlbumUpdateData
+---@field id number
 ---@field title? string
 ---@field userId? number
 
----@class AlbumUpdateData
+---@class AlbumPatchData
 ---@field id number
 ---@field title? string
 ---@field userId? number
@@ -44,13 +48,19 @@
 ---@field post_id? number
 
 ---@class CommentCreateData
+---@field body string
+---@field email string
+---@field name string
+---@field postId number
+
+---@class CommentUpdateData
+---@field id number
 ---@field body? string
 ---@field email? string
----@field id? number
 ---@field name? string
 ---@field postId? number
 
----@class CommentUpdateData
+---@class CommentPatchData
 ---@field id number
 ---@field body? string
 ---@field email? string
@@ -74,13 +84,19 @@
 ---@field album_id? number
 
 ---@class PhotoCreateData
+---@field albumId number
+---@field thumbnailUrl string
+---@field title string
+---@field url string
+
+---@class PhotoUpdateData
+---@field id number
 ---@field albumId? number
----@field id? number
 ---@field thumbnailUrl? string
 ---@field title? string
 ---@field url? string
 
----@class PhotoUpdateData
+---@class PhotoPatchData
 ---@field id number
 ---@field albumId? number
 ---@field thumbnailUrl? string
@@ -103,12 +119,17 @@
 ---@field user_id? number
 
 ---@class PostCreateData
+---@field body string
+---@field title string
+---@field userId number
+
+---@class PostUpdateData
+---@field id number
 ---@field body? string
----@field id? number
 ---@field title? string
 ---@field userId? number
 
----@class PostUpdateData
+---@class PostPatchData
 ---@field id number
 ---@field body? string
 ---@field title? string
@@ -130,12 +151,17 @@
 ---@field user_id? number
 
 ---@class TodoCreateData
+---@field completed boolean
+---@field title string
+---@field userId number
+
+---@class TodoUpdateData
+---@field id number
 ---@field completed? boolean
----@field id? number
 ---@field title? string
 ---@field userId? number
 
----@class TodoUpdateData
+---@class TodoPatchData
 ---@field id number
 ---@field completed? boolean
 ---@field title? string
@@ -170,14 +196,23 @@
 ---@class UserCreateData
 ---@field address? table
 ---@field company? table
+---@field email string
+---@field name string
+---@field phone? string
+---@field username string
+---@field website? string
+
+---@class UserUpdateData
+---@field id number
+---@field address? table
+---@field company? table
 ---@field email? string
----@field id? number
 ---@field name? string
 ---@field phone? string
 ---@field username? string
 ---@field website? string
 
----@class UserUpdateData
+---@class UserPatchData
 ---@field id number
 ---@field address? table
 ---@field company? table

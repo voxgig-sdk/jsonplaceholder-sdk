@@ -35,12 +35,12 @@
       "version": 2,
       "source": "openapi3"
     },
-    "GET /albums": {
+    "GET /users/{id}/albums": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"
     },
-    "GET /users/{id}/albums": {
+    "GET /albums": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

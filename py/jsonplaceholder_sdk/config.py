@@ -96,6 +96,7 @@ def make_config():
         },
         "optspec": {
           "clearTimer": "`$FUNCTION`",
+          "now": "`$FUNCTION`",
           "setTimer": "`$FUNCTION`",
         },
         "strict": False,
@@ -195,6 +196,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -202,39 +207,6 @@ def make_config():
             "input": "data",
             "name": "list",
             "points": [
-              {
-                "kind": "http",
-                "method": "GET",
-                "orig": "/albums",
-                "segments": [
-                  {
-                    "lit": "albums",
-                  },
-                ],
-                "parts": [
-                  "albums",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {
-                  "query": [
-                    {
-                      "name": "user_id",
-                      "orig": "userId",
-                      "type": "`$INTEGER`",
-                      "kind": "query",
-                    },
-                  ],
-                },
-                "select": {
-                  "exist": [
-                    "user_id",
-                  ],
-                },
-              },
               {
                 "kind": "http",
                 "method": "GET",
@@ -272,6 +244,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -279,6 +252,43 @@ def make_config():
                   "exist": [
                     "user_id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "GET",
+                "orig": "/albums",
+                "segments": [
+                  {
+                    "lit": "albums",
+                  },
+                ],
+                "parts": [
+                  "albums",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "userId",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -316,6 +326,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -323,6 +334,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -367,6 +382,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -455,6 +474,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -587,6 +610,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -594,39 +621,6 @@ def make_config():
             "input": "data",
             "name": "list",
             "points": [
-              {
-                "kind": "http",
-                "method": "GET",
-                "orig": "/comments",
-                "segments": [
-                  {
-                    "lit": "comments",
-                  },
-                ],
-                "parts": [
-                  "comments",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {
-                  "query": [
-                    {
-                      "name": "post_id",
-                      "orig": "postId",
-                      "type": "`$INTEGER`",
-                      "kind": "query",
-                    },
-                  ],
-                },
-                "select": {
-                  "exist": [
-                    "post_id",
-                  ],
-                },
-              },
               {
                 "kind": "http",
                 "method": "GET",
@@ -664,6 +658,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -671,6 +666,43 @@ def make_config():
                   "exist": [
                     "post_id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "GET",
+                "orig": "/comments",
+                "segments": [
+                  {
+                    "lit": "comments",
+                  },
+                ],
+                "parts": [
+                  "comments",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "post_id",
+                      "orig": "postId",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -708,6 +740,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -715,6 +748,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -759,6 +796,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -847,6 +888,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -980,6 +1025,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -1024,6 +1073,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -1031,6 +1081,10 @@ def make_config():
                   "exist": [
                     "album_id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
               {
@@ -1060,10 +1114,10 @@ def make_config():
                     },
                   ],
                 },
-                "select": {
-                  "exist": [
-                    "album_id",
-                  ],
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1101,6 +1155,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -1108,6 +1163,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1152,6 +1211,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1240,6 +1303,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1351,6 +1418,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -1358,39 +1429,6 @@ def make_config():
             "input": "data",
             "name": "list",
             "points": [
-              {
-                "kind": "http",
-                "method": "GET",
-                "orig": "/posts",
-                "segments": [
-                  {
-                    "lit": "posts",
-                  },
-                ],
-                "parts": [
-                  "posts",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {
-                  "query": [
-                    {
-                      "name": "user_id",
-                      "orig": "userId",
-                      "type": "`$INTEGER`",
-                      "kind": "query",
-                    },
-                  ],
-                },
-                "select": {
-                  "exist": [
-                    "user_id",
-                  ],
-                },
-              },
               {
                 "kind": "http",
                 "method": "GET",
@@ -1428,6 +1466,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -1435,6 +1474,43 @@ def make_config():
                   "exist": [
                     "user_id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "GET",
+                "orig": "/posts",
+                "segments": [
+                  {
+                    "lit": "posts",
+                  },
+                ],
+                "parts": [
+                  "posts",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "userId",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1472,6 +1548,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -1479,6 +1556,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1523,6 +1604,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1611,6 +1696,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1722,6 +1811,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -1729,39 +1822,6 @@ def make_config():
             "input": "data",
             "name": "list",
             "points": [
-              {
-                "kind": "http",
-                "method": "GET",
-                "orig": "/todos",
-                "segments": [
-                  {
-                    "lit": "todos",
-                  },
-                ],
-                "parts": [
-                  "todos",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {
-                  "query": [
-                    {
-                      "name": "user_id",
-                      "orig": "userId",
-                      "type": "`$INTEGER`",
-                      "kind": "query",
-                    },
-                  ],
-                },
-                "select": {
-                  "exist": [
-                    "user_id",
-                  ],
-                },
-              },
               {
                 "kind": "http",
                 "method": "GET",
@@ -1799,6 +1859,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -1806,6 +1867,43 @@ def make_config():
                   "exist": [
                     "user_id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "GET",
+                "orig": "/todos",
+                "segments": [
+                  {
+                    "lit": "todos",
+                  },
+                ],
+                "parts": [
+                  "todos",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "userId",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1843,6 +1941,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -1850,6 +1949,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1894,6 +1997,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1982,6 +2089,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -2116,6 +2227,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -2142,6 +2257,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -2178,6 +2297,7 @@ def make_config():
                       "type": "`$INTEGER`",
                       "kind": "param",
                       "reqd": True,
+                      "example": 1,
                     },
                   ],
                 },
@@ -2185,6 +2305,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -2229,6 +2353,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -2317,6 +2445,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],

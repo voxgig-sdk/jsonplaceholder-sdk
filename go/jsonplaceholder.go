@@ -13,7 +13,12 @@ type Context = core.Context
 type Utility = core.Utility
 type Feature = core.Feature
 type Entity = core.Entity
-type JsonplaceholderEntity = core.JsonplaceholderEntity
+type JsonplaceholderEntityBase = core.JsonplaceholderEntityBase
+
+// Deprecated: use JsonplaceholderEntityBase.
+type JsonplaceholderEntity = core.JsonplaceholderEntityBase
+
+type StreamItem = core.StreamItem
 type FetcherFunc = core.FetcherFunc
 type Spec = core.Spec
 type Result = core.Result
@@ -41,22 +46,22 @@ func init() {
 	core.NewTimeoutFeatureFunc = func() core.Feature {
 		return feature.NewTimeoutFeature()
 	}
-	core.NewAlbumEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntity {
+	core.NewAlbumEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntityBase {
 		return entity.NewAlbumEntity(client, entopts)
 	}
-	core.NewCommentEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntity {
+	core.NewCommentEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntityBase {
 		return entity.NewCommentEntity(client, entopts)
 	}
-	core.NewPhotoEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntity {
+	core.NewPhotoEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntityBase {
 		return entity.NewPhotoEntity(client, entopts)
 	}
-	core.NewPostEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntity {
+	core.NewPostEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntityBase {
 		return entity.NewPostEntity(client, entopts)
 	}
-	core.NewTodoEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntity {
+	core.NewTodoEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntityBase {
 		return entity.NewTodoEntity(client, entopts)
 	}
-	core.NewUserEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntity {
+	core.NewUserEntityFunc = func(client *core.JsonplaceholderSDK, entopts map[string]any) core.JsonplaceholderEntityBase {
 		return entity.NewUserEntity(client, entopts)
 	}
 }

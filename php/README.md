@@ -4,7 +4,7 @@
 
 The PHP SDK for the Jsonplaceholder API — an entity-oriented client using PHP conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Album()` — with named operations (`list`/`load`/`create`/`update`/`remove`/`patch`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Album()` — with named operations (`list`/`load`/`create`/`update`/`patch`/`remove`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases)), or
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/jsonplaceholder-sdk/tags)), or
 from a clone as a Composer path repository:
 
 ```bash
@@ -71,6 +71,9 @@ $created = $client->Album()->create(["title" => "example_title", "userId" => 1])
 
 // Update — index the record via data_get() ($created->data_get()["id"]).
 $client->Album()->update(["id" => $created->data_get()["id"], "title" => "example_title", "userId" => 1]);
+
+// Patch — sends only the fields given
+$client->Album()->patch(["id" => $created->data_get()["id"], "title" => "example_title", "userId" => 1]);
 
 // Remove
 $client->Album()->remove(["id" => $created->data_get()["id"]]);
@@ -254,11 +257,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
-| `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
+| `load` | `($reqmatch, $ctrl): mixed` | Load a single entity by match criteria, and return it. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
+| `create` | `($reqdata, $ctrl): mixed` | Create a new entity, and return it. |
+| `update` | `($reqdata, $ctrl): mixed` | Update an existing entity, and return it. |
+| `patch` | `($reqdata, $ctrl): mixed` | Change part of an existing entity, and return it. |
+| `remove` | `($reqmatch, $ctrl): mixed` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -268,9 +272,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -385,6 +389,7 @@ Create an instance: `$album = $client->Album();`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -406,7 +411,7 @@ $album = $client->Album()->load(["id" => 1]);
 #### Example: List
 
 ```php
-// list() returns an array of Album records (throws on error).
+// list() returns an array of Album entities, one per record (throws on error).
 $albums = $client->Album()->list();
 ```
 
@@ -414,6 +419,8 @@ $albums = $client->Album()->list();
 
 ```php
 $album = $client->Album()->create([
+    "title" => null, // string
+    "userId" => null, // int
 ]);
 ```
 
@@ -429,6 +436,7 @@ Create an instance: `$comment = $client->Comment();`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -452,7 +460,7 @@ $comment = $client->Comment()->load(["id" => 1]);
 #### Example: List
 
 ```php
-// list() returns an array of Comment records (throws on error).
+// list() returns an array of Comment entities, one per record (throws on error).
 $comments = $client->Comment()->list();
 ```
 
@@ -460,6 +468,10 @@ $comments = $client->Comment()->list();
 
 ```php
 $comment = $client->Comment()->create([
+    "body" => null, // string
+    "email" => null, // string
+    "name" => null, // string
+    "postId" => null, // int
 ]);
 ```
 
@@ -475,6 +487,7 @@ Create an instance: `$photo = $client->Photo();`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -498,7 +511,7 @@ $photo = $client->Photo()->load(["id" => 1]);
 #### Example: List
 
 ```php
-// list() returns an array of Photo records (throws on error).
+// list() returns an array of Photo entities, one per record (throws on error).
 $photos = $client->Photo()->list();
 ```
 
@@ -506,6 +519,10 @@ $photos = $client->Photo()->list();
 
 ```php
 $photo = $client->Photo()->create([
+    "albumId" => null, // int
+    "thumbnailUrl" => null, // string
+    "title" => null, // string
+    "url" => null, // string
 ]);
 ```
 
@@ -521,6 +538,7 @@ Create an instance: `$post = $client->Post();`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -543,7 +561,7 @@ $post = $client->Post()->load(["id" => 1]);
 #### Example: List
 
 ```php
-// list() returns an array of Post records (throws on error).
+// list() returns an array of Post entities, one per record (throws on error).
 $posts = $client->Post()->list();
 ```
 
@@ -551,6 +569,9 @@ $posts = $client->Post()->list();
 
 ```php
 $post = $client->Post()->create([
+    "body" => null, // string
+    "title" => null, // string
+    "userId" => null, // int
 ]);
 ```
 
@@ -566,6 +587,7 @@ Create an instance: `$todo = $client->Todo();`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -588,7 +610,7 @@ $todo = $client->Todo()->load(["id" => 1]);
 #### Example: List
 
 ```php
-// list() returns an array of Todo records (throws on error).
+// list() returns an array of Todo entities, one per record (throws on error).
 $todos = $client->Todo()->list();
 ```
 
@@ -596,6 +618,9 @@ $todos = $client->Todo()->list();
 
 ```php
 $todo = $client->Todo()->create([
+    "completed" => null, // bool
+    "title" => null, // string
+    "userId" => null, // int
 ]);
 ```
 
@@ -611,6 +636,7 @@ Create an instance: `$user = $client->User();`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -637,7 +663,7 @@ $user = $client->User()->load(["id" => 1]);
 #### Example: List
 
 ```php
-// list() returns an array of User records (throws on error).
+// list() returns an array of User entities, one per record (throws on error).
 $users = $client->User()->list();
 ```
 
@@ -645,6 +671,9 @@ $users = $client->User()->list();
 
 ```php
 $user = $client->User()->create([
+    "email" => null, // string
+    "name" => null, // string
+    "username" => null, // string
 ]);
 ```
 

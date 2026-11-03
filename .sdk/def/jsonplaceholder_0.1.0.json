@@ -102,7 +102,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -245,7 +246,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -347,7 +349,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -555,7 +558,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -698,7 +702,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -800,7 +805,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -1008,7 +1014,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -1205,7 +1212,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -1348,7 +1356,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -1385,7 +1394,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {
@@ -1422,7 +1432,8 @@
             "required": true,
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           }
         ],
         "responses": {

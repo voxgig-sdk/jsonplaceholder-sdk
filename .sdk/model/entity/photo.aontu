@@ -111,6 +111,12 @@ main: kit: entity: photo: {
       name: "create"
       points: [
         {
+          bf: [
+            "albumId"
+            "thumbnailUrl"
+            "title"
+            "url"
+          ]
           co: {
             id: "POST /photos"
             source: "openapi3"
@@ -118,6 +124,10 @@ main: kit: entity: photo: {
           }
           m: "POST"
           o: "/photos"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "photos"
@@ -142,6 +152,7 @@ main: kit: entity: photo: {
           g: {
             params: [
               {
+                ex: 1
                 k: "param"
                 n: "album_id"
                 or: "id"
@@ -161,6 +172,10 @@ main: kit: entity: photo: {
             param: {
               id: "album_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -197,10 +212,9 @@ main: kit: entity: photo: {
           }
           m: "GET"
           o: "/photos"
-          q: {
-            exist: [
-              "album_id"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -226,6 +240,7 @@ main: kit: entity: photo: {
           g: {
             params: [
               {
+                ex: 1
                 k: "param"
                 n: "id"
                 or: "id"
@@ -240,6 +255,10 @@ main: kit: entity: photo: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -260,6 +279,12 @@ main: kit: entity: photo: {
       name: "patch"
       points: [
         {
+          bf: [
+            "albumId"
+            "thumbnailUrl"
+            "title"
+            "url"
+          ]
           co: {
             id: "PATCH /photos/{id}"
             source: "openapi3"
@@ -282,6 +307,10 @@ main: kit: entity: photo: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -344,6 +373,12 @@ main: kit: entity: photo: {
       name: "update"
       points: [
         {
+          bf: [
+            "albumId"
+            "thumbnailUrl"
+            "title"
+            "url"
+          ]
           co: {
             id: "PUT /photos/{id}"
             source: "openapi3"
@@ -366,6 +401,10 @@ main: kit: entity: photo: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

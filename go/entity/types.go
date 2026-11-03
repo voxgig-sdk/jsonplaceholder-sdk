@@ -28,13 +28,19 @@ type AlbumListMatch struct {
 
 // AlbumCreateData is the typed request payload for Album.CreateTyped.
 type AlbumCreateData struct {
-	Id *int `json:"id,omitempty"`
-	Title *string `json:"title,omitempty"`
-	UserId *int `json:"userId,omitempty"`
+	Title string `json:"title"`
+	UserId int `json:"userId"`
 }
 
 // AlbumUpdateData is the typed request payload for Album.UpdateTyped.
 type AlbumUpdateData struct {
+	Id int `json:"id"`
+	Title *string `json:"title,omitempty"`
+	UserId *int `json:"userId,omitempty"`
+}
+
+// AlbumPatchData is the typed request payload for Album.PatchTyped.
+type AlbumPatchData struct {
 	Id int `json:"id"`
 	Title *string `json:"title,omitempty"`
 	UserId *int `json:"userId,omitempty"`
@@ -61,15 +67,23 @@ type CommentListMatch struct {
 
 // CommentCreateData is the typed request payload for Comment.CreateTyped.
 type CommentCreateData struct {
-	Body *string `json:"body,omitempty"`
-	Email *string `json:"email,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	PostId *int `json:"postId,omitempty"`
+	Body string `json:"body"`
+	Email string `json:"email"`
+	Name string `json:"name"`
+	PostId int `json:"postId"`
 }
 
 // CommentUpdateData is the typed request payload for Comment.UpdateTyped.
 type CommentUpdateData struct {
+	Id int `json:"id"`
+	Body *string `json:"body,omitempty"`
+	Email *string `json:"email,omitempty"`
+	Name *string `json:"name,omitempty"`
+	PostId *int `json:"postId,omitempty"`
+}
+
+// CommentPatchData is the typed request payload for Comment.PatchTyped.
+type CommentPatchData struct {
 	Id int `json:"id"`
 	Body *string `json:"body,omitempty"`
 	Email *string `json:"email,omitempty"`
@@ -98,15 +112,23 @@ type PhotoListMatch struct {
 
 // PhotoCreateData is the typed request payload for Photo.CreateTyped.
 type PhotoCreateData struct {
+	AlbumId int `json:"albumId"`
+	ThumbnailUrl string `json:"thumbnailUrl"`
+	Title string `json:"title"`
+	Url string `json:"url"`
+}
+
+// PhotoUpdateData is the typed request payload for Photo.UpdateTyped.
+type PhotoUpdateData struct {
+	Id int `json:"id"`
 	AlbumId *int `json:"albumId,omitempty"`
-	Id *int `json:"id,omitempty"`
 	ThumbnailUrl *string `json:"thumbnailUrl,omitempty"`
 	Title *string `json:"title,omitempty"`
 	Url *string `json:"url,omitempty"`
 }
 
-// PhotoUpdateData is the typed request payload for Photo.UpdateTyped.
-type PhotoUpdateData struct {
+// PhotoPatchData is the typed request payload for Photo.PatchTyped.
+type PhotoPatchData struct {
 	Id int `json:"id"`
 	AlbumId *int `json:"albumId,omitempty"`
 	ThumbnailUrl *string `json:"thumbnailUrl,omitempty"`
@@ -135,14 +157,21 @@ type PostListMatch struct {
 
 // PostCreateData is the typed request payload for Post.CreateTyped.
 type PostCreateData struct {
-	Body *string `json:"body,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Title *string `json:"title,omitempty"`
-	UserId *int `json:"userId,omitempty"`
+	Body string `json:"body"`
+	Title string `json:"title"`
+	UserId int `json:"userId"`
 }
 
 // PostUpdateData is the typed request payload for Post.UpdateTyped.
 type PostUpdateData struct {
+	Id int `json:"id"`
+	Body *string `json:"body,omitempty"`
+	Title *string `json:"title,omitempty"`
+	UserId *int `json:"userId,omitempty"`
+}
+
+// PostPatchData is the typed request payload for Post.PatchTyped.
+type PostPatchData struct {
 	Id int `json:"id"`
 	Body *string `json:"body,omitempty"`
 	Title *string `json:"title,omitempty"`
@@ -170,14 +199,21 @@ type TodoListMatch struct {
 
 // TodoCreateData is the typed request payload for Todo.CreateTyped.
 type TodoCreateData struct {
-	Completed *bool `json:"completed,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Title *string `json:"title,omitempty"`
-	UserId *int `json:"userId,omitempty"`
+	Completed bool `json:"completed"`
+	Title string `json:"title"`
+	UserId int `json:"userId"`
 }
 
 // TodoUpdateData is the typed request payload for Todo.UpdateTyped.
 type TodoUpdateData struct {
+	Id int `json:"id"`
+	Completed *bool `json:"completed,omitempty"`
+	Title *string `json:"title,omitempty"`
+	UserId *int `json:"userId,omitempty"`
+}
+
+// TodoPatchData is the typed request payload for Todo.PatchTyped.
+type TodoPatchData struct {
 	Id int `json:"id"`
 	Completed *bool `json:"completed,omitempty"`
 	Title *string `json:"title,omitempty"`
@@ -214,16 +250,27 @@ type UserListMatch struct {
 type UserCreateData struct {
 	Address *map[string]any `json:"address,omitempty"`
 	Company *map[string]any `json:"company,omitempty"`
+	Email string `json:"email"`
+	Name string `json:"name"`
+	Phone *string `json:"phone,omitempty"`
+	Username string `json:"username"`
+	Website *string `json:"website,omitempty"`
+}
+
+// UserUpdateData is the typed request payload for User.UpdateTyped.
+type UserUpdateData struct {
+	Id int `json:"id"`
+	Address *map[string]any `json:"address,omitempty"`
+	Company *map[string]any `json:"company,omitempty"`
 	Email *string `json:"email,omitempty"`
-	Id *int `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Phone *string `json:"phone,omitempty"`
 	Username *string `json:"username,omitempty"`
 	Website *string `json:"website,omitempty"`
 }
 
-// UserUpdateData is the typed request payload for User.UpdateTyped.
-type UserUpdateData struct {
+// UserPatchData is the typed request payload for User.PatchTyped.
+type UserPatchData struct {
 	Id int `json:"id"`
 	Address *map[string]any `json:"address,omitempty"`
 	Company *map[string]any `json:"company,omitempty"`

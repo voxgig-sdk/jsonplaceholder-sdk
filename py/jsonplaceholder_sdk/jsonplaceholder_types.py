@@ -30,8 +30,7 @@ class AlbumListMatch(TypedDict, total=False):
     user_id: int
 
 
-class AlbumCreateData(TypedDict, total=False):
-    id: int
+class AlbumCreateData(TypedDict):
     title: str
     userId: int
 
@@ -41,6 +40,15 @@ class AlbumUpdateDataRequired(TypedDict):
 
 
 class AlbumUpdateData(AlbumUpdateDataRequired, total=False):
+    title: str
+    userId: int
+
+
+class AlbumPatchDataRequired(TypedDict):
+    id: int
+
+
+class AlbumPatchData(AlbumPatchDataRequired, total=False):
     title: str
     userId: int
 
@@ -65,10 +73,9 @@ class CommentListMatch(TypedDict, total=False):
     post_id: int
 
 
-class CommentCreateData(TypedDict, total=False):
+class CommentCreateData(TypedDict):
     body: str
     email: str
-    id: int
     name: str
     postId: int
 
@@ -78,6 +85,17 @@ class CommentUpdateDataRequired(TypedDict):
 
 
 class CommentUpdateData(CommentUpdateDataRequired, total=False):
+    body: str
+    email: str
+    name: str
+    postId: int
+
+
+class CommentPatchDataRequired(TypedDict):
+    id: int
+
+
+class CommentPatchData(CommentPatchDataRequired, total=False):
     body: str
     email: str
     name: str
@@ -104,9 +122,8 @@ class PhotoListMatch(TypedDict, total=False):
     album_id: int
 
 
-class PhotoCreateData(TypedDict, total=False):
+class PhotoCreateData(TypedDict):
     albumId: int
-    id: int
     thumbnailUrl: str
     title: str
     url: str
@@ -117,6 +134,17 @@ class PhotoUpdateDataRequired(TypedDict):
 
 
 class PhotoUpdateData(PhotoUpdateDataRequired, total=False):
+    albumId: int
+    thumbnailUrl: str
+    title: str
+    url: str
+
+
+class PhotoPatchDataRequired(TypedDict):
+    id: int
+
+
+class PhotoPatchData(PhotoPatchDataRequired, total=False):
     albumId: int
     thumbnailUrl: str
     title: str
@@ -142,9 +170,8 @@ class PostListMatch(TypedDict, total=False):
     user_id: int
 
 
-class PostCreateData(TypedDict, total=False):
+class PostCreateData(TypedDict):
     body: str
-    id: int
     title: str
     userId: int
 
@@ -154,6 +181,16 @@ class PostUpdateDataRequired(TypedDict):
 
 
 class PostUpdateData(PostUpdateDataRequired, total=False):
+    body: str
+    title: str
+    userId: int
+
+
+class PostPatchDataRequired(TypedDict):
+    id: int
+
+
+class PostPatchData(PostPatchDataRequired, total=False):
     body: str
     title: str
     userId: int
@@ -178,9 +215,8 @@ class TodoListMatch(TypedDict, total=False):
     user_id: int
 
 
-class TodoCreateData(TypedDict, total=False):
+class TodoCreateData(TypedDict):
     completed: bool
-    id: int
     title: str
     userId: int
 
@@ -190,6 +226,16 @@ class TodoUpdateDataRequired(TypedDict):
 
 
 class TodoUpdateData(TodoUpdateDataRequired, total=False):
+    completed: bool
+    title: str
+    userId: int
+
+
+class TodoPatchDataRequired(TypedDict):
+    id: int
+
+
+class TodoPatchData(TodoPatchDataRequired, total=False):
     completed: bool
     title: str
     userId: int
@@ -225,14 +271,16 @@ class UserListMatch(TypedDict, total=False):
     website: str
 
 
-class UserCreateData(TypedDict, total=False):
+class UserCreateDataRequired(TypedDict):
+    email: str
+    name: str
+    username: str
+
+
+class UserCreateData(UserCreateDataRequired, total=False):
     address: dict
     company: dict
-    email: str
-    id: int
-    name: str
     phone: str
-    username: str
     website: str
 
 
@@ -241,6 +289,20 @@ class UserUpdateDataRequired(TypedDict):
 
 
 class UserUpdateData(UserUpdateDataRequired, total=False):
+    address: dict
+    company: dict
+    email: str
+    name: str
+    phone: str
+    username: str
+    website: str
+
+
+class UserPatchDataRequired(TypedDict):
+    id: int
+
+
+class UserPatchData(UserPatchDataRequired, total=False):
     address: dict
     company: dict
     email: str

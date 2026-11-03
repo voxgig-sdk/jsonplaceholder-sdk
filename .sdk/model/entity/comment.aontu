@@ -110,6 +110,12 @@ main: kit: entity: comment: {
       name: "create"
       points: [
         {
+          bf: [
+            "body"
+            "email"
+            "name"
+            "postId"
+          ]
           co: {
             id: "POST /comments"
             source: "openapi3"
@@ -117,6 +123,10 @@ main: kit: entity: comment: {
           }
           m: "POST"
           o: "/comments"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "comments"
@@ -134,40 +144,6 @@ main: kit: entity: comment: {
       points: [
         {
           co: {
-            id: "GET /comments"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            query: [
-              {
-                k: "query"
-                n: "post_id"
-                or: "postId"
-                r: false
-                t: "`$INTEGER`"
-              }
-            ]
-          }
-          m: "GET"
-          o: "/comments"
-          q: {
-            exist: [
-              "post_id"
-            ]
-          }
-          s: [
-            {
-              lit: "comments"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
             id: "GET /posts/{id}/comments"
             source: "openapi3"
             version: 2
@@ -175,6 +151,7 @@ main: kit: entity: comment: {
           g: {
             params: [
               {
+                ex: 1
                 k: "param"
                 n: "post_id"
                 or: "id"
@@ -195,6 +172,10 @@ main: kit: entity: comment: {
               id: "post_id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "posts"
@@ -202,6 +183,39 @@ main: kit: entity: comment: {
             {
               var: "post_id"
             }
+            {
+              lit: "comments"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /comments"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "post_id"
+                or: "postId"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/comments"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
             {
               lit: "comments"
             }
@@ -225,6 +239,7 @@ main: kit: entity: comment: {
           g: {
             params: [
               {
+                ex: 1
                 k: "param"
                 n: "id"
                 or: "id"
@@ -239,6 +254,10 @@ main: kit: entity: comment: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -259,6 +278,12 @@ main: kit: entity: comment: {
       name: "patch"
       points: [
         {
+          bf: [
+            "body"
+            "email"
+            "name"
+            "postId"
+          ]
           co: {
             id: "PATCH /comments/{id}"
             source: "openapi3"
@@ -281,6 +306,10 @@ main: kit: entity: comment: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -343,6 +372,12 @@ main: kit: entity: comment: {
       name: "update"
       points: [
         {
+          bf: [
+            "body"
+            "email"
+            "name"
+            "postId"
+          ]
           co: {
             id: "PUT /comments/{id}"
             source: "openapi3"
@@ -365,6 +400,10 @@ main: kit: entity: comment: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

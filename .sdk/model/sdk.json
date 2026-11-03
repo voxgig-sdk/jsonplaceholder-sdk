@@ -162,6 +162,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "title",
+                    "userId"
+                  ],
                   "co": {
                     "id": "POST /albums",
                     "source": "openapi3",
@@ -173,6 +177,10 @@
                   "o": "/albums",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "albums"
@@ -189,6 +197,59 @@
               "input": "data",
               "name": "list",
               "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /users/{id}/albums",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": 1,
+                        "k": "param",
+                        "n": "user_id",
+                        "or": "id",
+                        "r": true,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/users/{id}/albums",
+                  "q": {
+                    "exist": [
+                      "user_id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "id": "user_id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "user_id"
+                    },
+                    {
+                      "lit": "albums"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
                 {
                   "a": true,
                   "co": {
@@ -211,61 +272,13 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/albums",
-                  "q": {
-                    "exist": [
-                      "user_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
-                  "s": [
-                    {
-                      "lit": "albums"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /users/{id}/albums",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "user_id",
-                        "or": "id",
-                        "r": true,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/users/{id}/albums",
-                  "q": {
-                    "exist": [
-                      "user_id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "id": "user_id"
-                    }
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
-                    {
-                      "lit": "users"
-                    },
-                    {
-                      "var": "user_id"
-                    },
                     {
                       "lit": "albums"
                     }
@@ -292,6 +305,7 @@
                     "params": [
                       {
                         "a": true,
+                        "ex": 1,
                         "k": "param",
                         "n": "id",
                         "or": "id",
@@ -309,6 +323,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "albums"
@@ -330,6 +348,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "title",
+                    "userId"
+                  ],
                   "co": {
                     "id": "PATCH /albums/{id}",
                     "source": "openapi3",
@@ -356,6 +378,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "albums"
@@ -424,6 +450,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "title",
+                    "userId"
+                  ],
                   "co": {
                     "id": "PUT /albums/{id}",
                     "source": "openapi3",
@@ -450,6 +480,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "albums"
@@ -590,6 +624,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "body",
+                    "email",
+                    "name",
+                    "postId"
+                  ],
                   "co": {
                     "id": "POST /comments",
                     "source": "openapi3",
@@ -601,6 +641,10 @@
                   "o": "/comments",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "comments"
@@ -617,6 +661,59 @@
               "input": "data",
               "name": "list",
               "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /posts/{id}/comments",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": 1,
+                        "k": "param",
+                        "n": "post_id",
+                        "or": "id",
+                        "r": true,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/posts/{id}/comments",
+                  "q": {
+                    "exist": [
+                      "post_id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "id": "post_id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "posts"
+                    },
+                    {
+                      "var": "post_id"
+                    },
+                    {
+                      "lit": "comments"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
                 {
                   "a": true,
                   "co": {
@@ -639,61 +736,13 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/comments",
-                  "q": {
-                    "exist": [
-                      "post_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
-                  "s": [
-                    {
-                      "lit": "comments"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /posts/{id}/comments",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "post_id",
-                        "or": "id",
-                        "r": true,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/posts/{id}/comments",
-                  "q": {
-                    "exist": [
-                      "post_id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "id": "post_id"
-                    }
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
-                    {
-                      "lit": "posts"
-                    },
-                    {
-                      "var": "post_id"
-                    },
                     {
                       "lit": "comments"
                     }
@@ -720,6 +769,7 @@
                     "params": [
                       {
                         "a": true,
+                        "ex": 1,
                         "k": "param",
                         "n": "id",
                         "or": "id",
@@ -737,6 +787,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "comments"
@@ -758,6 +812,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "body",
+                    "email",
+                    "name",
+                    "postId"
+                  ],
                   "co": {
                     "id": "PATCH /comments/{id}",
                     "source": "openapi3",
@@ -784,6 +844,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "comments"
@@ -852,6 +916,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "body",
+                    "email",
+                    "name",
+                    "postId"
+                  ],
                   "co": {
                     "id": "PUT /comments/{id}",
                     "source": "openapi3",
@@ -878,6 +948,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "comments"
@@ -1019,6 +1093,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "albumId",
+                    "thumbnailUrl",
+                    "title",
+                    "url"
+                  ],
                   "co": {
                     "id": "POST /photos",
                     "source": "openapi3",
@@ -1030,6 +1110,10 @@
                   "o": "/photos",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "photos"
@@ -1057,6 +1141,7 @@
                     "params": [
                       {
                         "a": true,
+                        "ex": 1,
                         "k": "param",
                         "n": "album_id",
                         "or": "id",
@@ -1077,6 +1162,10 @@
                     "param": {
                       "id": "album_id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1116,12 +1205,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/photos",
-                  "q": {
-                    "exist": [
-                      "album_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "photos"
@@ -1149,6 +1238,7 @@
                     "params": [
                       {
                         "a": true,
+                        "ex": 1,
                         "k": "param",
                         "n": "id",
                         "or": "id",
@@ -1166,6 +1256,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "photos"
@@ -1187,6 +1281,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "albumId",
+                    "thumbnailUrl",
+                    "title",
+                    "url"
+                  ],
                   "co": {
                     "id": "PATCH /photos/{id}",
                     "source": "openapi3",
@@ -1213,6 +1313,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "photos"
@@ -1281,6 +1385,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "albumId",
+                    "thumbnailUrl",
+                    "title",
+                    "url"
+                  ],
                   "co": {
                     "id": "PUT /photos/{id}",
                     "source": "openapi3",
@@ -1307,6 +1417,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "photos"
@@ -1424,6 +1538,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "body",
+                    "title",
+                    "userId"
+                  ],
                   "co": {
                     "id": "POST /posts",
                     "source": "openapi3",
@@ -1435,6 +1554,10 @@
                   "o": "/posts",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "posts"
@@ -1451,6 +1574,59 @@
               "input": "data",
               "name": "list",
               "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /users/{id}/posts",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": 1,
+                        "k": "param",
+                        "n": "user_id",
+                        "or": "id",
+                        "r": true,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/users/{id}/posts",
+                  "q": {
+                    "exist": [
+                      "user_id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "id": "user_id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "user_id"
+                    },
+                    {
+                      "lit": "posts"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
                 {
                   "a": true,
                   "co": {
@@ -1473,61 +1649,13 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/posts",
-                  "q": {
-                    "exist": [
-                      "user_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
-                  "s": [
-                    {
-                      "lit": "posts"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /users/{id}/posts",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "user_id",
-                        "or": "id",
-                        "r": true,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/users/{id}/posts",
-                  "q": {
-                    "exist": [
-                      "user_id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "id": "user_id"
-                    }
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
-                    {
-                      "lit": "users"
-                    },
-                    {
-                      "var": "user_id"
-                    },
                     {
                       "lit": "posts"
                     }
@@ -1554,6 +1682,7 @@
                     "params": [
                       {
                         "a": true,
+                        "ex": 1,
                         "k": "param",
                         "n": "id",
                         "or": "id",
@@ -1571,6 +1700,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "posts"
@@ -1592,6 +1725,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "body",
+                    "title",
+                    "userId"
+                  ],
                   "co": {
                     "id": "PATCH /posts/{id}",
                     "source": "openapi3",
@@ -1618,6 +1756,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "posts"
@@ -1686,6 +1828,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "body",
+                    "title",
+                    "userId"
+                  ],
                   "co": {
                     "id": "PUT /posts/{id}",
                     "source": "openapi3",
@@ -1712,6 +1859,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "posts"
@@ -1829,6 +1980,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "completed",
+                    "title",
+                    "userId"
+                  ],
                   "co": {
                     "id": "POST /todos",
                     "source": "openapi3",
@@ -1840,6 +1996,10 @@
                   "o": "/todos",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "todos"
@@ -1856,6 +2016,59 @@
               "input": "data",
               "name": "list",
               "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /users/{id}/todos",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": 1,
+                        "k": "param",
+                        "n": "user_id",
+                        "or": "id",
+                        "r": true,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/users/{id}/todos",
+                  "q": {
+                    "exist": [
+                      "user_id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "id": "user_id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "user_id"
+                    },
+                    {
+                      "lit": "todos"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
                 {
                   "a": true,
                   "co": {
@@ -1878,61 +2091,13 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/todos",
-                  "q": {
-                    "exist": [
-                      "user_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
-                  "s": [
-                    {
-                      "lit": "todos"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /users/{id}/todos",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "user_id",
-                        "or": "id",
-                        "r": true,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/users/{id}/todos",
-                  "q": {
-                    "exist": [
-                      "user_id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "id": "user_id"
-                    }
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
-                    {
-                      "lit": "users"
-                    },
-                    {
-                      "var": "user_id"
-                    },
                     {
                       "lit": "todos"
                     }
@@ -1959,6 +2124,7 @@
                     "params": [
                       {
                         "a": true,
+                        "ex": 1,
                         "k": "param",
                         "n": "id",
                         "or": "id",
@@ -1976,6 +2142,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "todos"
@@ -1997,6 +2167,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "completed",
+                    "title",
+                    "userId"
+                  ],
                   "co": {
                     "id": "PATCH /todos/{id}",
                     "source": "openapi3",
@@ -2023,6 +2198,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "todos"
@@ -2091,6 +2270,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "completed",
+                    "title",
+                    "userId"
+                  ],
                   "co": {
                     "id": "PUT /todos/{id}",
                     "source": "openapi3",
@@ -2117,6 +2301,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "todos"
@@ -2265,6 +2453,15 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "address",
+                    "company",
+                    "email",
+                    "name",
+                    "phone",
+                    "username",
+                    "website"
+                  ],
                   "co": {
                     "id": "POST /users",
                     "source": "openapi3",
@@ -2276,6 +2473,10 @@
                   "o": "/users",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "users"
@@ -2305,6 +2506,10 @@
                   "o": "/users",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "users"
@@ -2332,6 +2537,7 @@
                     "params": [
                       {
                         "a": true,
+                        "ex": 1,
                         "k": "param",
                         "n": "id",
                         "or": "id",
@@ -2349,6 +2555,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "users"
@@ -2370,6 +2580,15 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "address",
+                    "company",
+                    "email",
+                    "name",
+                    "phone",
+                    "username",
+                    "website"
+                  ],
                   "co": {
                     "id": "PATCH /users/{id}",
                     "source": "openapi3",
@@ -2396,6 +2615,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "users"
@@ -2464,6 +2687,15 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "address",
+                    "company",
+                    "email",
+                    "name",
+                    "phone",
+                    "username",
+                    "website"
+                  ],
                   "co": {
                     "id": "PUT /users/{id}",
                     "source": "openapi3",
@@ -2490,6 +2722,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "users"
@@ -2833,6 +3069,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -2947,9 +3184,7 @@
               "a": true,
               "d": {},
               "i": {},
-              "m": {
-                "user_id": "user01"
-              },
+              "m": {},
               "o": "list",
               "s": [],
               "v": [
@@ -3024,9 +3259,7 @@
               "i": {
                 "suffix": "_rt0"
               },
-              "m": {
-                "user_id": "user01"
-              },
+              "m": {},
               "o": "list",
               "s": [],
               "v": [
@@ -3065,9 +3298,7 @@
               "a": true,
               "d": {},
               "i": {},
-              "m": {
-                "post_id": "post01"
-              },
+              "m": {},
               "o": "list",
               "s": [],
               "v": [
@@ -3142,9 +3373,7 @@
               "i": {
                 "suffix": "_rt0"
               },
-              "m": {
-                "post_id": "post01"
-              },
+              "m": {},
               "o": "list",
               "s": [],
               "v": [
@@ -3297,9 +3526,7 @@
               "a": true,
               "d": {},
               "i": {},
-              "m": {
-                "user_id": "user01"
-              },
+              "m": {},
               "o": "list",
               "s": [],
               "v": [
@@ -3374,9 +3601,7 @@
               "i": {
                 "suffix": "_rt0"
               },
-              "m": {
-                "user_id": "user01"
-              },
+              "m": {},
               "o": "list",
               "s": [],
               "v": [
@@ -3415,9 +3640,7 @@
               "a": true,
               "d": {},
               "i": {},
-              "m": {
-                "user_id": "user01"
-              },
+              "m": {},
               "o": "list",
               "s": [],
               "v": [
@@ -3492,9 +3715,7 @@
               "i": {
                 "suffix": "_rt0"
               },
-              "m": {
-                "user_id": "user01"
-              },
+              "m": {},
               "o": "list",
               "s": [],
               "v": [
@@ -3648,7 +3869,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -3701,6 +3922,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -3931,7 +4157,10 @@
             "version": "0.0.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "lua": {
           "active": true,
@@ -4308,6 +4537,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

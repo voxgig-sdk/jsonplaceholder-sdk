@@ -116,26 +116,28 @@ local album = client:Album(nil)
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `id` | - | - | - | - | - |
-| `title` | - | - | Yes | Yes | - |
-| `userId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | - | - | - | - | - | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Album():create({
+  title = --[[ string ]],
+  userId = --[[ number ]],
 })
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Album():list()
@@ -143,15 +145,26 @@ local results, err = client:Album():list()
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Album():load({ id = 1 })
 ```
 
+#### `patch(reqdata, ctrl) -> any, err`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Album():patch({
+  id = 1,
+  -- Only the fields to change
+})
+```
+
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Album():remove({ id = 1 })
@@ -159,7 +172,7 @@ local result, err = client:Album():remove({ id = 1 })
 
 #### `update(reqdata, ctrl) -> any, err`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Album():update({
@@ -216,28 +229,32 @@ local comment = client:Comment(nil)
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `body` | - | - | Yes | Yes | - |
-| `email` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `name` | - | - | Yes | Yes | - |
-| `postId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `body` | - | - | Yes | Yes | Yes | - |
+| `email` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `name` | - | - | Yes | Yes | Yes | - |
+| `postId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Comment():create({
+  body = --[[ string ]],
+  email = --[[ string ]],
+  name = --[[ string ]],
+  postId = --[[ number ]],
 })
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Comment():list()
@@ -245,15 +262,26 @@ local results, err = client:Comment():list()
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Comment():load({ id = 1 })
 ```
 
+#### `patch(reqdata, ctrl) -> any, err`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Comment():patch({
+  id = 1,
+  -- Only the fields to change
+})
+```
+
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Comment():remove({ id = 1 })
@@ -261,7 +289,7 @@ local result, err = client:Comment():remove({ id = 1 })
 
 #### `update(reqdata, ctrl) -> any, err`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Comment():update({
@@ -318,28 +346,32 @@ local photo = client:Photo(nil)
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `albumId` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `thumbnailUrl` | - | - | Yes | Yes | - |
-| `title` | - | - | Yes | Yes | - |
-| `url` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `albumId` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `thumbnailUrl` | - | - | Yes | Yes | Yes | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `url` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Photo():create({
+  albumId = --[[ number ]],
+  thumbnailUrl = --[[ string ]],
+  title = --[[ string ]],
+  url = --[[ string ]],
 })
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Photo():list()
@@ -347,15 +379,26 @@ local results, err = client:Photo():list()
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Photo():load({ id = 1 })
 ```
 
+#### `patch(reqdata, ctrl) -> any, err`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Photo():patch({
+  id = 1,
+  -- Only the fields to change
+})
+```
+
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Photo():remove({ id = 1 })
@@ -363,7 +406,7 @@ local result, err = client:Photo():remove({ id = 1 })
 
 #### `update(reqdata, ctrl) -> any, err`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Photo():update({
@@ -419,27 +462,30 @@ local post = client:Post(nil)
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `body` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `title` | - | - | Yes | Yes | - |
-| `userId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `body` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Post():create({
+  body = --[[ string ]],
+  title = --[[ string ]],
+  userId = --[[ number ]],
 })
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Post():list()
@@ -447,15 +493,26 @@ local results, err = client:Post():list()
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Post():load({ id = 1 })
 ```
 
+#### `patch(reqdata, ctrl) -> any, err`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Post():patch({
+  id = 1,
+  -- Only the fields to change
+})
+```
+
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Post():remove({ id = 1 })
@@ -463,7 +520,7 @@ local result, err = client:Post():remove({ id = 1 })
 
 #### `update(reqdata, ctrl) -> any, err`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Post():update({
@@ -519,27 +576,30 @@ local todo = client:Todo(nil)
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `completed` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `title` | - | - | Yes | Yes | - |
-| `userId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `completed` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Todo():create({
+  completed = --[[ boolean ]],
+  title = --[[ string ]],
+  userId = --[[ number ]],
 })
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Todo():list()
@@ -547,15 +607,26 @@ local results, err = client:Todo():list()
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Todo():load({ id = 1 })
 ```
 
+#### `patch(reqdata, ctrl) -> any, err`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Todo():patch({
+  id = 1,
+  -- Only the fields to change
+})
+```
+
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Todo():remove({ id = 1 })
@@ -563,7 +634,7 @@ local result, err = client:Todo():remove({ id = 1 })
 
 #### `update(reqdata, ctrl) -> any, err`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Todo():update({
@@ -623,31 +694,34 @@ local user = client:User(nil)
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `address` | - | - | - | - | - |
-| `company` | - | - | - | - | - |
-| `email` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `name` | - | - | Yes | Yes | - |
-| `phone` | - | - | - | - | - |
-| `username` | - | - | Yes | Yes | - |
-| `website` | - | - | - | - | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `address` | - | - | - | - | - | - |
+| `company` | - | - | - | - | - | - |
+| `email` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `name` | - | - | Yes | Yes | Yes | - |
+| `phone` | - | - | - | - | - | - |
+| `username` | - | - | Yes | Yes | Yes | - |
+| `website` | - | - | - | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:User():create({
+  email = --[[ string ]],
+  name = --[[ string ]],
+  username = --[[ string ]],
 })
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:User():list()
@@ -655,15 +729,26 @@ local results, err = client:User():list()
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:User():load({ id = 1 })
 ```
 
+#### `patch(reqdata, ctrl) -> any, err`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:User():patch({
+  id = 1,
+  -- Only the fields to change
+})
+```
+
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:User():remove({ id = 1 })
@@ -671,7 +756,7 @@ local result, err = client:User():remove({ id = 1 })
 
 #### `update(reqdata, ctrl) -> any, err`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:User():update({
@@ -867,6 +952,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { JsonplaceholderSDK, BaseFeature, stdutil } from '../../..'
+import { JsonplaceholderSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,64 @@ describe('AlbumEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    name = 'failhook'
+    version = '0.0.1'
+    active = true
+    unexpected = 0
+    init() { }
+    PreSpec() { throw new Error('album hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of JsonplaceholderSDK.test(offline).Album().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of JsonplaceholderSDK.test(offline).Album()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != (config as any).feature?.rbac) {
+      const denied = JsonplaceholderSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.Album().stream('list')) { }
+      }, (err: any) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain: any = {}
+    const ctrl: any = { explain }
+    for await (const _item of JsonplaceholderSDK.test().Album().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new JsonplaceholderSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.Album().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.Album().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = JsonplaceholderSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Album().list({"user_id":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.JSONPLACEHOLDER_TEST_LIVE
@@ -51,7 +109,7 @@ describe('AlbumEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"Album ID","t":"`$INTEGER`","key$":"id","index$":0},"title":{"a":true,"h":"Title","n":"title","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Album title","t":"`$STRING`","key$":"title","index$":1},"userId":{"a":true,"h":"User Id","n":"userId","op":{"create":{"req":true,"type":"`$INTEGER`"},"patch":{"req":true,"type":"`$INTEGER`"},"update":{"req":true,"type":"`$INTEGER`"}},"r":false,"sh":"User ID who created the album","t":"`$INTEGER`","key$":"userId","index$":2}},"id":{"field":"id","name":"id"},"name":"album","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /albums","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/albums","q":{},"r":{},"s":[{"lit":"albums"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /albums","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"user_id","or":"userId","r":false,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/albums","q":{"exist":["user_id"]},"r":{},"s":[{"lit":"albums"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /users/{id}/albums","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"user_id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/users/{id}/albums","q":{"exist":["user_id"]},"r":{"param":{"id":"user_id"}},"s":[{"lit":"users"},{"var":"user_id"},{"lit":"albums"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /albums/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/albums/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"albums"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"patch":{"input":"data","name":"patch","points":[{"a":true,"co":{"id":"PATCH /albums/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PATCH","o":"/albums/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"albums"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"patch"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /albums/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"DELETE","o":"/albums/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"albums"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"},"update":{"input":"data","name":"update","points":[{"a":true,"co":{"id":"PUT /albums/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PUT","o":"/albums/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"albums"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[["$.main.kit.entity.user"]]},"key$":"album","name__orig":"album","Name":"Album","name_":"album","name-":"album","NAME":"ALBUM","index$":0}, {"active":true,"entity":"album","key$":"BasicAlbumFlow","kind":"basic","name":"BasicAlbumFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"album_ref01"},"m":{"user_id":"user01"},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{"user_id":"user01"},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"album_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"album_ref01","srcdatavar":"album_ref01_data","suffix":"_up0","textfield":"title"},"m":{},"o":"update","s":[{"apply":"TextFieldMark","def":{"mark":"Mark01-album_ref01"}}],"v":[],"index$":2},{"a":true,"d":{},"i":{"ref":"album_ref01","srcdatavar":"album_ref01_data","suffix":"_dt0"},"m":{"id":"album01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-album_ref01"}}],"index$":3},{"a":true,"d":{},"i":{"ref":"album_ref01","suffix":"_rm0"},"m":{"id":"album01"},"o":"remove","s":[],"v":[],"index$":4},{"a":true,"d":{},"i":{"suffix":"_rt0"},"m":{"user_id":"user01"},"o":"list","s":[],"v":[{"apply":"ItemNotExists","def":{"ref":"album_ref01"}}],"index$":5}]}, 'Album', {"POST /albums":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["userId","title"],"properties":{"userId":{"type":"integer","description":"User ID who created the album","key$":"userId"},"title":{"type":"string","description":"Album title","key$":"title"}},"x-ref":"#/components/schemas/AlbumInput","index$":1}}}},"parameters":[]},"GET /albums":{"protocol":"http","parameters":[{"name":"userId","in":"query","description":"Filter albums by user ID","required":false,"schema":{"type":"integer"},"index$":0}]},"GET /users/{id}/albums":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"User ID","required":true,"schema":{"type":"integer"},"index$":0}]},"GET /albums/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Album ID","required":true,"schema":{"type":"integer"},"index$":0}]},"PATCH /albums/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["userId","title"],"properties":{"userId":{"type":"integer","description":"User ID who created the album","key$":"userId"},"title":{"type":"string","description":"Album title","key$":"title"}},"x-ref":"#/components/schemas/AlbumInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Album ID","required":true,"schema":{"type":"integer"},"index$":0}]},"DELETE /albums/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Album ID","required":true,"schema":{"type":"integer"},"index$":0}]},"PUT /albums/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["userId","title"],"properties":{"userId":{"type":"integer","description":"User ID who created the album","key$":"userId"},"title":{"type":"string","description":"Album title","key$":"title"}},"x-ref":"#/components/schemas/AlbumInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Album ID","required":true,"schema":{"type":"integer"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"Album ID","t":"`$INTEGER`","key$":"id","index$":0},"title":{"a":true,"h":"Title","n":"title","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Album title","t":"`$STRING`","key$":"title","index$":1},"userId":{"a":true,"h":"User Id","n":"userId","op":{"create":{"req":true,"type":"`$INTEGER`"},"patch":{"req":true,"type":"`$INTEGER`"},"update":{"req":true,"type":"`$INTEGER`"}},"r":false,"sh":"User ID who created the album","t":"`$INTEGER`","key$":"userId","index$":2}},"id":{"field":"id","name":"id"},"name":"album","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["title","userId"],"co":{"id":"POST /albums","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/albums","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"albums"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /users/{id}/albums","source":"openapi3","version":2},"g":{"params":[{"a":true,"ex":1,"k":"param","n":"user_id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/users/{id}/albums","q":{"exist":["user_id"]},"r":{"param":{"id":"user_id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"users"},{"var":"user_id"},{"lit":"albums"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /albums","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"user_id","or":"userId","r":false,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/albums","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"albums"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /albums/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"ex":1,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/albums/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"albums"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"patch":{"input":"data","name":"patch","points":[{"a":true,"bf":["title","userId"],"co":{"id":"PATCH /albums/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PATCH","o":"/albums/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"albums"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"patch"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /albums/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"DELETE","o":"/albums/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"albums"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"},"update":{"input":"data","name":"update","points":[{"a":true,"bf":["title","userId"],"co":{"id":"PUT /albums/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PUT","o":"/albums/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"albums"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[["$.main.kit.entity.user"]]},"key$":"album","name__orig":"album","Name":"Album","name_":"album","name-":"album","NAME":"ALBUM","index$":0}, {"active":true,"entity":"album","key$":"BasicAlbumFlow","kind":"basic","name":"BasicAlbumFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"album_ref01"},"m":{"user_id":"user01"},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"album_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"album_ref01","srcdatavar":"album_ref01_data","suffix":"_up0","textfield":"title"},"m":{},"o":"update","s":[{"apply":"TextFieldMark","def":{"mark":"Mark01-album_ref01"}}],"v":[],"index$":2},{"a":true,"d":{},"i":{"ref":"album_ref01","srcdatavar":"album_ref01_data","suffix":"_dt0"},"m":{"id":"album01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-album_ref01"}}],"index$":3,"route":"GET /albums/{id}","record":{}},{"a":true,"d":{},"i":{"ref":"album_ref01","suffix":"_rm0"},"m":{"id":"album01"},"o":"remove","s":[],"v":[],"index$":4},{"a":true,"d":{},"i":{"suffix":"_rt0"},"m":{},"o":"list","s":[],"v":[{"apply":"ItemNotExists","def":{"ref":"album_ref01"}}],"index$":5}]}, 'Album', {"POST /albums":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["userId","title"],"properties":{"userId":{"type":"integer","description":"User ID who created the album","key$":"userId"},"title":{"type":"string","description":"Album title","key$":"title"}},"x-ref":"#/components/schemas/AlbumInput","index$":1}}}},"parameters":[]},"GET /users/{id}/albums":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"User ID","required":true,"schema":{"type":"integer"},"example":1,"index$":0}]},"GET /albums":{"protocol":"http","parameters":[{"name":"userId","in":"query","description":"Filter albums by user ID","required":false,"schema":{"type":"integer"},"index$":0}]},"GET /albums/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Album ID","required":true,"schema":{"type":"integer"},"example":1,"index$":0}]},"PATCH /albums/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["userId","title"],"properties":{"userId":{"type":"integer","description":"User ID who created the album","key$":"userId"},"title":{"type":"string","description":"Album title","key$":"title"}},"x-ref":"#/components/schemas/AlbumInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Album ID","required":true,"schema":{"type":"integer"},"index$":0}]},"DELETE /albums/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Album ID","required":true,"schema":{"type":"integer"},"index$":0}]},"PUT /albums/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["userId","title"],"properties":{"userId":{"type":"integer","description":"User ID who created the album","key$":"userId"},"title":{"type":"string","description":"Album title","key$":"title"}},"x-ref":"#/components/schemas/AlbumInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Album ID","required":true,"schema":{"type":"integer"},"index$":0}]}}, { strict: LIVE_STRICT, t }, 'TRUE' === process.env.VOXGIG_GETONLY_GUARD ? {"album.create.0":"GET-only live run: needs POST /albums","album.update.2":"GET-only live run: needs PUT /albums/{id}","album.remove.4":"GET-only live run: needs DELETE /albums/{id}","album.list.5":"GET-only live run: checks a removal this run does not make"} : {})
     }
     const client = setup.client
     const struct = setup.struct
@@ -71,7 +129,6 @@ describe('AlbumEntity', async () => {
 
     // LIST
     const album_ref01_match: any = {}
-    album_ref01_match['user_id'] = setup.idmap['user01']
 
     const album_ref01_list = (await album_ref01_ent.list(album_ref01_match)).map((e: any) => e.data())
 
@@ -105,7 +162,6 @@ describe('AlbumEntity', async () => {
 
     // LIST
     const album_ref01_match_rt0: any = {}
-    album_ref01_match_rt0['user_id'] = setup.idmap['user01']
 
     const album_ref01_list_rt0 = (await album_ref01_ent.list(album_ref01_match_rt0)).map((e: any) => e.data())
 
@@ -116,6 +172,12 @@ describe('AlbumEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

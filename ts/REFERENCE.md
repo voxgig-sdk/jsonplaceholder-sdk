@@ -147,8 +147,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -162,6 +164,15 @@ same parameters as `direct()`.
 Alias for `JsonplaceholderSDK.test()`.
 
 **Returns:** `JsonplaceholderSDK` instance in test mode.
+
+#### Cancelling a call
+
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
 
 
 ---
@@ -182,26 +193,28 @@ const album = client.Album()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `id` | - | - | - | - | - |
-| `title` | - | - | Yes | Yes | - |
-| `userId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | - | - | - | - | - | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Album().create({
+  title: 'example_title',
+  userId: 1,
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Album().list()
@@ -209,15 +222,26 @@ const results = await client.Album().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Album().load({ id: 1 })
 ```
 
+#### `patch(data: object, ctrl?: object)`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Resolves to the patched entity.
+
+```ts
+const result = await client.Album().patch({
+  id: 1,
+  // Only the fields to change
+})
+```
+
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Album().remove({ id: 1 })
@@ -225,7 +249,7 @@ const result = await client.Album().remove({ id: 1 })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Album().update({
@@ -280,28 +304,32 @@ const comment = client.Comment()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `body` | - | - | Yes | Yes | - |
-| `email` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `name` | - | - | Yes | Yes | - |
-| `postId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `body` | - | - | Yes | Yes | Yes | - |
+| `email` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `name` | - | - | Yes | Yes | Yes | - |
+| `postId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Comment().create({
+  body: 'example_body',
+  email: 'example_email',
+  name: 'example_name',
+  postId: 1,
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Comment().list()
@@ -309,15 +337,26 @@ const results = await client.Comment().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Comment().load({ id: 1 })
 ```
 
+#### `patch(data: object, ctrl?: object)`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Resolves to the patched entity.
+
+```ts
+const result = await client.Comment().patch({
+  id: 1,
+  // Only the fields to change
+})
+```
+
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Comment().remove({ id: 1 })
@@ -325,7 +364,7 @@ const result = await client.Comment().remove({ id: 1 })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Comment().update({
@@ -380,28 +419,32 @@ const photo = client.Photo()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `albumId` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `thumbnailUrl` | - | - | Yes | Yes | - |
-| `title` | - | - | Yes | Yes | - |
-| `url` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `albumId` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `thumbnailUrl` | - | - | Yes | Yes | Yes | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `url` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Photo().create({
+  albumId: 1,
+  thumbnailUrl: 'example_thumbnailUrl',
+  title: 'example_title',
+  url: 'example_url',
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Photo().list()
@@ -409,15 +452,26 @@ const results = await client.Photo().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Photo().load({ id: 1 })
 ```
 
+#### `patch(data: object, ctrl?: object)`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Resolves to the patched entity.
+
+```ts
+const result = await client.Photo().patch({
+  id: 1,
+  // Only the fields to change
+})
+```
+
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Photo().remove({ id: 1 })
@@ -425,7 +479,7 @@ const result = await client.Photo().remove({ id: 1 })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Photo().update({
@@ -479,27 +533,30 @@ const post = client.Post()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `body` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `title` | - | - | Yes | Yes | - |
-| `userId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `body` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Post().create({
+  body: 'example_body',
+  title: 'example_title',
+  userId: 1,
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Post().list()
@@ -507,15 +564,26 @@ const results = await client.Post().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Post().load({ id: 1 })
 ```
 
+#### `patch(data: object, ctrl?: object)`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Resolves to the patched entity.
+
+```ts
+const result = await client.Post().patch({
+  id: 1,
+  // Only the fields to change
+})
+```
+
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Post().remove({ id: 1 })
@@ -523,7 +591,7 @@ const result = await client.Post().remove({ id: 1 })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Post().update({
@@ -577,27 +645,30 @@ const todo = client.Todo()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `completed` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `title` | - | - | Yes | Yes | - |
-| `userId` | - | - | Yes | Yes | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `completed` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `title` | - | - | Yes | Yes | Yes | - |
+| `userId` | - | - | Yes | Yes | Yes | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Todo().create({
+  completed: true,
+  title: 'example_title',
+  userId: 1,
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Todo().list()
@@ -605,15 +676,26 @@ const results = await client.Todo().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Todo().load({ id: 1 })
 ```
 
+#### `patch(data: object, ctrl?: object)`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Resolves to the patched entity.
+
+```ts
+const result = await client.Todo().patch({
+  id: 1,
+  // Only the fields to change
+})
+```
+
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Todo().remove({ id: 1 })
@@ -621,7 +703,7 @@ const result = await client.Todo().remove({ id: 1 })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Todo().update({
@@ -679,31 +761,34 @@ const user = client.User()
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `address` | - | - | - | - | - |
-| `company` | - | - | - | - | - |
-| `email` | - | - | Yes | Yes | - |
-| `id` | - | - | - | - | - |
-| `name` | - | - | Yes | Yes | - |
-| `phone` | - | - | - | - | - |
-| `username` | - | - | Yes | Yes | - |
-| `website` | - | - | - | - | - |
+| Field | load | list | create | update | patch | remove |
+| --- | --- | --- | --- | --- | --- | --- |
+| `address` | - | - | - | - | - | - |
+| `company` | - | - | - | - | - | - |
+| `email` | - | - | Yes | Yes | Yes | - |
+| `id` | - | - | - | - | - | - |
+| `name` | - | - | Yes | Yes | Yes | - |
+| `phone` | - | - | - | - | - | - |
+| `username` | - | - | Yes | Yes | Yes | - |
+| `website` | - | - | - | - | - | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.User().create({
+  email: 'example_email',
+  name: 'example_name',
+  username: 'example_username',
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.User().list()
@@ -711,15 +796,26 @@ const results = await client.User().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.User().load({ id: 1 })
 ```
 
+#### `patch(data: object, ctrl?: object)`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Resolves to the patched entity.
+
+```ts
+const result = await client.User().patch({
+  id: 1,
+  // Only the fields to change
+})
+```
+
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.User().remove({ id: 1 })
@@ -727,7 +823,7 @@ const result = await client.User().remove({ id: 1 })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.User().update({
@@ -921,6 +1017,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

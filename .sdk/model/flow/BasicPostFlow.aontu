@@ -19,10 +19,6 @@ main: kit: flow: BasicPostFlow:
     }
 
     {
-      m: {
-        user_id: "user01"
-      }
-
       o: "list",
       v: [
         {
@@ -91,10 +87,6 @@ main: kit: flow: BasicPostFlow:
     {
       i: {
         suffix: "_rt0"
-      }
-
-      m: {
-        user_id: "user01"
       }
 
       o: "list",

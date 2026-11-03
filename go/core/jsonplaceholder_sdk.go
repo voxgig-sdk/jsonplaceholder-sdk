@@ -146,6 +146,14 @@ func (sdk *JsonplaceholderSDK) Prepare(fetchargs map[string]any) (map[string]any
 	if method == "" {
 		method = "GET"
 	}
+	method = strings.ToUpper(method)
+
+	allowMethodVal := vs.GetPath(options, []any{"allow", "method"})
+	if !Allowed(allowMethodVal, method) {
+		allowMethod, _ := allowMethodVal.(string)
+		return nil, ctx.MakeError("spec_method_allow",
+			"Method \""+method+"\" not allowed by SDK option allow.method value: \""+allowMethod+"\"")
+	}
 
 	params := ToMapAny(vs.GetProp(fetchargs, "params"))
 	if params == nil {
@@ -205,8 +213,7 @@ func (sdk *JsonplaceholderSDK) Direct(fetchargs map[string]any) (map[string]any,
 
 // Is this raw-access op permitted by the SDK's allow.op option?
 func (sdk *JsonplaceholderSDK) opAllowed(op string) bool {
-	allowOp, _ := vs.GetPath(sdk.options, []any{"allow", "op"}).(string)
-	return strings.Contains(allowOp, op)
+	return Allowed(vs.GetPath(sdk.options, []any{"allow", "op"}), op)
 }
 
 func (sdk *JsonplaceholderSDK) opDenied(op string) map[string]any {
@@ -278,20 +285,34 @@ func (sdk *JsonplaceholderSDK) rawRequest(fetchargs map[string]any) (map[string]
 		noBody := status == 204 || status == 304 || contentLength == "0"
 
 		var jsonData any
+		var bodyErr error
 		if !noBody {
 			if jf := vs.GetProp(fm, "json"); jf != nil {
 				if f, ok := jf.(func() any); ok {
 					jsonData = f()
 				}
 			}
+			if unreadable, _ := vs.GetProp(fm, "unreadable").(bool); unreadable {
+				var failed error
+				if status < 200 || status >= 300 {
+					failed = ctx.MakeError("request_status",
+						fmt.Sprintf("request: %d: %v", status, vs.GetProp(fm, "statusText")))
+				}
+				bodyErr = UnreadableBody(ctx, status, headers, vs.GetProp(fm, "body"),
+					fetchdef["headers"], failed)
+			}
 		}
 
-		return map[string]any{
-			"ok":      status >= 200 && status < 300,
+		out := map[string]any{
+			"ok":      bodyErr == nil && status >= 200 && status < 300,
 			"status":  status,
 			"headers": headers,
 			"data":    jsonData,
-		}, nil
+		}
+		if bodyErr != nil {
+			out["err"] = sdk.cleanErr(ctx, bodyErr)
+		}
+		return out, nil
 	}
 
 	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
@@ -354,7 +375,7 @@ func (sdk *JsonplaceholderSDK) Graphql(
 // Album returns a Album entity bound to this client.
 // Idiomatic usage: client.Album(nil).List(nil, nil) or
 // client.Album(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *JsonplaceholderSDK) Album(data map[string]any) JsonplaceholderEntity {
+func (sdk *JsonplaceholderSDK) Album(data map[string]any) JsonplaceholderEntityBase {
 	return NewAlbumEntityFunc(sdk, data)
 }
 
@@ -362,7 +383,7 @@ func (sdk *JsonplaceholderSDK) Album(data map[string]any) JsonplaceholderEntity 
 // Comment returns a Comment entity bound to this client.
 // Idiomatic usage: client.Comment(nil).List(nil, nil) or
 // client.Comment(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *JsonplaceholderSDK) Comment(data map[string]any) JsonplaceholderEntity {
+func (sdk *JsonplaceholderSDK) Comment(data map[string]any) JsonplaceholderEntityBase {
 	return NewCommentEntityFunc(sdk, data)
 }
 
@@ -370,7 +391,7 @@ func (sdk *JsonplaceholderSDK) Comment(data map[string]any) JsonplaceholderEntit
 // Photo returns a Photo entity bound to this client.
 // Idiomatic usage: client.Photo(nil).List(nil, nil) or
 // client.Photo(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *JsonplaceholderSDK) Photo(data map[string]any) JsonplaceholderEntity {
+func (sdk *JsonplaceholderSDK) Photo(data map[string]any) JsonplaceholderEntityBase {
 	return NewPhotoEntityFunc(sdk, data)
 }
 
@@ -378,7 +399,7 @@ func (sdk *JsonplaceholderSDK) Photo(data map[string]any) JsonplaceholderEntity 
 // Post returns a Post entity bound to this client.
 // Idiomatic usage: client.Post(nil).List(nil, nil) or
 // client.Post(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *JsonplaceholderSDK) Post(data map[string]any) JsonplaceholderEntity {
+func (sdk *JsonplaceholderSDK) Post(data map[string]any) JsonplaceholderEntityBase {
 	return NewPostEntityFunc(sdk, data)
 }
 
@@ -386,7 +407,7 @@ func (sdk *JsonplaceholderSDK) Post(data map[string]any) JsonplaceholderEntity {
 // Todo returns a Todo entity bound to this client.
 // Idiomatic usage: client.Todo(nil).List(nil, nil) or
 // client.Todo(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *JsonplaceholderSDK) Todo(data map[string]any) JsonplaceholderEntity {
+func (sdk *JsonplaceholderSDK) Todo(data map[string]any) JsonplaceholderEntityBase {
 	return NewTodoEntityFunc(sdk, data)
 }
 
@@ -394,7 +415,7 @@ func (sdk *JsonplaceholderSDK) Todo(data map[string]any) JsonplaceholderEntity {
 // User returns a User entity bound to this client.
 // Idiomatic usage: client.User(nil).List(nil, nil) or
 // client.User(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *JsonplaceholderSDK) User(data map[string]any) JsonplaceholderEntity {
+func (sdk *JsonplaceholderSDK) User(data map[string]any) JsonplaceholderEntityBase {
 	return NewUserEntityFunc(sdk, data)
 }
 

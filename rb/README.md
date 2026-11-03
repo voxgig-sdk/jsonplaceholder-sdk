@@ -4,7 +4,7 @@
 
 The Ruby SDK for the Jsonplaceholder API — an entity-oriented client using idiomatic Ruby conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Album` — with named operations (`list`/`load`/`create`/`update`/`remove`/`patch`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Album` — with named operations (`list`/`load`/`create`/`update`/`patch`/`remove`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/jsonplaceholder-sdk/releases)), or
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/jsonplaceholder-sdk/tags)), or
 from a clone:
 
 ```bash
@@ -43,10 +43,11 @@ client = JsonplaceholderSDK.new
 
 ```ruby
 begin
-  # list returns an Array of Album records — iterate directly.
+  # list returns an Array of Album entities, one per record; data_get reads the record.
   albums = client.Album.list
   albums.each do |item|
-    puts "#{item["id"]} #{item["title"]}"
+    record = item.data_get
+    puts "#{record["id"]} #{record["title"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -59,7 +60,7 @@ end
 begin
   # load returns the ENTITY — call data_get for the Album record (raises on error).
   album = client.Album.load({ "id" => 1 })
-  puts album
+  puts album.data_get
 rescue => err
   warn "load failed: #{err}"
 end
@@ -73,6 +74,9 @@ created = client.Album.create({ "title" => "example_title", "userId" => 1 })
 
 # Update — index the record via data_get (created.data_get["id"]).
 client.Album.update({ "id" => created.data_get["id"], "title" => "example_title", "userId" => 1 })
+
+# Patch — sends only the fields given
+client.Album.patch({ "id" => created.data_get["id"], "title" => "example_title", "userId" => 1 })
 
 # Remove
 client.Album.remove({ "id" => created.data_get["id"] })
@@ -156,10 +160,10 @@ client = JsonplaceholderSDK.test({
   "entity" => { "photo" => { "test01" => { "id" => "test01" } } },
 })
 
-# Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
-photo = client.Photo.list()
-puts photo
+# list returns an Array of Photo entities, one per mock record (raises on
+# error); data_get reads each record.
+photos = client.Photo.list()
+photos.each { |item| puts item.data_get }
 ```
 
 ### Use a custom fetch function
@@ -248,11 +252,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all), one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `patch` | `(reqdata, ctrl) -> any` | Change part of an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -262,9 +267,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `JsonplaceholderError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`JsonplaceholderError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -378,6 +384,7 @@ Create an instance: `album = client.Album`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -399,14 +406,17 @@ album = client.Album.load({ "id" => 1 })
 #### Example: List
 
 ```ruby
-# list returns an Array of Album records (raises on error).
+# list returns an Array of Album entities, one per record (raises on error).
 albums = client.Album.list
+albums.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 album = client.Album.create({
+  "title" => "example_title", # String
+  "userId" => 1, # Integer
 })
 ```
 
@@ -422,6 +432,7 @@ Create an instance: `comment = client.Comment`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -445,14 +456,19 @@ comment = client.Comment.load({ "id" => 1 })
 #### Example: List
 
 ```ruby
-# list returns an Array of Comment records (raises on error).
+# list returns an Array of Comment entities, one per record (raises on error).
 comments = client.Comment.list
+comments.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 comment = client.Comment.create({
+  "body" => "example_body", # String
+  "email" => "example_email", # String
+  "name" => "example_name", # String
+  "postId" => 1, # Integer
 })
 ```
 
@@ -468,6 +484,7 @@ Create an instance: `photo = client.Photo`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -491,14 +508,19 @@ photo = client.Photo.load({ "id" => 1 })
 #### Example: List
 
 ```ruby
-# list returns an Array of Photo records (raises on error).
+# list returns an Array of Photo entities, one per record (raises on error).
 photos = client.Photo.list
+photos.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 photo = client.Photo.create({
+  "albumId" => 1, # Integer
+  "thumbnailUrl" => "example_thumbnailUrl", # String
+  "title" => "example_title", # String
+  "url" => "example_url", # String
 })
 ```
 
@@ -514,6 +536,7 @@ Create an instance: `post = client.Post`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -536,14 +559,18 @@ post = client.Post.load({ "id" => 1 })
 #### Example: List
 
 ```ruby
-# list returns an Array of Post records (raises on error).
+# list returns an Array of Post entities, one per record (raises on error).
 posts = client.Post.list
+posts.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 post = client.Post.create({
+  "body" => "example_body", # String
+  "title" => "example_title", # String
+  "userId" => 1, # Integer
 })
 ```
 
@@ -559,6 +586,7 @@ Create an instance: `todo = client.Todo`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -581,14 +609,18 @@ todo = client.Todo.load({ "id" => 1 })
 #### Example: List
 
 ```ruby
-# list returns an Array of Todo records (raises on error).
+# list returns an Array of Todo entities, one per record (raises on error).
 todos = client.Todo.list
+todos.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 todo = client.Todo.create({
+  "completed" => true, # Boolean
+  "title" => "example_title", # String
+  "userId" => 1, # Integer
 })
 ```
 
@@ -604,6 +636,7 @@ Create an instance: `user = client.User`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -630,14 +663,18 @@ user = client.User.load({ "id" => 1 })
 #### Example: List
 
 ```ruby
-# list returns an Array of User records (raises on error).
+# list returns an Array of User entities, one per record (raises on error).
 users = client.User.list
+users.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 user = client.User.create({
+  "email" => "example_email", # String
+  "name" => "example_name", # String
+  "username" => "example_username", # String
 })
 ```
 

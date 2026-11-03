@@ -45,16 +45,12 @@ AlbumListMatch = Struct.new(
 
 # Request payload for Album#create.
 #
-# @!attribute [rw] id
-#   @return [Integer, nil]
-#
 # @!attribute [rw] title
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] userId
-#   @return [Integer, nil]
+#   @return [Integer]
 AlbumCreateData = Struct.new(
-  :id,
   :title,
   :userId,
   keyword_init: true
@@ -71,6 +67,23 @@ AlbumCreateData = Struct.new(
 # @!attribute [rw] userId
 #   @return [Integer, nil]
 AlbumUpdateData = Struct.new(
+  :id,
+  :title,
+  :userId,
+  keyword_init: true
+)
+
+# Request payload for Album#patch.
+#
+# @!attribute [rw] id
+#   @return [Integer]
+#
+# @!attribute [rw] title
+#   @return [String, nil]
+#
+# @!attribute [rw] userId
+#   @return [Integer, nil]
+AlbumPatchData = Struct.new(
   :id,
   :title,
   :userId,
@@ -132,23 +145,19 @@ CommentListMatch = Struct.new(
 # Request payload for Comment#create.
 #
 # @!attribute [rw] body
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] email
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
+#   @return [String]
 #
 # @!attribute [rw] name
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] postId
-#   @return [Integer, nil]
+#   @return [Integer]
 CommentCreateData = Struct.new(
   :body,
   :email,
-  :id,
   :name,
   :postId,
   keyword_init: true
@@ -171,6 +180,31 @@ CommentCreateData = Struct.new(
 # @!attribute [rw] postId
 #   @return [Integer, nil]
 CommentUpdateData = Struct.new(
+  :id,
+  :body,
+  :email,
+  :name,
+  :postId,
+  keyword_init: true
+)
+
+# Request payload for Comment#patch.
+#
+# @!attribute [rw] id
+#   @return [Integer]
+#
+# @!attribute [rw] body
+#   @return [String, nil]
+#
+# @!attribute [rw] email
+#   @return [String, nil]
+#
+# @!attribute [rw] name
+#   @return [String, nil]
+#
+# @!attribute [rw] postId
+#   @return [Integer, nil]
+CommentPatchData = Struct.new(
   :id,
   :body,
   :email,
@@ -234,22 +268,18 @@ PhotoListMatch = Struct.new(
 # Request payload for Photo#create.
 #
 # @!attribute [rw] albumId
-#   @return [Integer, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
+#   @return [Integer]
 #
 # @!attribute [rw] thumbnailUrl
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] title
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] url
-#   @return [String, nil]
+#   @return [String]
 PhotoCreateData = Struct.new(
   :albumId,
-  :id,
   :thumbnailUrl,
   :title,
   :url,
@@ -273,6 +303,31 @@ PhotoCreateData = Struct.new(
 # @!attribute [rw] url
 #   @return [String, nil]
 PhotoUpdateData = Struct.new(
+  :id,
+  :albumId,
+  :thumbnailUrl,
+  :title,
+  :url,
+  keyword_init: true
+)
+
+# Request payload for Photo#patch.
+#
+# @!attribute [rw] id
+#   @return [Integer]
+#
+# @!attribute [rw] albumId
+#   @return [Integer, nil]
+#
+# @!attribute [rw] thumbnailUrl
+#   @return [String, nil]
+#
+# @!attribute [rw] title
+#   @return [String, nil]
+#
+# @!attribute [rw] url
+#   @return [String, nil]
+PhotoPatchData = Struct.new(
   :id,
   :albumId,
   :thumbnailUrl,
@@ -332,19 +387,15 @@ PostListMatch = Struct.new(
 # Request payload for Post#create.
 #
 # @!attribute [rw] body
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
+#   @return [String]
 #
 # @!attribute [rw] title
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] userId
-#   @return [Integer, nil]
+#   @return [Integer]
 PostCreateData = Struct.new(
   :body,
-  :id,
   :title,
   :userId,
   keyword_init: true
@@ -364,6 +415,27 @@ PostCreateData = Struct.new(
 # @!attribute [rw] userId
 #   @return [Integer, nil]
 PostUpdateData = Struct.new(
+  :id,
+  :body,
+  :title,
+  :userId,
+  keyword_init: true
+)
+
+# Request payload for Post#patch.
+#
+# @!attribute [rw] id
+#   @return [Integer]
+#
+# @!attribute [rw] body
+#   @return [String, nil]
+#
+# @!attribute [rw] title
+#   @return [String, nil]
+#
+# @!attribute [rw] userId
+#   @return [Integer, nil]
+PostPatchData = Struct.new(
   :id,
   :body,
   :title,
@@ -422,19 +494,15 @@ TodoListMatch = Struct.new(
 # Request payload for Todo#create.
 #
 # @!attribute [rw] completed
-#   @return [Boolean, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
+#   @return [Boolean]
 #
 # @!attribute [rw] title
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] userId
-#   @return [Integer, nil]
+#   @return [Integer]
 TodoCreateData = Struct.new(
   :completed,
-  :id,
   :title,
   :userId,
   keyword_init: true
@@ -454,6 +522,27 @@ TodoCreateData = Struct.new(
 # @!attribute [rw] userId
 #   @return [Integer, nil]
 TodoUpdateData = Struct.new(
+  :id,
+  :completed,
+  :title,
+  :userId,
+  keyword_init: true
+)
+
+# Request payload for Todo#patch.
+#
+# @!attribute [rw] id
+#   @return [Integer]
+#
+# @!attribute [rw] completed
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] title
+#   @return [String, nil]
+#
+# @!attribute [rw] userId
+#   @return [Integer, nil]
+TodoPatchData = Struct.new(
   :id,
   :completed,
   :title,
@@ -562,19 +651,16 @@ UserListMatch = Struct.new(
 #   @return [Hash, nil]
 #
 # @!attribute [rw] email
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
+#   @return [String]
 #
 # @!attribute [rw] name
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] phone
 #   @return [String, nil]
 #
 # @!attribute [rw] username
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] website
 #   @return [String, nil]
@@ -582,7 +668,6 @@ UserCreateData = Struct.new(
   :address,
   :company,
   :email,
-  :id,
   :name,
   :phone,
   :username,
@@ -616,6 +701,43 @@ UserCreateData = Struct.new(
 # @!attribute [rw] website
 #   @return [String, nil]
 UserUpdateData = Struct.new(
+  :id,
+  :address,
+  :company,
+  :email,
+  :name,
+  :phone,
+  :username,
+  :website,
+  keyword_init: true
+)
+
+# Request payload for User#patch.
+#
+# @!attribute [rw] id
+#   @return [Integer]
+#
+# @!attribute [rw] address
+#   @return [Hash, nil]
+#
+# @!attribute [rw] company
+#   @return [Hash, nil]
+#
+# @!attribute [rw] email
+#   @return [String, nil]
+#
+# @!attribute [rw] name
+#   @return [String, nil]
+#
+# @!attribute [rw] phone
+#   @return [String, nil]
+#
+# @!attribute [rw] username
+#   @return [String, nil]
+#
+# @!attribute [rw] website
+#   @return [String, nil]
+UserPatchData = Struct.new(
   :id,
   :address,
   :company,

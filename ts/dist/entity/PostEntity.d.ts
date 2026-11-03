@@ -1,7 +1,7 @@
 import { JsonplaceholderEntityBase } from '../JsonplaceholderEntityBase';
 import type { JsonplaceholderSDK } from '../JsonplaceholderSDK';
 import type { Control } from '../types';
-import type { Post, PostLoadMatch, PostListMatch, PostCreateData, PostUpdateData, PostRemoveMatch } from '../JsonplaceholderTypes';
+import type { Post, PostLoadMatch, PostListMatch, PostCreateData, PostUpdateData, PostPatchData, PostRemoveMatch } from '../JsonplaceholderTypes';
 declare class PostEntity extends JsonplaceholderEntityBase<Post> {
     constructor(client: JsonplaceholderSDK, entopts: any);
     make(this: PostEntity): PostEntity;
@@ -9,6 +9,7 @@ declare class PostEntity extends JsonplaceholderEntityBase<Post> {
     list(this: any, reqmatch?: PostListMatch, ctrl?: Control): Promise<PostEntity[]>;
     create(this: any, reqdata?: PostCreateData, ctrl?: Control): Promise<PostEntity>;
     update(this: any, reqdata?: PostUpdateData, ctrl?: Control): Promise<PostEntity>;
+    patch(this: any, reqdata?: PostPatchData, ctrl?: Control): Promise<PostEntity>;
     remove(this: any, reqmatch?: PostRemoveMatch, ctrl?: Control): Promise<PostEntity>;
 }
 export { PostEntity };

@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { JsonplaceholderSDK, BaseFeature, stdutil } from '../../..'
+import { JsonplaceholderSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,64 @@ describe('PostEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    name = 'failhook'
+    version = '0.0.1'
+    active = true
+    unexpected = 0
+    init() { }
+    PreSpec() { throw new Error('post hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of JsonplaceholderSDK.test(offline).Post().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of JsonplaceholderSDK.test(offline).Post()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != (config as any).feature?.rbac) {
+      const denied = JsonplaceholderSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.Post().stream('list')) { }
+      }, (err: any) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain: any = {}
+    const ctrl: any = { explain }
+    for await (const _item of JsonplaceholderSDK.test().Post().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new JsonplaceholderSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.Post().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.Post().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = JsonplaceholderSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Post().list({"user_id":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.JSONPLACEHOLDER_TEST_LIVE
@@ -51,7 +109,7 @@ describe('PostEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"body":{"a":true,"h":"Body","n":"body","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Post content","t":"`$STRING`","key$":"body","index$":0},"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"Post ID","t":"`$INTEGER`","key$":"id","index$":1},"title":{"a":true,"h":"Title","n":"title","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Post title","t":"`$STRING`","key$":"title","index$":2},"userId":{"a":true,"h":"User Id","n":"userId","op":{"create":{"req":true,"type":"`$INTEGER`"},"patch":{"req":true,"type":"`$INTEGER`"},"update":{"req":true,"type":"`$INTEGER`"}},"r":false,"sh":"User ID who created the post","t":"`$INTEGER`","key$":"userId","index$":3}},"id":{"field":"id","name":"id"},"name":"post","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /posts","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/posts","q":{},"r":{},"s":[{"lit":"posts"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /posts","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"user_id","or":"userId","r":false,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/posts","q":{"exist":["user_id"]},"r":{},"s":[{"lit":"posts"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /users/{id}/posts","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"user_id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/users/{id}/posts","q":{"exist":["user_id"]},"r":{"param":{"id":"user_id"}},"s":[{"lit":"users"},{"var":"user_id"},{"lit":"posts"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /posts/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/posts/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"posts"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"patch":{"input":"data","name":"patch","points":[{"a":true,"co":{"id":"PATCH /posts/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PATCH","o":"/posts/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"posts"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"patch"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /posts/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"DELETE","o":"/posts/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"posts"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"},"update":{"input":"data","name":"update","points":[{"a":true,"co":{"id":"PUT /posts/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PUT","o":"/posts/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"posts"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[["$.main.kit.entity.user"]]},"key$":"post","name__orig":"post","Name":"Post","name_":"post","name-":"post","NAME":"POST","index$":3}, {"active":true,"entity":"post","key$":"BasicPostFlow","kind":"basic","name":"BasicPostFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"post_ref01"},"m":{"user_id":"user01"},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{"user_id":"user01"},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"post_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"post_ref01","srcdatavar":"post_ref01_data","suffix":"_up0","textfield":"body"},"m":{},"o":"update","s":[{"apply":"TextFieldMark","def":{"mark":"Mark01-post_ref01"}}],"v":[],"index$":2},{"a":true,"d":{},"i":{"ref":"post_ref01","srcdatavar":"post_ref01_data","suffix":"_dt0"},"m":{"id":"post01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-post_ref01"}}],"index$":3},{"a":true,"d":{},"i":{"ref":"post_ref01","suffix":"_rm0"},"m":{"id":"post01"},"o":"remove","s":[],"v":[],"index$":4},{"a":true,"d":{},"i":{"suffix":"_rt0"},"m":{"user_id":"user01"},"o":"list","s":[],"v":[{"apply":"ItemNotExists","def":{"ref":"post_ref01"}}],"index$":5}]}, 'Post', {"POST /posts":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["title","body","userId"],"properties":{"userId":{"type":"integer","description":"User ID who created the post","key$":"userId"},"title":{"type":"string","description":"Post title","key$":"title"},"body":{"type":"string","description":"Post content","key$":"body"}},"x-ref":"#/components/schemas/PostInput","index$":1}}}},"parameters":[]},"GET /posts":{"protocol":"http","parameters":[{"name":"userId","in":"query","description":"Filter posts by user ID","required":false,"schema":{"type":"integer"},"index$":0}]},"GET /users/{id}/posts":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"User ID","required":true,"schema":{"type":"integer"},"index$":0}]},"GET /posts/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"index$":0}]},"PATCH /posts/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["title","body","userId"],"properties":{"userId":{"type":"integer","description":"User ID who created the post","key$":"userId"},"title":{"type":"string","description":"Post title","key$":"title"},"body":{"type":"string","description":"Post content","key$":"body"}},"x-ref":"#/components/schemas/PostInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"index$":0}]},"DELETE /posts/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"index$":0}]},"PUT /posts/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["title","body","userId"],"properties":{"userId":{"type":"integer","description":"User ID who created the post","key$":"userId"},"title":{"type":"string","description":"Post title","key$":"title"},"body":{"type":"string","description":"Post content","key$":"body"}},"x-ref":"#/components/schemas/PostInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"body":{"a":true,"h":"Body","n":"body","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Post content","t":"`$STRING`","key$":"body","index$":0},"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"Post ID","t":"`$INTEGER`","key$":"id","index$":1},"title":{"a":true,"h":"Title","n":"title","op":{"create":{"req":true,"type":"`$STRING`"},"patch":{"req":true,"type":"`$STRING`"},"update":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Post title","t":"`$STRING`","key$":"title","index$":2},"userId":{"a":true,"h":"User Id","n":"userId","op":{"create":{"req":true,"type":"`$INTEGER`"},"patch":{"req":true,"type":"`$INTEGER`"},"update":{"req":true,"type":"`$INTEGER`"}},"r":false,"sh":"User ID who created the post","t":"`$INTEGER`","key$":"userId","index$":3}},"id":{"field":"id","name":"id"},"name":"post","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["body","title","userId"],"co":{"id":"POST /posts","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/posts","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"posts"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /users/{id}/posts","source":"openapi3","version":2},"g":{"params":[{"a":true,"ex":1,"k":"param","n":"user_id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/users/{id}/posts","q":{"exist":["user_id"]},"r":{"param":{"id":"user_id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"users"},{"var":"user_id"},{"lit":"posts"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /posts","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"user_id","or":"userId","r":false,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/posts","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"posts"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /posts/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"ex":1,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/posts/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"posts"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"patch":{"input":"data","name":"patch","points":[{"a":true,"bf":["body","title","userId"],"co":{"id":"PATCH /posts/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PATCH","o":"/posts/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"posts"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"patch"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /posts/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"DELETE","o":"/posts/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"posts"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"},"update":{"input":"data","name":"update","points":[{"a":true,"bf":["body","title","userId"],"co":{"id":"PUT /posts/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"PUT","o":"/posts/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"posts"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[["$.main.kit.entity.user"]]},"key$":"post","name__orig":"post","Name":"Post","name_":"post","name-":"post","NAME":"POST","index$":3}, {"active":true,"entity":"post","key$":"BasicPostFlow","kind":"basic","name":"BasicPostFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"post_ref01"},"m":{"user_id":"user01"},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"post_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"post_ref01","srcdatavar":"post_ref01_data","suffix":"_up0","textfield":"body"},"m":{},"o":"update","s":[{"apply":"TextFieldMark","def":{"mark":"Mark01-post_ref01"}}],"v":[],"index$":2},{"a":true,"d":{},"i":{"ref":"post_ref01","srcdatavar":"post_ref01_data","suffix":"_dt0"},"m":{"id":"post01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-post_ref01"}}],"index$":3,"route":"GET /posts/{id}","record":{}},{"a":true,"d":{},"i":{"ref":"post_ref01","suffix":"_rm0"},"m":{"id":"post01"},"o":"remove","s":[],"v":[],"index$":4},{"a":true,"d":{},"i":{"suffix":"_rt0"},"m":{},"o":"list","s":[],"v":[{"apply":"ItemNotExists","def":{"ref":"post_ref01"}}],"index$":5}]}, 'Post', {"POST /posts":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["title","body","userId"],"properties":{"userId":{"type":"integer","description":"User ID who created the post","key$":"userId"},"title":{"type":"string","description":"Post title","key$":"title"},"body":{"type":"string","description":"Post content","key$":"body"}},"x-ref":"#/components/schemas/PostInput","index$":1}}}},"parameters":[]},"GET /users/{id}/posts":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"User ID","required":true,"schema":{"type":"integer"},"example":1,"index$":0}]},"GET /posts":{"protocol":"http","parameters":[{"name":"userId","in":"query","description":"Filter posts by user ID","required":false,"schema":{"type":"integer"},"index$":0}]},"GET /posts/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"example":1,"index$":0}]},"PATCH /posts/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["title","body","userId"],"properties":{"userId":{"type":"integer","description":"User ID who created the post","key$":"userId"},"title":{"type":"string","description":"Post title","key$":"title"},"body":{"type":"string","description":"Post content","key$":"body"}},"x-ref":"#/components/schemas/PostInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"index$":0}]},"DELETE /posts/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"index$":0}]},"PUT /posts/{id}":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["title","body","userId"],"properties":{"userId":{"type":"integer","description":"User ID who created the post","key$":"userId"},"title":{"type":"string","description":"Post title","key$":"title"},"body":{"type":"string","description":"Post content","key$":"body"}},"x-ref":"#/components/schemas/PostInput","index$":1}}}},"parameters":[{"name":"id","in":"path","description":"Post ID","required":true,"schema":{"type":"integer"},"index$":0}]}}, { strict: LIVE_STRICT, t }, 'TRUE' === process.env.VOXGIG_GETONLY_GUARD ? {"post.create.0":"GET-only live run: needs POST /posts","post.update.2":"GET-only live run: needs PUT /posts/{id}","post.remove.4":"GET-only live run: needs DELETE /posts/{id}","post.list.5":"GET-only live run: checks a removal this run does not make"} : {})
     }
     const client = setup.client
     const struct = setup.struct
@@ -71,7 +129,6 @@ describe('PostEntity', async () => {
 
     // LIST
     const post_ref01_match: any = {}
-    post_ref01_match['user_id'] = setup.idmap['user01']
 
     const post_ref01_list = (await post_ref01_ent.list(post_ref01_match)).map((e: any) => e.data())
 
@@ -105,7 +162,6 @@ describe('PostEntity', async () => {
 
     // LIST
     const post_ref01_match_rt0: any = {}
-    post_ref01_match_rt0['user_id'] = setup.idmap['user01']
 
     const post_ref01_list_rt0 = (await post_ref01_ent.list(post_ref01_match_rt0)).map((e: any) => e.data())
 
@@ -116,6 +172,12 @@ describe('PostEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

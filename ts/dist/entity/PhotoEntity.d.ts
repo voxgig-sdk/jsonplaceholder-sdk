@@ -1,7 +1,7 @@
 import { JsonplaceholderEntityBase } from '../JsonplaceholderEntityBase';
 import type { JsonplaceholderSDK } from '../JsonplaceholderSDK';
 import type { Control } from '../types';
-import type { Photo, PhotoLoadMatch, PhotoListMatch, PhotoCreateData, PhotoUpdateData, PhotoRemoveMatch } from '../JsonplaceholderTypes';
+import type { Photo, PhotoLoadMatch, PhotoListMatch, PhotoCreateData, PhotoUpdateData, PhotoPatchData, PhotoRemoveMatch } from '../JsonplaceholderTypes';
 declare class PhotoEntity extends JsonplaceholderEntityBase<Photo> {
     constructor(client: JsonplaceholderSDK, entopts: any);
     make(this: PhotoEntity): PhotoEntity;
@@ -9,6 +9,7 @@ declare class PhotoEntity extends JsonplaceholderEntityBase<Photo> {
     list(this: any, reqmatch?: PhotoListMatch, ctrl?: Control): Promise<PhotoEntity[]>;
     create(this: any, reqdata?: PhotoCreateData, ctrl?: Control): Promise<PhotoEntity>;
     update(this: any, reqdata?: PhotoUpdateData, ctrl?: Control): Promise<PhotoEntity>;
+    patch(this: any, reqdata?: PhotoPatchData, ctrl?: Control): Promise<PhotoEntity>;
     remove(this: any, reqmatch?: PhotoRemoveMatch, ctrl?: Control): Promise<PhotoEntity>;
 }
 export { PhotoEntity };
